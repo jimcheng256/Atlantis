@@ -110,7 +110,7 @@
 }
 
 
-extern int scrollbackSort(id obj1, id obj2, void *context);
+extern NSInteger scrollbackSort(id obj1, id obj2, void *context);
 
 - (BOOL) executeForState:(AtlantisState *) state
 {
