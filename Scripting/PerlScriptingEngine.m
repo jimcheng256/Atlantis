@@ -195,6 +195,7 @@
 //    id perlVersion = [_rdPerlInterpreter valueForKey:@"perlVersion"];
 //
 //    return (NSString *)perlVersion;
+    return @"";
 }
 
 - (NSString *) scriptEngineCopyright
