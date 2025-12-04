@@ -361,6 +361,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
     [self addScriptingEngine:[[PerlScriptingEngine alloc] init]];
     [self addScriptingEngine:[[LuaScriptingEngine alloc] init]];
+    [self addScriptingEngine:[[JSScriptingEngine alloc] init]];
 
     [self addInputFilter:[RDCompressionFilter class]];
     [self addInputFilter:[RDAnsiFilter class]];
