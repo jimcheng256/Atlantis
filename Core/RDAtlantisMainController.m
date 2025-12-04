@@ -92,8 +92,8 @@
 
 #import "ScriptingDispatch.h"
 #import "ScriptingEngine.h"
-#import "PerlScriptingEngine.h"
-#import "LuaScriptingEngine.h"
+//#import "PerlScriptingEngine.h"
+//#import "LuaScriptingEngine.h"
 
 #import "MCPDispatch.h"
 #import "MCPHandler.h"
@@ -105,6 +105,8 @@
 #import "CTBadge.h"
 
 #import "ScriptEventAction.h"
+
+#import "Atlantis-Swift.h"
 
 static RDAtlantisMainController *s_rdController = nil;
 
@@ -360,8 +362,9 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
     _rdScriptedEvents = [[NSMutableArray alloc] init];
 
-    [self addScriptingEngine:[[PerlScriptingEngine alloc] init]];
-    [self addScriptingEngine:[[LuaScriptingEngine alloc] init]];
+    //[self addScriptingEngine:[[PerlScriptingEngine alloc] init]];
+    //[self addScriptingEngine:[[LuaScriptingEngine alloc] init]];
+    [self addScriptingEngine:[[JSScriptingEngine alloc] init]];
 
     [self addInputFilter:[RDCompressionFilter class]];
     [self addInputFilter:[RDAnsiFilter class]];
