@@ -38,3 +38,4 @@ static inline RDAtlantisMainController * _Nullable RDPreferenceMainController(vo
 #import "Event System/AtlantisState.h"
 
 #import "Scripting/ScriptingEngine.h"
+#import "Scripting/LuaScriptingEngine.h"

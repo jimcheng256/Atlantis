@@ -25,6 +25,8 @@
 @class ToolbarWorldStatus;
 @class CTBadge;
 @class AtlantisState;
+@class JSScriptingEngine;
+@class WrappedLuaScriptingEngine;
 
 @interface RDAtlantisMainController : NSObject <NSApplicationDelegate, NSToolbarDelegate>
 {
