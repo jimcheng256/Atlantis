@@ -35,6 +35,7 @@
 /* Begin PBXBuildFile section */
 		3226D1242EE14D110016D727 /* JSScriptingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3226D1222EE14B9C0016D727 /* JSScriptingEngine.swift */; };
 		3226D1272EE1537C0016D727 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3226D1262EE1537C0016D727 /* SwiftUI.framework */; };
+		3226D12B2EE2B1920016D727 /* WrappedLuaScriptingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3226D12A2EE2B18B0016D727 /* WrappedLuaScriptingEngine.swift */; };
 		5303ACB925413BF100565FBD /* ActionConf_SendText.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5303ACB825413BF100565FBD /* ActionConf_SendText.xib */; };
 		5311D1882210FA390010AB9D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5311D1872210FA390010AB9D /* AVFoundation.framework */; };
 		53613BC9234132D7005527FD /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53613BC8234132D7005527FD /* Sparkle.framework */; };
@@ -437,6 +438,7 @@
 		3226D1232EE14BE70016D727 /* Atlantis-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Swift.h"; sourceTree = "<group>"; };
 		3226D1252EE14DBA0016D727 /* Atlantis-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Bridging-Header.h"; sourceTree = "<group>"; };
 		3226D1262EE1537C0016D727 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		3226D12A2EE2B18B0016D727 /* WrappedLuaScriptingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedLuaScriptingEngine.swift; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Atlantis_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atlantis_Prefix.pch; sourceTree = "<group>"; };
 		5303ACB825413BF100565FBD /* ActionConf_SendText.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_SendText.xib; path = "Event System/Actions/ActionConf_SendText.xib"; sourceTree = "<group>"; };
 		5311D1872210FA390010AB9D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -1728,6 +1730,7 @@
 				FFCA43C60A67168A0055DAEC /* ScriptBridge.h */,
 				FFCA43C70A67168A0055DAEC /* ScriptBridge.m */,
 				3226D1222EE14B9C0016D727 /* JSScriptingEngine.swift */,
+				3226D12A2EE2B18B0016D727 /* WrappedLuaScriptingEngine.swift */,
 				FFEDD9B6120E39EA00254015 /* PerlScriptingEngine.h */,
 				FFEDD9B7120E39EA00254015 /* PerlScriptingEngine.m */,
 				FFBF43CA0CB0861A00E309E6 /* LuaScriptingEngine.h */,
@@ -2227,6 +2230,7 @@
 				FF4E24F709CD491F00826DD9 /* Condition-VariableMatch.m in Sources */,
 				FF4E258B09CD53CE00826DD9 /* WorldUserconfEditor.m in Sources */,
 				FFDEF3E409D676B6008AB14E /* Action-DockBounce.m in Sources */,
+				3226D12B2EE2B1920016D727 /* WrappedLuaScriptingEngine.swift in Sources */,
 				FFDEF40309D67C09008AB14E /* Action-StatusSend.m in Sources */,
 				FFC50E8D09D719C000430219 /* Action-TextOmitActivity.m in Sources */,
 				FF0355B409D755B900243A78 /* Action-TextSpawn.m in Sources */,
