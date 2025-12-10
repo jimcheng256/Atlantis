@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3226D1272EE1537C0016D727 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3226D1262EE1537C0016D727 /* SwiftUI.framework */; };
 		5303ACB925413BF100565FBD /* ActionConf_SendText.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5303ACB825413BF100565FBD /* ActionConf_SendText.xib */; };
 		5311D1882210FA390010AB9D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5311D1872210FA390010AB9D /* AVFoundation.framework */; };
 		53613BC9234132D7005527FD /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53613BC8234132D7005527FD /* Sparkle.framework */; };
@@ -431,6 +432,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		3226D1262EE1537C0016D727 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* Atlantis_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atlantis_Prefix.pch; sourceTree = "<group>"; };
 		5303ACB825413BF100565FBD /* ActionConf_SendText.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_SendText.xib; path = "Event System/Actions/ActionConf_SendText.xib"; sourceTree = "<group>"; };
 		5311D1872210FA390010AB9D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -489,6 +491,8 @@
 		8B42786329121F51005EFEA6 /* AtlantisProgressSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AtlantisProgressSheet.xib; path = Misc/AtlantisProgressSheet.xib; sourceTree = "<group>"; };
 		8B42786529121F86005EFEA6 /* RenameWindowPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RenameWindowPicker.xib; path = Misc/RenameWindowPicker.xib; sourceTree = "<group>"; };
 		8B42786729122717005EFEA6 /* WorldNotepad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorldNotepad.xib; path = Worlds/WorldNotepad.xib; sourceTree = "<group>"; };
+		8B55F9182EE94D070085B611 /* Atlantis-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Bridging-Header.h"; sourceTree = "<group>"; };
+		8B55F9192EE94D300085B611 /* Atlantis-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Swift.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Atlantis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Atlantis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF00C30F09E1F90600083573 /* AtlantisPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AtlantisPreferenceController.h; path = Preferences/Application/AtlantisPreferenceController.h; sourceTree = "<group>"; };
@@ -974,6 +978,7 @@
 				539862D022EE953E00ECB14D /* Lemuria.framework in Frameworks */,
 				5311D1882210FA390010AB9D /* AVFoundation.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				3226D1272EE1537C0016D727 /* SwiftUI.framework in Frameworks */,
 				FF967108099E69FF005886F4 /* OgreKit.framework in Frameworks */,
 				FF267E7709A16F8900198A44 /* Carbon.framework in Frameworks */,
 				FFFE5E8E09A2B26D003F118B /* Growl.framework in Frameworks */,
@@ -1065,6 +1070,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8B55F9192EE94D300085B611 /* Atlantis-Swift.h */,
+				8B55F9182EE94D070085B611 /* Atlantis-Bridging-Header.h */,
 				32CA4F630368D1EE00C91783 /* Atlantis_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -1119,6 +1126,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3226D1262EE1537C0016D727 /* SwiftUI.framework */,
 				539862CD22EE94D400ECB14D /* Lemuria.framework */,
 				5311D1872210FA390010AB9D /* AVFoundation.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
@@ -2410,11 +2418,12 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = KB2CP45L69;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(SRCROOT)/Support",
@@ -2426,10 +2435,16 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LD_RUNPATH_SEARCH_PATHS = "$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST)) @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST))",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				PRODUCT_NAME = Atlantis;
 				SDKROOT = macosx;
+				SWIFT_ENABLE_EXPLICIT_MODULES = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Atlantis-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -2438,11 +2453,12 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = KB2CP45L69;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(SRCROOT)/Support",
@@ -2452,11 +2468,17 @@
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LD_RUNPATH_SEARCH_PATHS = "$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST)) @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(LD_RUNPATH_SEARCH_PATHS_$(IS_MACCATALYST))",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 11.0;
 				PRODUCT_NAME = Atlantis;
 				SDKROOT = macosx;
+				SWIFT_ENABLE_EXPLICIT_MODULES = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Atlantis-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2464,13 +2486,14 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				CURRENT_PROJECT_VERSION = 106;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-D_ATLANTIS_DEBUG";
 				PREBINDING = NO;
@@ -2478,6 +2501,9 @@
 				PROJECT_DISPLAY_VERSION = 0.9.9.8;
 				PROJECT_RELEASE_STATUS = beta;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Atlantis-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Atlantis-Swift.h";
+				SWIFT_VERSION = 6.0;
 				VALID_ARCHS = x86_64;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2486,6 +2512,7 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				CURRENT_PROJECT_VERSION = 106;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2493,13 +2520,16 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				PROJECT_COMPANY = "Riverdark Studios";
 				PROJECT_DISPLAY_VERSION = 0.9.9.8;
 				PROJECT_RELEASE_STATUS = beta;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Atlantis-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Atlantis-Swift.h";
+				SWIFT_VERSION = 6.0;
 				VALID_ARCHS = x86_64;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

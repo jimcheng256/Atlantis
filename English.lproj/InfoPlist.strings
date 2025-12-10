@@ -2,7 +2,7 @@
 
 CFBundleName = "Atlantis";
 CFBundleShortVersionString = "0.9.9.8";
-CFBundleGetInfoString = "Atlantis 0.9.9.8 beta, Copyright 2007-2022 Riverdark Studios";
-RDProjectBuildDate = "2022-10-28";
+CFBundleGetInfoString = "Atlantis 0.9.9.8 beta, Copyright 2007-2025 Riverdark Studios";
+RDProjectBuildDate = "2025-12-09";
 RDProjectStatus = "beta";
 RDBuildStyle = "";
