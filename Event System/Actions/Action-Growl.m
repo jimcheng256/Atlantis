@@ -7,7 +7,7 @@
 //
 
 #import "Action-Growl.h"
-#import <Growl/Growl.h>
+// #import <Growl/Growl.h>
 #import "NSStringExtensions.h"
 #import "AtlantisState.h"
 #import "RDAtlantisWorldInstance.h"
@@ -106,6 +106,8 @@
         iconData = [growlIcon TIFFRepresentation];
     }
         
+    // FIXME: Re-implement native notification
+    /*
     [GrowlApplicationBridge
         notifyWithTitle:realTitle 
             description:realText 
@@ -114,6 +116,7 @@
                priority:0 
                isSticky:NO 
            clickContext:[NSDictionary dictionaryWithObject:[[state spawn] viewPath] forKey:@"spawn"]];
+     */
            
     return NO;
 }

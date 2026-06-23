@@ -339,8 +339,6 @@
 		FFFBD49409E4E80900AE4DCF /* Condition-HasWorld.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFBD49209E4E80900AE4DCF /* Condition-HasWorld.m */; };
 		FFFBD56209E4ED6100AE4DCF /* Condition-WorldIsMUSH.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFBD56009E4ED6100AE4DCF /* Condition-WorldIsMUSH.m */; };
 		FFFE5DED09A2A9CE003F118B /* NSStringExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE5DEB09A2A9CE003F118B /* NSStringExtensions.m */; };
-		FFFE5E8E09A2B26D003F118B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFE5E8D09A2B26D003F118B /* Growl.framework */; };
-		FFFE5ECD09A2B496003F118B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FFFE5E8D09A2B26D003F118B /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FFFE623009A2FF7A003F118B /* RDLogType.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE622E09A2FF7A003F118B /* RDLogType.m */; };
 		FFFE623D09A3019D003F118B /* RDPlainText.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE623B09A3019D003F118B /* RDPlainText.m */; };
 		FFFE629C09A30A6C003F118B /* RDFormattedText.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE629A09A30A6B003F118B /* RDFormattedText.m */; };
@@ -417,7 +415,6 @@
 			files = (
 				53613BCA23413311005527FD /* Sparkle.framework in Copy Frameworks */,
 				536215C122114AA900176D73 /* Lemuria.framework in Copy Frameworks */,
-				FFFE5ECD09A2B496003F118B /* Growl.framework in Copy Frameworks */,
 				FF967111099E6A0D005886F4 /* OgreKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -947,7 +944,6 @@
 		FFFBD56009E4ED6100AE4DCF /* Condition-WorldIsMUSH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Condition-WorldIsMUSH.m"; path = "Event System/Conditions/Condition-WorldIsMUSH.m"; sourceTree = "<group>"; };
 		FFFE5DEA09A2A9CE003F118B /* NSStringExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringExtensions.h; path = Extensions/NSStringExtensions.h; sourceTree = "<group>"; };
 		FFFE5DEB09A2A9CE003F118B /* NSStringExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringExtensions.m; path = Extensions/NSStringExtensions.m; sourceTree = "<group>"; };
-		FFFE5E8D09A2B26D003F118B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Support/Growl.framework; sourceTree = "<group>"; };
 		FFFE622D09A2FF7A003F118B /* RDLogType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDLogType.h; path = "Log System/RDLogType.h"; sourceTree = "<group>"; };
 		FFFE622E09A2FF7A003F118B /* RDLogType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDLogType.m; path = "Log System/RDLogType.m"; sourceTree = "<group>"; };
 		FFFE623A09A3019D003F118B /* RDPlainText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDPlainText.h; path = "Log System/RDPlainText.h"; sourceTree = "<group>"; };
@@ -981,7 +977,6 @@
 				3226D1272EE1537C0016D727 /* SwiftUI.framework in Frameworks */,
 				FF967108099E69FF005886F4 /* OgreKit.framework in Frameworks */,
 				FF267E7709A16F8900198A44 /* Carbon.framework in Frameworks */,
-				FFFE5E8E09A2B26D003F118B /* Growl.framework in Frameworks */,
 				FF4E2CA809CE690900826DD9 /* SystemConfiguration.framework in Frameworks */,
 				FF53276709E8CCD50013FB8A /* libz.dylib in Frameworks */,
 				FF783E2D09EB853000D23B45 /* IOKit.framework in Frameworks */,
@@ -1027,7 +1022,6 @@
 				FF783E2C09EB853000D23B45 /* IOKit.framework */,
 				FF53276609E8CCD50013FB8A /* libz.dylib */,
 				FF4E2CA709CE690900826DD9 /* SystemConfiguration.framework */,
-				FFFE5E8D09A2B26D003F118B /* Growl.framework */,
 				FF267E7609A16F8900198A44 /* Carbon.framework */,
 				FF967107099E69FE005886F4 /* OgreKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,

@@ -320,7 +320,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(computerWillShutdown:) name:NSWorkspaceWillPowerOffNotification object:[NSWorkspace sharedWorkspace]];
 
     // TODO: Change Growl configuration stuff to work a little more nicely?
-    [GrowlApplicationBridge setGrowlDelegate:self];
+    // ß[GrowlApplicationBridge setGrowlDelegate:self];
     
     // Create hotkey collection
     _rdSessionStateItems = [[NSMutableDictionary alloc] init];
@@ -919,7 +919,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 }
 
 #pragma mark Growl
-
+/*
 - (NSDictionary *) registrationDictionaryForGrowl
 {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
@@ -935,12 +935,14 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 {
     return @"Atlantis";
 }
-
+*/
 - (BOOL) growlEnabled
 {
-    return [GrowlApplicationBridge isGrowlRunning];
+    // For now...
+    return true;
+    // return [GrowlApplicationBridge isGrowlRunning];
 }
-
+/*
 - (void) growlNotificationWasClicked:(id)context
 {
     if (context && [context isKindOfClass:[NSDictionary class]]) {
@@ -957,7 +959,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 {
     // Do nothing.  La.
 }
-
+*/
 #pragma mark Data Dispatch Methods
 
 - (NSArray *) inputFilters

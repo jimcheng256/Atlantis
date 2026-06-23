@@ -161,6 +161,8 @@
 
 - (void) growlText:(NSString *)text withTitle:(NSString *)title
 {
+    // FIXME: Reimplement native notifications
+    /*
     if ([GrowlApplicationBridge isGrowlRunning]) {
         [GrowlApplicationBridge
             notifyWithTitle:title 
@@ -171,6 +173,7 @@
                    isSticky:NO 
                clickContext:nil];    
     }
+    */
 }
 
 - (NSString *) worldUuidForName:(NSString *)name

@@ -1,7 +1,6 @@
 /* RDAtlantisMainController */
 
 #import <Cocoa/Cocoa.h>
-#import <Growl/Growl.h>
 
 @class HotkeyCollection;
 @class ActionClasses;
@@ -27,7 +26,7 @@
 @class CTBadge;
 @class AtlantisState;
 
-@interface RDAtlantisMainController : NSObject <NSApplicationDelegate, NSToolbarDelegate, GrowlApplicationBridgeDelegate>
+@interface RDAtlantisMainController : NSObject <NSApplicationDelegate, NSToolbarDelegate>
 {
     IBOutlet NSMenuItem*    _rdRenameMenuItem;
     IBOutlet NSMenuItem*    _rdCustomizeToolbarMenuItem;
