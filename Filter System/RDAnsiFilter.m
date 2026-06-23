@@ -201,13 +201,26 @@ static NSMutableArray *s_extendedColors = nil;
 {
     _rdAnsiUnderlineMe = underline;
 
-    int underlineStyle = NSNoUnderlineStyle;
+    int underlineStyle = NSUnderlineStyleNone;
     
     if (_rdAnsiUnderlineMe) {
-        underlineStyle = NSSingleUnderlineStyle;
+        underlineStyle = NSUnderlineStyleSingle;
     }
     
     [_rdCurrentAttributes setObject:[NSNumber numberWithInt:underlineStyle] forKey:NSUnderlineStyleAttributeName];
+}
+
+- (void) setStrikeThrough:(BOOL)strikethrough
+{
+    _rdAnsiStrikeThroughMe = strikethrough;
+
+    int strikeThroughStyle = NSUnderlineStyleNone;
+    
+    if (_rdAnsiStrikeThroughMe) {
+        strikeThroughStyle = [NSNumber numberWithInteger:NSUnderlinePatternSolid | NSUnderlineStyleSingle];
+    }
+    
+    [_rdCurrentAttributes setObject:[NSNumber numberWithInt:strikeThroughStyle] forKey:NSStrikethroughStyleAttributeName];
 }
 
 - (void) setColor:(int)color
@@ -760,6 +773,10 @@ static NSMutableArray *s_extendedColors = nil;
                                     
                                 case 7: // ANSI inverse on / off
                                     [_rdState setInvert:toggle];
+                                    break;
+                                    
+                                case 9: // ANSI strike-through on / off
+                                    [_rdState setStrikeThrough:toggle];
                                     break;
                             }
                         }

@@ -14,6 +14,7 @@
     BOOL        _rdAnsiBoldMe;
     BOOL        _rdAnsiInvertMe;
     BOOL        _rdAnsiUnderlineMe;
+    BOOL        _rdAnsiStrikeThroughMe;
     int         _rdAnsiLastColor;
     int         _rdAnsiLastBackground;   
     
@@ -41,6 +42,7 @@
 - (void) setBold:(BOOL)bold;
 - (void) setInvert:(BOOL)invert;
 - (void) setUnderline:(BOOL)underline;
+- (void) setStrikeThrough:(BOOL)strikethrough;
 - (void) setColor:(int)color;
 - (void) setBackground:(int)background;
 - (void) setHoldover:(NSAttributedString *)string;
