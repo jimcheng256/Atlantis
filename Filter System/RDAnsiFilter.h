@@ -54,7 +54,6 @@
 - (void) setParagraphStyle:(NSParagraphStyle *) paraStyle;
 - (void) setTimestamp:(NSDate *)timestamp;
 
-- (void) applyToString:(NSMutableAttributedString *)string withRange:(NSRange)range;
 - (void) reset;
 
 - (NSDictionary *) attributes;
