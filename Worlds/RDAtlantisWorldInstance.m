@@ -1677,7 +1677,8 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
     
     _rdMcpNegotiated = NO;
     
-    _rdInputEncoding = NSISOLatin1StringEncoding;
+    _rdInputEncoding = NSUTF8StringEncoding;
+    //_rdInputEncoding = NSISOLatin1StringEncoding;
     _rdOutputEncoding = NSASCIIStringEncoding;
     
     NSNumber *encoding = [self preferenceForKey:@"atlantis.encoding"];
