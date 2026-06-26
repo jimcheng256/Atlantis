@@ -91,6 +91,7 @@
 		8B42786429121F51005EFEA6 /* AtlantisProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42786329121F51005EFEA6 /* AtlantisProgressSheet.xib */; };
 		8B42786629121F86005EFEA6 /* RenameWindowPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42786529121F86005EFEA6 /* RenameWindowPicker.xib */; };
 		8B42786829122717005EFEA6 /* WorldNotepad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42786729122717005EFEA6 /* WorldNotepad.xib */; };
+		8B4842E62FEB8C24009C86D9 /* RDMultibyteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B4842E52FEB8C1F009C86D9 /* RDMultibyteFilter.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -491,6 +492,8 @@
 		8B42786329121F51005EFEA6 /* AtlantisProgressSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AtlantisProgressSheet.xib; path = Misc/AtlantisProgressSheet.xib; sourceTree = "<group>"; };
 		8B42786529121F86005EFEA6 /* RenameWindowPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RenameWindowPicker.xib; path = Misc/RenameWindowPicker.xib; sourceTree = "<group>"; };
 		8B42786729122717005EFEA6 /* WorldNotepad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorldNotepad.xib; path = Worlds/WorldNotepad.xib; sourceTree = "<group>"; };
+		8B4842E42FEB8BCD009C86D9 /* RDMultibyteFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDMultibyteFilter.h; sourceTree = "<group>"; };
+		8B4842E52FEB8C1F009C86D9 /* RDMultibyteFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDMultibyteFilter.m; sourceTree = "<group>"; };
 		8B55F9182EE94D070085B611 /* Atlantis-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Bridging-Header.h"; sourceTree = "<group>"; };
 		8B55F9192EE94D300085B611 /* Atlantis-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Swift.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
@@ -1818,6 +1821,8 @@
 		FFFE621C09A2FCCC003F118B /* Data Filters */ = {
 			isa = PBXGroup;
 			children = (
+				8B4842E52FEB8C1F009C86D9 /* RDMultibyteFilter.m */,
+				8B4842E42FEB8BCD009C86D9 /* RDMultibyteFilter.h */,
 				FF91FF1E09A042180064EE07 /* RDTelnetFilter.h */,
 				FF91FF1F09A042180064EE07 /* RDTelnetFilter.m */,
 				FF5327E809E8CFE90013FB8A /* RDCompressionFilter.h */,
@@ -2318,6 +2323,7 @@
 				FF921BE00B925DF800F2D5EC /* ScriptEventAction.m in Sources */,
 				FF7FC3DB0B9777C400690B5F /* Action-ClearSpawn.m in Sources */,
 				FFFB27010B9A627F00288A9F /* RDMonospaceRulerView.m in Sources */,
+				8B4842E62FEB8C24009C86D9 /* RDMultibyteFilter.m in Sources */,
 				FFFB2A720B9AAA0500288A9F /* RDMonospaceLayoutManager.m in Sources */,
 				FF8D21320BA8B20A00A13E3D /* AtlantisProgressSheet.m in Sources */,
 				FFE129970BD4B27000ED98EF /* Condition-CharConnected.m in Sources */,

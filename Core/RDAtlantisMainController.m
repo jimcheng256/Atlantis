@@ -16,6 +16,7 @@
 #import "ActionClasses.h"
 #import "ConditionClasses.h"
 
+#import "RDMultibyteFilter.h"
 #import "RDAnsiFilter.h"
 #import "RDCompressionFilter.h"
 #import "RDTelnetFilter.h"
@@ -365,6 +366,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [self addInputFilter:[RDCompressionFilter class]];
     [self addInputFilter:[RDAnsiFilter class]];
     [self addInputFilter:[RDTelnetFilter class]];
+    [self addInputFilter:[RDMultibyteFilter class]];
     [self addInputFilter:[RDMCPFilter class]];
     [self addInputFilter:[RDURLFilter class]];
     [self addInputFilter:[RDEmailFilter class]];
