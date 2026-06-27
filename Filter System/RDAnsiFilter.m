@@ -508,7 +508,7 @@ static NSMutableArray *s_extendedColors = nil;
                 
                 // DEBUG
                 // NSLog(@"NONE >%@< %lu %hu %hu", test, [test length], [test characterAtIndex:0], [test characterAtIndex:[test length] - 1]);
-
+                
                 done = true;
                 continue;
             }
@@ -520,7 +520,7 @@ static NSMutableArray *s_extendedColors = nil;
                 NSRange realRange = NSMakeRange(lastPosition, foundRange.location - lastPosition);
                 NSString *test = [[string string] substringWithRange:realRange];
                 [result appendAttributedString:[[[NSAttributedString alloc] initWithString:test attributes:[_rdState attributes]] autorelease]];
-
+                
                 // DEBUG
                 //NSLog(@"TEXT >%@< %lu %hu %hu", test, [test length], [test characterAtIndex:0], [test characterAtIndex:[test length] - 1]);
                 
@@ -550,7 +550,7 @@ static NSMutableArray *s_extendedColors = nil;
                 unichar nextChar = [[string string] characterAtIndex: lastPosition + 1];
                 switch (nextChar) {
                         
-                    // Two character sequences, read out two characters and parse it
+                        // Two character sequences, read out two characters and parse it
                     case 32: // " " Used by xterm for 7/8-bit and charsets
                     case 35: // "#" Various DEC commands
                     case 37: // "%" Used by xterm for UTF-8 settings
@@ -571,7 +571,7 @@ static NSMutableArray *s_extendedColors = nil;
                         }
                         break;
                         
-                    // String type sequences
+                        // String type sequences
                     case 80: // "P" DCS, ends with ST (ESC \)
                     case 88: // "X" SOS, ends with ST (ESC \)
                     case 93: // "]" OSC, ends with ST (ESC \)
@@ -582,8 +582,8 @@ static NSMutableArray *s_extendedColors = nil;
                     case 91: // "[" CSI, sequence ends with a letter
                         endRange = [tempString rangeOfCharacterFromSet:[NSCharacterSet letterCharacterSet] options:0 range:finishRange];
                         break;
-    
-                    // Single-character sequences, read out the next character and parse it
+                        
+                        // Single-character sequences, read out the next character and parse it
                     default:
                         endRange = NSMakeRange(lastPosition + 1, 1);
                         break;
@@ -593,7 +593,7 @@ static NSMutableArray *s_extendedColors = nil;
                 if (endRange.length) {
                     NSRange realRange = NSMakeRange(lastPosition, endRange.location + endRange.length - lastPosition);
                     NSString *test = [[string string] substringWithRange:realRange];
- 
+                    
                     // DEBUG
                     //NSLog(@"ANSI >%@< %lu %hu", test, [test length], [test characterAtIndex:[test length] - 1]);
                     
@@ -621,182 +621,6 @@ static NSMutableArray *s_extendedColors = nil;
         [(NSMutableAttributedString *)input setAttributedString:result];
         [result release];
     }
-        
-        
-        /*
-        NSRange testRange = NSMakeRange(lastPosition,length - lastPosition);
-        foundRange = [tempString rangeOfString:@"\x1b[" options:0 range:testRange];
-        if (!foundRange.length)
-            foundRange = [tempString rangeOfString:@"\x1b\n[" options:0 range:testRange];
-        if (!foundRange.length)
-            foundRange = [tempString rangeOfString:@"\x1b\n" options:0 range:testRange];
-        if (!foundRange.length)
-            foundRange = [tempString rangeOfString:@"\x1b" options:0 range:testRange];
-        
-        while (foundRange.length) {
-            NSUInteger escbegin = foundRange.location + foundRange.length;
-            NSRange finishRange = NSMakeRange(escbegin,length - escbegin);
-            NSRange endRange = [tempString rangeOfCharacterFromSet:[NSCharacterSet letterCharacterSet] options:0 range:finishRange];
-            
-            if (!endRange.length) {
-                // unterminated ANSI!  Aiie!
-                
-                // Hold over the current input for the next packet until we have
-                // don't have a split ANSI sequence. Outside of high latency
-                // between packets, this shouldn't take very long. Unfortunately,
-                // partial line parsing and attempted display sometimes causes
-                // visual artifacts.
-                [_rdState setHoldover:string];
-                NSMutableAttributedString *empty = [[NSMutableAttributedString alloc] initWithString:@"" attributes:[_rdState attributes]];
-                [(NSMutableAttributedString *)input setAttributedString:empty];
-                [empty release];
-                [result release];
-            }
-
-            NSRange realRange = NSMakeRange(lastPosition,foundRange.location - lastPosition);
-            if (realRange.length && (realRange.location != NSNotFound))
-                [result appendAttributedString:[[[NSAttributedString alloc] initWithString:[tempString substringWithRange:realRange] attributes:[_rdState attributes]] autorelease]];
-            
-            lastPosition = endRange.location + endRange.length;
-            
-            
-            NSString *escTerminator = [tempString substringWithRange:endRange];
-            
-            // ANSI color sequence
-            if ([escTerminator isEqualToString:@"m"]) {
-                NSString *ansiSequence = [tempString substringWithRange:NSMakeRange(escbegin,endRange.location - escbegin)];
-                
-                NSArray *ansicodes = [ansiSequence componentsSeparatedByString:@";"];
-                NSEnumerator *ansiEnum = [ansicodes objectEnumerator];
-                
-                id walkobj;
-                while (walkobj = [ansiEnum nextObject]) {
-                    int code = [(NSString *)walkobj intValue];
-                    
-                    // Get ANSI sequence category
-                    switch (code / 10) {
-                        
-                        case 0: // ANSI attribute set
-                        case 2: // ANSI attribute clear
-                        {
-                            BOOL toggle = ((code / 10) == 0);
-                            
-                            switch (code % 10) {
-                                case 0: // ANSI reset
-                                    [_rdState reset];
-                                    break;
-                                    
-                                case 1: // ANSI bold on / off
-                                    [_rdState setBold:toggle];
-                                    break;
-                                    
-                                case 3: // ANSI italics on / off
-                                    break;
-                                    
-                                case 4: // ANSI underline on /off
-                                    [_rdState setUnderline:toggle];
-                                    break;
-                                    
-                                case 7: // ANSI inverse on / off
-                                    [_rdState setInvert:toggle];
-                                    break;
-                                    
-                                case 9: // ANSI strike-through on / off
-                                    [_rdState setStrikeThrough:toggle];
-                                    break;
-                            }
-                        }
-                            break;
-                            
-                        case 3: // ANSI foreground color
-                            if (code < 38)
-                                [_rdState setColor:(code - 30)];
-                            else if (code == 39) {
-                                [_rdState setColor:-1];
-                                [_rdState setBold:FALSE];
-                            }
-                            else if (code == 38) {
-                                // 256-color support
-                                NSString *nextObj = [ansiEnum nextObject];
-                                if ([nextObj isEqualToString:@"5"]) {
-                                    nextObj = [ansiEnum nextObject];
-                                    [_rdState setColor:[nextObj intValue]];
-                                }
-                            }
-                            break;
-                            
-                        case 4: // ANSI background color
-                            if (code < 48)
-                                [_rdState setBackground:(code - 40)];
-                            else if (code == 49)
-                                [_rdState setBackground:-1];
-                            else if (code == 48) {
-                                // 256-color support
-                                NSString *nextObj = [ansiEnum nextObject];
-                                if ([nextObj isEqualToString:@"5"]) {
-                                    nextObj = [ansiEnum nextObject];
-                                    [_rdState setBackground:[nextObj intValue]];
-                                }
-                            }
-                            break;
-                            
-                        case 9: // ANSI extended foreground
-                            [_rdState setColor:((code - 90) + 8)];
-                            break;
-                            
-                        case 10:
-                            [_rdState setBackground:((code - 100) + 8)];
-                            break;
-                    }
-                }
-            }
-            else if ([escTerminator isEqualToString:@"a"]) {
-                // Atlantis private escape sequences
-                NSString *ansiSequence = [tempString substringWithRange:NSMakeRange(escbegin,endRange.location - escbegin)];
-                
-                NSArray *ansicodes = [ansiSequence componentsSeparatedByString:@";"];
-                NSEnumerator *ansiEnum = [ansicodes objectEnumerator];
-                
-                id walkobj;
-                while (walkobj = [ansiEnum nextObject]) {
-                    int code = [walkobj intValue];
-                    switch (code) {
-                        case 1:
-                            {
-                                // MUD prompt marker
-                                NSRange lineMarker = [[result string] rangeOfCharacterFromSet:linefeedSet options:NSBackwardsSearch];
-                                if (lineMarker.location == NSNotFound) {
-                                    lineMarker = NSMakeRange(0,[result length]);
-                                }
-                                else {
-                                    lineMarker.length = [result length] - lineMarker.location;
-                                }
-                                [result addAttribute:@"RDPromptMarker" value:@"yes" range:lineMarker];
-                            }
-                            break;
-                    }
-                }
-            }
-            
-            testRange = NSMakeRange(lastPosition,length - lastPosition);
-            foundRange = [tempString rangeOfString:@"\x1b[" options:0 range:testRange];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b\n[" options:0 range:testRange];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b\n" options:0 range:testRange];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b" options:0 range:testRange];
-        }
-        
-        NSRange closingRange = NSMakeRange(lastPosition,[string length] - lastPosition);
-        if (closingRange.length)
-            [result appendAttributedString:[[[NSAttributedString alloc] initWithString:[tempString substringWithRange:closingRange] attributes:[_rdState attributes]] autorelease]];
-            
-        [string release];
-        [(NSMutableAttributedString *)input setAttributedString:result];
-        [result release];
-    }
-    */
 }
 
 - (void) parseEscapeSequence:(NSString *)sequence result:(NSMutableAttributedString *) result
