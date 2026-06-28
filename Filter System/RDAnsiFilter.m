@@ -185,10 +185,12 @@ static NSMutableArray *s_extendedColors = nil;
         [_rdCurrentAttributes setObject:[NSNumber numberWithInt:effFg] forKey:(_rdAnsiInvertMe ? @"RDAnsiBackgroundColor" : @"RDAnsiForegroundColor")];
     else
         [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? @"RDAnsiBackgroundColor" : @"RDAnsiForegroundColor")];
+        [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? NSForegroundColorAttributeName : NSBackgroundColorAttributeName)];
 
     if ((effBg != -1) && (effBg < [_rdColors count]))
         [_rdCurrentAttributes setObject:[NSNumber numberWithInt:effBg] forKey:(_rdAnsiInvertMe ? @"RDAnsiForegroundColor" : @"RDAnsiBackgroundColor")];
     else
+        [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? @"RDAnsiForegroundColor" : @"RDAnsiBackgroundColor")];
         [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? NSForegroundColorAttributeName : NSBackgroundColorAttributeName)];
 
     if (fgColor)
@@ -201,13 +203,29 @@ static NSMutableArray *s_extendedColors = nil;
 {
     _rdAnsiUnderlineMe = underline;
 
-    int underlineStyle = NSNoUnderlineStyle;
+    int underlineStyle = NSUnderlineStyleNone;
     
     if (_rdAnsiUnderlineMe) {
-        underlineStyle = NSSingleUnderlineStyle;
+        underlineStyle = NSUnderlineStyleSingle;
     }
     
     [_rdCurrentAttributes setObject:[NSNumber numberWithInt:underlineStyle] forKey:NSUnderlineStyleAttributeName];
+}
+
+- (void) setStrikeThrough:(BOOL)strikethrough
+{
+    _rdAnsiStrikeThroughMe = strikethrough;
+
+    int strikeThroughStyle = NSUnderlineStyleNone;
+    float strikeThroughBaselineOffset = 0;
+    
+    if (_rdAnsiStrikeThroughMe) {
+        strikeThroughStyle = [NSNumber numberWithInteger:NSUnderlineStyleSingle | NSUnderlineStylePatternDot];
+        strikeThroughBaselineOffset = 0.1;
+    }
+    
+    [_rdCurrentAttributes setObject:[NSNumber numberWithInt:strikeThroughStyle] forKey:NSStrikethroughStyleAttributeName];
+    [_rdCurrentAttributes setObject:[NSNumber numberWithFloat:strikeThroughBaselineOffset] forKey:NSBaselineOffsetAttributeName];
 }
 
 - (void) setColor:(int)color
@@ -354,58 +372,6 @@ static NSMutableArray *s_extendedColors = nil;
     [_rdCurrentAttributes setObject:timestamp forKey:@"RDTimeStamp"];
 }
 
-- (void) applyToString:(NSMutableAttributedString *)string withRange:(NSRange)range
-{
-/*    NSColor *fgColor;
-    NSColor *bgColor;
-    
-    int effFg = _rdAnsiLastColor + (((_rdAnsiLastColor != -1) && (_rdAnsiLastColor < 8)) ? (_rdAnsiBoldMe ? 8 : 0) : 0);
-    int effBg = _rdAnsiLastBackground;
-
-    if (_rdAnsiLastColor == -1) {
-        if (_rdAnsiBoldMe) {
-            fgColor = [_rdColors objectAtIndex:15];
-            effFg = 15;
-        }
-        else {
-            fgColor = _rdDefaultColor;
-        }
-    }
-     else 
-        fgColor = [_rdColors objectAtIndex:effFg];
-
-    if (_rdAnsiLastBackground == -1)
-        bgColor = _rdBackground;
-    else
-        bgColor = [_rdColors objectAtIndex:_rdAnsiLastBackground];
-
-
-    NSDictionary *attrs;
-    NSFont *font = _rdFont;
-    
-    if (_rdAnsiBoldMe && _rdBoldOnIntense) {
-        font = _rdFontBold;
-    }
-    
-    int underlineStyle = NSNoUnderlineStyle;
-    
-    if (_rdAnsiUnderlineMe) {
-        underlineStyle = NSSingleUnderlineStyle;
-    }
-        
-    attrs = [NSDictionary dictionaryWithObjectsAndKeys:
-        font,NSFontAttributeName,
-        fgColor,(_rdAnsiInvertMe ? NSBackgroundColorAttributeName : NSForegroundColorAttributeName),
-        bgColor,(_rdAnsiInvertMe ? NSForegroundColorAttributeName : NSBackgroundColorAttributeName),
-        [NSNumber numberWithInt:effFg],(_rdAnsiInvertMe ? @"RDAnsiBackgroundColor" : @"RDAnsiForegroundColor"),
-        [NSNumber numberWithInt:effBg],(_rdAnsiInvertMe ? @"RDAnsiForegroundColor" : @"RDAnsiBackgroundColor"),
-        [NSNumber numberWithInt:underlineStyle],NSUnderlineStyleAttributeName,nil];
-    [string setAttributes:attrs range:range];    */
-    
-    [_rdCurrentAttributes setObject:[NSDate date] forKey:@"RDTimeStamp"];    
-    [string setAttributes:_rdCurrentAttributes range:range];
-}
-
 - (NSDictionary *) attributes
 {
     return _rdCurrentAttributes;
@@ -490,174 +456,11 @@ static NSMutableArray *s_extendedColors = nil;
     }
 }
 
-/*
-- (void) filterInput:(id) input
-{
-    if ([input isKindOfClass:[NSMutableAttributedString class]]) {
-        NSMutableAttributedString *string = (NSMutableAttributedString *)input;
-        
-        // Grab any leftover unterminated ANSI codes?
-        if ([_rdState holdover]) {
-            [string insertAttributedString:[_rdState holdover] atIndex:0];
-            [_rdState setHoldover:nil];
-        }
-        
-        int lastPosition = 0;
-        NSString *tempString = [string string];
-        int length = [tempString length];
-        
-        [_rdState applyToString:string withRange:NSMakeRange(0,length)];
-
-        NSRange foundRange = [tempString rangeOfString:@"\x07" options:0 range:NSMakeRange(0,[tempString length])];
-        if (foundRange.length) {
-            switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"atlantis.beeptype"]) {
-                case 0: // Do nothing
-                    break;
-                case 1: // Show status
-                    [[self world] outputStatus:@"Beep!" toSpawn:@""];
-                    break;
-                case 2: // System beep
-                    NSBeep();
-                    break;
-            }
-        }
-        
-        foundRange = [tempString rangeOfString:@"\x1b[" options:0 range:NSMakeRange(lastPosition,length - lastPosition)];
-        if (!foundRange.length)
-            foundRange = [tempString rangeOfString:@"\x1b\n[" options:0 range:NSMakeRange(lastPosition, length - lastPosition)];
-        if (!foundRange.length)
-            foundRange = [tempString rangeOfString:@"\x1b\n" options:0 range:NSMakeRange(lastPosition, length - lastPosition)];
-        if (!foundRange.length)
-            foundRange = [tempString rangeOfString:@"\x1b" options:0 range:NSMakeRange(lastPosition, length - lastPosition)];
-        
-        while (foundRange.length) {
-            int escbegin = foundRange.location + foundRange.length;
-            NSRange finishRange = NSMakeRange(escbegin,length - escbegin);
-            NSRange endRange = [tempString rangeOfCharacterFromSet:[NSCharacterSet letterCharacterSet] options:0 range:finishRange];
-            
-            if (!endRange.length) {
-                // unterminated ANSI!  Aiie!
-                NSRange eatMe = NSMakeRange(foundRange.location, length - foundRange.location);
-                NSAttributedString *holdover = [string attributedSubstringFromRange:eatMe];
-                // Munch these from our existing string, having stored them as holdover
-                [string replaceCharactersInRange:eatMe withString:@""];
-                [_rdState setHoldover:holdover];
-                return;
-            }
-            
-            NSString *escTerminator = [tempString substringWithRange:endRange];
-            
-            // ANSI color sequence
-            if ([escTerminator isEqualToString:@"m"]) {
-                NSString *ansiSequence = [tempString substringWithRange:NSMakeRange(escbegin,endRange.location - escbegin)];
-                
-                NSArray *ansicodes = [ansiSequence componentsSeparatedByString:@";"];
-                NSEnumerator *ansiEnum = [ansicodes objectEnumerator];
-                
-                id walkobj;
-                while (walkobj = [ansiEnum nextObject]) {
-                    int code = [(NSString *)walkobj intValue];
-                    
-                    // Get ANSI sequence category
-                    switch (code / 10) {
-                        
-                        case 0: // ANSI attribute set
-                        case 2: // ANSI attribute clear
-                        {
-                            BOOL toggle = ((code / 10) == 0);
-                            
-                            switch (code % 10) {
-                                case 0: // ANSI reset
-                                    [_rdState reset];
-                                    break;
-                                    
-                                case 1: // ANSI bold on / off
-                                    [_rdState setBold:toggle];
-                                    break;
-                                    
-                                case 3: // ANSI italics on / off
-                                    break;
-                                    
-                                case 4: // ANSI underline on /off
-                                    [_rdState setUnderline:toggle];
-                                    break;
-                                    
-                                case 7: // ANSI inverse on / off
-                                    [_rdState setInvert:toggle];
-                                    break;
-                            }
-                        }
-                            break;
-                            
-                        case 3: // ANSI foreground color
-                            if (code < 38)
-                                [_rdState setColor:(code - 30)];
-                            else if (code == 39) {
-                                [_rdState setColor:-1];
-                                [_rdState setBold:FALSE];
-                            }
-                            else if (code == 38) {
-                                // 256-color support
-                                NSString *nextObj = [ansiEnum nextObject];
-                                if ([nextObj isEqualToString:@"5"]) {
-                                    nextObj = [ansiEnum nextObject];
-                                    NSLog([NSString stringWithFormat:@"Got unsupported 256-color fg: %@", nextObj]);                                                                        
-                                }
-                            }
-                            break;
-                            
-                        case 4: // ANSI background color
-                            if (code < 48) 
-                                [_rdState setBackground:(code - 40)];
-                            else if (code == 49)
-                                [_rdState setBackground:-1];
-                            else if (code == 48) {
-                                // 256-color support
-                                NSString *nextObj = [ansiEnum nextObject];
-                                if ([nextObj isEqualToString:@"5"]) {
-                                    nextObj = [ansiEnum nextObject];
-                                    NSLog([NSString stringWithFormat:@"Got unsupported 256-color bg: %@", nextObj]);                                                                        
-                                }
-                            }
-                            break;
-                            
-                        case 9: // ANSI extended foreground
-                            [_rdState setColor:((code - 90) + 8)];
-                            break;
-                            
-                        case 10:
-                            [_rdState setBackground:((code - 100) + 8)];
-                            break;
-                    }
-                }
-            }
-            
-            [_rdState applyToString:string withRange:finishRange];
-            [string replaceCharactersInRange:NSMakeRange(foundRange.location,1 + (endRange.location - foundRange.location)) withString:@""];
-            
-            lastPosition = foundRange.location;
-            
-            tempString = [string string];
-            length = [tempString length];
-            foundRange = [tempString rangeOfString:@"\x1b[" options:0 range:NSMakeRange(lastPosition,length - lastPosition)];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b\n[" options:0 range:NSMakeRange(lastPosition, length - lastPosition)];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b\n" options:0 range:NSMakeRange(lastPosition, length - lastPosition)];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b" options:0 range:NSMakeRange(lastPosition, length - lastPosition)];
-        }
-    }    
-}
-*/
-
 - (void) filterInput:(id) input
 {
     if ([input isKindOfClass:[NSMutableAttributedString class]]) {
         NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithString:@"" attributes:[_rdState attributes]];
         NSMutableAttributedString *string = [(NSMutableAttributedString *)input mutableCopy];
-        
-        NSCharacterSet *linefeedSet = [[NSCharacterSet characterSetWithCharactersInString:@"\n\r"] retain];
         
         // Grab any leftover unterminated ANSI codes?
         if ([_rdState holdover]) {
@@ -666,10 +469,11 @@ static NSMutableArray *s_extendedColors = nil;
         }
         [_rdState setTimestamp:[NSDate date]];
         
-        int lastPosition = 0;
+        NSUInteger lastPosition = 0;
         NSString *tempString = [string string];
-        int length = [tempString length];
+        NSUInteger length = [tempString length];
         
+        // Handle bell
         NSRange foundRange = [tempString rangeOfString:@"\x07" options:0 range:NSMakeRange(0,[tempString length])];
         if (foundRange.length) {
             switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"atlantis.beeptype"]) {
@@ -684,175 +488,261 @@ static NSMutableArray *s_extendedColors = nil;
             }
         }
         
-        NSRange testRange = NSMakeRange(lastPosition,length - lastPosition);
-        foundRange = [tempString rangeOfString:@"\x1b[" options:0 range:testRange];
-        if (!foundRange.length)
-            foundRange = [tempString rangeOfString:@"\x1b\n[" options:0 range:testRange];
-        if (!foundRange.length)
-            foundRange = [tempString rangeOfString:@"\x1b\n" options:0 range:testRange];
-        if (!foundRange.length)
+        bool done = false;
+        while (!done) {
+            
+            if (lastPosition >= length) {
+                done = true;
+                continue;
+            }
+            
+            // Find where the next escape sequence starts
+            NSRange testRange = NSMakeRange(lastPosition, length - lastPosition);
             foundRange = [tempString rangeOfString:@"\x1b" options:0 range:testRange];
-        
-        while (foundRange.length) {
-            int escbegin = foundRange.location + foundRange.length;
-            NSRange finishRange = NSMakeRange(escbegin,length - escbegin);
-            NSRange endRange = [tempString rangeOfCharacterFromSet:[NSCharacterSet letterCharacterSet] options:0 range:finishRange];
             
-            if (!endRange.length) {
-                // unterminated ANSI!  Aiie!
+            // If there are no escape sequences, then emit the whole thing with the current attributes
+            if (!foundRange.length) {
+                NSRange realRange = NSMakeRange(lastPosition, length - lastPosition);
+                NSString *test = [[string string] substringWithRange:realRange];
+                [result appendAttributedString:[[[NSAttributedString alloc] initWithString:test attributes:[_rdState attributes]] autorelease]];
                 
-                // Hold over the current input for the next packet until we have
-                // don't have a split ANSI sequence. Outside of high latency
-                // between packets, this shouldn't take very long. Unfortunately,
-                // partial line parsing and attempted display sometimes causes
-                // visual artifacts.
-                [_rdState setHoldover:string];
-                NSMutableAttributedString *empty = [[NSMutableAttributedString alloc] initWithString:@"" attributes:[_rdState attributes]];
-                [(NSMutableAttributedString *)input setAttributedString:empty];
-                [empty release];
-                [result release];
-                return;
+                // DEBUG
+                // NSLog(@"NONE >%@< %lu %hu %hu", test, [test length], [test characterAtIndex:0], [test characterAtIndex:[test length] - 1]);
+                
+                done = true;
+                continue;
             }
-
-            NSRange realRange = NSMakeRange(lastPosition,foundRange.location - lastPosition);
-            if (realRange.length && (realRange.location != NSNotFound))
-                [result appendAttributedString:[[[NSAttributedString alloc] initWithString:[tempString substringWithRange:realRange] attributes:[_rdState attributes]] autorelease]];            
-
-            lastPosition = endRange.location + endRange.length;
             
+            // If we get here, there's an escape sequence ahead...
             
-            NSString *escTerminator = [tempString substringWithRange:endRange];
-            
-            // ANSI color sequence
-            if ([escTerminator isEqualToString:@"m"]) {
-                NSString *ansiSequence = [tempString substringWithRange:NSMakeRange(escbegin,endRange.location - escbegin)];
+            // If there is plain text before the escape sequence, emit that with with current attributes
+            if (foundRange.length && (foundRange.location > lastPosition)) {
+                NSRange realRange = NSMakeRange(lastPosition, foundRange.location - lastPosition);
+                NSString *test = [[string string] substringWithRange:realRange];
+                [result appendAttributedString:[[[NSAttributedString alloc] initWithString:test attributes:[_rdState attributes]] autorelease]];
                 
-                NSArray *ansicodes = [ansiSequence componentsSeparatedByString:@";"];
-                NSEnumerator *ansiEnum = [ansicodes objectEnumerator];
+                // DEBUG
+                //NSLog(@"TEXT >%@< %lu %hu %hu", test, [test length], [test characterAtIndex:0], [test characterAtIndex:[test length] - 1]);
                 
-                id walkobj;
-                while (walkobj = [ansiEnum nextObject]) {
-                    int code = [(NSString *)walkobj intValue];
-                    
-                    // Get ANSI sequence category
-                    switch (code / 10) {
+                // Advance the last position to the escape sequence and continue
+                lastPosition = foundRange.location;
+                //continue;
+            }
+            
+            // Handle escape sequence start
+            if (foundRange.length && (foundRange.location == lastPosition)) {
+                
+                // If an escape character is at the very end of the packet, it is incomplete.
+                // In this particular case, stuff it into the holdover buffer and continue.
+                if (foundRange.location == (length - 1)) {
+                    NSRange realRange = NSMakeRange(lastPosition, length - lastPosition);
+                    NSAttributedString *test = [string attributedSubstringFromRange:realRange];
+                    [_rdState setHoldover:test];
+                    done = true;
+                    continue;
+                }
+                
+                // Otherwise, see what sort of escape sequence it is and if we can find the end of it
+                NSUInteger searchBegin = foundRange.location + foundRange.length;
+                NSRange finishRange = NSMakeRange(searchBegin, length - searchBegin);
+                NSRange endRange;
+                
+                unichar nextChar = [[string string] characterAtIndex: lastPosition + 1];
+                switch (nextChar) {
                         
-                        case 0: // ANSI attribute set
-                        case 2: // ANSI attribute clear
-                        {
-                            BOOL toggle = ((code / 10) == 0);
-                            
-                            switch (code % 10) {
-                                case 0: // ANSI reset
-                                    [_rdState reset];
-                                    break;
-                                    
-                                case 1: // ANSI bold on / off
-                                    [_rdState setBold:toggle];
-                                    break;
-                                    
-                                case 3: // ANSI italics on / off
-                                    break;
-                                    
-                                case 4: // ANSI underline on /off
-                                    [_rdState setUnderline:toggle];
-                                    break;
-                                    
-                                case 7: // ANSI inverse on / off
-                                    [_rdState setInvert:toggle];
-                                    break;
-                            }
+                        // Two character sequences, read out two characters and parse it
+                    case 32: // " " Used by xterm for 7/8-bit and charsets
+                    case 35: // "#" Various DEC commands
+                    case 37: // "%" Used by xterm for UTF-8 settings
+                    case 64: // "@" Unknown, implemented in urxvt
+                    case 71: // "G" Unsupported rxvt graphics
+                        
+                        // If we don't have two more bytes to read, it's incomplete.
+                        // Stuff them into the holdover buffer and continue
+                        if ((lastPosition + 2) > (length - 1)) {
+                            NSRange realRange = NSMakeRange(lastPosition, length - lastPosition);
+                            NSAttributedString *test = [string attributedSubstringFromRange:realRange];
+                            [_rdState setHoldover:test];
+                            done = true;
+                            continue;
                         }
-                            break;
-                            
-                        case 3: // ANSI foreground color
-                            if (code < 38)
-                                [_rdState setColor:(code - 30)];
-                            else if (code == 39) {
-                                [_rdState setColor:-1];
-                                [_rdState setBold:FALSE];
-                            }
-                            else if (code == 38) {
-                                // 256-color support
-                                NSString *nextObj = [ansiEnum nextObject];
-                                if ([nextObj isEqualToString:@"5"]) {
-                                    nextObj = [ansiEnum nextObject];
-									[_rdState setColor:[nextObj intValue]];
-                                }
-                            }
-                            break;
-                            
-                        case 4: // ANSI background color
-                            if (code < 48) 
-                                [_rdState setBackground:(code - 40)];
-                            else if (code == 49)
-                                [_rdState setBackground:-1];
-                            else if (code == 48) {
-                                // 256-color support
-                                NSString *nextObj = [ansiEnum nextObject];
-                                if ([nextObj isEqualToString:@"5"]) {
-                                    nextObj = [ansiEnum nextObject];
-									[_rdState setBackground:[nextObj intValue]];
-                                }
-                            }
-                            break;
-                            
-                        case 9: // ANSI extended foreground
-                            [_rdState setColor:((code - 90) + 8)];
-                            break;
-                            
-                        case 10:
-                            [_rdState setBackground:((code - 100) + 8)];
-                            break;
-                    }
+                        else {
+                            endRange = NSMakeRange(lastPosition + 2, 1);
+                        }
+                        break;
+                        
+                        // String type sequences
+                    case 80: // "P" DCS, ends with ST (ESC \)
+                    case 88: // "X" SOS, ends with ST (ESC \)
+                    case 93: // "]" OSC, ends with ST (ESC \)
+                    case 94: // "^" PM,  ends with ST (ESC \)
+                    case 95: // "_" APC, ends with ST (ESC \)
+                        endRange = [tempString rangeOfString:@"\x1b\x5c" options:0 range:finishRange];
+                        break;
+                    case 91: // "[" CSI, sequence ends with a letter
+                        endRange = [tempString rangeOfCharacterFromSet:[NSCharacterSet letterCharacterSet] options:0 range:finishRange];
+                        break;
+                        
+                        // Single-character sequences, read out the next character and parse it
+                    default:
+                        endRange = NSMakeRange(lastPosition + 1, 1);
+                        break;
                 }
-            }
-            else if ([escTerminator isEqualToString:@"a"]) {
-                // Atlantis private escape sequences
-                NSString *ansiSequence = [tempString substringWithRange:NSMakeRange(escbegin,endRange.location - escbegin)];
                 
-                NSArray *ansicodes = [ansiSequence componentsSeparatedByString:@";"];
-                NSEnumerator *ansiEnum = [ansicodes objectEnumerator];
-                
-                id walkobj;
-                while (walkobj = [ansiEnum nextObject]) {
-                    int code = [walkobj intValue];
-                    switch (code) {
-                        case 1:
-                            {
-                                // MUD prompt marker
-                                NSRange lineMarker = [[result string] rangeOfCharacterFromSet:linefeedSet options:NSBackwardsSearch];
-                                if (lineMarker.location == NSNotFound) {
-                                    lineMarker = NSMakeRange(0,[result length]);
-                                }
-                                else {
-                                    lineMarker.length = [result length] - lineMarker.location;
-                                }
-                                [result addAttribute:@"RDPromptMarker" value:@"yes" range:lineMarker];
-                            }
-                            break;                            
-                    }
+                // We have a complete string type escape sequence, so we collect it and parse it
+                if (endRange.length) {
+                    NSRange realRange = NSMakeRange(lastPosition, endRange.location + endRange.length - lastPosition);
+                    NSString *test = [[string string] substringWithRange:realRange];
+                    
+                    // DEBUG
+                    //NSLog(@"ANSI >%@< %lu %hu", test, [test length], [test characterAtIndex:[test length] - 1]);
+                    
+                    [self parseEscapeSequence:test result:result];
+                    
+                    // Advance the last position past the escape sequence
+                    lastPosition = endRange.location + endRange.length;
+                    continue;
                 }
+                else {
+                    // We have an incomplete escape sequence, so put the remainder into the holdover buffer
+                    NSRange realRange = NSMakeRange(lastPosition, length - lastPosition);
+                    NSAttributedString *test = [string attributedSubstringFromRange:realRange];
+                    [_rdState setHoldover:test];
+                    
+                    //NSLog(@"HOLD >%@< %lu", [test string], [test length]);
+                    done = true;
+                    continue;
+                }
+                
             }
-            
-            testRange = NSMakeRange(lastPosition,length - lastPosition);
-            foundRange = [tempString rangeOfString:@"\x1b[" options:0 range:testRange];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b\n[" options:0 range:testRange];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b\n" options:0 range:testRange];
-            if (!foundRange.length)
-                foundRange = [tempString rangeOfString:@"\x1b" options:0 range:testRange];
         }
         
-        NSRange closingRange = NSMakeRange(lastPosition,[string length] - lastPosition);
-        if (closingRange.length)
-            [result appendAttributedString:[[[NSAttributedString alloc] initWithString:[tempString substringWithRange:closingRange] attributes:[_rdState attributes]] autorelease]];            
-
         [string release];
         [(NSMutableAttributedString *)input setAttributedString:result];
         [result release];
-    }    
+    }
+}
+
+- (void) parseEscapeSequence:(NSString *)sequence result:(NSMutableAttributedString *) result
+{
+    NSString *escTerminator = [sequence substringFromIndex:[sequence length] - 1];
+    
+    // ANSI color sequence
+    if ([escTerminator isEqualToString:@"m"]) {
+        NSString *ansiSequence = [sequence substringWithRange:NSMakeRange(2, [sequence length] - 2)];
+        
+        NSArray *ansicodes = [ansiSequence componentsSeparatedByString:@";"];
+        NSEnumerator *ansiEnum = [ansicodes objectEnumerator];
+        
+        id walkobj;
+        while (walkobj = [ansiEnum nextObject]) {
+            int code = [(NSString *)walkobj intValue];
+            
+            // Get ANSI sequence category
+            switch (code / 10) {
+                
+                case 0: // ANSI attribute set
+                case 2: // ANSI attribute clear
+                {
+                    BOOL toggle = ((code / 10) == 0);
+                    
+                    switch (code % 10) {
+                        case 0: // ANSI reset
+                            [_rdState reset];
+                            break;
+                            
+                        case 1: // ANSI bold on / off
+                            [_rdState setBold:toggle];
+                            break;
+                            
+                        case 3: // ANSI italics on / off
+                            break;
+                            
+                        case 4: // ANSI underline on /off
+                            [_rdState setUnderline:toggle];
+                            break;
+                            
+                        case 7: // ANSI inverse on / off
+                            [_rdState setInvert:toggle];
+                            break;
+                            
+                        case 9: // ANSI strike-through on / off
+                            [_rdState setStrikeThrough:toggle];
+                            break;
+                    }
+                }
+                    break;
+                    
+                case 3: // ANSI foreground color
+                    if (code < 38)
+                        [_rdState setColor:(code - 30)];
+                    else if (code == 39) {
+                        [_rdState setColor:-1];
+                        [_rdState setBold:FALSE];
+                    }
+                    else if (code == 38) {
+                        // 256-color support
+                        NSString *nextObj = [ansiEnum nextObject];
+                        if ([nextObj isEqualToString:@"5"]) {
+                            nextObj = [ansiEnum nextObject];
+                            [_rdState setColor:[nextObj intValue]];
+                        }
+                    }
+                    break;
+                    
+                case 4: // ANSI background color
+                    if (code < 48)
+                        [_rdState setBackground:(code - 40)];
+                    else if (code == 49)
+                        [_rdState setBackground:-1];
+                    else if (code == 48) {
+                        // 256-color support
+                        NSString *nextObj = [ansiEnum nextObject];
+                        if ([nextObj isEqualToString:@"5"]) {
+                            nextObj = [ansiEnum nextObject];
+                            [_rdState setBackground:[nextObj intValue]];
+                        }
+                    }
+                    break;
+                    
+                case 9: // ANSI extended foreground
+                    [_rdState setColor:((code - 90) + 8)];
+                    break;
+                    
+                case 10:
+                    [_rdState setBackground:((code - 100) + 8)];
+                    break;
+            }
+        }
+    }
+    else if ([escTerminator isEqualToString:@"a"]) {
+        // Atlantis private escape sequences
+        NSString *ansiSequence = [sequence substringWithRange:NSMakeRange(2, [sequence length] - 2)];
+        
+        NSArray *ansicodes = [ansiSequence componentsSeparatedByString:@";"];
+        NSEnumerator *ansiEnum = [ansicodes objectEnumerator];
+        
+        id walkobj;
+        while (walkobj = [ansiEnum nextObject]) {
+            int code = [walkobj intValue];
+            switch (code) {
+                case 1:
+                    {
+                        // MUD prompt marker
+                        NSCharacterSet *linefeedSet = [NSCharacterSet characterSetWithCharactersInString:@"\n\r"];
+                        NSRange lineMarker = [[result string] rangeOfCharacterFromSet:linefeedSet options:NSBackwardsSearch];
+                        if (lineMarker.location == NSNotFound) {
+                            lineMarker = NSMakeRange(0,[result length]);
+                        }
+                        else {
+                            lineMarker.length = [result length] - lineMarker.location;
+                        }
+                        [result addAttribute:@"RDPromptMarker" value:@"yes" range:lineMarker];
+                    }
+                    break;
+            }
+        }
+    }
 }
 
 @end

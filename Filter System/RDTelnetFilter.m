@@ -332,24 +332,25 @@ enum ScanStates { scanNormal, scanIAC, scanWILL, scanWONT, scanDO, scanDONT, sca
                     
                     case 1:
                     {
-                        const char *termname = "Atlantis-256color";
+                        const char *termname = "xterm-256color";
                         [terminfo appendBytes:termname length:strlen(termname)];
                     }
                     break;
                     
                     case 2:
                     {
-                        const char *termname = "xterm-256color";
+                         const char *termname = "MTTS 13";
                         [terminfo appendBytes:termname length:strlen(termname)];
                     }
                     break;
                     
                     case 3:
                     {
-                        const char *termname = "xterm-256color";
+                        const char *termname = "MTTS 13";
                         [terminfo appendBytes:termname length:strlen(termname)];
                     }
                     break;
+                    
                 }
                 
                 ttypeCycle++;
