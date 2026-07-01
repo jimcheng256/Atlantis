@@ -135,7 +135,7 @@
     NSArray *languages = [scriptSystem languages];
     [_rdScriptLanguages addItemsWithTitles:languages];
     
-    int index = 0;
+    NSUInteger index = 0;
     if (_rdLanguage)
         index = [languages indexOfObject:_rdLanguage];
     else {
@@ -150,7 +150,23 @@
     else
         [[_rdActualText textStorage] setAttributedString:[[NSAttributedString alloc] init]];
 
-    [_rdActualText setFont:[NSFont userFixedPitchFontOfSize:9.0f]];
+    [_rdActualText setFont:[NSFont userFixedPitchFontOfSize:11.0f]];
+    
+    // Fix unwanted text processing; macOS does not respect the nib settings.
+    // At some point this broke but went unnoticed because we had scripting
+    // disabled. See the discussion and selected fix here:
+    //
+    // https://stackoverflow.com/questions/19801601/nstextview-with-smart-quotes-disabled-still-replaces-quotes
+    //
+    [_rdActualText setAutomaticQuoteSubstitutionEnabled:false];
+    [_rdActualText setAutomaticLinkDetectionEnabled:false];
+    [_rdActualText setContinuousSpellCheckingEnabled:false];
+    [_rdActualText setGrammarCheckingEnabled:false];
+    [_rdActualText setAutomaticDashSubstitutionEnabled:false];
+    [_rdActualText setAutomaticTextReplacementEnabled:false];
+    [_rdActualText setIncrementalSearchingEnabled:false];
+    [_rdActualText setAutomaticTextCompletionEnabled:false];
+   
     
     return _rdInternalConfigurationView;
 }
