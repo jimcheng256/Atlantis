@@ -8,6 +8,7 @@
 #import <Lemuria/RDNestedOutlineView.h>
 #import "Preferences/World/WorldConfigurationEditor.h"
 #import "Preferences/World/WorldHighlightEditor.h"
+#import "Preferences/World/WorldUserconfEditor.h"
 
 // The zero-argument legacy initializer is distinct from NSObject's init.
 static inline WorldConfigurationEditor *RDCreateGlobalWorldConfigurationEditor(void) NS_RETURNS_RETAINED;

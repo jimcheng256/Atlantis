@@ -65,7 +65,9 @@ See the [six-pane workplan](PreferencePaneWorkplan.md) for pass order and regres
 
 ## Address Book removal confirmation
 
-The Events, Aliases, and Highlights tabs use the shared Swift
+The Events, Aliases, Highlights, and User Variables tabs use the shared Swift
 `RemovalConfirmation` sheet. Callers supply the item type and display name.
 The Highlights tab uses the pattern as the name and commits the deletion
 after the user chooses Remove.
+The User Variables tab uses the variable name and saves deletions through
+the editor's normal commit path.

@@ -30,9 +30,9 @@ They are available as userconf.* in the variable system.</string>
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                    <rect key="frame" x="559" y="12" width="51" height="32"/>
+                    <rect key="frame" x="408" y="12" width="112" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <buttonCell key="cell" type="push" title="+" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="19">
+                    <buttonCell key="cell" type="push" title="Add Variable" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="19">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -41,9 +41,9 @@ They are available as userconf.* in the variable system.</string>
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                    <rect key="frame" x="610" y="12" width="48" height="32"/>
+                    <rect key="frame" x="520" y="12" width="138" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <buttonCell key="cell" type="push" title="-" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="18">
+                    <buttonCell key="cell" type="push" title="Remove Variable" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="18">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>

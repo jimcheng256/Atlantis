@@ -7,6 +7,7 @@
 //
 
 #import "WorldUserconfEditor.h"
+#import "Atlantis-Swift.h"
 
 
 @implementation WorldUserconfEditor
@@ -32,9 +33,11 @@
 
 - (void) dealloc
 {
+    // The superclass calls finalCommit during teardown.
+    NSMutableDictionary *userConf = _rdUserConf;
     [_rdUserConfKeys release];
-    [_rdUserConf release];
     [super dealloc];
+    [userConf release];
 }
 
 - (NSString *) configTabName
@@ -149,15 +152,28 @@
 
 - (void) deleteButton:(id) sender
 {
-    [[_rdConfigView window] makeFirstResponder:[_rdConfigView window]];
-    int rowIndex = [_rdUserConfTable selectedRow];
-    
-    if (rowIndex != -1) {
-        NSString *curKey = [_rdUserConfKeys objectAtIndex:rowIndex];
-
-        [_rdUserConf removeObjectForKey:curKey];
-        [_rdUserConfKeys removeObjectAtIndex:rowIndex];
-        [_rdUserConfTable reloadData];
+    NSWindow *window = [_rdConfigView window];
+    if (!window || ![window makeFirstResponder:window]) {
+        return;
     }
+
+    NSInteger row = [_rdUserConfTable selectedRow];
+    if (row < 0 || (NSUInteger)row >= [_rdUserConfKeys count]) {
+        return;
+    }
+
+    NSMutableDictionary *userConf = _rdUserConf;
+    NSString *key = [_rdUserConfKeys objectAtIndex:row];
+    [RemovalConfirmation presentForWindow:window
+                                 itemType:@"variable"
+                                 itemName:key
+                                onConfirm:^{
+        if (_rdUserConf != userConf || ![userConf objectForKey:key]) {
+            return;
+        }
+        [userConf removeObjectForKey:key];
+        [_rdUserConfKeys removeObject:key];
+        [_rdUserConfTable reloadData];
+    }];
 }
 @end
