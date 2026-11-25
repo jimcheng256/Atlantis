@@ -68,7 +68,8 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
     }
 
     @MainActor
-    func testHostsAllLegacyPanes() throws {
+    func testHostsAllPreferencePanes() throws {
+        XCTAssertTrue(RDPreferenceMainController() === NSApp.delegate)
         let panes = [
             GeneralPreferences(),
             NetworkPreferences(),

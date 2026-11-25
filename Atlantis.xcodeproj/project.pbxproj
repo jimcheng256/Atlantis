@@ -39,6 +39,12 @@
 		A71A5000000000000000001C /* Lemuria.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E1940122110F4E00A0B0BE /* Lemuria.framework */; };
 		A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */; };
 		A71A500000000000000000B0 /* AtlantisPreferenceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */; };
+		A71A500000000000000000B6 /* GeneralPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B7 /* GeneralPreferencesTests.swift */; };
+		A71A500000000000000000C3 /* ToolbarEventPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */; };
+		A71A500000000000000000BF /* HotkeyPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */; };
+		A71A500000000000000000BC /* WorldDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000BD /* WorldDefaultsTests.swift */; };
+		A71A500000000000000000BA /* WindowingPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000BB /* WindowingPreferencesTests.swift */; };
+		A71A500000000000000000B8 /* NetworkPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B9 /* NetworkPreferencesTests.swift */; };
 		A71A50000000000000000001 /* RDAtlantisSpawnInterop.m in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */; };
 		3226D1272EE1537C0016D727 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3226D1262EE1537C0016D727 /* SwiftUI.framework */; };
 		5303ACB925413BF100565FBD /* ActionConf_SendText.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5303ACB825413BF100565FBD /* ActionConf_SendText.xib */; };
@@ -54,9 +60,6 @@
 		8B4278092911E566005EFEA6 /* AboutBox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4278082911E566005EFEA6 /* AboutBox.xib */; };
 		8B42780C2911E57A005EFEA6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42780A2911E579005EFEA6 /* MainMenu.xib */; };
 		8B42780E2911E5DE005EFEA6 /* UploadPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42780D2911E5DE005EFEA6 /* UploadPanel.xib */; };
-		8B4278122911EA97005EFEA6 /* GeneralPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42780F2911EA97005EFEA6 /* GeneralPrefs.xib */; };
-		8B4278132911EA97005EFEA6 /* NetworkPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4278102911EA97005EFEA6 /* NetworkPreferences.xib */; };
-		8B4278142911EA97005EFEA6 /* WindowPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4278112911EA97005EFEA6 /* WindowPrefs.xib */; };
 		8B4278162911FA11005EFEA6 /* WorldConf_Highlights.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4278152911FA11005EFEA6 /* WorldConf_Highlights.xib */; };
 		8B4278192911FAEE005EFEA6 /* ConditionPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4278172911FAEE005EFEA6 /* ConditionPicker.xib */; };
 		8B42781A2911FAEE005EFEA6 /* ActionPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4278182911FAEE005EFEA6 /* ActionPicker.xib */; };
@@ -104,13 +107,14 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		FF00C31209E1F90600083573 /* AtlantisPreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF00C31009E1F90600083573 /* AtlantisPreferenceController.swift */; };
 		A71A500000000000000000B2 /* PreferencesPaneHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B3 /* PreferencesPaneHost.swift */; };
+		A71A500000000000000000C1 /* PreferenceEventEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000C2 /* PreferenceEventEditorDelegate.swift */; };
 		FF0226360C94AA310049BE2B /* HIDIdleTime.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0226340C94AA310049BE2B /* HIDIdleTime.m */; };
 		FF0355B409D755B900243A78 /* Action-TextSpawn.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0355B209D755B900243A78 /* Action-TextSpawn.m */; };
 		FF0355E509D75C2000243A78 /* Condition-SpawnActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0355E309D75C2000243A78 /* Condition-SpawnActivity.m */; };
 		FF03567A09D75EDA00243A78 /* Action-SpawnClose.m in Sources */ = {isa = PBXBuildFile; fileRef = FF03567809D75EDA00243A78 /* Action-SpawnClose.m */; };
 		FF05E5D50A5A5C1A007604B3 /* ToolbarUserEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = FF05E5D30A5A5C1A007604B3 /* ToolbarUserEvent.m */; };
 		FF05E60D0A5A6078007604B3 /* ToolbarCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = FF05E60B0A5A6078007604B3 /* ToolbarCollection.m */; };
-		FF05E65D0A5A635A007604B3 /* ToolbarEventPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FF05E65B0A5A635A007604B3 /* ToolbarEventPreferences.m */; };
+		FF05E65D0A5A635A007604B3 /* ToolbarEventPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF05E65B0A5A635A007604B3 /* ToolbarEventPreferences.swift */; };
 		FF0900170C93952400969DAD /* DelayedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0900150C93952400969DAD /* DelayedEvent.m */; };
 		FF09008A0C93A07A00969DAD /* WaitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0900880C93A07A00969DAD /* WaitCommand.m */; };
 		FF0C2BDF0A27A3BB002484B9 /* ToolbarConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0C2BDD0A27A3BB002484B9 /* ToolbarConnect.m */; };
@@ -143,7 +147,7 @@
 		FF23414009C4D71000EFFC03 /* AddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = FF23413E09C4D71000EFFC03 /* AddressBook.m */; };
 		FF23451709C52EE100EFFC03 /* WorldSpawnEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FF23451509C52EE100EFFC03 /* WorldSpawnEditor.m */; };
 		FF238F830AC25B73003ED595 /* Network.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FF238F820AC25B73003ED595 /* Network.tiff */; };
-		FF238F890AC25B81003ED595 /* NetworkPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FF238F870AC25B81003ED595 /* NetworkPreferences.m */; };
+		FF238F890AC25B81003ED595 /* NetworkPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF238F870AC25B81003ED595 /* NetworkPreferences.swift */; };
 		FF25598009C27B0D00515FE3 /* WorldEventEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FF25597E09C27B0D00515FE3 /* WorldEventEditor.m */; };
 		FF255A4B09C28AA000515FE3 /* WorldConfigurationTab.m in Sources */ = {isa = PBXBuildFile; fileRef = FF255A4909C28AA000515FE3 /* WorldConfigurationTab.m */; };
 		FF255AB109C2976F00515FE3 /* WorldConfigurationEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FF255AAF09C2976F00515FE3 /* WorldConfigurationEditor.m */; };
@@ -161,10 +165,10 @@
 		FF26F3B00B84559D003043E5 /* CTBadge_4.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FF26F3AC0B84559D003043E5 /* CTBadge_4.pdf */; };
 		FF26F3B10B84559D003043E5 /* CTBadge_5.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FF26F3AD0B84559D003043E5 /* CTBadge_5.pdf */; };
 		FF2D6E440F36440100E766CB /* MCPIcecrewServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D6E430F36440100E766CB /* MCPIcecrewServer.m */; };
-		FF2EA2A509E34F4100DDD57E /* WorldDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA2A309E34F4100DDD57E /* WorldDefaults.m */; };
+		FF2EA2A509E34F4100DDD57E /* WorldDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA2A309E34F4100DDD57E /* WorldDefaults.swift */; };
 		FF2EA31A09E35C6800DDD57E /* globe.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FF2EA31909E35C6800DDD57E /* globe.tiff */; };
-		FF2EA33309E35CE100DDD57E /* HotkeyPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA33109E35CE100DDD57E /* HotkeyPreferences.m */; };
-		FF2EA3DA09E3630300DDD57E /* GeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA3D809E3630300DDD57E /* GeneralPreferences.m */; };
+		FF2EA33309E35CE100DDD57E /* HotkeyPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA33109E35CE100DDD57E /* HotkeyPreferences.swift */; };
+		FF2EA3DA09E3630300DDD57E /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA3D809E3630300DDD57E /* GeneralPreferences.swift */; };
 		FF2EA3DC09E3632E00DDD57E /* General_Prefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FF2EA3DB09E3632E00DDD57E /* General_Prefs.tiff */; };
 		FF33DE540A5A028300615E7B /* Action-AddressBookWorld.m in Sources */ = {isa = PBXBuildFile; fileRef = FF33DE520A5A028300615E7B /* Action-AddressBookWorld.m */; };
 		FF33DED10A5A05B500615E7B /* Action-OutputCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = FF33DECF0A5A05B500615E7B /* Action-OutputCopy.m */; };
@@ -240,7 +244,7 @@
 		FF6E56770A66D3B000AE3E0B /* ScriptingDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6E56750A66D3B000AE3E0B /* ScriptingDispatch.m */; };
 		FF6E57250A66DD2100AE3E0B /* NSFileManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6E57230A66DD2100AE3E0B /* NSFileManagerExtensions.m */; };
 		FF6E577E0A66E2B400AE3E0B /* Action-PerlEval.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6E577C0A66E2B400AE3E0B /* Action-PerlEval.m */; };
-		FF70CE6909E9A23800E05E95 /* WindowingPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FF70CE6709E9A23800E05E95 /* WindowingPreferences.m */; };
+		FF70CE6909E9A23800E05E95 /* WindowingPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF70CE6709E9A23800E05E95 /* WindowingPreferences.swift */; };
 		FF70CE9209E9A34000E05E95 /* window.tif in Resources */ = {isa = PBXBuildFile; fileRef = FF70CE9109E9A34000E05E95 /* window.tif */; };
 		FF73C2070B81782D002293FD /* Condition-AtlantisVisible.m in Sources */ = {isa = PBXBuildFile; fileRef = FF73C2050B81782D002293FD /* Condition-AtlantisVisible.m */; };
 		FF73C2C30B818B23002293FD /* Action-GlobalReconnect.m in Sources */ = {isa = PBXBuildFile; fileRef = FF73C2C10B818B23002293FD /* Action-GlobalReconnect.m */; };
@@ -438,15 +442,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A71A500000000000000000B5 /* PreferencesTest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PreferencesTest-Bridging-Header.h"; sourceTree = "<group>"; };
 		A71A50000000000000000022 /* SpawnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnView.swift; sourceTree = "<group>"; };
 		A71A50000000000000000021 /* SpawnTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnTerminal.swift; sourceTree = "<group>"; };
 		A71A50000000000000000020 /* SpawnController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnController.swift; sourceTree = "<group>"; };
 		A71A50000000000000000005 /* RDAtlantisSpawn.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = RDAtlantisSpawn.md; path = Documentation/RDAtlantisSpawn.md; sourceTree = "<group>"; };
 		A71A500000000000000000B4 /* AtlantisPreferences.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = AtlantisPreferences.md; path = Documentation/AtlantisPreferences.md; sourceTree = "<group>"; };
+		A71A500000000000000000BE /* PreferencePaneWorkplan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = PreferencePaneWorkplan.md; path = Documentation/PreferencePaneWorkplan.md; sourceTree = "<group>"; };
 		A71A50000000000000000007 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDAtlantisSpawnTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlantisPreferenceControllerTests.swift; sourceTree = "<group>"; };
+		A71A500000000000000000B7 /* GeneralPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferencesTests.swift; sourceTree = "<group>"; };
+		A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarEventPreferencesTests.swift; sourceTree = "<group>"; };
+		A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyPreferencesTests.swift; sourceTree = "<group>"; };
+		A71A500000000000000000BD /* WorldDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldDefaultsTests.swift; sourceTree = "<group>"; };
+		A71A500000000000000000BB /* WindowingPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowingPreferencesTests.swift; sourceTree = "<group>"; };
+		A71A500000000000000000B9 /* NetworkPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPreferencesTests.swift; sourceTree = "<group>"; };
 		A71A50000000000000000012 /* AtlantisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = AtlantisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisSpawnInterop.m; path = RDAtlantisSpawnInterop.m; sourceTree = "<group>"; };
 		A71A50000000000000000003 /* RDAtlantisSpawnInterop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RDAtlantisSpawnInterop.h; path = RDAtlantisSpawnInterop.h; sourceTree = "<group>"; };
@@ -471,9 +481,6 @@
 		8B4278082911E566005EFEA6 /* AboutBox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutBox.xib; path = Misc/AboutBox.xib; sourceTree = "<group>"; };
 		8B42780B2911E579005EFEA6 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8B42780D2911E5DE005EFEA6 /* UploadPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UploadPanel.xib; path = "Upload System/UploadPanel.xib"; sourceTree = "<group>"; };
-		8B42780F2911EA97005EFEA6 /* GeneralPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GeneralPrefs.xib; path = Preferences/Application/GeneralPrefs.xib; sourceTree = "<group>"; };
-		8B4278102911EA97005EFEA6 /* NetworkPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NetworkPreferences.xib; path = Preferences/Application/NetworkPreferences.xib; sourceTree = "<group>"; };
-		8B4278112911EA97005EFEA6 /* WindowPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WindowPrefs.xib; path = Preferences/Application/WindowPrefs.xib; sourceTree = "<group>"; };
 		8B4278152911FA11005EFEA6 /* WorldConf_Highlights.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorldConf_Highlights.xib; path = Preferences/World/WorldConf_Highlights.xib; sourceTree = "<group>"; };
 		8B4278172911FAEE005EFEA6 /* ConditionPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConditionPicker.xib; path = "Event System/ConditionPicker.xib"; sourceTree = "<group>"; };
 		8B4278182911FAEE005EFEA6 /* ActionPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionPicker.xib; path = "Event System/ActionPicker.xib"; sourceTree = "<group>"; };
@@ -523,6 +530,7 @@
 		FF00C30F09E1F90600083573 /* AtlantisPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AtlantisPreferenceController.h; path = Preferences/Application/AtlantisPreferenceController.h; sourceTree = "<group>"; };
 		FF00C31009E1F90600083573 /* AtlantisPreferenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AtlantisPreferenceController.swift; path = Preferences/Application/AtlantisPreferenceController.swift; sourceTree = "<group>"; };
 		A71A500000000000000000B3 /* PreferencesPaneHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreferencesPaneHost.swift; path = Preferences/Application/PreferencesPaneHost.swift; sourceTree = "<group>"; };
+		A71A500000000000000000C2 /* PreferenceEventEditorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreferenceEventEditorDelegate.swift; path = Preferences/Application/PreferenceEventEditorDelegate.swift; sourceTree = "<group>"; };
 		FF0226330C94AA310049BE2B /* HIDIdleTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HIDIdleTime.h; path = "Utility Classes/HIDIdleTime.h"; sourceTree = "<group>"; };
 		FF0226340C94AA310049BE2B /* HIDIdleTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HIDIdleTime.m; path = "Utility Classes/HIDIdleTime.m"; sourceTree = "<group>"; };
 		FF0355B109D755B900243A78 /* Action-TextSpawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-TextSpawn.h"; path = "Event System/Actions/Action-TextSpawn.h"; sourceTree = "<group>"; };
@@ -536,7 +544,7 @@
 		FF05E60A0A5A6078007604B3 /* ToolbarCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarCollection.h; path = "Toolbar System/ToolbarCollection.h"; sourceTree = "<group>"; };
 		FF05E60B0A5A6078007604B3 /* ToolbarCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarCollection.m; path = "Toolbar System/ToolbarCollection.m"; sourceTree = "<group>"; };
 		FF05E65A0A5A635A007604B3 /* ToolbarEventPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarEventPreferences.h; path = "Toolbar System/ToolbarEventPreferences.h"; sourceTree = "<group>"; };
-		FF05E65B0A5A635A007604B3 /* ToolbarEventPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarEventPreferences.m; path = "Toolbar System/ToolbarEventPreferences.m"; sourceTree = "<group>"; };
+		FF05E65B0A5A635A007604B3 /* ToolbarEventPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ToolbarEventPreferences.swift; path = "Toolbar System/ToolbarEventPreferences.swift"; sourceTree = "<group>"; };
 		FF0900140C93952400969DAD /* DelayedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DelayedEvent.h; path = "Event System/DelayedEvent.h"; sourceTree = "<group>"; };
 		FF0900150C93952400969DAD /* DelayedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DelayedEvent.m; path = "Event System/DelayedEvent.m"; sourceTree = "<group>"; };
 		FF0900870C93A07A00969DAD /* WaitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaitCommand.h; path = "Command System/WaitCommand.h"; sourceTree = "<group>"; };
@@ -605,7 +613,7 @@
 		FF23451509C52EE100EFFC03 /* WorldSpawnEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorldSpawnEditor.m; path = Preferences/World/WorldSpawnEditor.m; sourceTree = "<group>"; };
 		FF238F820AC25B73003ED595 /* Network.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Network.tiff; path = Preferences/Application/Network.tiff; sourceTree = "<group>"; };
 		FF238F860AC25B81003ED595 /* NetworkPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkPreferences.h; path = Preferences/Application/NetworkPreferences.h; sourceTree = "<group>"; };
-		FF238F870AC25B81003ED595 /* NetworkPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkPreferences.m; path = Preferences/Application/NetworkPreferences.m; sourceTree = "<group>"; };
+		FF238F870AC25B81003ED595 /* NetworkPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkPreferences.swift; path = Preferences/Application/NetworkPreferences.swift; sourceTree = "<group>"; };
 		FF25597D09C27B0D00515FE3 /* WorldEventEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorldEventEditor.h; path = Preferences/World/WorldEventEditor.h; sourceTree = "<group>"; };
 		FF25597E09C27B0D00515FE3 /* WorldEventEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorldEventEditor.m; path = Preferences/World/WorldEventEditor.m; sourceTree = "<group>"; };
 		FF255A4809C28AA000515FE3 /* WorldConfigurationTab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorldConfigurationTab.h; path = Preferences/World/WorldConfigurationTab.h; sourceTree = "<group>"; };
@@ -634,12 +642,12 @@
 		FF2D6E420F36440100E766CB /* MCPIcecrewServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPIcecrewServer.h; path = "MCP System/MCPIcecrewServer.h"; sourceTree = "<group>"; };
 		FF2D6E430F36440100E766CB /* MCPIcecrewServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPIcecrewServer.m; path = "MCP System/MCPIcecrewServer.m"; sourceTree = "<group>"; };
 		FF2EA2A209E34F4100DDD57E /* WorldDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorldDefaults.h; path = Preferences/Application/WorldDefaults.h; sourceTree = "<group>"; };
-		FF2EA2A309E34F4100DDD57E /* WorldDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorldDefaults.m; path = Preferences/Application/WorldDefaults.m; sourceTree = "<group>"; };
+		FF2EA2A309E34F4100DDD57E /* WorldDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WorldDefaults.swift; path = Preferences/Application/WorldDefaults.swift; sourceTree = "<group>"; };
 		FF2EA31909E35C6800DDD57E /* globe.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = globe.tiff; path = Preferences/Application/globe.tiff; sourceTree = "<group>"; };
 		FF2EA33009E35CE100DDD57E /* HotkeyPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HotkeyPreferences.h; path = "Hotkey System/HotkeyPreferences.h"; sourceTree = "<group>"; };
-		FF2EA33109E35CE100DDD57E /* HotkeyPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HotkeyPreferences.m; path = "Hotkey System/HotkeyPreferences.m"; sourceTree = "<group>"; };
+		FF2EA33109E35CE100DDD57E /* HotkeyPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HotkeyPreferences.swift; path = "Hotkey System/HotkeyPreferences.swift"; sourceTree = "<group>"; };
 		FF2EA3D709E3630300DDD57E /* GeneralPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneralPreferences.h; path = Preferences/Application/GeneralPreferences.h; sourceTree = "<group>"; };
-		FF2EA3D809E3630300DDD57E /* GeneralPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeneralPreferences.m; path = Preferences/Application/GeneralPreferences.m; sourceTree = "<group>"; };
+		FF2EA3D809E3630300DDD57E /* GeneralPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GeneralPreferences.swift; path = Preferences/Application/GeneralPreferences.swift; sourceTree = "<group>"; };
 		FF2EA3DB09E3632E00DDD57E /* General_Prefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = General_Prefs.tiff; path = Preferences/Application/General_Prefs.tiff; sourceTree = "<group>"; };
 		FF33DE510A5A028300615E7B /* Action-AddressBookWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-AddressBookWorld.h"; path = "Event System/Actions/Action-AddressBookWorld.h"; sourceTree = "<group>"; };
 		FF33DE520A5A028300615E7B /* Action-AddressBookWorld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-AddressBookWorld.m"; path = "Event System/Actions/Action-AddressBookWorld.m"; sourceTree = "<group>"; };
@@ -785,7 +793,7 @@
 		FF6E577B0A66E2B400AE3E0B /* Action-PerlEval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-PerlEval.h"; path = "Event System/Actions/Action-PerlEval.h"; sourceTree = "<group>"; };
 		FF6E577C0A66E2B400AE3E0B /* Action-PerlEval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-PerlEval.m"; path = "Event System/Actions/Action-PerlEval.m"; sourceTree = "<group>"; };
 		FF70CE6609E9A23800E05E95 /* WindowingPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowingPreferences.h; path = Preferences/Application/WindowingPreferences.h; sourceTree = "<group>"; };
-		FF70CE6709E9A23800E05E95 /* WindowingPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowingPreferences.m; path = Preferences/Application/WindowingPreferences.m; sourceTree = "<group>"; };
+		FF70CE6709E9A23800E05E95 /* WindowingPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WindowingPreferences.swift; path = Preferences/Application/WindowingPreferences.swift; sourceTree = "<group>"; };
 		FF70CE9109E9A34000E05E95 /* window.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = window.tif; path = Preferences/Application/window.tif; sourceTree = "<group>"; };
 		FF73C2040B81782D002293FD /* Condition-AtlantisVisible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Condition-AtlantisVisible.h"; path = "Event System/Conditions/Condition-AtlantisVisible.h"; sourceTree = "<group>"; };
 		FF73C2050B81782D002293FD /* Condition-AtlantisVisible.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Condition-AtlantisVisible.m"; path = "Event System/Conditions/Condition-AtlantisVisible.m"; sourceTree = "<group>"; };
@@ -1047,7 +1055,12 @@
 			children = (
 				A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */,
 				A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */,
-				A71A500000000000000000B5 /* PreferencesTest-Bridging-Header.h */,
+				A71A500000000000000000B7 /* GeneralPreferencesTests.swift */,
+				A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */,
+				A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */,
+				A71A500000000000000000BD /* WorldDefaultsTests.swift */,
+				A71A500000000000000000BB /* WindowingPreferencesTests.swift */,
+				A71A500000000000000000B9 /* NetworkPreferencesTests.swift */,
 			);
 			path = AtlantisTests;
 			sourceTree = "<group>";
@@ -1830,25 +1843,23 @@
 		FFECBAFA09DE106F0049FF54 /* App Preferences System */ = {
 			isa = PBXGroup;
 			children = (
-				8B42780F2911EA97005EFEA6 /* GeneralPrefs.xib */,
-				8B4278102911EA97005EFEA6 /* NetworkPreferences.xib */,
-				8B4278112911EA97005EFEA6 /* WindowPrefs.xib */,
 				FFECBB0809DE10CA0049FF54 /* AtlantisPreferencePane.h */,
 				FF00C30F09E1F90600083573 /* AtlantisPreferenceController.h */,
 				FF00C31009E1F90600083573 /* AtlantisPreferenceController.swift */,
 				A71A500000000000000000B3 /* PreferencesPaneHost.swift */,
+				A71A500000000000000000C2 /* PreferenceEventEditorDelegate.swift */,
 				FF2EA2A209E34F4100DDD57E /* WorldDefaults.h */,
-				FF2EA2A309E34F4100DDD57E /* WorldDefaults.m */,
+				FF2EA2A309E34F4100DDD57E /* WorldDefaults.swift */,
 				FF2EA33009E35CE100DDD57E /* HotkeyPreferences.h */,
-				FF2EA33109E35CE100DDD57E /* HotkeyPreferences.m */,
+				FF2EA33109E35CE100DDD57E /* HotkeyPreferences.swift */,
 				FF05E65A0A5A635A007604B3 /* ToolbarEventPreferences.h */,
-				FF05E65B0A5A635A007604B3 /* ToolbarEventPreferences.m */,
+				FF05E65B0A5A635A007604B3 /* ToolbarEventPreferences.swift */,
 				FF2EA3D709E3630300DDD57E /* GeneralPreferences.h */,
-				FF2EA3D809E3630300DDD57E /* GeneralPreferences.m */,
+				FF2EA3D809E3630300DDD57E /* GeneralPreferences.swift */,
 				FF70CE6609E9A23800E05E95 /* WindowingPreferences.h */,
-				FF70CE6709E9A23800E05E95 /* WindowingPreferences.m */,
+				FF70CE6709E9A23800E05E95 /* WindowingPreferences.swift */,
 				FF238F860AC25B81003ED595 /* NetworkPreferences.h */,
-				FF238F870AC25B81003ED595 /* NetworkPreferences.m */,
+				FF238F870AC25B81003ED595 /* NetworkPreferences.swift */,
 			);
 			name = "App Preferences System";
 			sourceTree = "<group>";
@@ -1959,6 +1970,7 @@
 			children = (
 				A71A50000000000000000005 /* RDAtlantisSpawn.md */,
 				A71A500000000000000000B4 /* AtlantisPreferences.md */,
+				A71A500000000000000000BE /* PreferencePaneWorkplan.md */,
 				FF84284609C68D5A008071F3 /* atlantis_versions.plist */,
 				FFFE64C609A3D579003F118B /* TODO.txt */,
 				FFFE6AED09A45192003F118B /* Variables.txt */,
@@ -2074,7 +2086,6 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				FFFF6CE40999E0DA00E56390 /* atlantis-logo.icns in Resources */,
 				8B42784529121CEB005EFEA6 /* ActionConf_ClearSpawn.xib in Resources */,
-				8B4278142911EA97005EFEA6 /* WindowPrefs.xib in Resources */,
 				FFB18D7109A16EC20067536D /* PTKeyCodes.plist in Resources */,
 				FFB18D8309A16ED70067536D /* PTKeyboardIcon.tiff in Resources */,
 				8B42785429121DE1005EFEA6 /* WorldConf_Formatting.xib in Resources */,
@@ -2094,7 +2105,6 @@
 				FF5362E309CACF7F00D557C6 /* whitelight.tif in Resources */,
 				FF5362E609CAD02000D557C6 /* atlantis-aboutbox.png in Resources */,
 				FFA99D3A09CC135A00D559D0 /* credits.rtf in Resources */,
-				8B4278122911EA97005EFEA6 /* GeneralPrefs.xib in Resources */,
 				FF2EA31A09E35C6800DDD57E /* globe.tiff in Resources */,
 				FF2EA3DC09E3632E00DDD57E /* General_Prefs.tiff in Resources */,
 				8B42785D29121E7B005EFEA6 /* LogClosePanel.xib in Resources */,
@@ -2154,7 +2164,6 @@
 				8B4278052911E506005EFEA6 /* MCPLocalEditor.xib in Resources */,
 				8B4278092911E566005EFEA6 /* AboutBox.xib in Resources */,
 				8B42782A29120D9E005EFEA6 /* CondConf_VariableMatch.xib in Resources */,
-				8B4278132911EA97005EFEA6 /* NetworkPreferences.xib in Resources */,
 				8B42784929121CEB005EFEA6 /* ActionConf_TextSpeak.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2210,6 +2219,12 @@
 			files = (
 				A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */,
 				A71A500000000000000000B0 /* AtlantisPreferenceControllerTests.swift in Sources */,
+				A71A500000000000000000B6 /* GeneralPreferencesTests.swift in Sources */,
+				A71A500000000000000000C3 /* ToolbarEventPreferencesTests.swift in Sources */,
+				A71A500000000000000000BF /* HotkeyPreferencesTests.swift in Sources */,
+				A71A500000000000000000BC /* WorldDefaultsTests.swift in Sources */,
+				A71A500000000000000000BA /* WindowingPreferencesTests.swift in Sources */,
+				A71A500000000000000000B8 /* NetworkPreferencesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2318,9 +2333,10 @@
 				FFECBB5C09DE174A0049FF54 /* Action-InputConvertFromMUSH.m in Sources */,
 				FF00C31209E1F90600083573 /* AtlantisPreferenceController.swift in Sources */,
 				A71A500000000000000000B2 /* PreferencesPaneHost.swift in Sources */,
-				FF2EA2A509E34F4100DDD57E /* WorldDefaults.m in Sources */,
-				FF2EA33309E35CE100DDD57E /* HotkeyPreferences.m in Sources */,
-				FF2EA3DA09E3630300DDD57E /* GeneralPreferences.m in Sources */,
+				A71A500000000000000000C1 /* PreferenceEventEditorDelegate.swift in Sources */,
+				FF2EA2A509E34F4100DDD57E /* WorldDefaults.swift in Sources */,
+				FF2EA33309E35CE100DDD57E /* HotkeyPreferences.swift in Sources */,
+				FF2EA3DA09E3630300DDD57E /* GeneralPreferences.swift in Sources */,
 				FF6451B409E384F900D207A9 /* BaseCommand.m in Sources */,
 				FF64540509E39DBB00D207A9 /* GrabCommand.m in Sources */,
 				FFFBD40809E4CA0C00AE4DCF /* StackedCommand.m in Sources */,
@@ -2330,7 +2346,7 @@
 				FF5327EB09E8CFE90013FB8A /* RDCompressionFilter.m in Sources */,
 				FF532BB109E8F2800013FB8A /* Condition-AtlantisFocus.m in Sources */,
 				FF532C1809E8FEDC0013FB8A /* Action-SoundPlay.m in Sources */,
-				FF70CE6909E9A23800E05E95 /* WindowingPreferences.m in Sources */,
+				FF70CE6909E9A23800E05E95 /* WindowingPreferences.swift in Sources */,
 				FFD84BE209EB31B9009CC4F5 /* Condition-ComputerIdle.m in Sources */,
 				FFD84BFA09EB3319009CC4F5 /* Condition-WorldIdle.m in Sources */,
 				FF783B7609EB4F9900D23B45 /* RDHTMLLog.m in Sources */,
@@ -2356,7 +2372,7 @@
 				FF33DEE60A5A067200615E7B /* Action-OutputCopyInput.m in Sources */,
 				FF05E5D50A5A5C1A007604B3 /* ToolbarUserEvent.m in Sources */,
 				FF05E60D0A5A6078007604B3 /* ToolbarCollection.m in Sources */,
-				FF05E65D0A5A635A007604B3 /* ToolbarEventPreferences.m in Sources */,
+				FF05E65D0A5A635A007604B3 /* ToolbarEventPreferences.swift in Sources */,
 				FFDC5E7D0A5B0F24009304BA /* Condition-WorldIsConnected.m in Sources */,
 				FFDC5E830A5B0F30009304BA /* Condition-WorldIsDisconnected.m in Sources */,
 				FFDC5FB40A5B2E20009304BA /* MUSHTextEditor.m in Sources */,
@@ -2394,7 +2410,7 @@
 				FF59EED50AB400960026D7DB /* MCPLocalEditor.m in Sources */,
 				FF59EEFE0AB404640026D7DB /* MCPEditHandler.m in Sources */,
 				FF59F25B0AB426FA0026D7DB /* GrabNameCommand.m in Sources */,
-				FF238F890AC25B81003ED595 /* NetworkPreferences.m in Sources */,
+				FF238F890AC25B81003ED595 /* NetworkPreferences.swift in Sources */,
 				FF73C2070B81782D002293FD /* Condition-AtlantisVisible.m in Sources */,
 				FF73C2C30B818B23002293FD /* Action-GlobalReconnect.m in Sources */,
 				FF26F3240B84523D003043E5 /* NSBezierPathExtensions.m in Sources */,
@@ -2520,8 +2536,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				PRODUCT_BUNDLE_IDENTIFIER = org.riverdark.AtlantisTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				HEADER_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/Preferences/Application", "$(SRCROOT)/Preferences/World", "$(SRCROOT)/Event Configuration Kit");
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/AtlantisTests/PreferencesTest-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 6.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Atlantis.app/Contents/MacOS/Atlantis";
 			};
@@ -2538,8 +2553,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				PRODUCT_BUNDLE_IDENTIFIER = org.riverdark.AtlantisTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				HEADER_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/Preferences/Application", "$(SRCROOT)/Preferences/World", "$(SRCROOT)/Event Configuration Kit");
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/AtlantisTests/PreferencesTest-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 6.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Atlantis.app/Contents/MacOS/Atlantis";
 			};
