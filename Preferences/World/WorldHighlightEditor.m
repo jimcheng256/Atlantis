@@ -9,6 +9,7 @@
 #import "WorldHighlightEditor.h"
 #import "RDColorWellCell.h"
 #import "HighlightEvent.h"
+#import "Atlantis-Swift.h"
 
 @implementation WorldHighlightEditor
 
@@ -55,9 +56,11 @@
 }
 
 - (void) dealloc
-{   
-    [_rdHighlights release];
+{
+    // The superclass calls finalCommit during teardown.
+    NSMutableArray *highlights = _rdHighlights;
     [super dealloc];
+    [highlights release];
 }
 
 - (NSString *) configTabName
@@ -239,16 +242,31 @@
 
 - (IBAction) removeHighlight:(id) sender
 {
-    [[_rdHighlightsTable window] makeFirstResponder:[_rdHighlightsTable window]];
-    int row = [_rdHighlightsTable selectedRow];
-    
-    if (row != -1) {
-        HighlightEvent *event = [_rdHighlights objectAtIndex:row];
-
-        [_rdHighlights removeObject:event];
-        [_rdHighlightsTable reloadData];
-        [self finalCommit];
+    NSWindow *window = [_rdHighlightsTable window];
+    NSInteger row = [_rdHighlightsTable selectedRow];
+    NSMutableArray *highlights = _rdHighlights;
+    if (!window || row < 0 || (NSUInteger)row >= [highlights count]) {
+        return;
     }
+
+    HighlightEvent *event = [highlights objectAtIndex:row];
+    [RemovalConfirmation presentForWindow:window
+                                 itemType:@"highlight"
+                                 itemName:[[event pattern] pattern]
+                                onConfirm:^{
+        NSWindow *editorWindow = [_rdHighlightsTable window];
+        [editorWindow makeFirstResponder:editorWindow];
+        if (_rdHighlights != highlights) {
+            return;
+        }
+
+        NSUInteger index = [highlights indexOfObjectIdenticalTo:event];
+        if (index != NSNotFound) {
+            [highlights removeObjectAtIndex:index];
+            [_rdHighlightsTable reloadData];
+            [self finalCommit];
+        }
+    }];
 }
 
 - (IBAction) toggleForeground:(id) sender

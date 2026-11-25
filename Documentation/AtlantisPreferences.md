@@ -62,3 +62,10 @@ the app's legacy loader. Toolbar Events verifies the pane's save callback
 with the same collection format used by the unchanged application save path.
 
 See the [six-pane workplan](PreferencePaneWorkplan.md) for pass order and regression targets.
+
+## Address Book removal confirmation
+
+The Events, Aliases, and Highlights tabs use the shared Swift
+`RemovalConfirmation` sheet. Callers supply the item type and display name.
+The Highlights tab uses the pattern as the name and commits the deletion
+after the user chooses Remove.

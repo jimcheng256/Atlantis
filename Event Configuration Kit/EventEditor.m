@@ -554,7 +554,10 @@ static NSImage *s_downArrow;
     };
 
     if (self.confirmsEventRemoval) {
-        [EventRemovalConfirmation presentForWindow:window eventName:[event eventName] onConfirm:removeSelectedEvent];
+        [RemovalConfirmation presentForWindow:window
+                                       itemType:@"event"
+                                       itemName:[event eventName]
+                                      onConfirm:removeSelectedEvent];
     } else {
         removeSelectedEvent();
     }

@@ -4,6 +4,42 @@ import XCTest
 
 final class EventRemovalTests: XCTestCase {
     @MainActor
+    func testRemoveHighlightWaitsForConfirmationBeforeSaving() throws {
+        let preferences = RDAtlantisWorldPreferences()
+        let editor = try XCTUnwrap(WorldHighlightEditor(world: preferences, forCharacter: nil))
+        let view = try XCTUnwrap(editor.configTabView())
+        let table = try XCTUnwrap(testPreferenceTable(in: view))
+        let window = NSWindow(
+            contentRect: view.frame,
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: false
+        )
+        window.isReleasedWhenClosed = false
+        window.contentView = view
+        window.orderFront(nil)
+        defer { window.close() }
+
+        editor.addHighlight(nil)
+        editor.finalCommit()
+        let key = "atlantis.highlights"
+
+        editor.removeHighlight(nil)
+        let cancelSheet = try XCTUnwrap(window.attachedSheet)
+        XCTAssertEqual(table.numberOfRows, 1)
+        window.endSheet(cancelSheet, returnCode: .alertFirstButtonReturn)
+        XCTAssertEqual(table.numberOfRows, 1)
+        XCTAssertEqual((preferences.preference(forKey: key, withCharacter: nil, fallback: false) as? [Any])?.count, 1)
+
+        editor.removeHighlight(nil)
+        let confirmSheet = try XCTUnwrap(window.attachedSheet)
+        XCTAssertEqual(table.numberOfRows, 1)
+        window.endSheet(confirmSheet, returnCode: .alertSecondButtonReturn)
+        XCTAssertEqual(table.numberOfRows, 0)
+        XCTAssertNil(preferences.preference(forKey: key, withCharacter: nil, fallback: false))
+    }
+
+    @MainActor
     func testRemoveEventWaitsForConfirmation() throws {
         let collection = ToolbarCollection()
         let editor = EventEditor()
