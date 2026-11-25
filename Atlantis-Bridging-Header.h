@@ -1,7 +1,2 @@
-//
-//  Atlantis-Bridging-Header.h
-//  Atlantis
-//
-//  Created by Jim Cheng on 12/9/25.
-//
-
+// Objective-C APIs used by the Swift spawn implementation.
+#import "Worlds/Spawn/RDAtlantisSpawnInterop.h"

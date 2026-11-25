@@ -33,6 +33,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		A71A5000000000000000001C /* Lemuria.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E1940122110F4E00A0B0BE /* Lemuria.framework */; };
+		A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */; };
+		A71A50000000000000000001 /* RDAtlantisSpawnInterop.m in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */; };
 		3226D1272EE1537C0016D727 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3226D1262EE1537C0016D727 /* SwiftUI.framework */; };
 		5303ACB925413BF100565FBD /* ActionConf_SendText.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5303ACB825413BF100565FBD /* ActionConf_SendText.xib */; };
 		5311D1882210FA390010AB9D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5311D1872210FA390010AB9D /* AVFoundation.framework */; };
@@ -258,8 +261,8 @@
 		FF921AE10B92473D00F2D5EC /* NSAttributedStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FF921ADF0B92473D00F2D5EC /* NSAttributedStringAdditions.m */; };
 		FF921BE00B925DF800F2D5EC /* ScriptEventAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FF921BDE0B925DF800F2D5EC /* ScriptEventAction.m */; };
 		FF966ABC099A752E005886F4 /* RDAtlantisWorldPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FF966ABA099A752E005886F4 /* RDAtlantisWorldPreferences.m */; };
-		FF966B0E099A8C6A005886F4 /* RDAtlantisSpawn.m in Sources */ = {isa = PBXBuildFile; fileRef = FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.m */; };
-		FF966B14099A8E8D005886F4 /* SpawnView.nib in Resources */ = {isa = PBXBuildFile; fileRef = FF966B13099A8E8D005886F4 /* SpawnView.nib */; };
+		FF966B0E099A8C6A005886F4 /* RDAtlantisSpawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.swift */; };
+		FF966B14099A8E8D005886F4 /* SpawnView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF966B13099A8E8D005886F4 /* SpawnView.xib */; };
 		FF966B24099ABBF1005886F4 /* RDAtlantisWorldInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = FF966B22099ABBF1005886F4 /* RDAtlantisWorldInstance.m */; };
 		FF966CEA099ADC12005886F4 /* RDAtlantisTextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF966CE8099ADC12005886F4 /* RDAtlantisTextInputView.m */; };
 		FF96706C099E5545005886F4 /* RDAnsiFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FF96706A099E5545005886F4 /* RDAnsiFilter.m */; };
@@ -353,6 +356,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A71A50000000000000000018 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = Atlantis;
+		};
 		53E1940022110F4E00A0B0BE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 53E193FC22110F4E00A0B0BE /* Lemuria.xcodeproj */;
@@ -424,6 +434,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A71A50000000000000000005 /* RDAtlantisSpawn.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = RDAtlantisSpawn.md; path = Documentation/RDAtlantisSpawn.md; sourceTree = "<group>"; };
+		A71A50000000000000000007 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDAtlantisSpawnTests.swift; sourceTree = "<group>"; };
+		A71A50000000000000000012 /* AtlantisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = AtlantisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisSpawnInterop.m; path = RDAtlantisSpawnInterop.m; sourceTree = "<group>"; };
+		A71A50000000000000000003 /* RDAtlantisSpawnInterop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RDAtlantisSpawnInterop.h; path = RDAtlantisSpawnInterop.h; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -492,7 +508,6 @@
 		8B4842E42FEB8BCD009C86D9 /* RDMultibyteFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDMultibyteFilter.h; sourceTree = "<group>"; };
 		8B4842E52FEB8C1F009C86D9 /* RDMultibyteFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDMultibyteFilter.m; sourceTree = "<group>"; };
 		8B55F9182EE94D070085B611 /* Atlantis-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Bridging-Header.h"; sourceTree = "<group>"; };
-		8B55F9192EE94D300085B611 /* Atlantis-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Swift.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Atlantis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Atlantis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF00C30F09E1F90600083573 /* AtlantisPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AtlantisPreferenceController.h; path = Preferences/Application/AtlantisPreferenceController.h; sourceTree = "<group>"; };
@@ -806,9 +821,9 @@
 		FF921BDE0B925DF800F2D5EC /* ScriptEventAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScriptEventAction.m; path = Scripting/ScriptEventAction.m; sourceTree = "<group>"; };
 		FF966AB9099A752E005886F4 /* RDAtlantisWorldPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDAtlantisWorldPreferences.h; path = Worlds/RDAtlantisWorldPreferences.h; sourceTree = "<group>"; };
 		FF966ABA099A752E005886F4 /* RDAtlantisWorldPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisWorldPreferences.m; path = Worlds/RDAtlantisWorldPreferences.m; sourceTree = "<group>"; };
-		FF966B0B099A8C6A005886F4 /* RDAtlantisSpawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDAtlantisSpawn.h; path = Worlds/RDAtlantisSpawn.h; sourceTree = "<group>"; };
-		FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisSpawn.m; path = Worlds/RDAtlantisSpawn.m; sourceTree = "<group>"; };
-		FF966B13099A8E8D005886F4 /* SpawnView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = SpawnView.nib; path = Worlds/SpawnView.nib; sourceTree = "<group>"; };
+		FF966B0B099A8C6A005886F4 /* RDAtlantisSpawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDAtlantisSpawn.h; path = ../RDAtlantisSpawn.h; sourceTree = "<group>"; };
+		FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDAtlantisSpawn.swift; path = RDAtlantisSpawn.swift; sourceTree = "<group>"; };
+		FF966B13099A8E8D005886F4 /* SpawnView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SpawnView.xib; path = SpawnView.xib; sourceTree = "<group>"; };
 		FF966B21099ABBF1005886F4 /* RDAtlantisWorldInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDAtlantisWorldInstance.h; path = Worlds/RDAtlantisWorldInstance.h; sourceTree = "<group>"; };
 		FF966B22099ABBF1005886F4 /* RDAtlantisWorldInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisWorldInstance.m; path = Worlds/RDAtlantisWorldInstance.m; sourceTree = "<group>"; };
 		FF966CE7099ADC12005886F4 /* RDAtlantisTextInputView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RDAtlantisTextInputView.h; path = Misc/RDAtlantisTextInputView.h; sourceTree = "<group>"; };
@@ -969,6 +984,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A71A5000000000000000001B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (A71A5000000000000000001C /* Lemuria.framework in Frameworks */,);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -990,6 +1011,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A71A50000000000000000004 /* Spawn */ = {
+			isa = PBXGroup;
+			children = (
+				FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.swift */,
+				FF966B0B099A8C6A005886F4 /* RDAtlantisSpawn.h */,
+				A71A50000000000000000003 /* RDAtlantisSpawnInterop.h */,
+				A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */,
+				FF966B13099A8E8D005886F4 /* SpawnView.xib */,
+			);
+			name = Spawn;
+			path = Worlds/Spawn;
+			sourceTree = "<group>";
+		};
+		A71A50000000000000000013 /* Tests */ = {
+			isa = PBXGroup;
+			children = (A71A50000000000000000006 /* AtlantisTests */,);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		A71A50000000000000000006 /* AtlantisTests */ = {
+			isa = PBXGroup;
+			children = (A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */,);
+			path = AtlantisTests;
+			sourceTree = "<group>";
+		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1046,6 +1092,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* Atlantis.app */,
+				A71A50000000000000000012 /* AtlantisTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1054,7 +1101,9 @@
 			isa = PBXGroup;
 			children = (
 				53E193FC22110F4E00A0B0BE /* Lemuria.xcodeproj */,
+				A71A50000000000000000007 /* README.md */,
 				FFFE64BE09A3D54B003F118B /* Documentation */,
+				A71A50000000000000000013 /* Tests */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1067,7 +1116,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8B55F9192EE94D300085B611 /* Atlantis-Swift.h */,
 				8B55F9182EE94D070085B611 /* Atlantis-Bridging-Header.h */,
 				32CA4F630368D1EE00C91783 /* Atlantis_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -1653,8 +1701,7 @@
 				FFFE69FA09A442CF003F118B /* RoundedBox.m */,
 				FF3C9A8909C42FDF003A9509 /* RDView.h */,
 				FF3C9A8A09C42FDF003A9509 /* RDView.m */,
-				FF966B0B099A8C6A005886F4 /* RDAtlantisSpawn.h */,
-				FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.m */,
+				A71A50000000000000000004 /* Spawn */,
 				FFC1019E0C2CE9E1003F2E00 /* ImageBackgroundView.h */,
 				FFC1019F0C2CE9E1003F2E00 /* ImageBackgroundView.m */,
 				FF966CE7099ADC12005886F4 /* RDAtlantisTextInputView.h */,
@@ -1665,7 +1712,6 @@
 				FF43138109C7EFAA007D8015 /* RenameWindowPanel.m */,
 				FF68AF4F0A7AE1AE001FD942 /* RDTextField.h */,
 				FF68AF500A7AE1AE001FD942 /* RDTextField.m */,
-				FF966B13099A8E8D005886F4 /* SpawnView.nib */,
 				FFFB26FE0B9A627F00288A9F /* RDMonospaceRulerView.h */,
 				FFFB26FF0B9A627F00288A9F /* RDMonospaceRulerView.m */,
 				FFFB2A6F0B9AAA0500288A9F /* RDMonospaceLayoutManager.h */,
@@ -1894,6 +1940,7 @@
 		FFFE64BE09A3D54B003F118B /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
+				A71A50000000000000000005 /* RDAtlantisSpawn.md */,
 				FF84284609C68D5A008071F3 /* atlantis_versions.plist */,
 				FFFE64C609A3D579003F118B /* TODO.txt */,
 				FFFE6AED09A45192003F118B /* Variables.txt */,
@@ -1918,6 +1965,16 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A71A50000000000000000014 /* AtlantisTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A71A50000000000000000015 /* Build configuration list for AtlantisTests */;
+			buildPhases = (A71A50000000000000000016 /* Sources */, A71A5000000000000000001B /* Frameworks */,);
+			dependencies = (A71A50000000000000000017 /* PBXTargetDependency */,);
+			name = AtlantisTests;
+			productName = AtlantisTests;
+			productReference = A71A50000000000000000012 /* AtlantisTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8D1107260486CEB800E47090 /* Atlantis */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Atlantis" */;
@@ -1968,6 +2025,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Atlantis */,
+				A71A50000000000000000014 /* AtlantisTests */,
 				FF5E92D609C966BF00B263C5 /* GenerateVersionInfo */,
 				FF5E93FF09C97AAA00B263C5 /* PackageRelease */,
 			);
@@ -1998,7 +2056,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				FFFF6CE40999E0DA00E56390 /* atlantis-logo.icns in Resources */,
 				8B42784529121CEB005EFEA6 /* ActionConf_ClearSpawn.xib in Resources */,
-				FF966B14099A8E8D005886F4 /* SpawnView.nib in Resources */,
+				FF966B14099A8E8D005886F4 /* SpawnView.xib in Resources */,
 				8B4278142911EA97005EFEA6 /* WindowPrefs.xib in Resources */,
 				FFB18D7109A16EC20067536D /* PTKeyCodes.plist in Resources */,
 				FFB18D8309A16ED70067536D /* PTKeyboardIcon.tiff in Resources */,
@@ -2129,6 +2187,12 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A71A50000000000000000016 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */,);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2136,7 +2200,8 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				FFFF6D280999E54E00E56390 /* RDAtlantisMainController.m in Sources */,
 				FF966ABC099A752E005886F4 /* RDAtlantisWorldPreferences.m in Sources */,
-				FF966B0E099A8C6A005886F4 /* RDAtlantisSpawn.m in Sources */,
+				FF966B0E099A8C6A005886F4 /* RDAtlantisSpawn.swift in Sources */,
+				A71A50000000000000000001 /* RDAtlantisSpawnInterop.m in Sources */,
 				FF966B24099ABBF1005886F4 /* RDAtlantisWorldInstance.m in Sources */,
 				FF966CEA099ADC12005886F4 /* RDAtlantisTextInputView.m in Sources */,
 				FF96706C099E5545005886F4 /* RDAnsiFilter.m in Sources */,
@@ -2346,6 +2411,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A71A50000000000000000017 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* Atlantis */;
+			targetProxy = A71A50000000000000000018 /* PBXContainerItemProxy */;
+		};
 		53E1940322110F5C00A0B0BE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Lemuria;
@@ -2415,6 +2485,40 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A71A50000000000000000019 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)", "$(BUILT_PRODUCTS_DIR)", "$(SRCROOT)/Support");
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@loader_path/../Frameworks", "@executable_path/../Frameworks");
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				PRODUCT_BUNDLE_IDENTIFIER = org.riverdark.AtlantisTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Atlantis.app/Contents/MacOS/Atlantis";
+			};
+			name = Debug;
+		};
+		A71A5000000000000000001A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)", "$(BUILT_PRODUCTS_DIR)", "$(SRCROOT)/Support");
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@loader_path/../Frameworks", "@executable_path/../Frameworks");
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				PRODUCT_BUNDLE_IDENTIFIER = org.riverdark.AtlantisTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Atlantis.app/Contents/MacOS/Atlantis";
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2487,6 +2591,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ENABLE_TESTABILITY = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				CURRENT_PROJECT_VERSION = 106;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2582,6 +2687,12 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A71A50000000000000000015 /* Build configuration list for AtlantisTests */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (A71A50000000000000000019 /* Debug */, A71A5000000000000000001A /* Release */,);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Atlantis" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
