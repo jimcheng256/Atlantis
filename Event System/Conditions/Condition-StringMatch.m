@@ -6,6 +6,7 @@
 //  Copyright 2006 Riverdark Studios. All rights reserved.
 //
 
+#import <OgreKit/OgreKit.h>
 #import "Condition-StringMatch.h"
 #import "AtlantisState.h"
 #import "NSStringExtensions.h"

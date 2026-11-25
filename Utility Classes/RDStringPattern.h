@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <OgreKit/OgreKit.h>
 
 enum {
     RDPatternBeginsWith,

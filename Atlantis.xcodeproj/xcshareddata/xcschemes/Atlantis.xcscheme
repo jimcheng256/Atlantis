@@ -37,6 +37,15 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference skipped = "NO" parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A71A50000000000000000014"
+               BuildableName = "AtlantisTests.xctest"
+               BlueprintName = "AtlantisTests"
+               ReferencedContainer = "container:Atlantis.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
