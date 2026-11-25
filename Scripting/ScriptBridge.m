@@ -17,6 +17,7 @@
 #import "TextfileUploader.h"
 #import "NSAttributedStringAdditions.h"
 #import "AtlantisState.h"
+#import "Atlantis-Swift.h"
 
 @implementation ScriptBridge
 
@@ -159,21 +160,14 @@
     }
 }
 
+- (void) systemNotification:(NSString *)text withTitle:(NSString *)title
+{
+    [AtlantisNotifications postWithTitle:title body:text spawnPath:nil];
+}
+
 - (void) growlText:(NSString *)text withTitle:(NSString *)title
 {
-    // FIXME: Reimplement native notifications
-    /*
-    if ([GrowlApplicationBridge isGrowlRunning]) {
-        [GrowlApplicationBridge
-            notifyWithTitle:title 
-                description:text 
-           notificationName:@"User Defined" 
-                   iconData:nil
-                   priority:0 
-                   isSticky:NO 
-               clickContext:nil];    
-    }
-    */
+    [self systemNotification:text withTitle:title];
 }
 
 - (NSString *) worldUuidForName:(NSString *)name

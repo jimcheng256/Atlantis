@@ -43,7 +43,7 @@
 #import "Action-WorldSend.h"
 #import "Action-StatusSend.h"
 
-#import "Action-Growl.h"
+#import "Action-Notification.h"
 #import "Action-DockBounce.h"
 
 #import "Action-PerlEval.h"

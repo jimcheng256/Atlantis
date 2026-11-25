@@ -14,7 +14,6 @@
 #import "RDAtlantisMainController.h"
 #import "NSAttributedStringAdditions.h"
 //#import <CamelBones/Runtime.h>
-//#import <Growl/Growl.h>
 
 @implementation PerlScriptingEngine
 
@@ -53,18 +52,6 @@
 //    if (![CBPerl isAvailable]) {
 //        if (!_rdPerlDisabled) {
 //            _rdPerlDisabled = YES;
-//            BOOL warned = [[NSUserDefaults standardUserDefaults] boolForKey:@"perlWarned"];
-//            if ([GrowlApplicationBridge isGrowlRunning]) {
-//                [GrowlApplicationBridge
-//                    notifyWithTitle:@"Perl Unavailable"
-//                        description:@"Atlantis was unable to find an appropriate Perl library, and has disabled Perl scripting."
-//                   notificationName:@"User Defined"
-//                           iconData:nil
-//                           priority:0
-//                           isSticky:!warned
-//                       clickContext:nil];
-//                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"perlWarned"];
-//            }
 //            NSLog(@"Perl not available!");
 //        }
 //        return;

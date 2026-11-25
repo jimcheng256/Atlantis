@@ -162,8 +162,7 @@ end
 
 
 -- =====================================================
--- Sends the string to Growl to be displayed as a notification,
--- if Growl is installed.
+-- Displays a macOS notification when Atlantis has permission.
 -- 
 function Atlantis:growlText(title,string)
     ScriptBridge:growlText_withTitle(string,title);

@@ -320,9 +320,8 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(computerWillSleep:) name:NSWorkspaceWillSleepNotification object:[NSWorkspace sharedWorkspace]];
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(computerWillShutdown:) name:NSWorkspaceWillPowerOffNotification object:[NSWorkspace sharedWorkspace]];
 
-    // TODO: Change Growl configuration stuff to work a little more nicely?
-    // ß[GrowlApplicationBridge setGrowlDelegate:self];
-    
+    [AtlantisNotifications configure];
+
     // Create hotkey collection
     _rdSessionStateItems = [[NSMutableDictionary alloc] init];
     _rdHotkeys = [[HotkeyCollection alloc] init];
@@ -387,8 +386,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
     [self addActionClass:[Action_AddressBook class]];
     [self addActionClass:[Action_AddressBookWorld class]];
-    if ([self growlEnabled])
-        [self addActionClass:[Action_Growl class]];
+    [self addActionClass:[Action_Notification class]];
     [self addActionClass:[Action_DockBounce class]];
     [self addActionClass:[Action_HistoryNext class]];
     [self addActionClass:[Action_HistoryPrev class]];
@@ -920,48 +918,6 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     return 0;
 }
 
-#pragma mark Growl
-/*
-- (NSDictionary *) registrationDictionaryForGrowl
-{
-    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-    NSString *userDefined = [NSString stringWithString:@"User Defined"];
-    
-    [dictionary setObject:[NSArray arrayWithObjects:userDefined,nil] forKey:GROWL_NOTIFICATIONS_ALL];
-    [dictionary setObject:[NSArray arrayWithObjects:userDefined,nil] forKey:GROWL_NOTIFICATIONS_DEFAULT];
-    
-    return dictionary;
-}
-
-- (NSString *) applicationNameForGrowl
-{
-    return @"Atlantis";
-}
-*/
-- (BOOL) growlEnabled
-{
-    // For now...
-    return true;
-    // return [GrowlApplicationBridge isGrowlRunning];
-}
-/*
-- (void) growlNotificationWasClicked:(id)context
-{
-    if (context && [context isKindOfClass:[NSDictionary class]]) {
-        NSString * spawn = [context objectForKey:@"spawn"];
-        if (spawn) {
-            id view = [[RDNestedViewManager manager] viewByPath:spawn];
-            if (view)
-                [[RDNestedViewManager manager] selectView:view];
-        }
-    }
-}
-
-- (void) growlNotificationTimedOut:(id)clickContext
-{
-    // Do nothing.  La.
-}
-*/
 #pragma mark Data Dispatch Methods
 
 - (NSArray *) inputFilters
@@ -1256,31 +1212,29 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
     events = [[EventCollection alloc] init];
 
-    if ([self growlEnabled]) {
-        WorldEvent *event = [[WorldEvent alloc] init];
-        Condition_ViewActive *activeCondition = [[Condition_ViewActive alloc] initWantsActive:NO];
-        Condition_AtlantisFocus *focusCondition = [[Condition_AtlantisFocus alloc] init];
-        Condition_CollectedConditions *collection = [[Condition_CollectedConditions alloc] initWithConditions:[NSArray arrayWithObjects:activeCondition,focusCondition,nil] anded:NO];
-        [event eventAddCondition:collection];
-        
-        tempArray = [[NSMutableArray alloc] init];
-        pattern = [RDStringPattern patternWithString:@"From afar," type:RDPatternBeginsWith];
-        Condition_StringMatch *stringCondition = [[Condition_StringMatch alloc] initWithPattern:pattern];
-        [tempArray addObject:stringCondition];
-        pattern = [RDStringPattern patternWithString:@"^[^<>\\[\\]]* pages[:,] .*" type:RDPatternRegexp];
-        stringCondition = [[Condition_StringMatch alloc] initWithPattern:pattern];
-        [tempArray addObject:stringCondition];
-        collection = [[Condition_CollectedConditions alloc] initWithConditions:[NSArray arrayWithArray:tempArray] anded:NO];
-        [event eventAddCondition:collection];
-        [event eventSetConditionsAnded:YES];
+    WorldEvent *event = [[WorldEvent alloc] init];
+    Condition_ViewActive *activeCondition = [[Condition_ViewActive alloc] initWantsActive:NO];
+    Condition_AtlantisFocus *focusCondition = [[Condition_AtlantisFocus alloc] init];
+    Condition_CollectedConditions *collection = [[Condition_CollectedConditions alloc] initWithConditions:[NSArray arrayWithObjects:activeCondition,focusCondition,nil] anded:NO];
+    [event eventAddCondition:collection];
 
-        Action_Growl *growlEvent = [[Action_Growl alloc] initWithString:@"%{event.line}" title:@"Page for %{world.character} on %{world.game}"];
-        [event eventAddAction:growlEvent];
-        [event eventSetEnabled:YES];
-        [event eventSetName:@"Growl Unseen Pages"];
-        [event eventSetDescription:@"Display unseen pages via Growl"];
-        [events addEvent:event];
-    }
+    tempArray = [[NSMutableArray alloc] init];
+    pattern = [RDStringPattern patternWithString:@"From afar," type:RDPatternBeginsWith];
+    Condition_StringMatch *stringCondition = [[Condition_StringMatch alloc] initWithPattern:pattern];
+    [tempArray addObject:stringCondition];
+    pattern = [RDStringPattern patternWithString:@"^[^<>\\[\\]]* pages[:,] .*" type:RDPatternRegexp];
+    stringCondition = [[Condition_StringMatch alloc] initWithPattern:pattern];
+    [tempArray addObject:stringCondition];
+    collection = [[Condition_CollectedConditions alloc] initWithConditions:[NSArray arrayWithArray:tempArray] anded:NO];
+    [event eventAddCondition:collection];
+    [event eventSetConditionsAnded:YES];
+
+    Action_Notification *notificationAction = [[Action_Notification alloc] initWithString:@"%{event.line}" title:@"Page for %{world.character} on %{world.game}"];
+    [event eventAddAction:notificationAction];
+    [event eventSetEnabled:YES];
+    [event eventSetName:@"Notify for Unseen Pages"];
+    [event eventSetDescription:@"Display unseen pages in Notification Center"];
+    [events addEvent:event];
     [_rdGlobalWorld setPreference:events forKey:@"atlantis.events" withCharacter:nil];
     
     NSFont *realFont = [NSFont userFixedPitchFontOfSize:10.0f];

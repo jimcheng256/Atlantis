@@ -30,3 +30,7 @@ static inline RDAtlantisMainController * _Nullable RDPreferenceMainController(vo
 }
 #import "Event System/ConditionClasses.h"
 #import "Toolbar System/ToolbarUserEvent.h"
+
+#import "Event System/Actions/Action-Notification.h"
+#import "Event System/WorldEvent.h"
+#import "Event System/AtlantisState.h"
