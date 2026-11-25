@@ -2561,7 +2561,7 @@
 			sepNavWindowFrame = "{{374, 88}, {656, 737}}";
 		};
 	};
-	FF77E4B709BBEE7900520233 /* Action-Growl.h */ = {
+	FF77E4B709BBEE7900520233 /* Action-Notification.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {617, 608}}";
 			sepNavSelRange = "{549, 0}";
@@ -2569,7 +2569,7 @@
 			sepNavWindowFrame = "{{61, 94}, {656, 737}}";
 		};
 	};
-	FF77E4B809BBEE7900520233 /* Action-Growl.m */ = {
+	FF77E4B809BBEE7900520233 /* Action-Notification.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {740, 2212}}";
 			sepNavSelRange = "{2794, 0}";

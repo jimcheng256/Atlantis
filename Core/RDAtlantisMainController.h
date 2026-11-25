@@ -176,7 +176,6 @@
 - (void) saveDirtyWorlds;
 - (void) saveWorld:(RDAtlantisWorldPreferences *)world;
 
-- (BOOL) growlEnabled;
 
 - (BOOL) statusBarBottom;
 - (void) setStatusBarBottom:(BOOL)bottom;

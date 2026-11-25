@@ -1,5 +1,5 @@
 //
-//  Action-Growl.h
+//  Action-Notification.h
 //  Atlantis
 //
 //  Created by Rachel Blackman on 3/5/06.
@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import "BaseAction.h"
 
-@interface Action_Growl : BaseAction <NSTextFieldDelegate> {
+@interface Action_Notification : BaseAction <NSTextFieldDelegate> {
 
-    NSString                    *_rdGrowlTitle;
-    NSString                    *_rdGrowlString;
+    NSString                    *_rdNotificationTitle;
+    NSString                    *_rdNotificationBody;
     
     IBOutlet NSView         *_rdInternalConfigurationView;
     IBOutlet NSTextField    *_rdActualText;

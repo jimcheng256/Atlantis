@@ -182,7 +182,7 @@ sub SetStatusbarText
 
 # Growl($title,$text)
 #
-# Uses Growl to display the given text and title.
+# Displays a macOS notification when Atlantis has permission.
 #
 sub Growl
 {

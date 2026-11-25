@@ -38,6 +38,7 @@
 		A71A50000000000000000028 /* SpawnController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000020 /* SpawnController.swift */; };
 		A71A5000000000000000001C /* Lemuria.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E1940122110F4E00A0B0BE /* Lemuria.framework */; };
 		A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */; };
+		A71A500000000000000000D9 /* AtlantisNotificationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000DA /* AtlantisNotificationsTests.swift */; };
 		A71A500000000000000000B0 /* AtlantisPreferenceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */; };
 		A71A500000000000000000B6 /* GeneralPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B7 /* GeneralPreferencesTests.swift */; };
 		A71A500000000000000000C3 /* ToolbarEventPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */; };
@@ -85,7 +86,7 @@
 		8B42784729121CEB005EFEA6 /* ActionConf_PerlEval.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42783929121CEB005EFEA6 /* ActionConf_PerlEval.xib */; };
 		8B42784829121CEB005EFEA6 /* ActionConf_Substitution.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42783A29121CEB005EFEA6 /* ActionConf_Substitution.xib */; };
 		8B42784929121CEB005EFEA6 /* ActionConf_TextSpeak.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42783B29121CEB005EFEA6 /* ActionConf_TextSpeak.xib */; };
-		8B42784A29121CEB005EFEA6 /* ActionConf_Growl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42783C29121CEB005EFEA6 /* ActionConf_Growl.xib */; };
+		8B42784A29121CEB005EFEA6 /* ActionConf_Notification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42783C29121CEB005EFEA6 /* ActionConf_Notification.xib */; };
 		8B42784B29121CEB005EFEA6 /* ActionConf_HighlightText.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42783D29121CEB005EFEA6 /* ActionConf_HighlightText.xib */; };
 		8B42784C29121CEB005EFEA6 /* ActionConf_SendStatus.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42783E29121CEB005EFEA6 /* ActionConf_SendStatus.xib */; };
 		8B42785229121DE0005EFEA6 /* WorldConf_Spawns.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42784D29121DE0005EFEA6 /* WorldConf_Spawns.xib */; };
@@ -249,7 +250,7 @@
 		FF73C2070B81782D002293FD /* Condition-AtlantisVisible.m in Sources */ = {isa = PBXBuildFile; fileRef = FF73C2050B81782D002293FD /* Condition-AtlantisVisible.m */; };
 		FF73C2C30B818B23002293FD /* Action-GlobalReconnect.m in Sources */ = {isa = PBXBuildFile; fileRef = FF73C2C10B818B23002293FD /* Action-GlobalReconnect.m */; };
 		FF77E46809BBE6A300520233 /* Action-TextHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = FF77E46609BBE6A300520233 /* Action-TextHighlight.m */; };
-		FF77E4BA09BBEE7900520233 /* Action-Growl.m in Sources */ = {isa = PBXBuildFile; fileRef = FF77E4B809BBEE7900520233 /* Action-Growl.m */; };
+		FF77E4BA09BBEE7900520233 /* Action-Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = FF77E4B809BBEE7900520233 /* Action-Notification.m */; };
 		FF77E51F09BBF77200520233 /* ConditionClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = FF77E51D09BBF77200520233 /* ConditionClasses.m */; };
 		FF77E54D09BC06CF00520233 /* Condition-WorldConnected.m in Sources */ = {isa = PBXBuildFile; fileRef = FF77E54B09BC06CF00520233 /* Condition-WorldConnected.m */; };
 		FF77E56509BC0BFA00520233 /* Condition-WorldDisconnected.m in Sources */ = {isa = PBXBuildFile; fileRef = FF77E56309BC0BFA00520233 /* Condition-WorldDisconnected.m */; };
@@ -360,6 +361,7 @@
 		FFFE69FC09A442CF003F118B /* RoundedBox.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE69FA09A442CF003F118B /* RoundedBox.m */; };
 		FFFE6AEE09A45192003F118B /* Variables.txt in Resources */ = {isa = PBXBuildFile; fileRef = FFFE6AED09A45192003F118B /* Variables.txt */; };
 		FFFF6CE40999E0DA00E56390 /* atlantis-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = FFFF6CE30999E0DA00E56390 /* atlantis-logo.icns */; };
+		A71A500000000000000000D7 /* AtlantisNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000D8 /* AtlantisNotifications.swift */; };
 		FFFF6D280999E54E00E56390 /* RDAtlantisMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFF6D260999E54E00E56390 /* RDAtlantisMainController.m */; };
 /* End PBXBuildFile section */
 
@@ -450,6 +452,7 @@
 		A71A500000000000000000BE /* PreferencePaneWorkplan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = PreferencePaneWorkplan.md; path = Documentation/PreferencePaneWorkplan.md; sourceTree = "<group>"; };
 		A71A50000000000000000007 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDAtlantisSpawnTests.swift; sourceTree = "<group>"; };
+		A71A500000000000000000DA /* AtlantisNotificationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlantisNotificationsTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlantisPreferenceControllerTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000B7 /* GeneralPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferencesTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarEventPreferencesTests.swift; sourceTree = "<group>"; };
@@ -506,7 +509,7 @@
 		8B42783929121CEB005EFEA6 /* ActionConf_PerlEval.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_PerlEval.xib; path = "Event System/Actions/ActionConf_PerlEval.xib"; sourceTree = "<group>"; };
 		8B42783A29121CEB005EFEA6 /* ActionConf_Substitution.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_Substitution.xib; path = "Event System/Actions/ActionConf_Substitution.xib"; sourceTree = "<group>"; };
 		8B42783B29121CEB005EFEA6 /* ActionConf_TextSpeak.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_TextSpeak.xib; path = "Event System/Actions/ActionConf_TextSpeak.xib"; sourceTree = "<group>"; };
-		8B42783C29121CEB005EFEA6 /* ActionConf_Growl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_Growl.xib; path = "Event System/Actions/ActionConf_Growl.xib"; sourceTree = "<group>"; };
+		8B42783C29121CEB005EFEA6 /* ActionConf_Notification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_Notification.xib; path = "Event System/Actions/ActionConf_Notification.xib"; sourceTree = "<group>"; };
 		8B42783D29121CEB005EFEA6 /* ActionConf_HighlightText.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_HighlightText.xib; path = "Event System/Actions/ActionConf_HighlightText.xib"; sourceTree = "<group>"; };
 		8B42783E29121CEB005EFEA6 /* ActionConf_SendStatus.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_SendStatus.xib; path = "Event System/Actions/ActionConf_SendStatus.xib"; sourceTree = "<group>"; };
 		8B42784D29121DE0005EFEA6 /* WorldConf_Spawns.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorldConf_Spawns.xib; path = Preferences/World/WorldConf_Spawns.xib; sourceTree = "<group>"; };
@@ -801,8 +804,8 @@
 		FF73C2C10B818B23002293FD /* Action-GlobalReconnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-GlobalReconnect.m"; path = "Event System/Actions/Action-GlobalReconnect.m"; sourceTree = "<group>"; };
 		FF77E46509BBE6A300520233 /* Action-TextHighlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-TextHighlight.h"; path = "Event System/Actions/Action-TextHighlight.h"; sourceTree = "<group>"; };
 		FF77E46609BBE6A300520233 /* Action-TextHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-TextHighlight.m"; path = "Event System/Actions/Action-TextHighlight.m"; sourceTree = "<group>"; };
-		FF77E4B709BBEE7900520233 /* Action-Growl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-Growl.h"; path = "Event System/Actions/Action-Growl.h"; sourceTree = "<group>"; };
-		FF77E4B809BBEE7900520233 /* Action-Growl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-Growl.m"; path = "Event System/Actions/Action-Growl.m"; sourceTree = "<group>"; };
+		FF77E4B709BBEE7900520233 /* Action-Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-Notification.h"; path = "Event System/Actions/Action-Notification.h"; sourceTree = "<group>"; };
+		FF77E4B809BBEE7900520233 /* Action-Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-Notification.m"; path = "Event System/Actions/Action-Notification.m"; sourceTree = "<group>"; };
 		FF77E51C09BBF77200520233 /* ConditionClasses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConditionClasses.h; path = "Event System/ConditionClasses.h"; sourceTree = "<group>"; };
 		FF77E51D09BBF77200520233 /* ConditionClasses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConditionClasses.m; path = "Event System/ConditionClasses.m"; sourceTree = "<group>"; };
 		FF77E54A09BC06CF00520233 /* Condition-WorldConnected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Condition-WorldConnected.h"; path = "Event System/Conditions/Condition-WorldConnected.h"; sourceTree = "<group>"; };
@@ -998,6 +1001,7 @@
 		FFFE6AED09A45192003F118B /* Variables.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Variables.txt; sourceTree = "<group>"; };
 		FFFF6CE30999E0DA00E56390 /* atlantis-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "atlantis-logo.icns"; path = "Core/atlantis-logo.icns"; sourceTree = "<group>"; };
 		FFFF6D250999E54E00E56390 /* RDAtlantisMainController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RDAtlantisMainController.h; path = Core/RDAtlantisMainController.h; sourceTree = "<group>"; };
+		A71A500000000000000000D8 /* AtlantisNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AtlantisNotifications.swift; path = Core/AtlantisNotifications.swift; sourceTree = "<group>"; };
 		FFFF6D260999E54E00E56390 /* RDAtlantisMainController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisMainController.m; path = Core/RDAtlantisMainController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1054,6 +1058,7 @@
 			isa = PBXGroup;
 			children = (
 				A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */,
+				A71A500000000000000000DA /* AtlantisNotificationsTests.swift */,
 				A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */,
 				A71A500000000000000000B7 /* GeneralPreferencesTests.swift */,
 				A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */,
@@ -1340,8 +1345,8 @@
 				FF1C9F8309B6B62F00E55E57 /* Action-WorldSend.m */,
 				FF77E46509BBE6A300520233 /* Action-TextHighlight.h */,
 				FF77E46609BBE6A300520233 /* Action-TextHighlight.m */,
-				FF77E4B709BBEE7900520233 /* Action-Growl.h */,
-				FF77E4B809BBEE7900520233 /* Action-Growl.m */,
+				FF77E4B709BBEE7900520233 /* Action-Notification.h */,
+				FF77E4B809BBEE7900520233 /* Action-Notification.m */,
 				FF43124D09C7E811007D8015 /* Action-AddressBook.h */,
 				FF43124E09C7E811007D8015 /* Action-AddressBook.m */,
 				FF4312A309C7E9A9007D8015 /* Action-TextOmitLog.h */,
@@ -1594,7 +1599,7 @@
 			children = (
 				8B42783729121CEB005EFEA6 /* ActionConf_ClearSpawn.xib */,
 				8B42783329121CEA005EFEA6 /* ActionConf_FocusSpawn.xib */,
-				8B42783C29121CEB005EFEA6 /* ActionConf_Growl.xib */,
+				8B42783C29121CEB005EFEA6 /* ActionConf_Notification.xib */,
 				8B42783D29121CEB005EFEA6 /* ActionConf_HighlightText.xib */,
 				8B42783529121CEB005EFEA6 /* ActionConf_LineClass.xib */,
 				8B42783129121CEA005EFEA6 /* ActionConf_LogOpen.xib */,
@@ -1983,6 +1988,7 @@
 			isa = PBXGroup;
 			children = (
 				FFFF6D250999E54E00E56390 /* RDAtlantisMainController.h */,
+				A71A500000000000000000D8 /* AtlantisNotifications.swift */,
 				FFFF6D260999E54E00E56390 /* RDAtlantisMainController.m */,
 				FFFE638509A31A22003F118B /* RDAtlantisApplication.h */,
 				FFFE638609A31A22003F118B /* RDAtlantisApplication.m */,
@@ -2151,7 +2157,7 @@
 				8B42784B29121CEB005EFEA6 /* ActionConf_HighlightText.xib in Resources */,
 				FFC101B10C2CEA83003F2E00 /* StatusBarBackground.png in Resources */,
 				FFC101B20C2CEA83003F2E00 /* StatusSep.png in Resources */,
-				8B42784A29121CEB005EFEA6 /* ActionConf_Growl.xib in Resources */,
+				8B42784A29121CEB005EFEA6 /* ActionConf_Notification.xib in Resources */,
 				8B4278192911FAEE005EFEA6 /* ConditionPicker.xib in Resources */,
 				FFC101F80C2CF39D003F2E00 /* statusLocked.tiff in Resources */,
 				FFC1024C0C2CFB99003F2E00 /* statusLockedSelected.tiff in Resources */,
@@ -2218,6 +2224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */,
+				A71A500000000000000000D9 /* AtlantisNotificationsTests.swift in Sources */,
 				A71A500000000000000000B0 /* AtlantisPreferenceControllerTests.swift in Sources */,
 				A71A500000000000000000B6 /* GeneralPreferencesTests.swift in Sources */,
 				A71A500000000000000000C3 /* ToolbarEventPreferencesTests.swift in Sources */,
@@ -2233,6 +2240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				A71A500000000000000000D7 /* AtlantisNotifications.swift in Sources */,
 				FFFF6D280999E54E00E56390 /* RDAtlantisMainController.m in Sources */,
 				FF966ABC099A752E005886F4 /* RDAtlantisWorldPreferences.m in Sources */,
 				FF966B0E099A8C6A005886F4 /* RDAtlantisSpawn.swift in Sources */,
@@ -2286,7 +2294,7 @@
 				FF590D3E09B93565005C2E02 /* BaseEvent.m in Sources */,
 				FF590F5C09B968EF005C2E02 /* ActionPicker.m in Sources */,
 				FF77E46809BBE6A300520233 /* Action-TextHighlight.m in Sources */,
-				FF77E4BA09BBEE7900520233 /* Action-Growl.m in Sources */,
+				FF77E4BA09BBEE7900520233 /* Action-Notification.m in Sources */,
 				FF77E51F09BBF77200520233 /* ConditionClasses.m in Sources */,
 				FF77E54D09BC06CF00520233 /* Condition-WorldConnected.m in Sources */,
 				FF77E56509BC0BFA00520233 /* Condition-WorldDisconnected.m in Sources */,

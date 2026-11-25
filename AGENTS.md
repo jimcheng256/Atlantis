@@ -22,6 +22,9 @@ setup.
   Use temporary defaults suites and archive paths for persistence tests.
 - Update the relevant architecture documentation when changing behavior,
   integration points, or test commands.
+- Keep README.md focused on the project overview and checkout and build setup.
+  Put implementation details, architecture notes, and feature-specific test
+  instructions in the relevant files under `Documentation/`.
 
 ## Verification
 

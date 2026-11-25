@@ -33,6 +33,7 @@
 - (id) getPreference:(NSString *) value inWorld:(NSString *)worldName;
 - (void) setPreference:(id) preference forKey:(NSString *)key inWorld:(NSString *)worldName;
 
+- (void) systemNotification:(NSString *)text withTitle:(NSString *)title;
 - (void) growlText:(NSString *)text withTitle:(NSString *)title;
 - (void) speakText:(NSString *)text;
 - (void) systemBeep;
