@@ -6,21 +6,4 @@
 //  Copyright 2006 Riverdark Studios. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "AtlantisPreferencePane.h"
-
-@class EventEditor;
-@class HotkeyCollection;
-
-
-@interface HotkeyPreferences : NSObject <AtlantisPreferencePane> {
-
-    EventEditor                 *_rdEventEditor;
-    
-    HotkeyCollection            *_rdHotkeyCollection;
-
-}
-
-- (id) initForCollection:(HotkeyCollection *) collection;
-
-@end
+#import "AtlantisPreferenceController.h"

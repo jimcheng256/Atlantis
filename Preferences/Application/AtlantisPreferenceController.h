@@ -8,21 +8,4 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AtlantisPreferencePane.h"
-
-@interface AtlantisPreferenceController : NSWindowController <NSToolbarDelegate, NSWindowDelegate> {
-
-    NSWindow                *_rdPrefsWindow;
-    NSMutableDictionary     *_rdPreferencePanes;
-    NSMutableArray          *_rdPreferenceOrder;
-    NSMutableDictionary     *_rdToolbarItems;
-    
-    id <AtlantisPreferencePane> _rdLastPane;
-
-}
-
-- (void) addPane:(id <AtlantisPreferencePane>)pane;
-- (void) showPreferences;
-
-
-
-@end
+#import "Atlantis-Swift.h"
