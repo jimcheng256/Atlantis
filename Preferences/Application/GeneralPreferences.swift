@@ -94,9 +94,11 @@ final class GeneralPreferences: NSObject, @preconcurrency AtlantisPreferencePane
     }
 }
 
-private struct GeneralPreferencesForm: View {
+struct GeneralPreferencesForm: View {
     @ObservedObject var settings: GeneralPreferences.Settings
+    var sectionFrameChanged: ((String, CGRect) -> Void)? = nil
     @FocusState private var editingURLLength: Bool
+    private static let viewport = "General preferences viewport"
 
     var body: some View {
         ScrollView {
@@ -112,7 +114,7 @@ private struct GeneralPreferencesForm: View {
                         Text("Play system beep").tag(2)
                     }
                 }
-                group("Input Window Options") {
+                group("Global Window Options") {
                     toggle("Aliases do not require a leading /", .noSlashies)
                     toggle("Support FugueEdit input-grabbing", .fugueEdit)
                     toggle("Clear input window on enter", .clearInput)
@@ -135,8 +137,11 @@ private struct GeneralPreferencesForm: View {
                     toggle("Open Address Book on startup if no autoconnects", .openBook)
                 }
             }
+            // Let the scroll view clip the viewport without compressing the sections.
+            .fixedSize(horizontal: false, vertical: true)
             .padding(12)
         }
+        .coordinateSpace(name: Self.viewport)
     }
 
     private func toggle(_ title: String, _ option: GeneralPreferences.Option) -> some View {
@@ -150,6 +155,11 @@ private struct GeneralPreferencesForm: View {
         GroupBox(title) {
             VStack(alignment: .leading, spacing: 4, content: content)
                 .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .onGeometryChange(for: CGRect.self) { proxy in
+            proxy.frame(in: .named(Self.viewport))
+        } action: { frame in
+            sectionFrameChanged?(title, frame)
         }
     }
 }
