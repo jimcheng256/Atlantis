@@ -4,6 +4,9 @@ import SwiftUI
 @MainActor
 @objc(AtlantisPreferenceController)
 final class AtlantisPreferenceController: NSWindowController, NSToolbarDelegate, NSWindowDelegate {
+    // Previous versions autosaved the size of whichever pane was selected.
+    static let frameAutosaveName = "preferencesWindowFixedSize"
+
     private var panes: [String: AtlantisPreferencePane] = [:]
     private var order: [String] = []
     private var toolbarItems: [NSToolbarItem.Identifier: NSToolbarItem] = [:]
@@ -37,7 +40,7 @@ final class AtlantisPreferenceController: NSWindowController, NSToolbarDelegate,
         guard let first = order.first else { return }
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 350, height: 200),
+            contentRect: NSRect(origin: .zero, size: WorldDefaults.defaultContentSize),
             styleMask: [.closable, .resizable, .titled],
             backing: .buffered,
             defer: false
@@ -65,10 +68,14 @@ final class AtlantisPreferenceController: NSWindowController, NSToolbarDelegate,
         window.toolbar = toolbar
         window.delegate = self
         self.window = window
-        window.center()
-        window.setFrameAutosaveName("preferencesWindow")
+        if !window.setFrameUsingName(Self.frameAutosaveName) {
+            // Attaching the toolbar can change AppKit's content size.
+            window.setContentSize(WorldDefaults.defaultContentSize)
+            window.center()
+        }
+        window.setFrameAutosaveName(Self.frameAutosaveName)
 
-        selectPane(first, in: window, animate: false)
+        selectPane(first, in: window)
         // The initial pane becomes eligible for a switch commit after a toolbar selection.
         lastPane = nil
         window.makeKeyAndOrderFront(self)
@@ -94,24 +101,13 @@ final class AtlantisPreferenceController: NSWindowController, NSToolbarDelegate,
 
     @objc private func toolbarItemClicked(_ item: NSToolbarItem) {
         guard let window else { return }
-        selectPane(item.itemIdentifier.rawValue, in: window, animate: true)
+        selectPane(item.itemIdentifier.rawValue, in: window)
     }
 
-    private func selectPane(_ name: String, in window: NSWindow, animate: Bool) {
+    private func selectPane(_ name: String, in window: NSWindow) {
         lastPane?.preferencePaneCommit()
         guard let pane = panes[name], let view = pane.preferencePaneView() else { return }
 
-        let contentFrame = window.contentView?.frame ?? .zero
-        var frame = window.frame
-        let heightDifference = view.frame.height - contentFrame.height
-        frame.size.height += heightDifference
-        frame.size.width = view.frame.width
-        frame.origin.y -= heightDifference
-
-        if animate {
-            window.contentView = NSView(frame: contentFrame)
-        }
-        window.setFrame(frame, display: animate, animate: animate)
         let host = NSHostingView(
             rootView: PreferencesPaneHost(paneView: view)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

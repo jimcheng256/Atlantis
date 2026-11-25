@@ -6,12 +6,15 @@
 Objective-C through the generated interface. The runtime class and the existing
 `init`, `addPane:`, `showPreferences`, and `changeFont:` selectors remain available.
 
-The controller owns the native window and toolbar, the `preferencesWindow`
+The controller owns the native window and toolbar, the `preferencesWindowFixedSize`
 autosave key, and pane selection. `PreferencesPaneHost` wraps the active
 pane's view in SwiftUI. The form panes return SwiftUI hosting views. World
 Defaults, Hotkeys, and Toolbar Events return the existing AppKit editor views
 with their controls and resource connections.
-The controller sizes the window to the pane and forwards font actions to its
+The window opens at the World Defaults content size of 900 × 700 points
+unless a frame has been saved under the current autosave key. The new key
+starts fresh because the old key stored automatically resized frames.
+Switching panes preserves the window frame. Font actions go to the active
 root view or selected tab content. Closing commits every registered pane.
 A toolbar selection commits the previous toolbar-selected pane. The first
 toolbar selection after window creation skips the initial pane's commit, as

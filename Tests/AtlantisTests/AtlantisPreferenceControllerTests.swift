@@ -17,15 +17,14 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
             XCTAssertEqual(window.title, "First")
             XCTAssertEqual(first.viewRequests, 1)
             XCTAssertEqual(second.viewRequests, 0)
-            XCTAssertEqual(window.frameAutosaveName, "preferencesWindow")
+            XCTAssertEqual(window.frameAutosaveName, AtlantisPreferenceController.frameAutosaveName)
 
-            let top = window.frame.maxY
+            let initialFrame = window.frame
             click(items[1])
             XCTAssertEqual(window.title, "Second")
             XCTAssertEqual(first.commits, 0)
             XCTAssertEqual(second.viewRequests, 1)
-            XCTAssertEqual(window.frame.maxY, top, accuracy: 1)
-            XCTAssertEqual(window.frame.width, 580, accuracy: 1)
+            XCTAssertEqual(window.frame, initialFrame)
 
             click(items[0])
             XCTAssertEqual(second.commits, 1)
@@ -38,6 +37,37 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
             XCTAssertTrue(controller.window === window)
             XCTAssertEqual(window.title, "First")
             XCTAssertEqual(first.viewRequests, 2)
+        }
+    }
+
+    @MainActor
+    func testResizedWindowKeepsItsFrameAcrossPaneSwitchesAndReopening() throws {
+        try withPreferences { controller, _, _ in
+            let window = try XCTUnwrap(controller.window)
+            let items = try XCTUnwrap(window.toolbar?.items)
+            window.setContentSize(NSSize(width: 610, height: 360))
+            let resizedFrame = window.frame
+
+            click(items[1])
+            XCTAssertEqual(window.frame, resizedFrame)
+            click(items[0])
+            XCTAssertEqual(window.frame, resizedFrame)
+            window.close()
+            controller.showPreferences()
+            XCTAssertEqual(window.frame, resizedFrame)
+
+            window.saveFrame(usingName: AtlantisPreferenceController.frameAutosaveName)
+            window.close()
+            window.setFrameAutosaveName("")
+            let nextController = AtlantisPreferenceController()
+            nextController.add(SpyPane(name: "First", view: NSView()))
+            nextController.showPreferences()
+            let restoredWindow = try XCTUnwrap(nextController.window)
+            defer {
+                restoredWindow.close()
+                restoredWindow.setFrameAutosaveName("")
+            }
+            XCTAssertEqual(restoredWindow.contentView?.bounds.size, NSSize(width: 610, height: 360))
         }
     }
 
@@ -86,12 +116,14 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
             return SpyPane(name: name, view: view, image: pane.preferencePaneImage())
         }
 
-        let expectedSizes = fixtures.map { $0.view.frame.size }
+        let worldDefaultsSize = fixtures[2].view.frame.size
         try withPreferences(panes: fixtures) { controller in
             let window = try XCTUnwrap(controller.window)
             let items = try XCTUnwrap(window.toolbar?.items)
             XCTAssertEqual(items.map(\.label), ["General", "Networking", "World Defaults", "Hotkeys", "Toolbar Events", "Windowing"])
 
+            XCTAssertEqual(window.contentView?.bounds.size, worldDefaultsSize)
+            let initialFrame = window.frame
             for (index, item) in items.enumerated() {
                 click(item)
                 let pane = fixtures[index]
@@ -100,8 +132,8 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
                 XCTAssertTrue(pane.view.window === window, pane.name)
                 XCTAssertTrue(pane.view.isDescendant(of: host), pane.name)
                 XCTAssertFalse(pane.view.subviews.isEmpty, pane.name)
-                XCTAssertEqual(pane.view.frame.width, expectedSizes[index].width, accuracy: 1, pane.name)
-                XCTAssertEqual(pane.view.frame.height, expectedSizes[index].height, accuracy: 1, pane.name)
+                XCTAssertEqual(window.frame, initialFrame, pane.name)
+                XCTAssertEqual(pane.view.frame.size, host.bounds.size, pane.name)
             }
         }
     }
@@ -123,7 +155,7 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
             frame.size.width += 25
             window.setFrame(frame, display: true)
             window.contentView?.layoutSubtreeIfNeeded()
-            XCTAssertEqual(content.frame.width, 435, accuracy: 1)
+            XCTAssertEqual(content.frame.width, frame.width, accuracy: 1)
             XCTAssertTrue(field.currentEditor() === editor)
             XCTAssertEqual(editor.selectedRange, NSRange(location: 1, length: 2))
             XCTAssertEqual(first.commits, 0)
@@ -149,8 +181,9 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
         _ body: (AtlantisPreferenceController) throws -> Void
     ) rethrows {
         let defaults = UserDefaults.standard
-        let frameKey = "NSWindow Frame preferencesWindow"
+        let frameKey = "NSWindow Frame " + AtlantisPreferenceController.frameAutosaveName
         let savedFrame = defaults.object(forKey: frameKey)
+        defaults.removeObject(forKey: frameKey)
         defer { defaults.set(savedFrame, forKey: frameKey) }
 
         let controller = AtlantisPreferenceController()
