@@ -38,6 +38,7 @@
 		A71A50000000000000000028 /* SpawnController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000020 /* SpawnController.swift */; };
 		A71A5000000000000000001C /* Lemuria.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E1940122110F4E00A0B0BE /* Lemuria.framework */; };
 		A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */; };
+		A71A500000000000000000B0 /* AtlantisPreferenceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */; };
 		A71A50000000000000000001 /* RDAtlantisSpawnInterop.m in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */; };
 		3226D1272EE1537C0016D727 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3226D1262EE1537C0016D727 /* SwiftUI.framework */; };
 		5303ACB925413BF100565FBD /* ActionConf_SendText.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5303ACB825413BF100565FBD /* ActionConf_SendText.xib */; };
@@ -101,7 +102,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		FF00C31209E1F90600083573 /* AtlantisPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF00C31009E1F90600083573 /* AtlantisPreferenceController.m */; };
+		FF00C31209E1F90600083573 /* AtlantisPreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF00C31009E1F90600083573 /* AtlantisPreferenceController.swift */; };
+		A71A500000000000000000B2 /* PreferencesPaneHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B3 /* PreferencesPaneHost.swift */; };
 		FF0226360C94AA310049BE2B /* HIDIdleTime.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0226340C94AA310049BE2B /* HIDIdleTime.m */; };
 		FF0355B409D755B900243A78 /* Action-TextSpawn.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0355B209D755B900243A78 /* Action-TextSpawn.m */; };
 		FF0355E509D75C2000243A78 /* Condition-SpawnActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0355E309D75C2000243A78 /* Condition-SpawnActivity.m */; };
@@ -436,12 +438,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A71A500000000000000000B5 /* PreferencesTest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PreferencesTest-Bridging-Header.h"; sourceTree = "<group>"; };
 		A71A50000000000000000022 /* SpawnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnView.swift; sourceTree = "<group>"; };
 		A71A50000000000000000021 /* SpawnTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnTerminal.swift; sourceTree = "<group>"; };
 		A71A50000000000000000020 /* SpawnController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnController.swift; sourceTree = "<group>"; };
 		A71A50000000000000000005 /* RDAtlantisSpawn.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = RDAtlantisSpawn.md; path = Documentation/RDAtlantisSpawn.md; sourceTree = "<group>"; };
+		A71A500000000000000000B4 /* AtlantisPreferences.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = AtlantisPreferences.md; path = Documentation/AtlantisPreferences.md; sourceTree = "<group>"; };
 		A71A50000000000000000007 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDAtlantisSpawnTests.swift; sourceTree = "<group>"; };
+		A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlantisPreferenceControllerTests.swift; sourceTree = "<group>"; };
 		A71A50000000000000000012 /* AtlantisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = AtlantisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisSpawnInterop.m; path = RDAtlantisSpawnInterop.m; sourceTree = "<group>"; };
 		A71A50000000000000000003 /* RDAtlantisSpawnInterop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RDAtlantisSpawnInterop.h; path = RDAtlantisSpawnInterop.h; sourceTree = "<group>"; };
@@ -516,7 +521,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Atlantis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Atlantis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF00C30F09E1F90600083573 /* AtlantisPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AtlantisPreferenceController.h; path = Preferences/Application/AtlantisPreferenceController.h; sourceTree = "<group>"; };
-		FF00C31009E1F90600083573 /* AtlantisPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AtlantisPreferenceController.m; path = Preferences/Application/AtlantisPreferenceController.m; sourceTree = "<group>"; };
+		FF00C31009E1F90600083573 /* AtlantisPreferenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AtlantisPreferenceController.swift; path = Preferences/Application/AtlantisPreferenceController.swift; sourceTree = "<group>"; };
+		A71A500000000000000000B3 /* PreferencesPaneHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreferencesPaneHost.swift; path = Preferences/Application/PreferencesPaneHost.swift; sourceTree = "<group>"; };
 		FF0226330C94AA310049BE2B /* HIDIdleTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HIDIdleTime.h; path = "Utility Classes/HIDIdleTime.h"; sourceTree = "<group>"; };
 		FF0226340C94AA310049BE2B /* HIDIdleTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HIDIdleTime.m; path = "Utility Classes/HIDIdleTime.m"; sourceTree = "<group>"; };
 		FF0355B109D755B900243A78 /* Action-TextSpawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-TextSpawn.h"; path = "Event System/Actions/Action-TextSpawn.h"; sourceTree = "<group>"; };
@@ -1038,7 +1044,11 @@
 		};
 		A71A50000000000000000006 /* AtlantisTests */ = {
 			isa = PBXGroup;
-			children = (A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */,);
+			children = (
+				A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */,
+				A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */,
+				A71A500000000000000000B5 /* PreferencesTest-Bridging-Header.h */,
+			);
 			path = AtlantisTests;
 			sourceTree = "<group>";
 		};
@@ -1825,7 +1835,8 @@
 				8B4278112911EA97005EFEA6 /* WindowPrefs.xib */,
 				FFECBB0809DE10CA0049FF54 /* AtlantisPreferencePane.h */,
 				FF00C30F09E1F90600083573 /* AtlantisPreferenceController.h */,
-				FF00C31009E1F90600083573 /* AtlantisPreferenceController.m */,
+				FF00C31009E1F90600083573 /* AtlantisPreferenceController.swift */,
+				A71A500000000000000000B3 /* PreferencesPaneHost.swift */,
 				FF2EA2A209E34F4100DDD57E /* WorldDefaults.h */,
 				FF2EA2A309E34F4100DDD57E /* WorldDefaults.m */,
 				FF2EA33009E35CE100DDD57E /* HotkeyPreferences.h */,
@@ -1947,6 +1958,7 @@
 			isa = PBXGroup;
 			children = (
 				A71A50000000000000000005 /* RDAtlantisSpawn.md */,
+				A71A500000000000000000B4 /* AtlantisPreferences.md */,
 				FF84284609C68D5A008071F3 /* atlantis_versions.plist */,
 				FFFE64C609A3D579003F118B /* TODO.txt */,
 				FFFE6AED09A45192003F118B /* Variables.txt */,
@@ -2195,7 +2207,10 @@
 		A71A50000000000000000016 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
-			files = (A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */,);
+			files = (
+				A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */,
+				A71A500000000000000000B0 /* AtlantisPreferenceControllerTests.swift in Sources */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
@@ -2301,7 +2316,8 @@
 				FF03567A09D75EDA00243A78 /* Action-SpawnClose.m in Sources */,
 				FFECBB2D09DE15320049FF54 /* Action-InputConvertToMUSH.m in Sources */,
 				FFECBB5C09DE174A0049FF54 /* Action-InputConvertFromMUSH.m in Sources */,
-				FF00C31209E1F90600083573 /* AtlantisPreferenceController.m in Sources */,
+				FF00C31209E1F90600083573 /* AtlantisPreferenceController.swift in Sources */,
+				A71A500000000000000000B2 /* PreferencesPaneHost.swift in Sources */,
 				FF2EA2A509E34F4100DDD57E /* WorldDefaults.m in Sources */,
 				FF2EA33309E35CE100DDD57E /* HotkeyPreferences.m in Sources */,
 				FF2EA3DA09E3630300DDD57E /* GeneralPreferences.m in Sources */,
@@ -2504,7 +2520,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				PRODUCT_BUNDLE_IDENTIFIER = org.riverdark.AtlantisTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				HEADER_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/Preferences/Application", "$(SRCROOT)/Preferences/World", "$(SRCROOT)/Event Configuration Kit");
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/AtlantisTests/PreferencesTest-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Atlantis.app/Contents/MacOS/Atlantis";
 			};
@@ -2521,7 +2538,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				PRODUCT_BUNDLE_IDENTIFIER = org.riverdark.AtlantisTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				HEADER_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/Preferences/Application", "$(SRCROOT)/Preferences/World", "$(SRCROOT)/Event Configuration Kit");
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/AtlantisTests/PreferencesTest-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Atlantis.app/Contents/MacOS/Atlantis";
 			};
