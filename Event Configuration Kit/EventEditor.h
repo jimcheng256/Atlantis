@@ -42,6 +42,8 @@
 
 - (NSView *) editorView;
 
+@property (nonatomic) BOOL confirmsEventRemoval;
+
 - (IBAction) addEvent:(id) sender;
 - (IBAction) removeEvent:(id) sender;
 

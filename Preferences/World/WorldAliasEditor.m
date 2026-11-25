@@ -27,6 +27,7 @@
     self = [super initWithWorld:prefs forCharacter:character];
     if (self) {
         _rdEventEditor = [[EventEditor alloc] init];
+        _rdEventEditor.confirmsEventRemoval = YES;
         [_rdEventEditor setDelegate:self];
         _rdAliases = nil;
         EventCollection *events = [prefs preferenceForKey:@"atlantis.aliases" withCharacter:character fallback:NO];

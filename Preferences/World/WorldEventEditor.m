@@ -39,6 +39,7 @@
             _rdEvents = [[EventCollection alloc] init];
         
         _rdEventEditor = [[EventEditor alloc] init];
+        _rdEventEditor.confirmsEventRemoval = YES;
         [_rdEventEditor setDataRepresentation:_rdEvents];
         [_rdEventEditor setDelegate:self];
     }

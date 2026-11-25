@@ -19,6 +19,7 @@
 #import "ConditionPicker.h"
 
 #import "RDAtlantisEventItem.h"
+#import "Atlantis-Swift.h"
 
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -532,18 +533,31 @@ static NSImage *s_downArrow;
 
 - (void) removeEvent:(id) sender
 {
-    id <EventDataProtocol> event = nil;
-    int selected = [_rdTableView selectedRow];
-    [[_rdTableView window] makeFirstResponder:[_rdTableView window]];
-    
-    if (selected != -1) {
-        event = [_rdEventData eventAtIndex:selected];
-        
-        if (event) {
-            [_rdEventData removeEvent:event];
-        }
+    NSInteger selected = [_rdTableView selectedRow];
+    EventCollection *collection = _rdEventData;
+    id <EventDataProtocol> event = selected < 0 ? nil : [collection eventAtIndex:(unsigned)selected];
+    NSWindow *window = [_rdTableView window];
+
+    if (self.confirmsEventRemoval && (!event || !window)) {
+        return;
     }
-    [_rdTableView reloadData];
+
+    void (^removeSelectedEvent)(void) = ^{
+        if (_rdEventData != collection) {
+            return;
+        }
+        [[_rdTableView window] makeFirstResponder:[_rdTableView window]];
+        if (event) {
+            [collection removeEvent:event];
+        }
+        [_rdTableView reloadData];
+    };
+
+    if (self.confirmsEventRemoval) {
+        [EventRemovalConfirmation presentForWindow:window eventName:[event eventName] onConfirm:removeSelectedEvent];
+    } else {
+        removeSelectedEvent();
+    }
 }
 
 - (void) changeConditionsAnded:(id) sender

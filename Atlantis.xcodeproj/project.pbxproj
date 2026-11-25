@@ -42,6 +42,7 @@
 		A71A500000000000000000B0 /* AtlantisPreferenceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */; };
 		A71A500000000000000000B6 /* GeneralPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000B7 /* GeneralPreferencesTests.swift */; };
 		A71A500000000000000000C3 /* ToolbarEventPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */; };
+		A71A50000000000000000103 /* EventRemovalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000104 /* EventRemovalTests.swift */; };
 		A71A500000000000000000BF /* HotkeyPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */; };
 		A71A500000000000000000BC /* WorldDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000BD /* WorldDefaultsTests.swift */; };
 		A71A500000000000000000BA /* WindowingPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000BB /* WindowingPreferencesTests.swift */; };
@@ -126,6 +127,7 @@
 		FF191CFB09F33C7C0071917F /* Action-GlobalDisconnect.m in Sources */ = {isa = PBXBuildFile; fileRef = FF191CF909F33C7C0071917F /* Action-GlobalDisconnect.m */; };
 		FF1A2A640C43692D00F88216 /* Action-ShrinkURL.m in Sources */ = {isa = PBXBuildFile; fileRef = FF1A2A620C43692D00F88216 /* Action-ShrinkURL.m */; };
 		FF1C9D3609B68B6100E55E57 /* EventEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FF1C9D3309B68B6100E55E57 /* EventEditor.m */; };
+		A71A50000000000000000101 /* EventRemovalConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000102 /* EventRemovalConfirmation.swift */; };
 		FF1C9D4109B68B8700E55E57 /* EventCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = FF1C9D3F09B68B8700E55E57 /* EventCollection.m */; };
 		FF1C9D5D09B68C3100E55E57 /* BaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FF1C9D5B09B68C3100E55E57 /* BaseAction.m */; };
 		FF1C9D6509B68D0700E55E57 /* AtlantisState.m in Sources */ = {isa = PBXBuildFile; fileRef = FF1C9D6309B68D0700E55E57 /* AtlantisState.m */; };
@@ -456,6 +458,7 @@
 		A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlantisPreferenceControllerTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000B7 /* GeneralPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferencesTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarEventPreferencesTests.swift; sourceTree = "<group>"; };
+		A71A50000000000000000104 /* EventRemovalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRemovalTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyPreferencesTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000BD /* WorldDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldDefaultsTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000BB /* WindowingPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowingPreferencesTests.swift; sourceTree = "<group>"; };
@@ -569,6 +572,7 @@
 		FF1A2A620C43692D00F88216 /* Action-ShrinkURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-ShrinkURL.m"; path = "Event System/Actions/Action-ShrinkURL.m"; sourceTree = "<group>"; };
 		FF1C9D3209B68B6100E55E57 /* EventEditor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventEditor.h; path = "Event Configuration Kit/EventEditor.h"; sourceTree = "<group>"; };
 		FF1C9D3309B68B6100E55E57 /* EventEditor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EventEditor.m; path = "Event Configuration Kit/EventEditor.m"; sourceTree = "<group>"; };
+		A71A50000000000000000102 /* EventRemovalConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventRemovalConfirmation.swift; path = "Event Configuration Kit/EventRemovalConfirmation.swift"; sourceTree = "<group>"; };
 		FF1C9D3809B68B7B00E55E57 /* EventActionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventActionProtocol.h; path = "Event Configuration Kit/EventActionProtocol.h"; sourceTree = "<group>"; };
 		FF1C9D3909B68B7B00E55E57 /* EventConditionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventConditionProtocol.h; path = "Event Configuration Kit/EventConditionProtocol.h"; sourceTree = "<group>"; };
 		FF1C9D3A09B68B7B00E55E57 /* EventDataProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventDataProtocol.h; path = "Event Configuration Kit/EventDataProtocol.h"; sourceTree = "<group>"; };
@@ -1062,6 +1066,7 @@
 				A71A500000000000000000B1 /* AtlantisPreferenceControllerTests.swift */,
 				A71A500000000000000000B7 /* GeneralPreferencesTests.swift */,
 				A71A500000000000000000C4 /* ToolbarEventPreferencesTests.swift */,
+				A71A50000000000000000104 /* EventRemovalTests.swift */,
 				A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */,
 				A71A500000000000000000BD /* WorldDefaultsTests.swift */,
 				A71A500000000000000000BB /* WindowingPreferencesTests.swift */,
@@ -1287,6 +1292,7 @@
 				FF1C9D3F09B68B8700E55E57 /* EventCollection.m */,
 				FF1C9D3209B68B6100E55E57 /* EventEditor.h */,
 				FF1C9D3309B68B6100E55E57 /* EventEditor.m */,
+				A71A50000000000000000102 /* EventRemovalConfirmation.swift */,
 				FF590F5909B968EF005C2E02 /* ActionPicker.h */,
 				FF590F5A09B968EF005C2E02 /* ActionPicker.m */,
 				FF44532F09BD6D61005E0DFC /* ConditionPicker.h */,
@@ -2228,6 +2234,7 @@
 				A71A500000000000000000B0 /* AtlantisPreferenceControllerTests.swift in Sources */,
 				A71A500000000000000000B6 /* GeneralPreferencesTests.swift in Sources */,
 				A71A500000000000000000C3 /* ToolbarEventPreferencesTests.swift in Sources */,
+				A71A50000000000000000103 /* EventRemovalTests.swift in Sources */,
 				A71A500000000000000000BF /* HotkeyPreferencesTests.swift in Sources */,
 				A71A500000000000000000BC /* WorldDefaultsTests.swift in Sources */,
 				A71A500000000000000000BA /* WindowingPreferencesTests.swift in Sources */,
@@ -2272,6 +2279,7 @@
 				FFFE675409A4197B003F118B /* RDLogCloser.m in Sources */,
 				FFFE69FC09A442CF003F118B /* RoundedBox.m in Sources */,
 				FF1C9D3609B68B6100E55E57 /* EventEditor.m in Sources */,
+				A71A50000000000000000101 /* EventRemovalConfirmation.swift in Sources */,
 				FF1C9D4109B68B8700E55E57 /* EventCollection.m in Sources */,
 				FF1C9D5D09B68C3100E55E57 /* BaseAction.m in Sources */,
 				FF1C9D6509B68D0700E55E57 /* AtlantisState.m in Sources */,
