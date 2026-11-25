@@ -33,6 +33,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		A71A5000000000000000002A /* SpawnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000022 /* SpawnView.swift */; };
+		A71A50000000000000000029 /* SpawnTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000021 /* SpawnTerminal.swift */; };
+		A71A50000000000000000028 /* SpawnController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000020 /* SpawnController.swift */; };
 		A71A5000000000000000001C /* Lemuria.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E1940122110F4E00A0B0BE /* Lemuria.framework */; };
 		A71A50000000000000000010 /* RDAtlantisSpawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */; };
 		A71A50000000000000000001 /* RDAtlantisSpawnInterop.m in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */; };
@@ -262,7 +265,6 @@
 		FF921BE00B925DF800F2D5EC /* ScriptEventAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FF921BDE0B925DF800F2D5EC /* ScriptEventAction.m */; };
 		FF966ABC099A752E005886F4 /* RDAtlantisWorldPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FF966ABA099A752E005886F4 /* RDAtlantisWorldPreferences.m */; };
 		FF966B0E099A8C6A005886F4 /* RDAtlantisSpawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.swift */; };
-		FF966B14099A8E8D005886F4 /* SpawnView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF966B13099A8E8D005886F4 /* SpawnView.xib */; };
 		FF966B24099ABBF1005886F4 /* RDAtlantisWorldInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = FF966B22099ABBF1005886F4 /* RDAtlantisWorldInstance.m */; };
 		FF966CEA099ADC12005886F4 /* RDAtlantisTextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF966CE8099ADC12005886F4 /* RDAtlantisTextInputView.m */; };
 		FF96706C099E5545005886F4 /* RDAnsiFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FF96706A099E5545005886F4 /* RDAnsiFilter.m */; };
@@ -434,6 +436,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A71A50000000000000000022 /* SpawnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnView.swift; sourceTree = "<group>"; };
+		A71A50000000000000000021 /* SpawnTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnTerminal.swift; sourceTree = "<group>"; };
+		A71A50000000000000000020 /* SpawnController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnController.swift; sourceTree = "<group>"; };
 		A71A50000000000000000005 /* RDAtlantisSpawn.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = RDAtlantisSpawn.md; path = Documentation/RDAtlantisSpawn.md; sourceTree = "<group>"; };
 		A71A50000000000000000007 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A71A50000000000000000011 /* RDAtlantisSpawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RDAtlantisSpawnTests.swift; sourceTree = "<group>"; };
@@ -823,7 +828,6 @@
 		FF966ABA099A752E005886F4 /* RDAtlantisWorldPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisWorldPreferences.m; path = Worlds/RDAtlantisWorldPreferences.m; sourceTree = "<group>"; };
 		FF966B0B099A8C6A005886F4 /* RDAtlantisSpawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDAtlantisSpawn.h; path = ../RDAtlantisSpawn.h; sourceTree = "<group>"; };
 		FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RDAtlantisSpawn.swift; path = RDAtlantisSpawn.swift; sourceTree = "<group>"; };
-		FF966B13099A8E8D005886F4 /* SpawnView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SpawnView.xib; path = SpawnView.xib; sourceTree = "<group>"; };
 		FF966B21099ABBF1005886F4 /* RDAtlantisWorldInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDAtlantisWorldInstance.h; path = Worlds/RDAtlantisWorldInstance.h; sourceTree = "<group>"; };
 		FF966B22099ABBF1005886F4 /* RDAtlantisWorldInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDAtlantisWorldInstance.m; path = Worlds/RDAtlantisWorldInstance.m; sourceTree = "<group>"; };
 		FF966CE7099ADC12005886F4 /* RDAtlantisTextInputView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RDAtlantisTextInputView.h; path = Misc/RDAtlantisTextInputView.h; sourceTree = "<group>"; };
@@ -1015,10 +1019,12 @@
 			isa = PBXGroup;
 			children = (
 				FF966B0C099A8C6A005886F4 /* RDAtlantisSpawn.swift */,
+				A71A50000000000000000022 /* SpawnView.swift */,
+				A71A50000000000000000021 /* SpawnTerminal.swift */,
+				A71A50000000000000000020 /* SpawnController.swift */,
 				FF966B0B099A8C6A005886F4 /* RDAtlantisSpawn.h */,
 				A71A50000000000000000003 /* RDAtlantisSpawnInterop.h */,
 				A71A50000000000000000002 /* RDAtlantisSpawnInterop.m */,
-				FF966B13099A8E8D005886F4 /* SpawnView.xib */,
 			);
 			name = Spawn;
 			path = Worlds/Spawn;
@@ -2056,7 +2062,6 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				FFFF6CE40999E0DA00E56390 /* atlantis-logo.icns in Resources */,
 				8B42784529121CEB005EFEA6 /* ActionConf_ClearSpawn.xib in Resources */,
-				FF966B14099A8E8D005886F4 /* SpawnView.xib in Resources */,
 				8B4278142911EA97005EFEA6 /* WindowPrefs.xib in Resources */,
 				FFB18D7109A16EC20067536D /* PTKeyCodes.plist in Resources */,
 				FFB18D8309A16ED70067536D /* PTKeyboardIcon.tiff in Resources */,
@@ -2201,6 +2206,9 @@
 				FFFF6D280999E54E00E56390 /* RDAtlantisMainController.m in Sources */,
 				FF966ABC099A752E005886F4 /* RDAtlantisWorldPreferences.m in Sources */,
 				FF966B0E099A8C6A005886F4 /* RDAtlantisSpawn.swift in Sources */,
+				A71A5000000000000000002A /* SpawnView.swift in Sources */,
+				A71A50000000000000000029 /* SpawnTerminal.swift in Sources */,
+				A71A50000000000000000028 /* SpawnController.swift in Sources */,
 				A71A50000000000000000001 /* RDAtlantisSpawnInterop.m in Sources */,
 				FF966B24099ABBF1005886F4 /* RDAtlantisWorldInstance.m in Sources */,
 				FF966CEA099ADC12005886F4 /* RDAtlantisTextInputView.m in Sources */,

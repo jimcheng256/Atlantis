@@ -23,4 +23,4 @@ Once that's done, open the `Atlantis/Atlantis.xcodeproj` file, and you should be
 
 There will be many warnings. So very many warnings. This codebase is Not Modernized. But at least it should build.
 
-See [Spawn views](Documentation/RDAtlantisSpawn.md) for the Swift implementation, XIB, and test instructions.
+See [Spawn views](Documentation/RDAtlantisSpawn.md) for the SwiftUI implementation, editor integration, and test instructions.
