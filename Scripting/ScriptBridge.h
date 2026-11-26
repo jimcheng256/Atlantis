@@ -8,15 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
+#import <JavaScriptCore/JSExport.h>
 
-@class AtlantisState;
-
-@interface ScriptBridge : NSObject {
-
-    NSSpeechSynthesizer         *_rdSpeaker;
-    AVAudioPlayer               *_rdSound;
-
-}
+// JavaScriptCore exports only the methods in this protocol.
+@protocol AtlantisScriptBridgeExports <JSExport>
 
 // LEGACY: Spawn-based
 - (void) sendText:(NSString *) text toWorld:(NSString *)world;
@@ -27,6 +22,7 @@
 - (void) sendTextToInput:(NSString *) text;
 
 // LEGACY: Variable
+- (void) setTemporaryVariable:(NSString *)value forKey:(NSString *)key;
 - (void) setVariable:(NSString *) value forKey:(NSString *)tempKey inWorld:(NSString *)worldName;
 
 // LEGACY: Preference
@@ -71,4 +67,10 @@
 - (void) registerHotkeyFunction:(NSString *)function withKeyCode:(NSString *)keycode modifiers:(NSString *)modifiers globally:(NSString *)globally withLanguage:(NSString *)language;
 - (void) registerTimer:(NSString *)function withLanguage:(NSString *)language inWorld:(NSString *)world withInterval:(NSString *)seconds repeats:(NSString *)repeats;
 
+@end
+
+@interface ScriptBridge : NSObject <AtlantisScriptBridgeExports> {
+    NSSpeechSynthesizer *_rdSpeaker;
+    AVAudioPlayer *_rdSound;
+}
 @end
