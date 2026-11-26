@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  RDLogOpener.m
 //  Atlantis
@@ -83,9 +84,9 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         NSString *logtype = SendReturningString(logClass,@selector(logtypeName));
         
         if (logtype) {
-            [[NSUserDefaults standardUserDefaults] setObject:logtype forKey:@"atlantis.logsave.type"];
+            [RDAtlantisDefaults() setObject:logtype forKey:@"atlantis.logsave.type"];
         }
-        [[NSUserDefaults standardUserDefaults] setObject:[sheet directory] forKey:@"atlantis.logsave.directory"];
+        [RDAtlantisDefaults() setObject:[sheet directory] forKey:@"atlantis.logsave.directory"];
 
         if (_rdTempFilename) {
             [[NSFileManager defaultManager] movePath:_rdTempFilename toPath:filename handler:NULL];
@@ -102,7 +103,7 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         if ([_rdTimestampButton state] == NSOnState) {
             showTimestamps = YES;
         }
-        [[NSUserDefaults standardUserDefaults] setBool:([_rdTimestampButton state] == NSOnState) forKey:@"atlantis.logsave.timestamps"];
+        [RDAtlantisDefaults() setBool:([_rdTimestampButton state] == NSOnState) forKey:@"atlantis.logsave.timestamps"];
         
         RDLogType *logger = (RDLogType *)class_createInstance(logClass,0);
         [logger initWithFilename:filename forSpawn:spawnPath inWorld:[_rdState world] withOptions:_rdCurrentOptions];
@@ -258,7 +259,7 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         Class logWalk;
         
         NSString *lastType = 
-            [[NSUserDefaults standardUserDefaults] objectForKey:@"atlantis.logsave.type"];
+            [RDAtlantisDefaults() objectForKey:@"atlantis.logsave.type"];
 
         NSString* (*SendReturningString)(id, SEL) = (NSString* (*)(id, SEL))objc_msgSend;
         
@@ -279,7 +280,7 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         }
         [self resyncButton];        
         
-        BOOL lastTimestamp = [[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.logsave.timestamps"];
+        BOOL lastTimestamp = [RDAtlantisDefaults() boolForKey:@"atlantis.logsave.timestamps"];
         if (lastTimestamp) {
             [_rdTimestampButton setState:NSOnState];
         }
@@ -290,9 +291,9 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         _rdSavePanel = [[NSSavePanel savePanel] retain];
         [_rdSavePanel setAccessoryView:_rdOptionsView];
         [_rdSavePanel setDelegate:self];
-        NSString *lastDirectory = [[NSUserDefaults standardUserDefaults] objectForKey:@"atlantis.logsave.directory"];
+        NSString *lastDirectory = [RDAtlantisDefaults() objectForKey:@"atlantis.logsave.directory"];
         if (!lastDirectory)
-            lastDirectory = @"~/Documents";
+            lastDirectory = RDAtlantisDefaultLogDirectory();
         [_rdSavePanel beginSheetForDirectory:lastDirectory file:nil modalForWindow:window modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
         return YES;
     }

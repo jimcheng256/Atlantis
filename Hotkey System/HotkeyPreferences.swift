@@ -11,7 +11,7 @@ final class HotkeyPreferences: NSObject, @preconcurrency AtlantisPreferencePane 
     convenience init(for collection: HotkeyCollection) {
         self.init(
             collection: collection,
-            archiveURL: URL(fileURLWithPath: ("~/Library/Application Support/Atlantis/hotkeys.akb" as NSString).expandingTildeInPath)
+            archiveURL: URL(fileURLWithPath: RDAtlantisStoragePath("hotkeys.akb"))
         )
     }
 

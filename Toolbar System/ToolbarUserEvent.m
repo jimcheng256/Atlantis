@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  ToolbarUserEvent.m
 //  Atlantis
@@ -116,7 +117,7 @@ NSString *generateToolbarUUID()
         _rdDirty = YES;
         NSOpenPanel *panel = [NSOpenPanel openPanel];
         
-        NSString *imagePath = [[NSUserDefaults standardUserDefaults] objectForKey:@"atlantis.image.path"];
+        NSString *imagePath = [RDAtlantisDefaults() objectForKey:@"atlantis.image.path"];
         if (!imagePath) {
             imagePath = @"~/Pictures";
             imagePath = [imagePath stringByExpandingTildeInPath];
@@ -128,7 +129,7 @@ NSString *generateToolbarUUID()
             NSString *directory = [panel directory];
             NSString *filename = [panel filename];
             
-            [[NSUserDefaults standardUserDefaults] setObject:directory forKey:@"atlantis.image.path"];
+            [RDAtlantisDefaults() setObject:directory forKey:@"atlantis.image.path"];
             NSImage *image = [[NSImage alloc] initByReferencingFile:filename];
             if (image) {
                 [_rdToolbarIcon release];

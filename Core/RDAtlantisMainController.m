@@ -1,3 +1,4 @@
+#import "AtlantisProfile.h"
 #import <Lemuria/Lemuria.h>
 //#import <DTCVersionManager/DTCVersionManager.h>
 #import <Sparkle/Sparkle.h>
@@ -142,7 +143,7 @@ static SCNetworkReachabilityRef s_reachabilityRef = nil;
 
 static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info)
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.network.drop"]) {
+    if ([RDAtlantisDefaults() boolForKey:@"atlantis.network.drop"]) {
         if ([RDAtlantisMainController networkAvailable]) {
             [[RDAtlantisMainController controller] reconnectAllNeeded];
         }
@@ -173,7 +174,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
-    [[SUUpdater sharedUpdater] resetUpdateCycle];
+    if (!RDAtlantisHasProfile()) [[SUUpdater sharedUpdater] resetUpdateCycle];
     [_rdScriptSystem refreshEngines:nil];
     
 #ifndef _ATLANTIS_DEBUG
@@ -181,7 +182,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 #endif
     
     if (![_rdConnectedWorlds count]) {
-        BOOL openAddressBook = [[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.startup.openBook"];
+        BOOL openAddressBook = [RDAtlantisDefaults() boolForKey:@"atlantis.startup.openBook"];
         if (openAddressBook)
             [self addressBook:self];
     }
@@ -267,31 +268,31 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecameInactive:) name:@"NSApplicationDidResignActiveNotification" object:nil];
 
     NSString *bundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    int lastVersion = [[NSUserDefaults standardUserDefaults] integerForKey:@"RDAtlantisVersion"];
-    if (lastVersion == 0) {
+    int lastVersion = [RDAtlantisDefaults() integerForKey:@"RDAtlantisVersion"];
+    if (lastVersion == 0 && !RDAtlantisHasProfile()) {
         NSString *atlantisPlistFile = @"~/Library/Preferences/net.riverdark.Atlantis.plist";
         [NSUserDefaults resetStandardUserDefaults];
         [[NSFileManager defaultManager] removeFileAtPath:[atlantisPlistFile stringByExpandingTildeInPath] handler:NULL];
     }
     
     if (lastVersion < 65) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"atlantis.network.drop"];
+        [RDAtlantisDefaults() setBool:YES forKey:@"atlantis.network.drop"];
     }
     if (lastVersion < 71) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"atlantis.network.compress"];
+        [RDAtlantisDefaults() setBool:YES forKey:@"atlantis.network.compress"];
     }
     if (lastVersion < 78) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"atlantis.startup.openBook"];
+        [RDAtlantisDefaults() setBool:YES forKey:@"atlantis.startup.openBook"];
     }
-    if (lastVersion < 86) {
+    if (lastVersion < 86 && !RDAtlantisHasProfile()) {
         NSString *lemuriaStyle = [[NSUserDefaults standardUserDefaults] objectForKey:@"lemuria.display.style"];
         if (lemuriaStyle && [lemuriaStyle isEqualToString:@"outline"])
             [[NSUserDefaults standardUserDefaults] setObject:@"source" forKey:@"lemuria.display.style"];
     }
     
-    [[NSUserDefaults standardUserDefaults] setInteger:[bundleVersion intValue] forKey:@"RDAtlantisVersion"];
+    [RDAtlantisDefaults() setInteger:[bundleVersion intValue] forKey:@"RDAtlantisVersion"];
     
-    _rdStatusBarBottom = [[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.statusbar.bottom"];
+    _rdStatusBarBottom = [RDAtlantisDefaults() boolForKey:@"atlantis.statusbar.bottom"];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowBecameKey:) name:@"NSWindowDidBecomeKeyNotification" object:nil];
     _rdNestedViewSelected = NO;
@@ -344,7 +345,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
     [self addScriptingEngine:[[PerlScriptingEngine alloc] init]];
     [self addScriptingEngine:[[LuaScriptingEngine alloc] init]];
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.scripting.disableJavaScript"]) {
+    if (![RDAtlantisDefaults() boolForKey:@"atlantis.scripting.disableJavaScript"]) {
         [self addScriptingEngine:[[JSScriptingEngine alloc] init]];
     }
     
@@ -588,7 +589,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     
     _rdTextEditor = [[MUSHTextEditor alloc] init];
     
-    [(RDAtlantisApplication *)NSApp shortcutSpawns:[[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.shortcut.spawns"]];
+    [(RDAtlantisApplication *)NSApp shortcutSpawns:[RDAtlantisDefaults() boolForKey:@"atlantis.shortcut.spawns"]];
 }
 
 - (void) dealloc
@@ -1088,7 +1089,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [self saveToolbarEvents];
     [self saveGlobals];
     [self saveWorlds];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [RDAtlantisDefaults() synchronize];
 }
 
 - (void) eventsTimerFired:(NSTimer *) timer
@@ -1272,7 +1273,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) loadKeyBindings
 {
-    NSString *hotkeyFile = @"~/Library/Application Support/Atlantis/hotkeys.akb";
+    NSString *hotkeyFile = RDAtlantisStoragePath(@"hotkeys.akb");
 
     [_rdHotkeys release];
     _rdHotkeys = [[NSKeyedUnarchiver unarchiveObjectWithFile:[hotkeyFile stringByExpandingTildeInPath]] retain];
@@ -1288,7 +1289,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) saveKeyBindings
 {
-    NSString *hotkeyFile = @"~/Library/Application Support/Atlantis/hotkeys.akb";
+    NSString *hotkeyFile = RDAtlantisStoragePath(@"hotkeys.akb");
 
     if ([self createDirectoriesToFile:hotkeyFile]) {
         [NSKeyedArchiver archiveRootObject:_rdHotkeys toFile:[hotkeyFile stringByExpandingTildeInPath]];
@@ -1297,7 +1298,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) loadToolbarEvents
 {
-    NSString *toolbarFile = @"~/Library/Application Support/Atlantis/toolbarEvents.atb";
+    NSString *toolbarFile = RDAtlantisStoragePath(@"toolbarEvents.atb");
 
     [_rdToolbarEvents release];
     _rdToolbarEvents = [[NSKeyedUnarchiver unarchiveObjectWithFile:[toolbarFile stringByExpandingTildeInPath]] retain];
@@ -1309,7 +1310,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) saveToolbarEvents
 {
-    NSString *toolbarFile = @"~/Library/Application Support/Atlantis/toolbarEvents.atb";
+    NSString *toolbarFile = RDAtlantisStoragePath(@"toolbarEvents.atb");
 
     if ([self createDirectoriesToFile:toolbarFile]) {
         [NSKeyedArchiver archiveRootObject:_rdToolbarEvents toFile:[toolbarFile stringByExpandingTildeInPath]];
@@ -1319,7 +1320,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) loadGlobals
 {
-    NSString *globalsFile = @"~/Library/Application Support/Atlantis/globals.awd";
+    NSString *globalsFile = RDAtlantisStoragePath(@"globals.awd");
 
     _rdGlobalWorld = [[NSKeyedUnarchiver unarchiveObjectWithFile:[globalsFile stringByExpandingTildeInPath]] retain];
     
@@ -1366,7 +1367,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) saveGlobals
 {
-    NSString *globalsFile = @"~/Library/Application Support/Atlantis/globals.awd";
+    NSString *globalsFile = RDAtlantisStoragePath(@"globals.awd");
 
     if ([self createDirectoriesToFile:globalsFile]) {
         [NSKeyedArchiver archiveRootObject:_rdGlobalWorld toFile:[globalsFile stringByExpandingTildeInPath]];
@@ -1755,10 +1756,10 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 {
     BOOL shouldDisplay = YES;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.badge.inactive"] == YES)
+    if ([RDAtlantisDefaults() boolForKey:@"atlantis.badge.inactive"] == YES)
         shouldDisplay = ![NSApp isActive];
     
-    if (shouldDisplay && [[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.badge.visible"] == YES) {
+    if (shouldDisplay && [RDAtlantisDefaults() boolForKey:@"atlantis.badge.visible"] == YES) {
         BOOL isVisible = NO;
         
         NSArray *windows = [NSApp windows];

@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  AddressBook.m
 //  Atlantis
@@ -493,7 +494,7 @@ AddressBook *s_addyBook = nil;
     for (loop = 0; loop < [_rdWorldList numberOfRows]; loop++) {
         if ([_rdWorldList levelForRow:loop] == 0) {
             id value = [_rdWorldList itemAtRow:loop];
-            [[NSUserDefaults standardUserDefaults] setBool:[_rdWorldList isItemExpanded:value] forKey:[NSString stringWithFormat:@"addressbook.expands:%@", [value uuid]]];
+            [RDAtlantisDefaults() setBool:[_rdWorldList isItemExpanded:value] forKey:[NSString stringWithFormat:@"addressbook.expands:%@", [value uuid]]];
         }
     }
 }
@@ -506,7 +507,7 @@ AddressBook *s_addyBook = nil;
     for (loop = 0; loop < [_rdWorldList numberOfRows]; loop++) {
         if ([_rdWorldList levelForRow:loop] == 0) {
             id value = [_rdWorldList itemAtRow:loop];
-            BOOL expand = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"addressbook.expands:%@", [value uuid]]];
+            BOOL expand = [RDAtlantisDefaults() boolForKey:[NSString stringWithFormat:@"addressbook.expands:%@", [value uuid]]];
             if (expand) {
                 [_rdWorldList expandItem:value];
             }

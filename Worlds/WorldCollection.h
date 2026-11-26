@@ -12,9 +12,11 @@
 @interface WorldCollection : NSObject {
 
     NSMutableArray              *_rdWorlds;
+    NSString                    *_worldDirectory;
 
 }
 
+- (instancetype)initWithWorldDirectory:(NSString *)directory;
 - (NSArray *) worlds;
 - (unsigned) count;
 

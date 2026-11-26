@@ -88,7 +88,7 @@ final class NetworkPreferences: NSObject, @preconcurrency AtlantisPreferencePane
         }
     }
 
-    private let settings = Settings(defaults: .standard)
+    private let settings = Settings(defaults: RDAtlantisDefaults())
     private lazy var host: NSHostingView<NetworkPreferencesForm> = {
         let host = NSHostingView(rootView: NetworkPreferencesForm(settings: settings))
         host.sizingOptions = []

@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  RDTelnetFilter.m
 //  Atlantis
@@ -112,7 +113,7 @@ enum ScanStates { scanNormal, scanIAC, scanWILL, scanWONT, scanDO, scanDONT, sca
             return YES;
         
         case TELOPT_COMPRESS2:
-            return [[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.network.compress"];
+            return [RDAtlantisDefaults() boolForKey:@"atlantis.network.compress"];
             
         case TELOPT_TM:
         case TELOPT_SNDLOC:

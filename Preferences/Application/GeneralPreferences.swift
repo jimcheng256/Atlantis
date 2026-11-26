@@ -75,7 +75,7 @@ final class GeneralPreferences: NSObject, @preconcurrency AtlantisPreferencePane
 
     override init() {
         settings = Settings(
-            defaults: .standard,
+            defaults: RDAtlantisDefaults(),
             shortcutChanged: { (NSApp as? RDAtlantisApplication)?.shortcutSpawns($0) },
             refreshBadge: { RDPreferenceMainController()?.refreshBadge() }
         )

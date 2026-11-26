@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  WorldCollection.m
 //  Atlantis
@@ -31,15 +32,22 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
 
 - (id) init
 {
+    return [self initWithWorldDirectory:RDAtlantisStoragePath(@"worlds")];
+}
+
+- (instancetype)initWithWorldDirectory:(NSString *)directory
+{
     self = [super init];
     if (self) {
         _rdWorlds = [[NSMutableArray alloc] init];
+        _worldDirectory = [directory copy];
     }
     return self;
 }
 
 - (void) dealloc
 {
+    [_worldDirectory release];
     [_rdWorlds release];
     [super dealloc];
 }
@@ -133,8 +141,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
     
         if (worldName && !expiring) {
             NSString *filename = 
-                [NSString stringWithFormat:@"~/Library/Application Support/Atlantis/worlds/%@.awd",
-                    worldName];
+                [_worldDirectory stringByAppendingPathComponent:[worldName stringByAppendingPathExtension:@"awd"]];
                     
             filename = [filename stringByExpandingTildeInPath];
             [self createDirectoriesToFile:filename];
@@ -158,8 +165,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
     
         if (worldName && !expiring && dirty) {
             NSString *filename = 
-                [NSString stringWithFormat:@"~/Library/Application Support/Atlantis/worlds/%@.awd",
-                    worldName];
+                [_worldDirectory stringByAppendingPathComponent:[worldName stringByAppendingPathExtension:@"awd"]];
                     
             filename = [filename stringByExpandingTildeInPath];
             [self createDirectoriesToFile:filename];
@@ -180,8 +186,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
 
     if (worldName && !temporary && !expiring) {
         NSString *filename = 
-            [NSString stringWithFormat:@"~/Library/Application Support/Atlantis/worlds/%@.awd",
-                worldName];
+            [_worldDirectory stringByAppendingPathComponent:[worldName stringByAppendingPathExtension:@"awd"]];
                 
         filename = [filename stringByExpandingTildeInPath];
         [self createDirectoriesToFile:filename];
@@ -221,8 +226,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
 
 - (void) loadAllWorlds
 {
-    NSString *worldPath = @"~/Library/Application Support/Atlantis/worlds";
-    worldPath = [worldPath stringByExpandingTildeInPath];
+    NSString *worldPath = _worldDirectory;
 
     NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:worldPath];
     NSString *filename;
@@ -312,8 +316,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
     
     if (worldName) {
         NSString *filename = 
-        [NSString stringWithFormat:@"~/Library/Application Support/Atlantis/worlds/%@.awd",
-            worldName];
+        [_worldDirectory stringByAppendingPathComponent:[worldName stringByAppendingPathExtension:@"awd"]];
         
         filename = [filename stringByExpandingTildeInPath];
         [[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
@@ -353,7 +356,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
     if (!instance) {
         instance = [[RDAtlantisWorldInstance alloc] initWithWorld:world forCharacter:characterName withBasePath:[world basePathForCharacter:characterName]];
     }
-    else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.worldMenu.doubleConnect"]) {
+    else if ([RDAtlantisDefaults() boolForKey:@"atlantis.worldMenu.doubleConnect"]) {
         NSString *basePath = [world basePathForCharacter:characterName];
         NSString *result;
         
@@ -412,7 +415,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
         if (instance)
             connected = [instance isConnecting];
         
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.worldMenu.doubleConnect"])
+        if (![RDAtlantisDefaults() boolForKey:@"atlantis.worldMenu.doubleConnect"])
             [item setEnabled:!connected];
 
         [worlds addItem:item];
@@ -432,7 +435,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
             if (instance)
                 connected = [instance isConnecting];
         
-            if (![[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.worldMenu.doubleConnect"])
+            if (![RDAtlantisDefaults() boolForKey:@"atlantis.worldMenu.doubleConnect"])
                 [item setEnabled:!connected];
         
             [worlds addItem:item];
@@ -506,8 +509,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
                 
                 if (worldName) {
                     NSString *filename = 
-                    [NSString stringWithFormat:@"~/Library/Application Support/Atlantis/worlds/%@.awd",
-                        worldName];
+                    [_worldDirectory stringByAppendingPathComponent:[worldName stringByAppendingPathExtension:@"awd"]];
                     
                     filename = [filename stringByExpandingTildeInPath];
                     [self createDirectoriesToFile:filename];

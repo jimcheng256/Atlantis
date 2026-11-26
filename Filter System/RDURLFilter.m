@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  RDURLFilter.m
 //  Atlantis
@@ -25,8 +26,8 @@ static NSString *s_eightSpaces = @"        ";
 }
 - (void) filterOutput:(id) output
 {
-    BOOL autoshrink = [[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.input.urlAutoshrink"];
-    int urllength = [[[NSUserDefaults standardUserDefaults] objectForKey:@"atlantis.input.urlMaxLen"] intValue]; 
+    BOOL autoshrink = [RDAtlantisDefaults() boolForKey:@"atlantis.input.urlAutoshrink"];
+    int urllength = [[RDAtlantisDefaults() objectForKey:@"atlantis.input.urlMaxLen"] intValue];
 
     if ([output isKindOfClass:[NSMutableString class]] && autoshrink) {
 

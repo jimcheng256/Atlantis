@@ -1,3 +1,7 @@
+#import "Core/AtlantisProfile.h"
+#import "Worlds/WorldCollection.h"
+#import "Worlds/RDAtlantisWorldPreferences.h"
+
 // Objective-C APIs used by the Swift spawn implementation.
 #import "Worlds/Spawn/RDAtlantisSpawnInterop.h"
 

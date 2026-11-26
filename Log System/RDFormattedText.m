@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  RDFormattedText.m
 //  Atlantis
@@ -52,7 +53,7 @@
 {
     NSDictionary *myDict;
     
-    myDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"log.formatted.defaults"];
+    myDict = [RDAtlantisDefaults() objectForKey:@"log.formatted.defaults"];
     
     if (!myDict) {
         myDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -202,7 +203,7 @@
             condenseLines,@"condenselines",
             nil];
             
-    [[NSUserDefaults standardUserDefaults] setObject:result forKey:@"log.formatted.defaults"];
+    [RDAtlantisDefaults() setObject:result forKey:@"log.formatted.defaults"];
 }
 
 - (void) okButton:(id) sender

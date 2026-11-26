@@ -1,3 +1,4 @@
+#import "../../Core/AtlantisProfile.h"
 //
 //  Action-SoundPlay.m
 //  Atlantis
@@ -100,7 +101,7 @@
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode  contextInfo:(void  *)contextInfo
 {
     if (returnCode == NSOKButton) {
-        [[NSUserDefaults standardUserDefaults] setObject:[panel directory] forKey:@"action.sound.lastDirectory"];
+        [RDAtlantisDefaults() setObject:[panel directory] forKey:@"action.sound.lastDirectory"];
         
         [_rdSoundFilename release];
         _rdSoundFilename = [[panel filename] retain];
@@ -118,7 +119,7 @@
     if (_rdPanelIsOpen)
         return;
         
-    NSString *lastPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"action.sound.lastDirectory"];
+    NSString *lastPath = [RDAtlantisDefaults() stringForKey:@"action.sound.lastDirectory"];
         
     if (!lastPath)
         lastPath = @"~/Documents";

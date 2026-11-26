@@ -231,7 +231,7 @@ final class SpawnController: NSObject, ObservableObject {
 
     @objc private func statusBarSettingChanged(_ notification: Notification?) {
         setStatusBarBottom(RDSpawnStatusBarAtBottom())
-        if UserDefaults.standard.bool(forKey: "atlantis.statusbar.kill") {
+        if RDAtlantisDefaults().bool(forKey: "atlantis.statusbar.kill") {
             setStatusBarHidden(true)
         } else {
             worldChangedConfig(nil)
@@ -263,7 +263,7 @@ final class SpawnController: NSObject, ObservableObject {
         activeExceptions = prefs.activeExceptions() as? [RDStringPattern] ?? []
         outputView.setMaxLines(maxLines)
         if let prefix = prefs.prefix() { spawnPrefix = prefix }
-        setStatusBarHidden(!prefs.statusBar() || UserDefaults.standard.bool(forKey: "atlantis.statusbar.kill"))
+        setStatusBarHidden(!prefs.statusBar() || RDAtlantisDefaults().bool(forKey: "atlantis.statusbar.kill"))
     }
 
     private func refreshWorldPreferences() {

@@ -43,6 +43,7 @@ final class WindowingPreferences: NSObject, @preconcurrency AtlantisPreferencePa
     @MainActor
     final class Settings: ObservableObject {
         let defaults: UserDefaults
+        let lemuriaDefaults: UserDefaults
         let changeStyle: (Style) -> Void
         let syncDisplay: () -> Void
         let changeStatusPosition: (Bool) -> Void
@@ -50,12 +51,14 @@ final class WindowingPreferences: NSObject, @preconcurrency AtlantisPreferencePa
 
         init(
             defaults: UserDefaults,
+            lemuriaDefaults: UserDefaults? = nil,
             changeStyle: @escaping (Style) -> Void,
             syncDisplay: @escaping () -> Void,
             changeStatusPosition: @escaping (Bool) -> Void,
             changeStatusVisibility: @escaping () -> Void
         ) {
             self.defaults = defaults
+            self.lemuriaDefaults = lemuriaDefaults ?? defaults
             self.changeStyle = changeStyle
             self.syncDisplay = syncDisplay
             self.changeStatusPosition = changeStatusPosition
@@ -63,31 +66,35 @@ final class WindowingPreferences: NSObject, @preconcurrency AtlantisPreferencePa
         }
 
         var grouping: Grouping {
-            get { defaults.string(forKey: "lemuria.window.behavior").flatMap(Grouping.init(rawValue:)) ?? .automatic }
+            get { lemuriaDefaults.string(forKey: "lemuria.window.behavior").flatMap(Grouping.init(rawValue:)) ?? .automatic }
             set {
                 objectWillChange.send()
-                defaults.set(newValue.rawValue, forKey: "lemuria.window.behavior")
+                lemuriaDefaults.set(newValue.rawValue, forKey: "lemuria.window.behavior")
             }
         }
 
         var style: Style {
-            get { defaults.string(forKey: "lemuria.display.style").flatMap(Style.init(rawValue:)) ?? .source }
+            get { lemuriaDefaults.string(forKey: "lemuria.display.style").flatMap(Style.init(rawValue:)) ?? .source }
             set {
                 objectWillChange.send()
                 changeStyle(newValue)
-                defaults.set(newValue.rawValue, forKey: "lemuria.display.style")
+                lemuriaDefaults.set(newValue.rawValue, forKey: "lemuria.display.style")
             }
         }
 
         var drag: Bool {
-            get { !defaults.bool(forKey: "lemuria.dragging.disabled") }
-            set { set(!newValue, forKey: "lemuria.dragging.disabled") }
+            get { !lemuriaDefaults.bool(forKey: "lemuria.dragging.disabled") }
+            set {
+                objectWillChange.send()
+                lemuriaDefaults.set(!newValue, forKey: "lemuria.dragging.disabled")
+            }
         }
 
         var smallIcons: Bool {
-            get { defaults.bool(forKey: "lemuria.display.smallicons") }
+            get { lemuriaDefaults.bool(forKey: "lemuria.display.smallicons") }
             set {
-                set(newValue, forKey: "lemuria.display.smallicons")
+                objectWillChange.send()
+                lemuriaDefaults.set(newValue, forKey: "lemuria.display.smallicons")
                 syncDisplay()
             }
         }
@@ -115,7 +122,8 @@ final class WindowingPreferences: NSObject, @preconcurrency AtlantisPreferencePa
     }
 
     private lazy var settings = Settings(
-        defaults: .standard,
+        defaults: RDAtlantisDefaults(),
+        lemuriaDefaults: .standard,
         changeStyle: { RDSpawnViewManager().setDisplay($0.displayClass) },
         syncDisplay: { RDSpawnViewManager().syncDisplayClass() },
         changeStatusPosition: { RDPreferenceMainController()?.setStatusBarBottom($0) },

@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  RDAnsiFilter.m
 //  Atlantis
@@ -554,7 +555,7 @@ static BOOL RDParseSGRNumber(NSString *parameter, int maximum, int *value)
         // Handle bell
         NSRange foundRange = [tempString rangeOfString:@"\x07" options:0 range:NSMakeRange(0,[tempString length])];
         if (foundRange.length) {
-            switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"atlantis.beeptype"]) {
+            switch ([RDAtlantisDefaults() integerForKey:@"atlantis.beeptype"]) {
                 case 0: // Do nothing
                     break;
                 case 1: // Show status

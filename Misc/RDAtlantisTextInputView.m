@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 #import "RDAtlantisTextInputView.h"
 #import "RDAtlantisApplication.h"
 
@@ -34,7 +35,7 @@
     if (rawEnter && [[self delegate] respondsToSelector:@selector(textView:committedInput:)]) {
         NSAttributedString *currentString = [[NSAttributedString alloc] initWithAttributedString:[self textStorage]];
         [[self delegate] textView:self committedInput:currentString];
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.text.retainOnCommit"]) {
+        if ([RDAtlantisDefaults() boolForKey:@"atlantis.text.retainOnCommit"]) {
             [self setSelectedRange:NSMakeRange(0,[[self textStorage] length])];
         }
         else

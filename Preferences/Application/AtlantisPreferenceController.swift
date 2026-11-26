@@ -73,7 +73,9 @@ final class AtlantisPreferenceController: NSWindowController, NSToolbarDelegate,
             window.setContentSize(WorldDefaults.defaultContentSize)
             window.center()
         }
-        window.setFrameAutosaveName(Self.frameAutosaveName)
+        if !RDAtlantisHasProfile() {
+            window.setFrameAutosaveName(Self.frameAutosaveName)
+        }
 
         selectPane(first, in: window)
         // The initial pane becomes eligible for a switch commit after a toolbar selection.

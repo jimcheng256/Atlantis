@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  RDAtlantisWorldInstance.m
 //  Atlantis
@@ -1276,7 +1277,7 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
     
     if (_rdFuguePattern) {
         if ([_rdFuguePattern patternMatchesString:compareString]) {
-            BOOL fugueMe = [[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.grab.fugueedit"];
+            BOOL fugueMe = [RDAtlantisDefaults() boolForKey:@"atlantis.grab.fugueedit"];
             if (fugueMe) {
                 int patternLength = [[_rdFuguePattern pattern] length];
                 NSRange tempRange = NSMakeRange(patternLength, [compareString length] - patternLength - 1); 
@@ -1356,7 +1357,7 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 {
     NSMutableString *baseString = [[string mutableCopy] autorelease];
     BOOL handledAsCommand = NO;
-    BOOL noSlashies = [[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.input.noSlashies"];
+    BOOL noSlashies = [RDAtlantisDefaults() boolForKey:@"atlantis.input.noSlashies"];
     BOOL hasSlash = NO;
     RDAtlantisSpawn *spawn = eventSpawn;
 
@@ -1473,7 +1474,7 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
                 
                 if (![baseString canBeConvertedToEncoding:_rdOutputEncoding]) {                
                     // Give up and warn...
-                    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"atlantis.input.silentConvert"])
+                    if (![RDAtlantisDefaults() boolForKey:@"atlantis.input.silentConvert"])
                         [self handleStatusOutput:@"Your input contained Unicode characters that this server cannot understand; you may have pasted from Word or something similar.  Atlantis will attempt to convert it all to be usable, but some characters may be lost in the process.\n" onSpawn:spawn];
                 }
             }
@@ -1749,11 +1750,11 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 
     NSString *newHost = hostName;
 
-    int proxyType = [[NSUserDefaults standardUserDefaults] integerForKey:@"atlantis.network.proxyType"];
+    int proxyType = [RDAtlantisDefaults() integerForKey:@"atlantis.network.proxyType"];
     if (proxyType) {
         if ((proxyType == 3) || (proxyType == 4)) {
-            NSString *proxyServer = [[NSUserDefaults standardUserDefaults] stringForKey:@"atlantis.network.proxyHost"];
-            port = [[NSUserDefaults standardUserDefaults] integerForKey:@"atlantis.network.proxyPort"];
+            NSString *proxyServer = [RDAtlantisDefaults() stringForKey:@"atlantis.network.proxyHost"];
+            port = [RDAtlantisDefaults() integerForKey:@"atlantis.network.proxyPort"];
             newHost = proxyServer;
         } 
     }
@@ -1792,10 +1793,10 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
     }
     
     if ((proxyType == 1) || (proxyType == 2)) {
-        NSString *proxyServer = [[NSUserDefaults standardUserDefaults] stringForKey:@"atlantis.network.proxyHost"];
-        int proxyPort = [[NSUserDefaults standardUserDefaults] integerForKey:@"atlantis.network.proxyPort"];
-        NSString *proxyUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"atlantis.network.proxyUser"];
-        NSString *proxyPass = [[NSUserDefaults standardUserDefaults] stringForKey:@"atlantis.network.proxyPass"];
+        NSString *proxyServer = [RDAtlantisDefaults() stringForKey:@"atlantis.network.proxyHost"];
+        int proxyPort = [RDAtlantisDefaults() integerForKey:@"atlantis.network.proxyPort"];
+        NSString *proxyUser = [RDAtlantisDefaults() stringForKey:@"atlantis.network.proxyUser"];
+        NSString *proxyPass = [RDAtlantisDefaults() stringForKey:@"atlantis.network.proxyPass"];
         NSMutableDictionary *settings = [[NSMutableDictionary alloc] init];
         if (proxyServer && proxyPort) {
             switch (proxyType) {
@@ -2191,7 +2192,7 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
         {
             if ([stream isKindOfClass:[NSInputStream class]]) {
             
-                int proxyType = [[NSUserDefaults standardUserDefaults] integerForKey:@"atlantis.network.proxyType"];
+                int proxyType = [RDAtlantisDefaults() integerForKey:@"atlantis.network.proxyType"];
                 if ((proxyType == 3) || (proxyType == 4)) {
                     NSString *hostName = [self preferenceForKey:@"atlantis.world.host"];
                     NSNumber *hostPort = [self preferenceForKey:@"atlantis.world.port"];

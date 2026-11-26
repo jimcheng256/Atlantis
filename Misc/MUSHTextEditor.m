@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  MUSHTextEditor.m
 //  Atlantis
@@ -118,7 +119,7 @@
     [_rdEditorView setFont:_rdFont];
     [_rdSourceView setFont:_rdFont];
         
-    int ansiType = [[NSUserDefaults standardUserDefaults] integerForKey:@"atlantis.mushEdit.ansiType"];    
+    int ansiType = [RDAtlantisDefaults() integerForKey:@"atlantis.mushEdit.ansiType"];
     [_rdAnsiTypePicker selectCellWithTag:ansiType];
         
     [_rdEditorView setSelectedRange:NSMakeRange(0,[[_rdEditorView textStorage] length])];
@@ -181,7 +182,7 @@
 - (void) ansiPicked:(id) sender
 {
     int ansiType = [[_rdAnsiTypePicker selectedCell] tag];
-    [[NSUserDefaults standardUserDefaults] setInteger:ansiType forKey:@"atlantis.mushEdit.ansiType"];
+    [RDAtlantisDefaults() setInteger:ansiType forKey:@"atlantis.mushEdit.ansiType"];
 }
 
 - (void) clearEditor:(id) sender

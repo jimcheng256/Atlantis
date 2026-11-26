@@ -45,6 +45,7 @@
 		A71A50000000000000000103 /* EventRemovalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000104 /* EventRemovalTests.swift */; };
 		A71A50000000000000000105 /* JSScriptingEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000106 /* JSScriptingEngineTests.swift */; };
 		A71A50000000000000000140 /* ANSIColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000141 /* ANSIColorTests.swift */; };
+		A71A50000000000000000204 /* AtlantisProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000205 /* AtlantisProfileTests.swift */; };
 		A71A500000000000000000BF /* HotkeyPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */; };
 		A71A500000000000000000BC /* WorldDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000BD /* WorldDefaultsTests.swift */; };
 		A71A500000000000000000BA /* WindowingPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000BB /* WindowingPreferencesTests.swift */; };
@@ -108,6 +109,7 @@
 		8B42786829122717005EFEA6 /* WorldNotepad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B42786729122717005EFEA6 /* WorldNotepad.xib */; };
 		8B4842E62FEB8C24009C86D9 /* RDMultibyteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B4842E52FEB8C1F009C86D9 /* RDMultibyteFilter.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		A71A50000000000000000201 /* AtlantisProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000202 /* AtlantisProfile.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		FF00C31209E1F90600083573 /* AtlantisPreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF00C31009E1F90600083573 /* AtlantisPreferenceController.swift */; };
@@ -448,6 +450,7 @@
 		A71A50000000000000000104 /* EventRemovalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRemovalTests.swift; sourceTree = "<group>"; };
 		A71A50000000000000000106 /* JSScriptingEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSScriptingEngineTests.swift; sourceTree = "<group>"; };
 		A71A50000000000000000141 /* ANSIColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ANSIColorTests.swift; sourceTree = "<group>"; };
+		A71A50000000000000000205 /* AtlantisProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlantisProfileTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyPreferencesTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000BD /* WorldDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldDefaultsTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000BB /* WindowingPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowingPreferencesTests.swift; sourceTree = "<group>"; };
@@ -458,6 +461,8 @@
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		A71A50000000000000000202 /* AtlantisProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Core/AtlantisProfile.m; sourceTree = "<group>"; };
+		A71A50000000000000000203 /* AtlantisProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core/AtlantisProfile.h; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -1033,6 +1038,7 @@
 				A71A50000000000000000104 /* EventRemovalTests.swift */,
 				A71A50000000000000000106 /* JSScriptingEngineTests.swift */,
 				A71A50000000000000000141 /* ANSIColorTests.swift */,
+				A71A50000000000000000205 /* AtlantisProfileTests.swift */,
 				A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */,
 				A71A500000000000000000BD /* WorldDefaultsTests.swift */,
 				A71A500000000000000000BB /* WindowingPreferencesTests.swift */,
@@ -1121,6 +1127,8 @@
 			isa = PBXGroup;
 			children = (
 				8B55F9182EE94D070085B611 /* Atlantis-Bridging-Header.h */,
+				A71A50000000000000000202 /* AtlantisProfile.m */,
+				A71A50000000000000000203 /* AtlantisProfile.h */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -2161,6 +2169,7 @@
 				A71A50000000000000000103 /* EventRemovalTests.swift in Sources */,
 				A71A50000000000000000105 /* JSScriptingEngineTests.swift in Sources */,
 				A71A50000000000000000140 /* ANSIColorTests.swift in Sources */,
+				A71A50000000000000000204 /* AtlantisProfileTests.swift in Sources */,
 				A71A500000000000000000BF /* HotkeyPreferencesTests.swift in Sources */,
 				A71A500000000000000000BC /* WorldDefaultsTests.swift in Sources */,
 				A71A500000000000000000BA /* WindowingPreferencesTests.swift in Sources */,
@@ -2172,6 +2181,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A71A50000000000000000201 /* AtlantisProfile.m in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				A71A500000000000000000D7 /* AtlantisNotifications.swift in Sources */,
 				FFFF6D280999E54E00E56390 /* RDAtlantisMainController.m in Sources */,

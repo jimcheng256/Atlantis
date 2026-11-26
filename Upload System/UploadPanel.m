@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  UploadPanel.m
 //  Atlantis
@@ -50,7 +51,7 @@
         if (!filename) {
             return;
         }
-        [[NSUserDefaults standardUserDefaults] setObject:[sheet directory] forKey:@"atlantis.upload.directory"];
+        [RDAtlantisDefaults() setObject:[sheet directory] forKey:@"atlantis.upload.directory"];
         if ([_rdCodeButton state] == NSOnState) {
             CodeUploader *uploader = [[CodeUploader alloc] initWithFile:filename forWorld:[_rdState world] atInterval:1 withPrefix:nil suffix:nil];
 
@@ -96,7 +97,7 @@
     [_rdPanel setAccessoryView:_rdOptionsView];
     [_rdPanel setDelegate:self];
 
-    NSString *lastDirectory = [[NSUserDefaults standardUserDefaults] objectForKey:@"atlantis.upload.directory"];
+    NSString *lastDirectory = [RDAtlantisDefaults() objectForKey:@"atlantis.upload.directory"];
     if (!lastDirectory)
         lastDirectory = @"~/Documents";
 

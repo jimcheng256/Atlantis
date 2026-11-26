@@ -1,3 +1,4 @@
+#import "../Core/AtlantisProfile.h"
 //
 //  RDHTMLLog.m
 //  Atlantis
@@ -54,7 +55,7 @@
 {
     NSDictionary *myDict;
     
-    myDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"log.html.defaults"];
+    myDict = [RDAtlantisDefaults() objectForKey:@"log.html.defaults"];
     
     if (!myDict) {
         myDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -244,7 +245,7 @@
 
 - (void) makeDefaults:(id) sender
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[self currentConfigurationState] forKey:@"log.html.defaults"];    
+    [RDAtlantisDefaults() setObject:[self currentConfigurationState] forKey:@"log.html.defaults"];
 }
 
 - (BOOL) useCSS
