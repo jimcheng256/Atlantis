@@ -523,8 +523,8 @@
 		8B42786329121F51005EFEA6 /* AtlantisProgressSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AtlantisProgressSheet.xib; path = Misc/AtlantisProgressSheet.xib; sourceTree = "<group>"; };
 		8B42786529121F86005EFEA6 /* RenameWindowPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RenameWindowPicker.xib; path = Misc/RenameWindowPicker.xib; sourceTree = "<group>"; };
 		8B42786729122717005EFEA6 /* WorldNotepad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorldNotepad.xib; path = Worlds/WorldNotepad.xib; sourceTree = "<group>"; };
-		8B4842E42FEB8BCD009C86D9 /* RDMultibyteFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDMultibyteFilter.h; sourceTree = "<group>"; };
-		8B4842E52FEB8C1F009C86D9 /* RDMultibyteFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDMultibyteFilter.m; sourceTree = "<group>"; };
+		8B4842E42FEB8BCD009C86D9 /* RDMultibyteFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RDMultibyteFilter.h; path = "Filter System/RDMultibyteFilter.h"; sourceTree = "<group>"; };
+		8B4842E52FEB8C1F009C86D9 /* RDMultibyteFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RDMultibyteFilter.m; path = "Filter System/RDMultibyteFilter.m"; sourceTree = "<group>"; };
 		8B55F9182EE94D070085B611 /* Atlantis-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atlantis-Bridging-Header.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Atlantis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Atlantis.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -557,8 +557,8 @@
 		FF0C2BE70A27A4E2002484B9 /* ToolbarDisconnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarDisconnect.m; path = "Toolbar System/ToolbarDisconnect.m"; sourceTree = "<group>"; };
 		FF0C2BEE0A27A4FA002484B9 /* ToolbarSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarSearch.h; path = "Toolbar System/ToolbarSearch.h"; sourceTree = "<group>"; };
 		FF0C2BEF0A27A4FA002484B9 /* ToolbarSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarSearch.m; path = "Toolbar System/ToolbarSearch.m"; sourceTree = "<group>"; };
-		FF12189E136D021900363EB5 /* LogsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogsCommand.h; sourceTree = "<group>"; };
-		FF12189F136D021900363EB5 /* LogsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogsCommand.m; sourceTree = "<group>"; };
+		FF12189E136D021900363EB5 /* LogsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogsCommand.h; path = "Command System/LogsCommand.h"; sourceTree = "<group>"; };
+		FF12189F136D021900363EB5 /* LogsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogsCommand.m; path = "Command System/LogsCommand.m"; sourceTree = "<group>"; };
 		FF16E7E609A0733A00724F23 /* RDEmailFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDEmailFilter.h; path = "Filter System/RDEmailFilter.h"; sourceTree = "<group>"; };
 		FF16E7E709A0733A00724F23 /* RDEmailFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDEmailFilter.m; path = "Filter System/RDEmailFilter.m"; sourceTree = "<group>"; };
 		FF191CF809F33C7C0071917F /* Action-GlobalDisconnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-GlobalDisconnect.h"; path = "Event System/Actions/Action-GlobalDisconnect.h"; sourceTree = "<group>"; };
