@@ -12,6 +12,28 @@
 
 static NSMutableArray *s_extendedColors = nil;
 
+static BOOL RDParseSGRNumber(NSString *parameter, int maximum, int *value)
+{
+    if (![parameter length])
+        return NO;
+
+    int result = 0;
+    for (NSUInteger index = 0; index < [parameter length]; index++) {
+        unichar digit = [parameter characterAtIndex:index];
+        if (digit < '0' || digit > '9')
+            return NO;
+        if (result > maximum / 10 || (result == maximum / 10 && digit - '0' > maximum % 10))
+            return NO;
+        result = result * 10 + (digit - '0');
+    }
+    *value = result;
+    return YES;
+}
+
+@interface RDAnsiState ()
+- (void) setRGBColor:(NSColor *)color foreground:(BOOL)foreground;
+@end
+
 @implementation RDAnsiState
 
 + (void) initialize
@@ -75,6 +97,10 @@ static NSMutableArray *s_extendedColors = nil;
     [_rdFont release];
     [_rdColors release];
     [_rdBackground release];
+    [_rdDefaultColor release];
+    [_rdHoldover release];
+    [_rdRGBForeground release];
+    [_rdRGBBackground release];
     [super dealloc];
 }
 
@@ -108,9 +134,42 @@ static NSMutableArray *s_extendedColors = nil;
     return _rdHoldover;
 }
 
+- (void) applyRGBColors
+{
+    if (_rdRGBForeground) {
+        [_rdCurrentAttributes setObject:_rdRGBForeground forKey:(_rdAnsiInvertMe ? NSBackgroundColorAttributeName : NSForegroundColorAttributeName)];
+        [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? @"RDAnsiBackgroundColor" : @"RDAnsiForegroundColor")];
+    }
+    if (_rdRGBBackground) {
+        [_rdCurrentAttributes setObject:_rdRGBBackground forKey:(_rdAnsiInvertMe ? NSForegroundColorAttributeName : NSBackgroundColorAttributeName)];
+        [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? @"RDAnsiForegroundColor" : @"RDAnsiBackgroundColor")];
+    }
+}
+
+- (void) setRGBColor:(NSColor *)color foreground:(BOOL)foreground
+{
+    if (foreground) {
+        [_rdRGBForeground release];
+        _rdRGBForeground = [color retain];
+        _rdAnsiLastColor = -1;
+    }
+    else {
+        [_rdRGBBackground release];
+        _rdRGBBackground = [color retain];
+        _rdAnsiLastBackground = -1;
+    }
+    [self applyRGBColors];
+}
+
 - (void) setBold:(BOOL)bold
 {
     _rdAnsiBoldMe = bold;
+
+    if (_rdRGBForeground) {
+        if (_rdBoldOnIntense)
+            [_rdCurrentAttributes setObject:(_rdAnsiBoldMe ? _rdFontBold : _rdFont) forKey:NSFontAttributeName];
+        return;
+    }
     
     if ((_rdAnsiLastColor != -1) && (_rdAnsiLastColor > [_rdColors count]))
         return;
@@ -197,6 +256,8 @@ static NSMutableArray *s_extendedColors = nil;
         [_rdCurrentAttributes setObject:fgColor forKey:(_rdAnsiInvertMe ? NSBackgroundColorAttributeName : NSForegroundColorAttributeName)];
     if (bgColor)
         [_rdCurrentAttributes setObject:bgColor forKey:(_rdAnsiInvertMe ? NSForegroundColorAttributeName : NSBackgroundColorAttributeName)];
+
+    [self applyRGBColors];
 }
 
 - (void) setUnderline:(BOOL)underline
@@ -230,6 +291,8 @@ static NSMutableArray *s_extendedColors = nil;
 
 - (void) setColor:(int)color
 {
+    [_rdRGBForeground release];
+    _rdRGBForeground = nil;
     _rdAnsiLastColor = color;
     
     int effFg = _rdAnsiLastColor + (((_rdAnsiLastColor != -1) && (_rdAnsiLastColor < 8)) ? (_rdAnsiBoldMe ? 8 : 0) : 0);
@@ -265,6 +328,8 @@ static NSMutableArray *s_extendedColors = nil;
 
 - (void) setBackground:(int)background
 {
+    [_rdRGBBackground release];
+    _rdRGBBackground = nil;
     _rdAnsiLastBackground = background;
 
     NSColor *bgColor = nil;
@@ -306,6 +371,10 @@ static NSMutableArray *s_extendedColors = nil;
 
 - (void) reset
 {
+    [_rdRGBForeground release];
+    _rdRGBForeground = nil;
+    [_rdRGBBackground release];
+    _rdRGBBackground = nil;
     _rdAnsiLastBackground = -1;
     _rdAnsiLastColor = -1;
     _rdAnsiBoldMe = NO;
@@ -579,8 +648,22 @@ static NSMutableArray *s_extendedColors = nil;
                     case 95: // "_" APC, ends with ST (ESC \)
                         endRange = [tempString rangeOfString:@"\x1b\x5c" options:0 range:finishRange];
                         break;
-                    case 91: // "[" CSI, sequence ends with a letter
-                        endRange = [tempString rangeOfCharacterFromSet:[NSCharacterSet letterCharacterSet] options:0 range:finishRange];
+                    case 91: // "[" CSI, sequence ends with an ASCII final byte
+                        endRange = NSMakeRange(NSNotFound, 0);
+                        for (NSUInteger index = searchBegin + 1; index < length; index++) {
+                            unichar character = [tempString characterAtIndex:index];
+                            if (character == '\x1b') {
+                                [self logInvalidANSI:@"interrupted CSI sequence"];
+                                lastPosition = index;
+                                break;
+                            }
+                            if (character >= 0x40 && character <= 0x7e) {
+                                endRange = NSMakeRange(index, 1);
+                                break;
+                            }
+                        }
+                        if (lastPosition != foundRange.location)
+                            continue;
                         break;
                         
                         // Single-character sequences, read out the next character and parse it
@@ -623,21 +706,101 @@ static NSMutableArray *s_extendedColors = nil;
     }
 }
 
+- (void) logInvalidANSI:(NSString *)reason
+{
+    NSTimeInterval now = [[NSProcessInfo processInfo] systemUptime];
+    if (now - _rdLastANSIDiagnostic >= 10) {
+        _rdANSIDiagnostics = 0;
+        _rdLastANSIDiagnostic = now;
+    }
+
+    if (_rdANSIDiagnostics < 5) {
+        _rdANSIDiagnostics++;
+        NSLog(@"Atlantis ANSI: %@", reason);
+    }
+}
+
+- (void) applyExtendedColor:(NSArray<NSString *> *)parameters foreground:(BOOL)foreground colonSeparated:(BOOL)colonSeparated
+{
+    int mode;
+    int components[3];
+    if ([parameters count] && RDParseSGRNumber(parameters[0], 255, &mode)) {
+        if (mode == 5 && [parameters count] == 2 && RDParseSGRNumber(parameters[1], 255, &components[0])) {
+            if (foreground)
+                [_rdState setColor:components[0]];
+            else
+                [_rdState setBackground:components[0]];
+            return;
+        }
+        if (mode == 2) {
+            NSUInteger start = 1;
+            if (colonSeparated && [parameters count] == 5) {
+                int colorSpace;
+                if ([parameters[1] length] && (!RDParseSGRNumber(parameters[1], 255, &colorSpace) || colorSpace != 0)) {
+                    [self logInvalidANSI:@"unsupported RGB color space"];
+                    return;
+                }
+                start = 2;
+            }
+            if ([parameters count] == start + 3 &&
+                RDParseSGRNumber(parameters[start], 255, &components[0]) &&
+                RDParseSGRNumber(parameters[start + 1], 255, &components[1]) &&
+                RDParseSGRNumber(parameters[start + 2], 255, &components[2])) {
+                NSColor *color = [NSColor colorWithSRGBRed:components[0] / 255.0
+                                                   green:components[1] / 255.0
+                                                    blue:components[2] / 255.0 alpha:1];
+                [_rdState setRGBColor:color foreground:foreground];
+                return;
+            }
+        }
+    }
+    [self logInvalidANSI:(foreground ? @"malformed extended foreground color" : @"malformed extended background color")];
+}
+
 - (void) parseEscapeSequence:(NSString *)sequence result:(NSMutableAttributedString *) result
 {
     NSString *escTerminator = [sequence substringFromIndex:[sequence length] - 1];
     
     // ANSI color sequence
-    if ([escTerminator isEqualToString:@"m"]) {
-        NSString *ansiSequence = [sequence substringWithRange:NSMakeRange(2, [sequence length] - 2)];
-        
-        NSArray *ansicodes = [ansiSequence componentsSeparatedByString:@";"];
-        NSEnumerator *ansiEnum = [ansicodes objectEnumerator];
-        
-        id walkobj;
-        while (walkobj = [ansiEnum nextObject]) {
-            int code = [(NSString *)walkobj intValue];
-            
+    if ([sequence hasPrefix:@"\x1b["] && [escTerminator isEqualToString:@"m"]) {
+        NSString *ansiSequence = [sequence substringWithRange:NSMakeRange(2, [sequence length] - 3)];
+        NSArray<NSString *> *codes = [ansiSequence componentsSeparatedByString:@";"];
+        for (NSUInteger index = 0; index < [codes count]; index++) {
+            NSArray<NSString *> *subparameters = [codes[index] componentsSeparatedByString:@":"];
+            NSString *parameter = subparameters[0];
+            int code = 0;
+            if (([parameter length] || [subparameters count] > 1) && !RDParseSGRNumber(parameter, INT_MAX, &code)) {
+                [self logInvalidANSI:@"invalid SGR parameter"];
+                continue;
+            }
+
+            if (code == 38 || code == 48) {
+                BOOL colonSeparated = [subparameters count] > 1;
+                NSArray<NSString *> *operands;
+                if (colonSeparated) {
+                    operands = [subparameters subarrayWithRange:NSMakeRange(1, [subparameters count] - 1)];
+                }
+                else {
+                    // Consume a known mode's entire group, even when an operand is invalid.
+                    // An unknown mode has no known boundary within this SGR sequence.
+                    NSUInteger remaining = [codes count] - index - 1;
+                    int mode;
+                    NSUInteger count = remaining;
+                    if (remaining && RDParseSGRNumber(codes[index + 1], 255, &mode)) {
+                        if (mode == 2)
+                            count = MIN(remaining, 4);
+                        else if (mode == 5)
+                            count = MIN(remaining, 2);
+                    }
+                    operands = [codes subarrayWithRange:NSMakeRange(index + 1, count)];
+                    index += count;
+                }
+                [self applyExtendedColor:operands foreground:(code == 38) colonSeparated:colonSeparated];
+                continue;
+            }
+            if ([subparameters count] > 1)
+                continue;
+
             // Get ANSI sequence category
             switch (code / 10) {
                 
@@ -680,14 +843,6 @@ static NSMutableArray *s_extendedColors = nil;
                         [_rdState setColor:-1];
                         [_rdState setBold:FALSE];
                     }
-                    else if (code == 38) {
-                        // 256-color support
-                        NSString *nextObj = [ansiEnum nextObject];
-                        if ([nextObj isEqualToString:@"5"]) {
-                            nextObj = [ansiEnum nextObject];
-                            [_rdState setColor:[nextObj intValue]];
-                        }
-                    }
                     break;
                     
                 case 4: // ANSI background color
@@ -695,22 +850,16 @@ static NSMutableArray *s_extendedColors = nil;
                         [_rdState setBackground:(code - 40)];
                     else if (code == 49)
                         [_rdState setBackground:-1];
-                    else if (code == 48) {
-                        // 256-color support
-                        NSString *nextObj = [ansiEnum nextObject];
-                        if ([nextObj isEqualToString:@"5"]) {
-                            nextObj = [ansiEnum nextObject];
-                            [_rdState setBackground:[nextObj intValue]];
-                        }
-                    }
                     break;
                     
                 case 9: // ANSI extended foreground
-                    [_rdState setColor:((code - 90) + 8)];
+                    if (code <= 97)
+                        [_rdState setColor:((code - 90) + 8)];
                     break;
                     
                 case 10:
-                    [_rdState setBackground:((code - 100) + 8)];
+                    if (code <= 107)
+                        [_rdState setBackground:((code - 100) + 8)];
                     break;
             }
         }

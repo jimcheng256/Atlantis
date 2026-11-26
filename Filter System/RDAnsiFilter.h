@@ -18,6 +18,8 @@
     int         _rdAnsiLastColor;
     int         _rdAnsiLastBackground;   
     
+    NSColor *              _rdRGBForeground;
+    NSColor *              _rdRGBBackground;
     BOOL                   _rdBoldOnIntense;
     
     NSAttributedString *   _rdHoldover;
@@ -67,6 +69,8 @@
     RDAnsiState                     *_rdState;
     
     int         _rdBeepBehavior;
+    NSTimeInterval _rdLastANSIDiagnostic;
+    NSUInteger _rdANSIDiagnostics;
     
 }
 
