@@ -5,6 +5,49 @@ import XCTest
 
 @MainActor
 final class ANSIColorTests: XCTestCase {
+    func testTelnetAdvertisesTruecolorAndRestartsTerminalTypeCycle() {
+        let world = ColorTestWorld()
+        let filter = RDTelnetFilter(world: world)!
+        let connected = Notification.Name("RDAtlantisConnectionDidConnectNotification")
+        let disconnected = Notification.Name("RDAtlantisConnectionDidDisconnectNotification")
+        let request: [UInt8] = [255, 250, 24, 1, 255, 240]
+
+        func input(_ bytes: [UInt8]) {
+            let data = NSMutableData(data: Data(bytes))
+            filter.filterInput(data)
+            XCTAssertEqual(data.length, 0)
+        }
+
+        func reply(_ terminalType: String) -> Data {
+            Data([255, 250, 24, 0] + Array(terminalType.utf8) + [255, 240])
+        }
+
+        NotificationCenter.default.post(name: connected, object: world)
+        input([255, 253, 24])
+        input([255, 250, 24, 255, 240])
+        input(request + request + request + request)
+        XCTAssertEqual(world.telnetReplies, [
+            Data([255, 251, 24]), reply("Atlantis"), reply("xterm-256color"),
+            reply("MTTS 269"), reply("MTTS 269")
+        ])
+
+        world.telnetReplies.removeAll()
+        input(request)
+        input([255, 254, 24])
+        input([255, 253, 24])
+        input(request + request)
+        XCTAssertEqual(world.telnetReplies, [
+            reply("Atlantis"), Data([255, 252, 24]), Data([255, 251, 24]),
+            reply("Atlantis"), reply("xterm-256color")
+        ])
+
+        world.telnetReplies.removeAll()
+        NotificationCenter.default.post(name: disconnected, object: world)
+        NotificationCenter.default.post(name: connected, object: world)
+        input([255, 253, 24] + request)
+        XCTAssertEqual(world.telnetReplies, [Data([255, 251, 24]), reply("Atlantis")])
+    }
+
     func testPlainTextUsesWorldDefaultsAcrossChunks() {
         let fixture = Fixture()
         for text in ["plain text\n", "prompt> "] {
@@ -292,6 +335,12 @@ final class ANSIColorTests: XCTestCase {
 }
 
 private final class ColorTestWorld: RDAtlantisWorldInstance {
+    var telnetReplies: [Data] = []
+
+    override func sendDataRaw(_ data: Data!) {
+        telnetReplies.append(data)
+    }
+
     let foreground = NSColor(srgbRed: 0.8, green: 0.7, blue: 0.6, alpha: 1)
     let background = NSColor(srgbRed: 0.1, green: 0.2, blue: 0.3, alpha: 1)
     let palette = (0..<16).map { NSColor(srgbRed: CGFloat($0) / 16, green: 0.4, blue: 0.6, alpha: 1) }
@@ -309,6 +358,7 @@ private final class ColorTestWorld: RDAtlantisWorldInstance {
         case "atlantis.colors.default": return foreground
         case "atlantis.colors.background": return background
         case "atlantis.formatting.boldIntense": return true
+        case "atlantis.network.keepalive": return 3
         default: return nil
         }
     }

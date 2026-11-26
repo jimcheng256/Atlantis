@@ -316,52 +316,25 @@ enum ScanStates { scanNormal, scanIAC, scanWILL, scanWONT, scanDO, scanDONT, sca
             
         case TELOPT_TTYPE:
         {
-            if (*tdata == TELQUAL_SEND) {
-                unsigned char ISc = TELQUAL_IS;
-                
-                NSMutableData *terminfo = [NSMutableData data];
-                [terminfo appendBytes:&ISc length:1];
-                
-                switch (ttypeCycle) {
-                    case 0:
-                    {
-                        const char *termname = "Atlantis";
-                        [terminfo appendBytes:termname length:strlen(termname)];
-                    }
-                    break;
-                    
-                    case 1:
-                    {
-                        const char *termname = "xterm-256color";
-                        [terminfo appendBytes:termname length:strlen(termname)];
-                    }
-                    break;
-                    
-                    case 2:
-                    {
-                         const char *termname = "MTTS 13";
-                        [terminfo appendBytes:termname length:strlen(termname)];
-                    }
-                    break;
-                    
-                    case 3:
-                    {
-                        const char *termname = "MTTS 13";
-                        [terminfo appendBytes:termname length:strlen(termname)];
-                    }
-                    break;
-                    
-                }
-                
-                ttypeCycle++;
-                if (ttypeCycle > 3)
-                    ttypeCycle = 0;
-                
+            if ([data length] == 1 && *tdata == TELQUAL_SEND) {
+                // Atlantis is a MUD client without a canonical terminfo entry.
+                // Report xterm-256color for broad compatibility and advertise
+                // Truecolor separately through MTTS.
+                // Repeat the final MTTS response to mark the end of the list.
+                // 269 = ANSI (1) + UTF-8 (4) + 256 colors (8) + Truecolor (256).
+                static const char * const terminalTypes[] = {
+                    "Atlantis", "xterm-256color", "MTTS 269", "MTTS 269"
+                };
+                const char *termname = terminalTypes[ttypeCycle];
+                unsigned char qualifier = TELQUAL_IS;
+                NSMutableData *terminfo = [NSMutableData dataWithBytes:&qualifier length:1];
+                [terminfo appendBytes:termname length:strlen(termname)];
+                ttypeCycle = (ttypeCycle + 1) % (sizeof(terminalTypes) / sizeof(terminalTypes[0]));
                 [self sendSuboption:TELOPT_TTYPE withData:terminfo];
             }
         }
             break;
-        
+
         case TELOPT_NAWS:
         {
             if (*tdata == TELQUAL_SEND) {
@@ -649,6 +622,8 @@ const unsigned char * findCharInBlock(const unsigned char needle, const unsigned
                         
                     case scanDONT:
                     {
+                        if (*ptr == TELOPT_TTYPE)
+                            ttypeCycle = 0;
                         switch (telnetSessionData->local[*ptr]) {
                             case TQ_NO:
                                 // For the sake of mutant implementations, we
