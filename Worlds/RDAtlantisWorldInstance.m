@@ -1651,6 +1651,47 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
     _rdOutputEncoding = encoding;
 }
 
+- (void) applyNegotiatedStringEncoding:(NSStringEncoding)encoding
+{
+    [self setStringEncoding:encoding];
+    NSString *encodingName = [NSString localizedNameOfStringEncoding:encoding];
+    [self handleStatusOutput:[NSString stringWithFormat:@"Negotiated string encoding: %@\n", encodingName]];
+
+    RDAtlantisWorldPreferences *preferences = [self preferences];
+    NSString *encodingKey = @"atlantis.encoding";
+    NSString *promptedKey = @"atlantis.encoding.negotiationPrompted";
+    NSNumber *saved = [preferences preferenceForKey:encodingKey withCharacter:nil];
+    if (!preferences || [saved unsignedIntegerValue] == encoding ||
+        [[preferences preferenceForKey:promptedKey withCharacter:nil fallback:NO] boolValue])
+        return;
+
+    // Record the offer before presenting it so concurrent characters and
+    // repeated negotiations share the same one-time prompt.
+    [preferences setPreference:@YES forKey:promptedKey withCharacter:nil];
+    [[RDAtlantisMainController controller] saveWorld:preferences];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *worldName = [preferences preferenceForKey:@"atlantis.world.name" withCharacter:nil];
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setMessageText:[NSString stringWithFormat:@"Save %@ for %@?", encodingName, worldName ?: @"this world"]];
+        [alert setInformativeText:@"This connection is already using the negotiated encoding. Save it as the world's default for future connections?"];
+        [alert addButtonWithTitle:@"Save Encoding"];
+        [alert addButtonWithTitle:@"Keep Current Setting"];
+
+        void (^complete)(NSModalResponse) = ^(NSModalResponse response) {
+            if (response == NSAlertFirstButtonReturn) {
+                [preferences setPreference:@(encoding) forKey:encodingKey withCharacter:nil];
+                [[RDAtlantisMainController controller] saveWorld:preferences];
+            }
+        };
+        NSWindow *window = [[[self mainSpawn] view] window];
+        if (window)
+            [alert beginSheetModalForWindow:window completionHandler:complete];
+        else
+            complete([alert runModal]);
+    });
+}
+
 - (NSStringEncoding) stringEncoding
 {
     if (_rdInputEncoding != _rdOutputEncoding)

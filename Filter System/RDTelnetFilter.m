@@ -232,88 +232,78 @@ enum ScanStates { scanNormal, scanIAC, scanWILL, scanWONT, scanDO, scanDONT, sca
     }
 }
 
+- (void) respondToCharsetRequest:(NSData *)data
+{
+    const unsigned char *bytes = [data bytes];
+    NSUInteger length = [data length];
+    NSUInteger separator = 1;
+
+    // RFC 2066 permits a translation-table marker before the separator.
+    // Atlantis selects a named encoding and does not negotiate a table.
+    static const char tableMarker[] = "[TTABLE]";
+    if (length >= 1 + sizeof(tableMarker) - 1 &&
+        !memcmp(bytes + 1, tableMarker, sizeof(tableMarker) - 1)) {
+        separator += sizeof(tableMarker); // The marker is followed by a version byte.
+    }
+
+    NSString *selectedName = nil;
+    NSStringEncoding selectedEncoding = 0;
+    NSStringEncoding currentEncoding = [[self world] stringEncoding];
+    int selectedPriority = -1;
+    if (length > separator + 1) {
+        NSUInteger start = separator + 1;
+        for (NSUInteger end = start; end <= length; end++) {
+            if (end < length && bytes[end] != bytes[separator])
+                continue;
+
+            NSString *name = [[[NSString alloc] initWithBytes:bytes + start
+                                                       length:end - start
+                                                     encoding:NSASCIIStringEncoding] autorelease];
+            start = end + 1;
+            if (![name length])
+                continue;
+            CFStringEncoding encoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)name);
+            if (encoding == kCFStringEncodingInvalidId)
+                continue;
+
+            NSStringEncoding candidate = CFStringConvertEncodingToNSStringEncoding(encoding);
+            int priority = 0;
+            if (candidate == NSUTF8StringEncoding)
+                priority = 3;
+            else if (candidate == NSASCIIStringEncoding)
+                priority = 2;
+            else if (candidate == currentEncoding)
+                priority = 1;
+
+            if (priority > selectedPriority) {
+                selectedName = name;
+                selectedEncoding = candidate;
+                selectedPriority = priority;
+            }
+            if (candidate == NSUTF8StringEncoding)
+                break;
+        }
+    }
+
+    uint8_t qualifier = selectedName ? 2 : 3; // ACCEPTED or REJECTED
+    NSMutableData *reply = [NSMutableData dataWithBytes:&qualifier length:1];
+    if (selectedName)
+        [reply appendData:[selectedName dataUsingEncoding:NSASCIIStringEncoding]];
+    [self sendSuboption:TELOPT_CHARSET withData:reply];
+    if (selectedName)
+        [[self world] applyNegotiatedStringEncoding:selectedEncoding];
+}
+
 - (void) processSuboption:(unsigned char)option withData:(NSData *)data
 {
     unsigned const char *tdata = [data bytes];
  
     switch (option) {
         case TELOPT_CHARSET:
-        {
+            if ([data length] && *tdata == 1) // REQUEST
+                [self respondToCharsetRequest:data];
+            break;
 
-            // See RFC 2066
-            unsigned char sep;
-            const unsigned char *scan = tdata;
-            const unsigned char *end = tdata + [data length];
-            switch (*scan++) {
-                case 01:
-                {
-                    // REQUEST
-                    NSMutableArray *serverEncoding = [NSMutableArray array];
-
-                    const unsigned char *scanend;
-                    BOOL ttable = !memcmp(scan, "[TTABLE]", 8);
-                    
-                    if (ttable) 
-                        scan += 9;
-
-                    sep = *(scan++);
-                    
-                    for (scanend = scan; scanend < end; scanend++) {
-                        if (*scanend == sep) {
-                            [serverEncoding addObject:[NSString stringWithCString:(const char *)scan length:(scanend - scan)]];
-                            scan = scanend + 1;
-                        }
-                    }
-
-                    [serverEncoding addObject:[NSString stringWithCString:(const char *)scan length:(scanend - scan)]];
-                    
-                    {
-                        NSEnumerator *encodeEnum = [serverEncoding objectEnumerator];
-                        NSString *encode;
-                        BOOL found = NO;
-                        
-                        if ([[self world] stringEncoding] != -1) {
-                            // If we have a manually-set encoding, we will check if it's in the list.
-                            CFStringEncoding currentEncoding = CFStringConvertNSStringEncodingToEncoding([[self world] stringEncoding]);
-                            CFStringRef currentEncodingName = CFStringConvertEncodingToIANACharSetName(currentEncoding);
-                            
-                            if ([serverEncoding containsObject:(NSString *)currentEncodingName] && ([[self world] stringEncoding] != NSASCIIStringEncoding)) {
-                                found = YES;
-                                NSMutableData *d = [NSMutableData data];
-                                uint8_t accepted = 2;
-                                [d appendBytes:&accepted length:1];
-                                [d appendData:[(NSString *)currentEncodingName dataUsingEncoding:NSASCIIStringEncoding] ];
-                                [self sendSuboption:TELOPT_CHARSET withData:d];
-                                [[self world] handleStatusOutput:[NSString stringWithFormat:@"Negotiated string encoding: %@\n", [NSString localizedNameOfStringEncoding:[[self world] stringEncoding]]]];
-                            }
-                        }
-                        
-                        // RFC 2066 requires charsets to be in preferred order.
-                        while ((encode = [encodeEnum nextObject]) && !found) {
-                            CFStringEncoding testEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)encode);
-                            if (testEncoding != kCFStringEncodingInvalidId) {
-                                found = YES;
-                                NSStringEncoding realEncoding = (NSStringEncoding)CFStringConvertEncodingToNSStringEncoding(testEncoding); 
-                                NSMutableData *d = [NSMutableData data];
-                                uint8_t accepted = 2;
-                                [d appendBytes:&accepted length:1];
-                                [d appendData:[encode dataUsingEncoding:NSASCIIStringEncoding] ];
-                                [self sendSuboption:TELOPT_CHARSET withData:d];
-                                [[self world] handleStatusOutput:[NSString stringWithFormat:@"Negotiated string encoding: %@\n", [NSString localizedNameOfStringEncoding:realEncoding]]];
-                                [[self world] setStringEncoding:realEncoding];
-                            }
-                        }
-                    
-                        if (!found) {
-                            uint8_t rejected = 3;
-                            [self sendSuboption:TELOPT_CHARSET withData:[NSData dataWithBytes:&rejected length:1]];
-                        }
-                    }
-                }
-            }
-        }
-        break;
-            
         case TELOPT_TTYPE:
         {
             if ([data length] == 1 && *tdata == TELQUAL_SEND) {

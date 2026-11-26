@@ -82,3 +82,16 @@ The Highlights tab uses the pattern as the name and commits the deletion
 after the user chooses Remove.
 The User Variables tab uses the variable name and saves deletions through
 the editor's normal commit path.
+
+## Negotiated world encoding
+
+For a server-initiated Telnet CHARSET request, Atlantis prefers UTF-8,
+then US-ASCII. If neither is offered, it keeps the current encoding when
+offered, or selects the first encoding it recognizes. A successful
+negotiation sets the encoding for both directions on the active connection.
+
+When the result differs from the world's default encoding, Atlantis offers
+to save it for future connections. An automatic setting counts as having
+no saved encoding. The offer is recorded once in the world archive,
+regardless of the choice. Saving updates the world default and leaves
+character-specific overrides in place.

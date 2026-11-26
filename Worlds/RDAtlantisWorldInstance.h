@@ -152,6 +152,7 @@ typedef enum {
 - (NSDate *) lastNetActivity;
 
 - (void) setStringEncoding:(NSStringEncoding) encoding;
+- (void) applyNegotiatedStringEncoding:(NSStringEncoding)encoding;
 - (NSStringEncoding) stringEncoding;
 
 - (void) netsync;

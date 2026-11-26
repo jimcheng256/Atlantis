@@ -48,6 +48,88 @@ final class ANSIColorTests: XCTestCase {
         XCTAssertEqual(world.telnetReplies, [Data([255, 251, 24]), reply("Atlantis")])
     }
 
+    func testTelnetCharsetPrefersUTF8ThenASCIIAndRejectsUnsupportedOffers() {
+        let world = ColorTestWorld()
+        let filter = RDTelnetFilter(world: world)!
+
+        func input(_ request: [UInt8], accepted: String?) {
+            world.telnetReplies.removeAll()
+            let frame = NSMutableData(data: Data([255, 250, 42, 1] + request + [255, 240]))
+            filter.filterInput(frame)
+            let response: [UInt8] = accepted.map { [2] + Array($0.utf8) } ?? [3]
+            XCTAssertEqual(world.telnetReplies, [Data([255, 250, 42] + response + [255, 240])])
+            XCTAssertEqual(frame.length, 0)
+        }
+
+        world.setStringEncoding(String.Encoding.isoLatin1.rawValue)
+        input(Array(";ISO-8859-1;US-ASCII;utf-8".utf8), accepted: "utf-8")
+        XCTAssertEqual(world.stringEncoding(), String.Encoding.utf8.rawValue)
+        input(Array(";ISO-8859-1;US-ASCII".utf8), accepted: "US-ASCII")
+        XCTAssertEqual(world.stringEncoding(), String.Encoding.ascii.rawValue)
+        input(Array("[TTABLE]".utf8) + [1] + Array("|unknown|ISO-8859-1".utf8), accepted: "ISO-8859-1")
+        XCTAssertEqual(world.stringEncoding(), String.Encoding.isoLatin1.rawValue)
+        input(Array(";unknown".utf8), accepted: nil)
+        input([], accepted: nil)
+        XCTAssertEqual(world.stringEncoding(), String.Encoding.isoLatin1.rawValue)
+    }
+
+    func testNegotiatedEncodingSheetOffersToSaveOncePerWorld() async throws {
+        for save in [false, true] {
+            let world = ColorTestWorld()
+            let preferences = RDAtlantisWorldPreferences()
+            preferences.setPreference(true, forKey: "atlantis.world.temporary", withCharacter: nil)
+            preferences.setPreference("Encoding Test", forKey: "atlantis.world.name", withCharacter: nil)
+            preferences.setPreference(String.Encoding.isoLatin1.rawValue, forKey: "atlantis.encoding", withCharacter: nil)
+            world.storedWorldPreferences = preferences
+            let path = "Charset Test \(UUID())"
+            let spawn = RDAtlantisSpawn(path: path, forInstance: world, withPrefs: nil)
+            world.promptSpawn = spawn
+            let window = NSWindow(contentRect: CGRect(x: 0, y: 0, width: 500, height: 300),
+                                  styleMask: [.titled], backing: .buffered, defer: false)
+            window.isReleasedWhenClosed = false
+            window.contentView = spawn.view()
+            window.orderFront(nil)
+            defer {
+                window.close()
+                world.promptSpawn = nil
+                UserDefaults.standard.removeObject(forKey: "RBSplitView H \(path)")
+            }
+
+            world.applyNegotiatedStringEncoding(String.Encoding.isoLatin1.rawValue)
+            XCTAssertNil(preferences.preference(forKey: "atlantis.encoding.negotiationPrompted",
+                                                 withCharacter: nil, fallback: false))
+            world.applyNegotiatedStringEncoding(String.Encoding.utf8.rawValue)
+            XCTAssertEqual(world.stringEncoding(), String.Encoding.utf8.rawValue)
+            for _ in 0..<40 where window.attachedSheet == nil {
+                try await Task.sleep(for: .milliseconds(25))
+            }
+            let sheet = try XCTUnwrap(window.attachedSheet)
+            let button = try XCTUnwrap(button(in: sheet.contentView, titled: save ? "Save Encoding" : "Keep Current Setting"))
+            button.performClick(nil)
+            for _ in 0..<40 where window.attachedSheet != nil {
+                try await Task.sleep(for: .milliseconds(25))
+            }
+
+            let expected = save ? String.Encoding.utf8.rawValue : String.Encoding.isoLatin1.rawValue
+            let archive = try NSKeyedArchiver.archivedData(withRootObject: preferences, requiringSecureCoding: false)
+            let reloaded = try XCTUnwrap(NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(archive) as? RDAtlantisWorldPreferences)
+            XCTAssertEqual(reloaded.preference(forKey: "atlantis.encoding", withCharacter: nil, fallback: false) as? UInt, expected)
+            XCTAssertEqual(reloaded.preference(forKey: "atlantis.encoding.negotiationPrompted",
+                                              withCharacter: nil, fallback: false) as? Bool, true)
+            world.storedWorldPreferences = reloaded
+            world.applyNegotiatedStringEncoding(String.Encoding.ascii.rawValue)
+            try await Task.sleep(for: .milliseconds(100))
+            XCTAssertNil(window.attachedSheet)
+            XCTAssertEqual(world.stringEncoding(), String.Encoding.ascii.rawValue)
+        }
+    }
+
+    private func button(in view: NSView?, titled title: String) -> NSButton? {
+        guard let view else { return nil }
+        if let button = view as? NSButton, button.title == title { return button }
+        return view.subviews.lazy.compactMap { self.button(in: $0, titled: title) }.first
+    }
+
     func testPlainTextUsesWorldDefaultsAcrossChunks() {
         let fixture = Fixture()
         for text in ["plain text\n", "prompt> "] {
@@ -336,6 +418,11 @@ final class ANSIColorTests: XCTestCase {
 
 private final class ColorTestWorld: RDAtlantisWorldInstance {
     var telnetReplies: [Data] = []
+    var storedWorldPreferences: RDAtlantisWorldPreferences?
+    weak var promptSpawn: RDAtlantisSpawn?
+
+    override func preferences() -> RDAtlantisWorldPreferences! { storedWorldPreferences }
+    override func mainSpawn() -> RDAtlantisSpawn! { promptSpawn }
 
     override func sendDataRaw(_ data: Data!) {
         telnetReplies.append(data)
