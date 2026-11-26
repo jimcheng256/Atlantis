@@ -171,7 +171,6 @@
 		FF26F3B10B84559D003043E5 /* CTBadge_5.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FF26F3AD0B84559D003043E5 /* CTBadge_5.pdf */; };
 		FF2D6E440F36440100E766CB /* MCPIcecrewServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D6E430F36440100E766CB /* MCPIcecrewServer.m */; };
 		FF2EA2A509E34F4100DDD57E /* WorldDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA2A309E34F4100DDD57E /* WorldDefaults.swift */; };
-		FF2EA31A09E35C6800DDD57E /* globe.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FF2EA31909E35C6800DDD57E /* globe.tiff */; };
 		FF2EA33309E35CE100DDD57E /* HotkeyPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA33109E35CE100DDD57E /* HotkeyPreferences.swift */; };
 		FF2EA3DA09E3630300DDD57E /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA3D809E3630300DDD57E /* GeneralPreferences.swift */; };
 		FF2EA3DC09E3632E00DDD57E /* General_Prefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FF2EA3DB09E3632E00DDD57E /* General_Prefs.tiff */; };
@@ -183,7 +182,6 @@
 		FF3C7D2909C36628004E9269 /* WorldHighlightEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3C7D2709C36628004E9269 /* WorldHighlightEditor.m */; };
 		FF3C998809C401EB003A9509 /* WorldFormattingEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3C998609C401EB003A9509 /* WorldFormattingEditor.m */; };
 		FF3C9A8C09C42FDF003A9509 /* RDView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3C9A8A09C42FDF003A9509 /* RDView.m */; };
-		FF43120909C7DE8F007D8015 /* bugreporter.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF43120809C7DE8F007D8015 /* bugreporter.plist */; };
 		FF43125009C7E812007D8015 /* Action-AddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = FF43124E09C7E811007D8015 /* Action-AddressBook.m */; };
 		FF4312A609C7E9A9007D8015 /* Action-TextOmitLog.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4312A409C7E9A9007D8015 /* Action-TextOmitLog.m */; };
 		FF4312B409C7EA51007D8015 /* Action-TextOmitScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4312B209C7EA51007D8015 /* Action-TextOmitScreen.m */; };
@@ -289,7 +287,6 @@
 		FF9FBDDA0A97B6C8005945CA /* QuickConnectCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9FBDD80A97B6C8005945CA /* QuickConnectCommand.m */; };
 		FFA1416409C72D6500E97A43 /* Changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = FFA1416309C72D6500E97A43 /* Changelog.txt */; };
 		FFA1BEB90C05552A00335957 /* connect.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA1BEB60C05552A00335957 /* connect.png */; };
-		FFA1BEBA0C05552A00335957 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA1BEB70C05552A00335957 /* folder.png */; };
 		FFA1BEBB0C05552A00335957 /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA1BEB80C05552A00335957 /* stop.png */; };
 		FFA1BECC0C05558400335957 /* ToolbarConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA1BECA0C05558400335957 /* ToolbarConnection.m */; };
 		FFA3C4B80A95B63C00D0BA47 /* Action-ClearScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA3C4B60A95B63C00D0BA47 /* Action-ClearScreen.m */; };
@@ -312,8 +309,6 @@
 		FFC101B20C2CEA83003F2E00 /* StatusSep.png in Resources */ = {isa = PBXBuildFile; fileRef = FFC101B00C2CEA83003F2E00 /* StatusSep.png */; };
 		FFC101F80C2CF39D003F2E00 /* statusLocked.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FFC101F70C2CF39D003F2E00 /* statusLocked.tiff */; };
 		FFC1024C0C2CFB99003F2E00 /* statusLockedSelected.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FFC1024B0C2CFB99003F2E00 /* statusLockedSelected.tiff */; };
-		FFC102580C2CFF41003F2E00 /* compressGrey.png in Resources */ = {isa = PBXBuildFile; fileRef = FFC102560C2CFF41003F2E00 /* compressGrey.png */; };
-		FFC102590C2CFF41003F2E00 /* compressSelect.png in Resources */ = {isa = PBXBuildFile; fileRef = FFC102570C2CFF41003F2E00 /* compressSelect.png */; };
 		FFC50E8D09D719C000430219 /* Action-TextOmitActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC50E8B09D719C000430219 /* Action-TextOmitActivity.m */; };
 		FFCA43C90A67168A0055DAEC /* ScriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCA43C70A67168A0055DAEC /* ScriptBridge.m */; };
 		FFCA45B30A6782200055DAEC /* Atlantis.pm in Copy Scripts */ = {isa = PBXBuildFile; fileRef = FFCA45B20A6782200055DAEC /* Atlantis.pm */; };
@@ -654,7 +649,6 @@
 		FF2D6E430F36440100E766CB /* MCPIcecrewServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPIcecrewServer.m; path = "MCP System/MCPIcecrewServer.m"; sourceTree = "<group>"; };
 		FF2EA2A209E34F4100DDD57E /* WorldDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorldDefaults.h; path = Preferences/Application/WorldDefaults.h; sourceTree = "<group>"; };
 		FF2EA2A309E34F4100DDD57E /* WorldDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WorldDefaults.swift; path = Preferences/Application/WorldDefaults.swift; sourceTree = "<group>"; };
-		FF2EA31909E35C6800DDD57E /* globe.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = globe.tiff; path = Preferences/Application/globe.tiff; sourceTree = "<group>"; };
 		FF2EA33009E35CE100DDD57E /* HotkeyPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HotkeyPreferences.h; path = "Hotkey System/HotkeyPreferences.h"; sourceTree = "<group>"; };
 		FF2EA33109E35CE100DDD57E /* HotkeyPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HotkeyPreferences.swift; path = "Hotkey System/HotkeyPreferences.swift"; sourceTree = "<group>"; };
 		FF2EA3D709E3630300DDD57E /* GeneralPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneralPreferences.h; path = Preferences/Application/GeneralPreferences.h; sourceTree = "<group>"; };
@@ -676,7 +670,6 @@
 		FF3C9A8A09C42FDF003A9509 /* RDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDView.m; path = "Utility Classes/RDView.m"; sourceTree = "<group>"; };
 		FF4311D409C7DBEB007D8015 /* BugReporter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BugReporter.h; path = Support/BugReporter/BugReporter.h; sourceTree = "<group>"; };
 		FF4311D509C7DBEB007D8015 /* libBugReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBugReporter.a; path = Support/BugReporter/libBugReporter.a; sourceTree = "<group>"; };
-		FF43120809C7DE8F007D8015 /* bugreporter.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; fileEncoding = 4; path = bugreporter.plist; sourceTree = "<group>"; };
 		FF43124D09C7E811007D8015 /* Action-AddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-AddressBook.h"; path = "Event System/Actions/Action-AddressBook.h"; sourceTree = "<group>"; };
 		FF43124E09C7E811007D8015 /* Action-AddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-AddressBook.m"; path = "Event System/Actions/Action-AddressBook.m"; sourceTree = "<group>"; };
 		FF4312A309C7E9A9007D8015 /* Action-TextOmitLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-TextOmitLog.h"; path = "Event System/Actions/Action-TextOmitLog.h"; sourceTree = "<group>"; };
@@ -873,7 +866,6 @@
 		FF9FBDD80A97B6C8005945CA /* QuickConnectCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QuickConnectCommand.m; path = "Command System/QuickConnectCommand.m"; sourceTree = "<group>"; };
 		FFA1416309C72D6500E97A43 /* Changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog.txt; sourceTree = "<group>"; };
 		FFA1BEB60C05552A00335957 /* connect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = connect.png; path = "Toolbar System/connect.png"; sourceTree = "<group>"; };
-		FFA1BEB70C05552A00335957 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folder.png; path = "Toolbar System/folder.png"; sourceTree = "<group>"; };
 		FFA1BEB80C05552A00335957 /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stop.png; path = "Toolbar System/stop.png"; sourceTree = "<group>"; };
 		FFA1BEC90C05558400335957 /* ToolbarConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarConnection.h; path = "Toolbar System/ToolbarConnection.h"; sourceTree = "<group>"; };
 		FFA1BECA0C05558400335957 /* ToolbarConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarConnection.m; path = "Toolbar System/ToolbarConnection.m"; sourceTree = "<group>"; };
@@ -909,8 +901,6 @@
 		FFC101B00C2CEA83003F2E00 /* StatusSep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusSep.png; path = Worlds/StatusSep.png; sourceTree = "<group>"; };
 		FFC101F70C2CF39D003F2E00 /* statusLocked.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = statusLocked.tiff; path = Worlds/statusLocked.tiff; sourceTree = "<group>"; };
 		FFC1024B0C2CFB99003F2E00 /* statusLockedSelected.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = statusLockedSelected.tiff; path = Worlds/statusLockedSelected.tiff; sourceTree = "<group>"; };
-		FFC102560C2CFF41003F2E00 /* compressGrey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = compressGrey.png; path = Worlds/compressGrey.png; sourceTree = "<group>"; };
-		FFC102570C2CFF41003F2E00 /* compressSelect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = compressSelect.png; path = Worlds/compressSelect.png; sourceTree = "<group>"; };
 		FFC50E8A09D719C000430219 /* Action-TextOmitActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-TextOmitActivity.h"; path = "Event System/Actions/Action-TextOmitActivity.h"; sourceTree = "<group>"; };
 		FFC50E8B09D719C000430219 /* Action-TextOmitActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-TextOmitActivity.m"; path = "Event System/Actions/Action-TextOmitActivity.m"; sourceTree = "<group>"; };
 		FFCA43C60A67168A0055DAEC /* ScriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptBridge.h; path = Scripting/ScriptBridge.h; sourceTree = "<group>"; };
@@ -1173,14 +1163,11 @@
 				8B42780A2911E579005EFEA6 /* MainMenu.xib */,
 				8B4278082911E566005EFEA6 /* AboutBox.xib */,
 				FFEC02960C3AE456000FF14D /* notebook.png */,
-				FFC102560C2CFF41003F2E00 /* compressGrey.png */,
-				FFC102570C2CFF41003F2E00 /* compressSelect.png */,
 				FFC1024B0C2CFB99003F2E00 /* statusLockedSelected.tiff */,
 				FFC101F70C2CF39D003F2E00 /* statusLocked.tiff */,
 				FFC101AF0C2CEA83003F2E00 /* StatusBarBackground.png */,
 				FFC101B00C2CEA83003F2E00 /* StatusSep.png */,
 				FFA1BEB60C05552A00335957 /* connect.png */,
-				FFA1BEB70C05552A00335957 /* folder.png */,
 				FFA1BEB80C05552A00335957 /* stop.png */,
 				FF646EEE0C022602001EA4D2 /* Atlantis-SystemVersionCheck */,
 				FF36AECC0C016E1000531F6C /* spawn-dimple.tiff */,
@@ -1199,12 +1186,10 @@
 				FF6335350A27E0A9001BC51C /* DeleteTBIcon.tiff */,
 				FF70CE9109E9A34000E05E95 /* window.tif */,
 				FF2EA3DB09E3632E00DDD57E /* General_Prefs.tiff */,
-				FF2EA31909E35C6800DDD57E /* globe.tiff */,
 				FFA99D3909CC135A00D559D0 /* credits.rtf */,
 				FF5362E509CAD02000D557C6 /* atlantis-aboutbox.png */,
 				FF5362E009CACF7F00D557C6 /* greenlight.tif */,
 				FF5362E109CACF7F00D557C6 /* whitelight.tif */,
-				FF43120809C7DE8F007D8015 /* bugreporter.plist */,
 				FFFF6CE30999E0DA00E56390 /* atlantis-logo.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -2117,13 +2102,11 @@
 				8B4278032911E4E9005EFEA6 /* ToolbarSearch.xib in Resources */,
 				FFA1416409C72D6500E97A43 /* Changelog.txt in Resources */,
 				8B42781C2911FB2B005EFEA6 /* EventEditor.xib in Resources */,
-				FF43120909C7DE8F007D8015 /* bugreporter.plist in Resources */,
 				8B42786429121F51005EFEA6 /* AtlantisProgressSheet.xib in Resources */,
 				FF5362E209CACF7F00D557C6 /* greenlight.tif in Resources */,
 				FF5362E309CACF7F00D557C6 /* whitelight.tif in Resources */,
 				FF5362E609CAD02000D557C6 /* atlantis-aboutbox.png in Resources */,
 				FFA99D3A09CC135A00D559D0 /* credits.rtf in Resources */,
-				FF2EA31A09E35C6800DDD57E /* globe.tiff in Resources */,
 				FF2EA3DC09E3632E00DDD57E /* General_Prefs.tiff in Resources */,
 				8B42785D29121E7B005EFEA6 /* LogClosePanel.xib in Resources */,
 				FF70CE9209E9A34000E05E95 /* window.tif in Resources */,
@@ -2162,7 +2145,6 @@
 				8B42784029121CEB005EFEA6 /* ActionConf_PlaySound.xib in Resources */,
 				FFA1BEB90C05552A00335957 /* connect.png in Resources */,
 				8B42781A2911FAEE005EFEA6 /* ActionPicker.xib in Resources */,
-				FFA1BEBA0C05552A00335957 /* folder.png in Resources */,
 				FFA1BEBB0C05552A00335957 /* stop.png in Resources */,
 				FF99ADEF0C2B6AAE005F1FF9 /* terminal.png in Resources */,
 				8B42784229121CEB005EFEA6 /* ActionConf_TextSpawn.xib in Resources */,
@@ -2173,10 +2155,8 @@
 				8B4278192911FAEE005EFEA6 /* ConditionPicker.xib in Resources */,
 				FFC101F80C2CF39D003F2E00 /* statusLocked.tiff in Resources */,
 				FFC1024C0C2CFB99003F2E00 /* statusLockedSelected.tiff in Resources */,
-				FFC102580C2CFF41003F2E00 /* compressGrey.png in Resources */,
 				8B42782C29120D9E005EFEA6 /* CondConf_Collection.xib in Resources */,
 				8B42785229121DE0005EFEA6 /* WorldConf_Spawns.xib in Resources */,
-				FFC102590C2CFF41003F2E00 /* compressSelect.png in Resources */,
 				FFEC02970C3AE456000FF14D /* notebook.png in Resources */,
 				8B42780E2911E5DE005EFEA6 /* UploadPanel.xib in Resources */,
 				8B4278052911E506005EFEA6 /* MCPLocalEditor.xib in Resources */,
