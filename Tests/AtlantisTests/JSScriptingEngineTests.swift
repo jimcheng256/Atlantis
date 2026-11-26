@@ -91,6 +91,98 @@ final class JSScriptingEngineTests: XCTestCase {
         XCTAssertTrue(engine.engineNeedsReinit())
     }
 
+    @MainActor
+    func testTimeoutRunsOnceWithArgumentsAndCanBeCleared() throws {
+        let directory = try makeScriptsDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+
+        let engine = JSScriptingEngine(scriptsDirectory: directory)
+        let state = AtlantisState(string: nil, inWorld: nil, for: nil)!
+        state.setExtraData("Test MUD", forKey: "world.name")
+        let result = engine.executeFunction("""
+        let calls = [];
+        const cancelled = setTimeout(() => calls.push("cancelled"), 10);
+        clearInterval(cancelled);
+        clearTimeout(cancelled);
+        setTimeout(() => { throw new Error("timer failed"); });
+        setTimeout(function (name, count) {
+            "use strict";
+            calls.push([name, count, this === globalThis, typeof AtlantisState["world.name"]]);
+        }, undefined, "Ada", 2);
+        setTimeout("calls.push('code')", 30);
+        let done = false;
+        setTimeout(() => { done = true; }, 60);
+        JSON.stringify([Number.isInteger(cancelled) && cancelled > 0, calls.length])
+        """, with: state) as? String
+
+        XCTAssertEqual(result, "[true,0]")
+        waitForTimers(in: engine, state: state)
+        XCTAssertEqual(engine.executeFunction("JSON.stringify(calls)", with: state) as? String,
+                       #"[["Ada",2,true,"undefined"],"code"]"#)
+    }
+
+    @MainActor
+    func testIntervalRepeatsAndCanClearItself() throws {
+        let directory = try makeScriptsDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+
+        let engine = JSScriptingEngine(scriptsDirectory: directory)
+        let state = AtlantisState()
+        let idsAreDistinct = engine.executeFunction("""
+        let ticks = [];
+        let done = false;
+        const id = setInterval(label => {
+            ticks.push(label);
+            if (ticks.length === 3) {
+                clearTimeout(id);
+                setTimeout(() => { done = true; }, 45);
+            }
+        }, 10, "tick");
+        const cancelled = setInterval(() => ticks.push("cancelled"), 10);
+        clearInterval(cancelled);
+        id > 0 && cancelled > 0 && id !== cancelled
+        """, with: state) as? Bool
+
+        XCTAssertEqual(idsAreDistinct, true)
+        waitForTimers(in: engine, state: state)
+        XCTAssertEqual(engine.executeFunction("ticks", with: state) as? [String], ["tick", "tick", "tick"])
+    }
+
+    @MainActor
+    func testReloadCancelsPendingTimers() throws {
+        let directory = try makeScriptsDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+
+        let engine = JSScriptingEngine(scriptsDirectory: directory)
+        let state = AtlantisState()
+        let key = "timer-test-\(UUID().uuidString)"
+        let controller = try XCTUnwrap(RDPreferenceMainController())
+        let scheduled = engine.executeFunction("""
+        const fail = () => ScriptBridge.setTemporaryVariableForKey("fired", "\(key)");
+        const timeout = setTimeout(fail, 10);
+        const interval = setInterval(fail, 10);
+        timeout > 0 && interval > 0
+        """, with: state) as? Bool
+        XCTAssertEqual(scheduled, true)
+
+        engine.engineReinit(state)
+        _ = engine.executeFunction("let done = false; setTimeout(() => { done = true; }, 60)", with: state)
+        waitForTimers(in: engine, state: state)
+        XCTAssertNil(controller.tempStateVar(forKey: key))
+    }
+
+    @MainActor
+    private func waitForTimers(in engine: JSScriptingEngine, state: AtlantisState) {
+        let deadline = Date().addingTimeInterval(2)
+        while Date() < deadline {
+            if engine.executeFunction("done", with: state) as? Bool == true {
+                return
+            }
+            RunLoop.main.run(until: Date().addingTimeInterval(0.01))
+        }
+        XCTFail("JavaScript timer did not complete")
+    }
+
     private func makeScriptsDirectory() throws -> URL {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

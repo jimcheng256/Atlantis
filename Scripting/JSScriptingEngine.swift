@@ -17,11 +17,32 @@ public class JSScriptingEngine: ScriptingEngine {
         let identifier: String?
     }
 
+    private struct ScheduledTimer {
+        let timer: Timer
+        let callback: JSValue
+        let repeats: Bool
+    }
+
+    private final class TimerTarget: NSObject {
+        weak var engine: JSScriptingEngine?
+
+        @objc func fire(_ timer: Timer) {
+            engine?.fireTimer(timer)
+        }
+    }
+
     private let scriptsDirectory: URL
     private let resetRegistrations: () -> Void
     private var loadedFiles: [ScriptFile] = []
     private var context: JSContext?
     private var evaluationDepth = 0
+    private var timers: [Int32: ScheduledTimer] = [:]
+    private var lastTimerID: Int32 = 0
+    private lazy var timerTarget: TimerTarget = {
+        let target = TimerTarget()
+        target.engine = self
+        return target
+    }()
 
     override convenience init() {
         let directory = FileManager.default.homeDirectoryForCurrentUser
@@ -35,6 +56,10 @@ public class JSScriptingEngine: ScriptingEngine {
         self.scriptsDirectory = scriptsDirectory
         self.resetRegistrations = resetRegistrations
         super.init()
+    }
+
+    deinit {
+        cancelTimers()
     }
 
     public override func scriptEngineName() -> String {
@@ -52,6 +77,7 @@ public class JSScriptingEngine: ScriptingEngine {
         defer { evaluationDepth -= 1 }
 
         let files = scriptFiles()
+        cancelTimers()
         context = newContext
         loadedFiles = files
         resetRegistrations()
@@ -68,6 +94,8 @@ public class JSScriptingEngine: ScriptingEngine {
             }))(__atlantisLog);
             delete globalThis.__atlantisLog;
             """)
+
+        installTimers(in: newContext)
 
         for file in files {
             do {
@@ -86,37 +114,120 @@ public class JSScriptingEngine: ScriptingEngine {
         }
         guard let context else { return nil }
 
-        evaluationDepth += 1
-        let previousState = context.objectForKeyedSubscript("AtlantisState")
-        defer {
-            context.setObject(previousState, forKeyedSubscript: "AtlantisState" as NSString)
-            evaluationDepth -= 1
-        }
-
         var snapshot = state.scriptSafeData() as? [String: Any] ?? [:]
         let temporaryVariables = RDPreferenceMainController()?.tempStateVars() as? [String: Any] ?? [:]
         for (key, value) in temporaryVariables {
             snapshot["temp.\(key)"] = value
         }
-        context.setObject(snapshot, forKeyedSubscript: "AtlantisState" as NSString)
+        return withState(snapshot, in: context) {
+            let expression = source.trimmingCharacters(in: .whitespacesAndNewlines)
+            var result = context.evaluateScript(source)
+            if expression.range(of: #"^[a-zA-Z_$][a-zA-Z0-9_$]*$"#, options: .regularExpression) != nil,
+               let value = result, value.isObject,
+               let object = JSValueToObject(context.jsGlobalContextRef, value.jsValueRef, nil),
+               JSObjectIsFunction(context.jsGlobalContextRef, object) {
+                let arguments = state.extraData(forKey: "event.cause") as? String == "command"
+                    ? [(state.extraData(forKey: "RDCommandParams") as? [String: Any])?["RDOptsFullString"] as? String ?? ""]
+                    : []
+                result = value.call(withArguments: arguments)
+            }
 
-        let expression = source.trimmingCharacters(in: .whitespacesAndNewlines)
-        var result = context.evaluateScript(source)
-        if expression.range(of: #"^[a-zA-Z_$][a-zA-Z0-9_$]*$"#, options: .regularExpression) != nil,
-           let value = result, value.isObject,
-           let object = JSValueToObject(context.jsGlobalContextRef, value.jsValueRef, nil),
-           JSObjectIsFunction(context.jsGlobalContextRef, object) {
-            let arguments = state.extraData(forKey: "event.cause") as? String == "command"
-                ? [(state.extraData(forKey: "RDCommandParams") as? [String: Any])?["RDOptsFullString"] as? String ?? ""]
-                : []
-            result = value.call(withArguments: arguments)
+            guard !reportException(in: context, source: "event"), let result, !result.isUndefined else { return nil }
+            let value = result.toObject()
+            return reportException(in: context, source: "event result") ? nil : value
         }
-
-        guard !reportException(in: context, source: "event"), let result, !result.isUndefined else { return nil }
-        let value = result.toObject()
-        return reportException(in: context, source: "event result") ? nil : value
     }
 
+    private func withState<Result>(_ snapshot: [String: Any], in context: JSContext, work: () -> Result) -> Result {
+        evaluationDepth += 1
+        let key = "AtlantisState" as NSString
+        let previousState = context.objectForKeyedSubscript(key)
+        context.setObject(snapshot, forKeyedSubscript: key)
+        defer {
+            context.setObject(previousState, forKeyedSubscript: key)
+            evaluationDepth -= 1
+        }
+        return work()
+    }
+
+    private func installTimers(in context: JSContext) {
+        let schedule: @convention(block) (JSValue, Int32, Bool) -> Int32 = { [weak self] callback, delay, repeats in
+            self?.scheduleTimer(callback, milliseconds: delay, repeats: repeats) ?? 0
+        }
+        let cancel: @convention(block) (Int32) -> Void = { [weak self] id in
+            self?.cancelTimer(id)
+        }
+        context.setObject(schedule, forKeyedSubscript: "__atlantisScheduleTimer" as NSString)
+        context.setObject(cancel, forKeyedSubscript: "__atlantisCancelTimer" as NSString)
+        context.evaluateScript("""
+            ((schedule, cancel, global, apply, evaluate, toString) => {
+                function makeTimer(repeats) {
+                    return function (handler, delay = 0, ...args) {
+                        if (arguments.length === 0) {
+                            throw new TypeError("A timer handler is required");
+                        }
+                        const milliseconds = delay | 0;
+                        if (typeof handler === "function") {
+                            return schedule(() => apply(handler, global, args), milliseconds, repeats);
+                        }
+                        const code = toString(handler);
+                        return schedule(() => evaluate(code), milliseconds, repeats);
+                    };
+                }
+                global.setTimeout = makeTimer(false);
+                global.setInterval = makeTimer(true);
+                global.clearTimeout = id => { cancel(id | 0); };
+                global.clearInterval = id => { cancel(id | 0); };
+            })(__atlantisScheduleTimer, __atlantisCancelTimer, globalThis, Reflect.apply, eval, String);
+            delete globalThis.__atlantisScheduleTimer;
+            delete globalThis.__atlantisCancelTimer;
+            """)
+        reportException(in: context, source: "timer initialization")
+    }
+
+    private func scheduleTimer(_ callback: JSValue, milliseconds: Int32, repeats: Bool) -> Int32 {
+        repeat {
+            lastTimerID = lastTimerID == Int32.max ? 1 : lastTimerID + 1
+        } while timers[lastTimerID] != nil
+
+        let id = lastTimerID
+        let timer = Timer(
+            timeInterval: Double(max(1, milliseconds)) / 1_000,
+            target: timerTarget,
+            selector: #selector(TimerTarget.fire(_:)),
+            userInfo: NSNumber(value: id),
+            repeats: repeats
+        )
+        timers[id] = ScheduledTimer(timer: timer, callback: callback, repeats: repeats)
+        RunLoop.main.add(timer, forMode: .default)
+        return id
+    }
+
+    private func fireTimer(_ timer: Timer) {
+        guard let id = (timer.userInfo as? NSNumber)?.int32Value,
+              let scheduled = timers[id], scheduled.timer === timer, let context else { return }
+
+        if !scheduled.repeats {
+            cancelTimer(id)
+        }
+        withState([:], in: context) {
+            scheduled.callback.call(withArguments: [])
+            reportException(in: context, source: "timer")
+        }
+    }
+
+    private func cancelTimer(_ id: Int32) {
+        timers.removeValue(forKey: id)?.timer.invalidate()
+    }
+
+    private func cancelTimers() {
+        for scheduled in timers.values {
+            scheduled.timer.invalidate()
+        }
+        timers.removeAll()
+    }
+
+    @discardableResult
     private func reportException(in context: JSContext, source: String) -> Bool {
         guard let exception = context.exception else { return false }
         context.exception = nil

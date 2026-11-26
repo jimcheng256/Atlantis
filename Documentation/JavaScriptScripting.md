@@ -47,6 +47,37 @@ change Atlantis data. At file load time the snapshot is empty. A call can
 return a JavaScript value to the native caller. An exception or an
 `undefined` result returns no native value.
 
+## Timers
+
+Timers use the browser-style signatures below. Delays are in milliseconds
+and default to zero when omitted. A zero or negative delay schedules work
+for a later turn of Atlantis's main run loop. Actual firing times depend on
+when the app can process the callback. [HTML timer reference](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers)
+
+| Function | Effect |
+| --- | --- |
+| `setTimeout(handler, delay, ...args)` | Run the handler once and return a numeric timer ID. |
+| `setInterval(handler, delay, ...args)` | Run the handler repeatedly and return a numeric timer ID. |
+| `clearTimeout(id)`, `clearInterval(id)` | Cancel a pending timer. Either function can clear either kind of timer. Unknown IDs have no effect. |
+
+A handler can be a function or a JavaScript source string. Function handlers
+receive the supplied arguments and run with `globalThis` as `this`. String
+handlers run as global JavaScript. Reloading scripts cancels timers from the
+previous runtime.
+
+Timer callbacks start with an empty `AtlantisState` because they run outside
+the event that scheduled them. Capture the values you need when you schedule
+the callback.
+
+```javascript
+const world = AtlantisState["world.name"];
+const timer = setTimeout((name) => {
+    ScriptBridge.sendStatusToSpawnInWorld("Reminder", name, name);
+}, 1500, world);
+
+// Call clearTimeout(timer) to cancel the reminder.
+```
+
 ## ScriptBridge API
 
 JavaScriptCore joins the Objective-C selector components into camel case.
