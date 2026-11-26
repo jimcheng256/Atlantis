@@ -16,6 +16,10 @@ setup.
 - Update Xcode groups, build phases, and app or test target membership when
   adding, moving, or removing sources and UI resources. Check project-file
   edits with `plutil -lint Atlantis.xcodeproj/project.pbxproj`.
+- Before removing apparently unused files, check Xcode build and copy phases,
+  source and XIB references, runtime lookups, and packaging inputs. For UI
+  resource cleanup, build with fresh derived data and inspect the resulting
+  app bundle.
 - Put hosted XCTest coverage in `Tests/AtlantisTests`. For behavior-preserving
   migrations, characterize the old behavior before replacing it. Exercise
   the actual hosted window or editor for layout, focus, and responder changes.

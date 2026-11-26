@@ -39,6 +39,16 @@ for detailed design and test instructions.
 
 ## Building, testing, and publishing
 
+- A runtime nib lookup can resolve to a resource compiled from a same-named
+  XIB. After removing the unreferenced legacy nib packages, a clean build
+  contained all 47 replacement nibs compiled from the XIBs in the Resources
+  build phase.
+- Xcode group membership, target membership, and on-disk location are
+  independent. `LogsCommand` and `RDMultibyteFilter` were already in their
+  respective Xcode groups. Moving the files into those directories required
+  updating their file-reference paths while keeping the existing Sources
+  entries. The Debug build compiled both implementations from their new
+  paths on arm64 and x86_64.
 - The version-generation build phase can modify
   `English.lproj/InfoPlist.strings` with a new build date or copyright year.
   Check the diff before staging and keep the generated change out of
