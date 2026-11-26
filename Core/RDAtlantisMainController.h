@@ -16,14 +16,12 @@
 @class RDMenuEvent;
 @protocol ToolbarOption;
 @class AtlantisAboutBox;
-@class DockBadger;
 @class ToolbarCollection;
 @class MUSHTextEditor;
 @class ScriptingDispatch;
 @class ScriptingEngine;
 @class MCPDispatch;
 @class ToolbarWorldStatus;
-@class CTBadge;
 @class AtlantisState;
 @class JSScriptingEngine;
 
@@ -69,7 +67,6 @@
     
     AtlantisAboutBox     *_rdAboutBox;
     
-    CTBadge           *_rdBadger;    // MUSHROOM, MUSHROOM!
     MUSHTextEditor       *_rdTextEditor;// Many happy hours of descing ahead...
     
     MCPDispatch          *_rdMcpDispatch;

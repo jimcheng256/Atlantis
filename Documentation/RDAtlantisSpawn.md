@@ -37,6 +37,10 @@ Keep editor identity stable during status updates and window moves. A future rep
 
 The bridge scopes both legacy outlet keys to `RDAtlantisSpawnInterop.m`. Replacing an editor is an opportunity to replace the corresponding KVC connection with an explicit command or callback.
 
+## Dock activity badge
+
+Lemuria tracks spawns with unread activity and posts notifications when a spawn gains or clears that activity. The main controller updates the Dock menu and sets the application’s `NSDockTile.badgeLabel` to the number of active spawns when the badge preferences allow it. With no activity or when the preferences hide the badge, the controller clears the label.
+
 ## Tests
 
 Run the hosted XCTest suite with **Product → Test** in the shared Atlantis scheme or use the command below from the repository root. The sibling Lemuria checkout is required.
@@ -47,3 +51,5 @@ xcodebuild -project Atlantis.xcodeproj -scheme Atlantis -configuration Debug \
 ```
 
 The controller extraction was checked with the XIB in place using the existing tests and a new timestamp and attribute preservation test. The SwiftUI tests cover the host layout and status message, Objective-C selectors, input submission and editor command routing, output filtering and selection, saved divider proportions, and draft, selection, and scrollback preservation across status updates and a window move.
+
+The hosted Dock badge test marks a background spawn as active, confirms repeated activity counts the spawn once, and verifies that clearing its activity removes it from the badge count.

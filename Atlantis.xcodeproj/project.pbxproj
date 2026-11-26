@@ -162,13 +162,6 @@
 		FF25A5050BFFA6040005E24A /* RDAtlantisEventItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FF25A5030BFFA6040005E24A /* RDAtlantisEventItem.m */; };
 		FF261ED809C68290000E0026 /* RDBlockingOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF261ED609C68290000E0026 /* RDBlockingOutlineView.m */; };
 		FF267E7709A16F8900198A44 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF267E7609A16F8900198A44 /* Carbon.framework */; };
-		FF26F3240B84523D003043E5 /* NSBezierPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FF26F3220B84523D003043E5 /* NSBezierPathExtensions.m */; };
-		FF26F3A70B845564003043E5 /* CTBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = FF26F3A30B845564003043E5 /* CTBadge.m */; };
-		FF26F3A90B845564003043E5 /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF26F3A50B845564003043E5 /* CTGradient.m */; };
-		FF26F3AE0B84559D003043E5 /* CTBadge_1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FF26F3AA0B84559D003043E5 /* CTBadge_1.pdf */; };
-		FF26F3AF0B84559D003043E5 /* CTBadge_3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FF26F3AB0B84559D003043E5 /* CTBadge_3.pdf */; };
-		FF26F3B00B84559D003043E5 /* CTBadge_4.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FF26F3AC0B84559D003043E5 /* CTBadge_4.pdf */; };
-		FF26F3B10B84559D003043E5 /* CTBadge_5.pdf in Resources */ = {isa = PBXBuildFile; fileRef = FF26F3AD0B84559D003043E5 /* CTBadge_5.pdf */; };
 		FF2D6E440F36440100E766CB /* MCPIcecrewServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2D6E430F36440100E766CB /* MCPIcecrewServer.m */; };
 		FF2EA2A509E34F4100DDD57E /* WorldDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA2A309E34F4100DDD57E /* WorldDefaults.swift */; };
 		FF2EA33309E35CE100DDD57E /* HotkeyPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EA33109E35CE100DDD57E /* HotkeyPreferences.swift */; };
@@ -323,7 +316,6 @@
 		FFD84BE209EB31B9009CC4F5 /* Condition-ComputerIdle.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD84BE009EB31B9009CC4F5 /* Condition-ComputerIdle.m */; };
 		FFD84BFA09EB3319009CC4F5 /* Condition-WorldIdle.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD84BF809EB3319009CC4F5 /* Condition-WorldIdle.m */; };
 		FFD9D6360DF2339400EA6602 /* NSColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD9D6350DF2339400EA6602 /* NSColorAdditions.m */; };
-		FFDC0D130A4F6B32001D0549 /* DockBadger.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDC0D110A4F6B32001D0549 /* DockBadger.m */; };
 		FFDC5E7D0A5B0F24009304BA /* Condition-WorldIsConnected.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDC5E7B0A5B0F24009304BA /* Condition-WorldIsConnected.m */; };
 		FFDC5E830A5B0F30009304BA /* Condition-WorldIsDisconnected.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDC5E810A5B0F30009304BA /* Condition-WorldIsDisconnected.m */; };
 		FFDC5F820A5B2A05009304BA /* toolbar.tif in Resources */ = {isa = PBXBuildFile; fileRef = FFDC5F810A5B2A05009304BA /* toolbar.tif */; };
@@ -631,16 +623,6 @@
 		FF261ED509C68290000E0026 /* RDBlockingOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDBlockingOutlineView.h; path = "Utility Classes/RDBlockingOutlineView.h"; sourceTree = "<group>"; };
 		FF261ED609C68290000E0026 /* RDBlockingOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDBlockingOutlineView.m; path = "Utility Classes/RDBlockingOutlineView.m"; sourceTree = "<group>"; };
 		FF267E7609A16F8900198A44 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		FF26F3210B84523C003043E5 /* NSBezierPathExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSBezierPathExtensions.h; path = Extensions/NSBezierPathExtensions.h; sourceTree = "<group>"; };
-		FF26F3220B84523D003043E5 /* NSBezierPathExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSBezierPathExtensions.m; path = Extensions/NSBezierPathExtensions.m; sourceTree = "<group>"; };
-		FF26F3A20B845564003043E5 /* CTBadge.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CTBadge.h; path = "Utility Classes/CTBadge.h"; sourceTree = "<group>"; };
-		FF26F3A30B845564003043E5 /* CTBadge.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CTBadge.m; path = "Utility Classes/CTBadge.m"; sourceTree = "<group>"; };
-		FF26F3A40B845564003043E5 /* CTGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CTGradient.h; path = "Utility Classes/CTGradient.h"; sourceTree = "<group>"; };
-		FF26F3A50B845564003043E5 /* CTGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CTGradient.m; path = "Utility Classes/CTGradient.m"; sourceTree = "<group>"; };
-		FF26F3AA0B84559D003043E5 /* CTBadge_1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = CTBadge_1.pdf; path = "Utility Classes/CTBadge_1.pdf"; sourceTree = "<group>"; };
-		FF26F3AB0B84559D003043E5 /* CTBadge_3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = CTBadge_3.pdf; path = "Utility Classes/CTBadge_3.pdf"; sourceTree = "<group>"; };
-		FF26F3AC0B84559D003043E5 /* CTBadge_4.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = CTBadge_4.pdf; path = "Utility Classes/CTBadge_4.pdf"; sourceTree = "<group>"; };
-		FF26F3AD0B84559D003043E5 /* CTBadge_5.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = CTBadge_5.pdf; path = "Utility Classes/CTBadge_5.pdf"; sourceTree = "<group>"; };
 		FF2D6E420F36440100E766CB /* MCPIcecrewServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCPIcecrewServer.h; path = "MCP System/MCPIcecrewServer.h"; sourceTree = "<group>"; };
 		FF2D6E430F36440100E766CB /* MCPIcecrewServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCPIcecrewServer.m; path = "MCP System/MCPIcecrewServer.m"; sourceTree = "<group>"; };
 		FF2EA2A209E34F4100DDD57E /* WorldDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorldDefaults.h; path = Preferences/Application/WorldDefaults.h; sourceTree = "<group>"; };
@@ -664,8 +646,6 @@
 		FF3C998609C401EB003A9509 /* WorldFormattingEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorldFormattingEditor.m; path = Preferences/World/WorldFormattingEditor.m; sourceTree = "<group>"; };
 		FF3C9A8909C42FDF003A9509 /* RDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDView.h; path = "Utility Classes/RDView.h"; sourceTree = "<group>"; };
 		FF3C9A8A09C42FDF003A9509 /* RDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDView.m; path = "Utility Classes/RDView.m"; sourceTree = "<group>"; };
-		FF4311D409C7DBEB007D8015 /* BugReporter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BugReporter.h; path = Support/BugReporter/BugReporter.h; sourceTree = "<group>"; };
-		FF4311D509C7DBEB007D8015 /* libBugReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBugReporter.a; path = Support/BugReporter/libBugReporter.a; sourceTree = "<group>"; };
 		FF43124D09C7E811007D8015 /* Action-AddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-AddressBook.h"; path = "Event System/Actions/Action-AddressBook.h"; sourceTree = "<group>"; };
 		FF43124E09C7E811007D8015 /* Action-AddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action-AddressBook.m"; path = "Event System/Actions/Action-AddressBook.m"; sourceTree = "<group>"; };
 		FF4312A309C7E9A9007D8015 /* Action-TextOmitLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action-TextOmitLog.h"; path = "Event System/Actions/Action-TextOmitLog.h"; sourceTree = "<group>"; };
@@ -923,8 +903,6 @@
 		FFD84BF809EB3319009CC4F5 /* Condition-WorldIdle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Condition-WorldIdle.m"; path = "Event System/Conditions/Condition-WorldIdle.m"; sourceTree = "<group>"; };
 		FFD9D6340DF2339400EA6602 /* NSColorAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSColorAdditions.h; path = "Utility Classes/NSColorAdditions.h"; sourceTree = "<group>"; };
 		FFD9D6350DF2339400EA6602 /* NSColorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSColorAdditions.m; path = "Utility Classes/NSColorAdditions.m"; sourceTree = "<group>"; };
-		FFDC0D100A4F6B32001D0549 /* DockBadger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DockBadger.h; path = "Utility Classes/DockBadger.h"; sourceTree = "<group>"; };
-		FFDC0D110A4F6B32001D0549 /* DockBadger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DockBadger.m; path = "Utility Classes/DockBadger.m"; sourceTree = "<group>"; };
 		FFDC5E7A0A5B0F24009304BA /* Condition-WorldIsConnected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Condition-WorldIsConnected.h"; path = "Event System/Conditions/Condition-WorldIsConnected.h"; sourceTree = "<group>"; };
 		FFDC5E7B0A5B0F24009304BA /* Condition-WorldIsConnected.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Condition-WorldIsConnected.m"; path = "Event System/Conditions/Condition-WorldIsConnected.m"; sourceTree = "<group>"; };
 		FFDC5E800A5B0F30009304BA /* Condition-WorldIsDisconnected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Condition-WorldIsDisconnected.h"; path = "Event System/Conditions/Condition-WorldIsDisconnected.h"; sourceTree = "<group>"; };
@@ -1071,7 +1049,6 @@
 				FFFBD44D09E4E56F00AE4DCF /* Menu System */,
 				FF6451AC09E384DF00D207A9 /* Command System */,
 				FFECBAFA09DE106F0049FF54 /* App Preferences System */,
-				FF4311D309C7DBD1007D8015 /* Bug Reporter */,
 				FF25570909C24EE800515FE3 /* Highlight System */,
 				FF4FA74D09BE83C700D421DF /* World Event System */,
 				FF1C9FB909B6B86900E55E57 /* Hotkey System */,
@@ -1164,10 +1141,6 @@
 				FF25A4C90BFFA3510005E24A /* downarrow.png */,
 				FF25A4CA0BFFA3510005E24A /* uparrow.png */,
 				FF9215EF0B9029A200F2D5EC /* world.icns */,
-				FF26F3AA0B84559D003043E5 /* CTBadge_1.pdf */,
-				FF26F3AB0B84559D003043E5 /* CTBadge_3.pdf */,
-				FF26F3AC0B84559D003043E5 /* CTBadge_4.pdf */,
-				FF26F3AD0B84559D003043E5 /* CTBadge_5.pdf */,
 				FF238F820AC25B73003ED595 /* Network.tiff */,
 				FFDC5F810A5B2A05009304BA /* toolbar.tif */,
 				FFF02C050A2CE90C000DC42B /* AddressBook.tiff */,
@@ -1520,15 +1493,6 @@
 			name = Library;
 			sourceTree = "<group>";
 		};
-		FF4311D309C7DBD1007D8015 /* Bug Reporter */ = {
-			isa = PBXGroup;
-			children = (
-				FF4311D409C7DBEB007D8015 /* BugReporter.h */,
-				FF4311D509C7DBEB007D8015 /* libBugReporter.a */,
-			);
-			name = "Bug Reporter";
-			sourceTree = "<group>";
-		};
 		FF4FA74D09BE83C700D421DF /* World Event System */ = {
 			isa = PBXGroup;
 			children = (
@@ -1703,12 +1667,6 @@
 				8B42786529121F86005EFEA6 /* RenameWindowPicker.xib */,
 				8B42786329121F51005EFEA6 /* AtlantisProgressSheet.xib */,
 				FF99ADEE0C2B6AAE005F1FF9 /* terminal.png */,
-				FF26F3A20B845564003043E5 /* CTBadge.h */,
-				FF26F3A30B845564003043E5 /* CTBadge.m */,
-				FF26F3A40B845564003043E5 /* CTGradient.h */,
-				FF26F3A50B845564003043E5 /* CTGradient.m */,
-				FFDC0D100A4F6B32001D0549 /* DockBadger.h */,
-				FFDC0D110A4F6B32001D0549 /* DockBadger.m */,
 				FF261ED509C68290000E0026 /* RDBlockingOutlineView.h */,
 				FF261ED609C68290000E0026 /* RDBlockingOutlineView.m */,
 				FFD1899F09C118A300763B31 /* RDColorWellCell.h */,
@@ -1914,8 +1872,6 @@
 				FF6E57230A66DD2100AE3E0B /* NSFileManagerExtensions.m */,
 				FFFE5DEA09A2A9CE003F118B /* NSStringExtensions.h */,
 				FFFE5DEB09A2A9CE003F118B /* NSStringExtensions.m */,
-				FF26F3210B84523C003043E5 /* NSBezierPathExtensions.h */,
-				FF26F3220B84523D003043E5 /* NSBezierPathExtensions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -2108,14 +2064,10 @@
 				8B42783029120D9E005EFEA6 /* CondConf_LineClass.xib in Resources */,
 				8B42784129121CEB005EFEA6 /* ActionConf_FocusSpawn.xib in Resources */,
 				FF238F830AC25B73003ED595 /* Network.tiff in Resources */,
-				FF26F3AE0B84559D003043E5 /* CTBadge_1.pdf in Resources */,
 				8B42786129121ECD005EFEA6 /* LogConf_HTML.xib in Resources */,
-				FF26F3AF0B84559D003043E5 /* CTBadge_3.pdf in Resources */,
-				FF26F3B00B84559D003043E5 /* CTBadge_4.pdf in Resources */,
 				8B42782F29120D9E005EFEA6 /* CondConf_ViewName.xib in Resources */,
 				8B42782929120D9E005EFEA6 /* CondConf_WorldIdle.xib in Resources */,
 				8B42786829122717005EFEA6 /* WorldNotepad.xib in Resources */,
-				FF26F3B10B84559D003043E5 /* CTBadge_5.pdf in Resources */,
 				FF9215F00B9029A200F2D5EC /* world.icns in Resources */,
 				8B42785E29121E7B005EFEA6 /* LogOptionPanel.xib in Resources */,
 				8B42786229121ECD005EFEA6 /* LogConf_Formatted.xib in Resources */,
@@ -2350,7 +2302,6 @@
 				FFF02C0F0A2CEA15000DC42B /* ToolbarAddressBook.m in Sources */,
 				FFD1B84C0A381C5600356D48 /* Action-LastCommand.m in Sources */,
 				FFEBD2840A49145C00762BE2 /* Condition-LineClass.m in Sources */,
-				FFDC0D130A4F6B32001D0549 /* DockBadger.m in Sources */,
 				FF33DE540A5A028300615E7B /* Action-AddressBookWorld.m in Sources */,
 				FF33DED10A5A05B500615E7B /* Action-OutputCopy.m in Sources */,
 				FF33DEE60A5A067200615E7B /* Action-OutputCopyInput.m in Sources */,
@@ -2398,9 +2349,6 @@
 				FF73C2070B81782D002293FD /* Condition-AtlantisVisible.m in Sources */,
 				FF73C2C30B818B23002293FD /* Action-GlobalReconnect.m in Sources */,
 				3226D1242EE14D110016D727 /* JSScriptingEngine.swift in Sources */,
-				FF26F3240B84523D003043E5 /* NSBezierPathExtensions.m in Sources */,
-				FF26F3A70B845564003043E5 /* CTBadge.m in Sources */,
-				FF26F3A90B845564003043E5 /* CTGradient.m in Sources */,
 				FF61CD1A0B8A37910058CDEA /* NSDictionary+XMLPersistence.m in Sources */,
 				FF61CD1B0B8A37910058CDEA /* UKXMLPersistence.c in Sources */,
 				FF921AE10B92473D00F2D5EC /* NSAttributedStringAdditions.m in Sources */,

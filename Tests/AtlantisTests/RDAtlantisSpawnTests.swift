@@ -5,6 +5,46 @@ import XCTest
 
 final class RDAtlantisSpawnTests: XCTestCase {
     @MainActor
+    func testBackgroundSpawnActivityUpdatesApplicationDockBadge() throws {
+        let controller = try XCTUnwrap(RDPreferenceMainController())
+        let manager = RDSpawnViewManager()
+        let dockTile = NSApplication.shared.dockTile
+        let defaults = UserDefaults.standard
+        let domain = try XCTUnwrap(Bundle.main.bundleIdentifier)
+        let keys = ["atlantis.badge.inactive", "atlantis.badge.visible"]
+        let previous = defaults.persistentDomain(forName: domain) ?? [:]
+        for key in keys { defaults.set(false, forKey: key) }
+        defer {
+            for key in keys {
+                if let value = previous[key] {
+                    defaults.set(value, forKey: key)
+                } else {
+                    defaults.removeObject(forKey: key)
+                }
+            }
+            controller.refreshBadge()
+        }
+
+        try withSpawn { background, _ in
+            try withSpawn { _, _ in
+                let baseline = try XCTUnwrap(manager.activeViews()).count
+                controller.refreshBadge()
+                XCTAssertEqual(dockTile.badgeLabel, baseline == 0 ? nil : String(baseline))
+                defer { manager.view(background, hasActivity: false) }
+
+                manager.view(background, hasActivity: true)
+                XCTAssertEqual(dockTile.badgeLabel, String(baseline + 1))
+
+                manager.view(background, hasActivity: true)
+                XCTAssertEqual(dockTile.badgeLabel, String(baseline + 1))
+
+                manager.view(background, hasActivity: false)
+                XCTAssertEqual(dockTile.badgeLabel, baseline == 0 ? nil : String(baseline))
+            }
+        }
+    }
+
+    @MainActor
     func testHostedTerminalWiresLegacyTextViewsAndSelectors() throws {
         try withSpawn { spawn, world in
             XCTAssertTrue(NSClassFromString("RDAtlantisSpawn") == type(of: spawn))

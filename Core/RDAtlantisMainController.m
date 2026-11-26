@@ -5,7 +5,6 @@
 //#import <CamelBones/CamelBones.h>
 #import <OgreKit/OgreKit.h>
 #import "RDAtlantisMainController.h"
-//#include "BugReporter.h"
 #import "NSDictionary+XMLPersistence.h"
 
 #import "ToolbarCollection.h"
@@ -87,7 +86,6 @@
 
 #import "AtlantisAboutBox.h"
 #import "RDAtlantisApplication.h"
-#import "DockBadger.h"
 #import "MUSHTextEditor.h"
 
 #import "ScriptingDispatch.h"
@@ -101,8 +99,6 @@
 #import "MCPEditHandler.h"
 #import "MCPVMooClient.h"
 #import "MCPIcecrewServer.h"
-
-#import "CTBadge.h"
 
 #import "ScriptEventAction.h"
 
@@ -172,20 +168,6 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) awakeFromNib
 {
-//    NSString *bugReporterPropertyList;
-//    NSString *bugReporterPropertyListFilename;
-//
-//    bugReporterPropertyListFilename = [[NSBundle mainBundle] pathForResource:@"bugreporter" ofType:@"plist"];
-//    if (bugReporterPropertyListFilename) {
-//        bugReporterPropertyList = [NSString stringWithContentsOfFile:bugReporterPropertyListFilename];
-//        if (bugReporterPropertyList) {
-//            BRStatus theErr;
-//            theErr = EnableBugReporter((CFStringRef)bugReporterPropertyList);
-//            if (theErr != kBRNoErr)
-//                exit(theErr);
-//        }
-//    }
-//
     [NSApp setDelegate:self];
 }
 
@@ -601,7 +583,6 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     _rdEventTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(eventsTimerFired:) userInfo:nil repeats:YES] retain];    
     
     _rdAboutBox = [[[AtlantisAboutBox alloc] init] retain];
-    _rdBadger = [[CTBadge systemBadge] retain];
     
     _rdTextEditor = [[MUSHTextEditor alloc] init];
     
@@ -618,7 +599,6 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [_rdTempStateVars release];
 
     [_rdTextEditor release];
-    [_rdBadger release];
     [_rdAboutBox release];
 
     [_rdEventTimer invalidate];
@@ -648,8 +628,6 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [_rdScriptedEvents release];
 
     [super dealloc];
-//    
-//    DisableBugReporter();
 }
 
 #pragma mark Notification
@@ -1444,16 +1422,12 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
             return NSTerminateCancel;
         else {
             [[RDAtlantisMainController controller] disconnectAllWorlds];
-//            [_rdBadger badgeWithText:@""];
-//            [_rdBadger badgeWithActive:0];
             [NSApp setApplicationIconImage:[NSImage imageNamed:@"NSApplicationIcon"]];
             return NSTerminateNow;
         }
     }
     else {
         [NSApp setApplicationIconImage:[NSImage imageNamed:@"NSApplicationIcon"]];
-//        [_rdBadger badgeWithText:@""];
-//        [_rdBadger badgeWithActive:0];
         
         return NSTerminateNow;
     }

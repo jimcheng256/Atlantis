@@ -1429,22 +1429,6 @@
 		vrLen = 683;
 		vrLoc = 436;
 	};
-	FF4311D409C7DBEB007D8015 /* BugReporter.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {740, 2856}}";
-			sepNavSelRange = "{2607, 6}";
-			sepNavVisRect = "{{0, 1108}, {740, 180}}";
-		};
-	};
-	FF43120809C7DE8F007D8015 /* bugreporter.plist */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {3614, 728}}";
-			sepNavSelRange = "{1525, 0}";
-			sepNavVisRange = "{0, 1760}";
-			sepNavVisRect = "{{0, 0}, {782, 271}}";
-			sepNavWindowFrame = "{{61, 94}, {656, 737}}";
-		};
-	};
 	FF43124D09C7E811007D8015 /* Action-AddressBook.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {617, 608}}";
