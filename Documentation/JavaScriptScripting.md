@@ -1,5 +1,9 @@
 # JavaScript scripting
 
+JavaScript scripting is enabled by default. The checkbox in **Preferences →
+General → Experimental** controls whether Atlantis loads the JavaScript
+engine at launch. Restart Atlantis after changing it.
+
 Atlantis uses JavaScriptCore to run local JavaScript. Put UTF-8 `.js` files
 in `~/Library/Atlantis/Scripts` or a subdirectory. Atlantis evaluates the
 files at startup in path order. They share one global context, so give

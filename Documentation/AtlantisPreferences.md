@@ -28,7 +28,7 @@ Each pane implements `preferencePaneName`, `preferencePaneImage`,
 
 | Pane | View and Interface Builder connections | Commit |
 | --- | --- | --- |
-| General | SwiftUI groups in `GeneralPreferences.swift`. The former `_rdConfigView` is now a hosting view. Former checkbox outlets use option bindings, the beep popup uses a picker, and the URL length field saves on submit or focus loss. Shortcut and badge bindings retain their live callbacks. | Synchronizes user defaults. |
+| General | SwiftUI groups in `GeneralPreferences.swift`. The former `_rdConfigView` is now a hosting view. Former checkbox outlets use option bindings, the beep popup uses a picker, and the URL length field saves on submit or focus loss. Shortcut and badge bindings retain their live callbacks. Experimental stores a global JavaScript scripting toggle that the main controller reads at launch. | Synchronizes user defaults. |
 | Network | SwiftUI form in `NetworkPreferences.swift`. Picker selection replaces `_rdProxyType`, toggles replace the performance outlets, and focus tracking replaces the proxy-field key-view chain and editing delegate. | Synchronizes user defaults. |
 | World Defaults | The Swift `WorldDefaults` adapter returns `WorldConfigurationEditor.configView`, an AppKit tab view whose child editors own their own resources and outlets under `Preferences/World`. | Calls `commitAll` on the world editor. |
 | Hotkeys | `HotkeyPreferences.initForCollection:` takes the shared collection and returns its event editor's `editorView`. The Swift delegate routes key capture and action picking to the shared event editor. | Archives the collection to `hotkeys.akb`. |

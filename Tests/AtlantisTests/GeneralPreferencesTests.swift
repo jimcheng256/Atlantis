@@ -5,9 +5,9 @@ import XCTest
 
 final class GeneralPreferencesTests: XCTestCase {
     @MainActor
-    func testStartupAndClearInputUseInvertedDefaults() {
+    func testInvertedOptionsDefaultToEnabledAndPersistOptOut() {
         withSettings { settings in
-            for option in [GeneralPreferences.Option.checkOnStartup, .clearInput] {
+            for option in [GeneralPreferences.Option.checkOnStartup, .clearInput, .javaScript] {
                 XCTAssertTrue(settings.enabled(option))
                 settings.setEnabled(false, for: option)
                 XCTAssertTrue(settings.defaults.bool(forKey: option.rawValue))
@@ -69,7 +69,7 @@ final class GeneralPreferencesTests: XCTestCase {
             window.orderFront(nil)
             defer { window.close() }
 
-            let titles = ["Global UI Options", "Global Window Options", "Startup Options"]
+            let titles = ["Global UI Options", "Global Window Options", "Startup Options", "Experimental"]
             func layout(at height: CGFloat) throws -> [CGRect] {
                 window.setContentSize(CGSize(width: 433, height: height))
                 host.layoutSubtreeIfNeeded()
@@ -90,7 +90,7 @@ final class GeneralPreferencesTests: XCTestCase {
                 XCTAssertEqual(before.height, after.height, accuracy: 1)
             }
             XCTAssertEqual(short[0].minY, tall[0].minY, accuracy: 1)
-            XCTAssertGreaterThan(short[2].maxY, host.bounds.height)
+            XCTAssertGreaterThan(try XCTUnwrap(short.last).maxY, host.bounds.height)
 
             func scrollView(in view: NSView) -> NSScrollView? {
                 (view as? NSScrollView) ?? view.subviews.lazy.compactMap { scrollView(in: $0) }.first
@@ -105,9 +105,9 @@ final class GeneralPreferencesTests: XCTestCase {
             viewport.scroll(to: bottom)
             scroll.reflectScrolledClipView(viewport)
             RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
-            let startup = try XCTUnwrap(frames["Startup Options"])
-            XCTAssertGreaterThanOrEqual(startup.minY, 0)
-            XCTAssertLessThanOrEqual(startup.maxY, host.bounds.height)
+            let experimental = try XCTUnwrap(frames["Experimental"])
+            XCTAssertGreaterThanOrEqual(experimental.minY, 0)
+            XCTAssertLessThanOrEqual(experimental.maxY, host.bounds.height)
         }
     }
 

@@ -16,8 +16,9 @@ final class GeneralPreferences: NSObject, @preconcurrency AtlantisPreferencePane
         case badgeInactive = "atlantis.badge.inactive"
         case badgeHidden = "atlantis.badge.hidden"
         case shrinkURLs = "atlantis.input.urlAutoshrink"
+        case javaScript = "atlantis.scripting.disableJavaScript"
 
-        var inverted: Bool { self == .checkOnStartup || self == .clearInput }
+        var inverted: Bool { self == .checkOnStartup || self == .clearInput || self == .javaScript }
     }
 
     @MainActor
@@ -135,6 +136,9 @@ struct GeneralPreferencesForm: View {
                 group("Startup Options") {
                     toggle("Check for new versions of Atlantis on startup", .checkOnStartup)
                     toggle("Open Address Book on startup if no autoconnects", .openBook)
+                }
+                group("Experimental") {
+                    toggle("Enable JavaScript scripting (requires restart)", .javaScript)
                 }
             }
             // Let the scroll view clip the viewport without compressing the sections.
