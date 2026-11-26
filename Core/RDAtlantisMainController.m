@@ -192,6 +192,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification
 {
     [[SUUpdater sharedUpdater] resetUpdateCycle];
+    [_rdScriptSystem refreshEngines:nil];
     
 #ifndef _ATLANTIS_DEBUG
     [_rdWorlds doAutoconnects];
@@ -363,9 +364,6 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [self addScriptingEngine:[[LuaScriptingEngine alloc] init]];
     [self addScriptingEngine:[[JSScriptingEngine alloc] init]];
     
-    // Testing
-    [self addScriptingEngine:[[WrappedLuaScriptingEngine alloc] init]];
-
     [self addInputFilter:[RDCompressionFilter class]];
     [self addInputFilter:[RDAnsiFilter class]];
     [self addInputFilter:[RDTelnetFilter class]];
@@ -1583,7 +1581,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 
 - (void) removeAllScriptedEventsForLanguage:(NSString *)language
 {
-    NSEnumerator *actionEnum = [_rdScriptedEvents objectEnumerator];
+    NSEnumerator *actionEnum = [[[_rdScriptedEvents copy] autorelease] objectEnumerator];
     
     ScriptEventAction *action;
     
@@ -1598,7 +1596,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
 - (BOOL) fireScriptedEventsForState:(AtlantisState *)state
 {
     BOOL result = NO;
-    NSEnumerator *actionEnum = [_rdScriptedEvents objectEnumerator];
+    NSEnumerator *actionEnum = [[[_rdScriptedEvents copy] autorelease] objectEnumerator];
     NSString *world = [[state extraDataForKey:@"world.name"] lowercaseString];
     NSString *type = [[state extraDataForKey:@"event.cause"] lowercaseString];
     

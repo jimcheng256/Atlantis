@@ -89,15 +89,15 @@
 - (void) setVariable:(NSString *)value forKey:(NSString *)tempKey inWorld:(NSString *)worldName
 {
     RDAtlantisWorldInstance *world = [[RDAtlantisMainController controller] connectedWorld:worldName];
-    if (world || [[[tempKey substringToIndex:5] lowercaseString] isEqualToString:@"temp."]) {
-        if ([[[tempKey substringToIndex:5] lowercaseString] isEqualToString:@"temp."]) {
+    if (world || [[tempKey lowercaseString] hasPrefix:@"temp."]) {
+        if ([[tempKey lowercaseString] hasPrefix:@"temp."]) {
             NSString *keyname = [tempKey substringFromIndex:5];
             [[RDAtlantisMainController controller] setStateVar:value forKey:keyname];
         }
-        else if ([[[tempKey substringToIndex:10] lowercaseString] isEqualToString:@"worldtemp."]) {
+        else if ([[tempKey lowercaseString] hasPrefix:@"worldtemp."]) {
             [world setInfo:value forBaseStateKey:tempKey];
         }
-        else if ([[[tempKey substringToIndex:9] lowercaseString] isEqualToString:@"userconf."]) {
+        else if ([[tempKey lowercaseString] hasPrefix:@"userconf."]) {
             NSMutableDictionary *userconf = [[[world preferences] preferenceForKey:@"atlantis.userconf" withCharacter:[world character] fallback:NO] mutableCopy];
             if (!userconf) {
                 userconf = [[NSMutableDictionary alloc] init];
@@ -131,7 +131,7 @@
     RDAtlantisWorldInstance *world = [[RDAtlantisMainController controller] connectedWorld:worldName];
     if (world)
     {
-        if (![[[key substringToIndex:9] lowercaseString] isEqualToString:@"atlantis."])
+        if (![[key lowercaseString] hasPrefix:@"atlantis."])
             [[world preferences] setPreference:preference forKey:key withCharacter:[world character]];
     }
 }
