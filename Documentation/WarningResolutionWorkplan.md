@@ -45,6 +45,30 @@ environment diagnostics separately from the Atlantis warning counts.
   A newly passing test on the revised implementation alone is insufficient
   evidence for an equivalence claim.
 
+## Prerequisite: optional profile directory
+
+Before the application smoke baseline and the first warning increment,
+implement and verify an optional Atlantis profile directory. Keep the
+implementation in a separate commit for review.
+
+- Accept `--profile-directory <path>` at startup, before loading preferences,
+  archives, or windows. Preserve existing storage behavior when the flag
+  is absent. Reject an unusable path before loading profile data.
+- Use a dedicated `NSUserDefaults` suite for each profile and resolve
+  Atlantis-managed files under the selected directory. Audit direct
+  defaults access, Cocoa bindings, SwiftUI storage, and home-relative
+  paths for worlds, hotkeys, toolbar events, globals, and default logs.
+  Verify AppKit-managed state, including window restoration, separately.
+- Use two temporary profiles for verification. Save a preference and a
+  world in the first, relaunch to confirm persistence, and confirm the
+  second profile starts without either value. Verify that the isolated
+  run leaves the normal preferences and archive paths untouched.
+- Record the effective preference suite and storage paths in the smoke
+  capture. Retain the warning capture from `ee9deed` and take a fresh
+  capture from the accepted profile-support commit. Compare the two for
+  diagnostics introduced by the prerequisite. Use the accepted commit
+  for the application smoke baseline and the first increment comparison.
+
 ## Increment order
 
 Counts are Atlantis-path warning lines from the baseline, including
@@ -77,9 +101,10 @@ on arm64 and x86_64.
 
 ## Between-increment gate
 
-1. Before the first increment, establish the smoke baseline with a dedicated
-   test world and disposable data. Record the app version, Xcode version,
-   architectures, fixture configuration, and any existing failures.
+1. After profile support is accepted and before the first increment,
+   establish the smoke baseline with a dedicated test world and disposable
+   data. Record the app version, Xcode version, architectures, fixture
+   configuration, and any existing failures.
 2. For each increment, run the smallest focused checks before the edit and
    again afterward. Run the shared hosted suite for changes involving
    windows, panes, or editors. If Xcode requires separate environments, use
@@ -127,8 +152,8 @@ Use a disposable Address Book entry, a local Telnet fixture, and temporary
 log files. Preserve real profiles and network credentials. Keep the
 fixture and checks the same between increments.
 
-Create a small smoke runner before the first source edit and use it for
-the initial baseline and subsequent increments. Have it accept the built
+Use the smoke runner for the application baseline and subsequent
+increments. Have it accept the built
 app path and an output directory outside the checkout. Record the commit,
 app version, build toolchain and SDK, and binary architectures. Start a
 loopback Telnet fixture and record negotiation, expected command bytes,
