@@ -39,6 +39,20 @@ for detailed design and test instructions.
 
 ## Building, testing, and publishing
 
+- A fresh Atlantis build can report the same diagnostic for arm64 and
+  x86_64 and include warnings from the Lemuria project reference. The
+  warning-resolution baseline contained 2,182 captured lines, of which
+  1,421 had Atlantis paths and 698 had Lemuria paths. Keep the raw log with
+  repeats, then group diagnostics by owner and source site for comparison.
+  Count pathless build settings by target and record Xcode environment
+  diagnostics separately.
+- Warning count alone can hide a behavior bug. The initial audit found an
+  ineffective length guard in `HIDIdleTime.m` and an `NSLog` call in
+  `RDStringPattern.m` that treats a constructed message as its format.
+  Review those as correctness changes with explicit expected results. For
+  equivalence claims on API or numeric changes, run the same characterization
+  assertions on both implementations and include malformed input and byte
+  boundaries where relevant.
 - A runtime nib lookup can resolve to a resource compiled from a same-named
   XIB. After removing the unreferenced legacy nib packages, a clean build
   contained all 47 replacement nibs compiled from the XIBs in the Resources

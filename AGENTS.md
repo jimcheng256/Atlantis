@@ -24,6 +24,11 @@ setup.
   migrations, characterize the old behavior before replacing it. Exercise
   the actual hosted window or editor for layout, focus, and responder changes.
   Use temporary defaults suites and archive paths for persistence tests.
+- For warning cleanup, verify Xcode fix-its against the API contract and the
+  actual call sites. For substantive changes beyond renames and verified
+  constant aliases, run the same focused assertions before and after the
+  edit. Exercise numeric boundaries and compare exact bytes for changes to
+  protocol fields, buffer lengths, or encoded output.
 - Update the relevant architecture documentation when changing behavior,
   integration points, or test commands.
 - Keep README.md focused on the project overview and checkout and build setup.
@@ -45,6 +50,12 @@ GUI test execution, use `build-for-testing` followed by
 `test-without-building` with the same scheme, destination, build settings,
 and derived data path. Report compile coverage and runtime coverage
 separately when they differ.
+
+For the warning-resolution effort, follow the
+[warning workplan](Documentation/WarningResolutionWorkplan.md) one batch at
+a time. Limit changes to Atlantis and keep Lemuria in the integration build.
+Compare fresh build diagnostics and run the workplan's smoke checklist
+between batches.
 
 ## Git and pull requests
 
