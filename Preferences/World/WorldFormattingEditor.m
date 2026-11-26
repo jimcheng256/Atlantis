@@ -10,10 +10,106 @@
 #import "RDAtlantisMainController.h"
 #import "RDView.h"
 
+@interface WorldFormattingEditor () {
+    NSPopover *_rdColorMappingHint;
+    NSTimer *_rdColorMappingHintTimer;
+}
+- (void)showColorMappingHint:(NSControl *)sender;
+- (void)dismissColorMappingHint;
+@end
+
+// Keep inherited colors legible while suppressing user interaction.
+@interface FormattingColorWell : NSColorWell
+@property (nonatomic) BOOL usesInheritedValue;
+@end
+
+@implementation FormattingColorWell
+- (void)mouseDown:(NSEvent *)event
+{
+    if (self.usesInheritedValue)
+        [self sendAction:@selector(showColorMappingHint:) to:[self target]];
+    else
+        [super mouseDown:event];
+}
+
+- (BOOL)acceptsFirstResponder
+{
+    return !self.usesInheritedValue && [super acceptsFirstResponder];
+}
+
+- (void)performClick:(id)sender
+{
+    if (!self.usesInheritedValue)
+        [super performClick:sender];
+}
+
+- (void)activate:(BOOL)exclusive
+{
+    if (!self.usesInheritedValue)
+        [super activate:exclusive];
+}
+
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
+{
+    return self.usesInheritedValue ? NSDragOperationNone : [super draggingEntered:sender];
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
+{
+    return !self.usesInheritedValue && [super performDragOperation:sender];
+}
+
+- (BOOL)isAccessibilityEnabled
+{
+    return !self.usesInheritedValue && [super isAccessibilityEnabled];
+}
+
+- (BOOL)accessibilityPerformPress
+{
+    return !self.usesInheritedValue && [super accessibilityPerformPress];
+}
+@end
+
+@interface FormattingBoldingButton : NSButton
+@property (nonatomic) BOOL usesInheritedValue;
+@end
+
+@implementation FormattingBoldingButton
+- (void)mouseDown:(NSEvent *)event
+{
+    if (self.usesInheritedValue)
+        [self sendAction:@selector(showColorMappingHint:) to:[self target]];
+    else
+        [super mouseDown:event];
+}
+
+- (BOOL)acceptsFirstResponder
+{
+    return !self.usesInheritedValue && [super acceptsFirstResponder];
+}
+
+- (void)performClick:(id)sender
+{
+    if (!self.usesInheritedValue)
+        [super performClick:sender];
+}
+
+- (BOOL)isAccessibilityEnabled
+{
+    return !self.usesInheritedValue && [super isAccessibilityEnabled];
+}
+
+- (BOOL)accessibilityPerformPress
+{
+    return !self.usesInheritedValue && [super accessibilityPerformPress];
+}
+@end
+
 @interface WorldFormattingEditor (Private)
 - (NSFont *) font;
 - (void) setFont:(NSFont *) font;
 - (void) frameChanged:(NSNotification *) notification;
+- (void) updateColorControlsWithPalette:(NSArray *)colors;
 @end
 
 @implementation WorldFormattingEditor
@@ -89,6 +185,8 @@
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self dismissColorMappingHint];
+    [_rdColorMappingHint release];
     [_rdFont release];
     [super dealloc];
 }
@@ -258,34 +356,77 @@
     [[self preferences] endBulk];
 }
 
+- (NSArray *)ansiColorWells
+{
+    return @[_rdAnsiColor00, _rdAnsiColor01, _rdAnsiColor02, _rdAnsiColor03,
+             _rdAnsiColor04, _rdAnsiColor05, _rdAnsiColor06, _rdAnsiColor07,
+             _rdAnsiColor08, _rdAnsiColor09, _rdAnsiColor10, _rdAnsiColor11,
+             _rdAnsiColor12, _rdAnsiColor13, _rdAnsiColor14, _rdAnsiColor15];
+}
+
 - (void) colorDefaults:(BOOL) defaults
 {
     [_rdAnsiDefaults setState:(defaults ? NSOnState : NSOffState)];
-    
-    [_rdAnsiColor00 setEnabled:!defaults];
-    [_rdAnsiColor01 setEnabled:!defaults];
-    [_rdAnsiColor02 setEnabled:!defaults];
-    [_rdAnsiColor03 setEnabled:!defaults];
-    [_rdAnsiColor04 setEnabled:!defaults];
-    [_rdAnsiColor05 setEnabled:!defaults];
-    [_rdAnsiColor06 setEnabled:!defaults];
-    [_rdAnsiColor07 setEnabled:!defaults];
-    [_rdAnsiColor08 setEnabled:!defaults];
-    [_rdAnsiColor09 setEnabled:!defaults];
-    [_rdAnsiColor10 setEnabled:!defaults];
-    [_rdAnsiColor11 setEnabled:!defaults];
-    [_rdAnsiColor12 setEnabled:!defaults];
-    [_rdAnsiColor13 setEnabled:!defaults];
-    [_rdAnsiColor14 setEnabled:!defaults];
-    [_rdAnsiColor15 setEnabled:!defaults];
-    
-    [_rdAnsiBolding setEnabled:!defaults];
-    
-    [_rdUrlColor setEnabled:!defaults];
-    [_rdConsoleColor setEnabled:!defaults];
-    [_rdBackgroundColor setEnabled:!defaults];
-    [_rdForegroundColor setEnabled:!defaults];
-    [_rdSelectionColor setEnabled:!defaults];
+
+    if (!defaults)
+        [self dismissColorMappingHint];
+
+    NSArray *wells = [[self ansiColorWells] arrayByAddingObjectsFromArray:
+        @[_rdUrlColor, _rdConsoleColor, _rdBackgroundColor, _rdForegroundColor, _rdSelectionColor]];
+    NSWindow *window = [_rdConfigView window];
+    NSResponder *firstResponder = [window firstResponder];
+    if (defaults && firstResponder && (firstResponder == _rdAnsiBolding || [wells containsObject:firstResponder]))
+        [window makeFirstResponder:_rdAnsiDefaults];
+
+    for (FormattingColorWell *well in wells) {
+        [well setTarget:self];
+        well.usesInheritedValue = defaults;
+        if (defaults && [well isActive])
+            [well deactivate];
+    }
+    [_rdAnsiBolding setTarget:self];
+    ((FormattingBoldingButton *)_rdAnsiBolding).usesInheritedValue = defaults;
+}
+
+- (void)showColorMappingHint:(NSControl *)sender
+{
+    if ([_rdAnsiDefaults state] != NSControlStateValueOn || ![sender window])
+        return;
+
+    if (!_rdColorMappingHint) {
+        NSTextField *label = [NSTextField labelWithString:@"Uncheck Use defaults to configure a custom color mapping."];
+        [label setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+        [label sizeToFit];
+        [label setFrameOrigin:NSMakePoint(12, 8)];
+
+        NSRect contentFrame = NSMakeRect(0, 0, NSWidth([label frame]) + 24, NSHeight([label frame]) + 16);
+        NSView *content = [[[NSView alloc] initWithFrame:contentFrame] autorelease];
+        [content addSubview:label];
+        NSViewController *controller = [[[NSViewController alloc] init] autorelease];
+        [controller setView:content];
+
+        _rdColorMappingHint = [[NSPopover alloc] init];
+        [_rdColorMappingHint setBehavior:NSPopoverBehaviorTransient];
+        [_rdColorMappingHint setAnimates:NO];
+        [_rdColorMappingHint setContentViewController:controller];
+        [_rdColorMappingHint setContentSize:contentFrame.size];
+    }
+
+    [self dismissColorMappingHint];
+    NSPopover *hint = _rdColorMappingHint;
+    [hint showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
+    _rdColorMappingHintTimer = [[NSTimer timerWithTimeInterval:5.0 repeats:NO block:^(NSTimer *timer) {
+        [hint close];
+    }] retain];
+    [[NSRunLoop mainRunLoop] addTimer:_rdColorMappingHintTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)dismissColorMappingHint
+{
+    [_rdColorMappingHintTimer invalidate];
+    [_rdColorMappingHintTimer release];
+    _rdColorMappingHintTimer = nil;
+    [_rdColorMappingHint close];
 }
 
 - (void) changeFont:(id) sender
@@ -463,53 +604,22 @@
         [self colorDefaults:enabled];
         
         if (enabled) {
-            [[self preferences] removePreferenceForKey:@"atlantis.formatting.boldIntense" withCharacter:[self character]];
-            [[self preferences] removePreferenceForKey:@"atlantis.colors.ansi" withCharacter:[self character]];
-            [[self preferences] removePreferenceForKey:@"atlantis.colors.url" withCharacter:[self character]];
-            [[self preferences] removePreferenceForKey:@"atlantis.colors.system" withCharacter:[self character]];
-            [[self preferences] removePreferenceForKey:@"atlantis.colors.background" withCharacter:[self character]];
-            [[self preferences] removePreferenceForKey:@"atlantis.colors.selection" withCharacter:[self character]];
-        }
-        
-        NSArray *colors = [[self preferences] preferenceForKey:@"atlantis.colors.ansi" withCharacter:[self character]];
-        if (colors) {
-            [_rdAnsiColor00 setColor:[colors objectAtIndex:0]];
-            [_rdAnsiColor01 setColor:[colors objectAtIndex:1]];
-            [_rdAnsiColor02 setColor:[colors objectAtIndex:2]];
-            [_rdAnsiColor03 setColor:[colors objectAtIndex:3]];
-            [_rdAnsiColor04 setColor:[colors objectAtIndex:4]];
-            [_rdAnsiColor05 setColor:[colors objectAtIndex:5]];
-            [_rdAnsiColor06 setColor:[colors objectAtIndex:6]];
-            [_rdAnsiColor07 setColor:[colors objectAtIndex:7]];
-            [_rdAnsiColor08 setColor:[colors objectAtIndex:8]];
-            [_rdAnsiColor09 setColor:[colors objectAtIndex:9]];
-            [_rdAnsiColor10 setColor:[colors objectAtIndex:10]];
-            [_rdAnsiColor11 setColor:[colors objectAtIndex:11]];
-            [_rdAnsiColor12 setColor:[colors objectAtIndex:12]];
-            [_rdAnsiColor13 setColor:[colors objectAtIndex:13]];
-            [_rdAnsiColor14 setColor:[colors objectAtIndex:14]];
-            [_rdAnsiColor15 setColor:[colors objectAtIndex:15]];
-        }
-        
-        NSColor *tempColor = [[self preferences] preferenceForKey:@"atlantis.colors.url" withCharacter:[self character]];
-        if (!tempColor) {
-            tempColor = [NSColor cyanColor];
-        }
-        [_rdUrlColor setColor:tempColor];
+            RDAtlantisWorldPreferences *preferences = [self preferences];
+            [preferences beginBulk];
+            [preferences removePreferenceForKey:@"atlantis.formatting.boldIntense" withCharacter:[self character]];
+            [preferences removePreferenceForKey:@"atlantis.colors.ansi" withCharacter:[self character]];
+            [preferences removePreferenceForKey:@"atlantis.colors.url" withCharacter:[self character]];
+            [preferences removePreferenceForKey:@"atlantis.colors.system" withCharacter:[self character]];
+            [preferences removePreferenceForKey:@"atlantis.colors.background" withCharacter:[self character]];
+            [preferences removePreferenceForKey:@"atlantis.colors.default" withCharacter:[self character]];
+            [preferences removePreferenceForKey:@"atlantis.colors.selection" withCharacter:[self character]];
+            [preferences endBulk];
 
-        tempColor = [[self preferences] preferenceForKey:@"atlantis.colors.system" withCharacter:[self character]];
-        if (!tempColor) {
-            tempColor = [NSColor yellowColor];
+            NSArray *colors = [preferences preferenceForKey:@"atlantis.colors.ansi" withCharacter:[self character]];
+            [self updateColorControlsWithPalette:colors];
         }
-        [_rdConsoleColor setColor:tempColor];
-        
-        tempColor = [[self preferences] preferenceForKey:@"atlantis.colors.selection" withCharacter:[self character]];
-        if (!tempColor) {
-            tempColor = [NSColor cyanColor];
-        }
-        [_rdSelectionColor setColor:tempColor];
     }
-    
+
     else if (sender == _rdCodepageDefault) {
         if (enabled) {
             [_rdCodepage setEnabled:NO];
@@ -538,6 +648,29 @@
     }    
 }
 
+
+- (void)updateColorControlsWithPalette:(NSArray *)colors
+{
+    NSArray *wells = [self ansiColorWells];
+    for (NSUInteger index = 0; index < MIN([colors count], [wells count]); index++) {
+        [[wells objectAtIndex:index] setColor:[colors objectAtIndex:index]];
+    }
+
+    RDAtlantisWorldPreferences *preferences = [self preferences];
+    NSString *character = [self character];
+    [_rdUrlColor setColor:[preferences preferenceForKey:@"atlantis.colors.url" withCharacter:character] ?: [NSColor cyanColor]];
+    [_rdConsoleColor setColor:[preferences preferenceForKey:@"atlantis.colors.system" withCharacter:character] ?: [NSColor yellowColor]];
+    [_rdSelectionColor setColor:[preferences preferenceForKey:@"atlantis.colors.selection" withCharacter:character] ?: [NSColor cyanColor]];
+    [_rdBackgroundColor setColor:[preferences preferenceForKey:@"atlantis.colors.background" withCharacter:character] ?: [NSColor blackColor]];
+
+    NSColor *foreground = [preferences preferenceForKey:@"atlantis.colors.default" withCharacter:character];
+    if (!foreground)
+        foreground = [colors count] > 7 ? [colors objectAtIndex:7] : [NSColor lightGrayColor];
+    [_rdForegroundColor setColor:foreground];
+
+    NSNumber *bold = [preferences preferenceForKey:@"atlantis.formatting.boldIntense" withCharacter:character];
+    [_rdAnsiBolding setState:[bold boolValue] ? NSOnState : NSOffState];
+}
 
 - (void) worldWasUpdated:(NSNotification *)notification
 {
@@ -614,78 +747,8 @@
         
     [_rdCodepage selectItemAtIndex:[_rdCodepage indexOfItemWithTag:encoding]];
         
-    if (colors) {
-        [_rdAnsiColor00 setColor:[colors objectAtIndex:0]];
-        [_rdAnsiColor01 setColor:[colors objectAtIndex:1]];
-        [_rdAnsiColor02 setColor:[colors objectAtIndex:2]];
-        [_rdAnsiColor03 setColor:[colors objectAtIndex:3]];
-        [_rdAnsiColor04 setColor:[colors objectAtIndex:4]];
-        [_rdAnsiColor05 setColor:[colors objectAtIndex:5]];
-        [_rdAnsiColor06 setColor:[colors objectAtIndex:6]];
-        [_rdAnsiColor07 setColor:[colors objectAtIndex:7]];
-        [_rdAnsiColor08 setColor:[colors objectAtIndex:8]];
-        [_rdAnsiColor09 setColor:[colors objectAtIndex:9]];
-        [_rdAnsiColor10 setColor:[colors objectAtIndex:10]];
-        [_rdAnsiColor11 setColor:[colors objectAtIndex:11]];
-        [_rdAnsiColor12 setColor:[colors objectAtIndex:12]];
-        [_rdAnsiColor13 setColor:[colors objectAtIndex:13]];
-        [_rdAnsiColor14 setColor:[colors objectAtIndex:14]];
-        [_rdAnsiColor15 setColor:[colors objectAtIndex:15]];
-    }
-    
-    NSColor *temp = [[self preferences] preferenceForKey:@"atlantis.colors.url" withCharacter:[self character] fallback:NO];    
-    if (!temp) {
-        temp = [[self preferences] preferenceForKey:@"atlantis.colors.url" withCharacter:[self character] fallback:YES];
-        if (!temp)
-            temp = [NSColor cyanColor];
-    }
-    [_rdUrlColor setColor:temp];
-    
-    temp = [[self preferences] preferenceForKey:@"atlantis.colors.system" withCharacter:[self character] fallback:NO];
-    if (!temp) {
-        temp = [[self preferences] preferenceForKey:@"atlantis.colors.system" withCharacter:[self character] fallback:YES];
-        if (!temp)
-            temp = [NSColor yellowColor];
-    }
-    [_rdConsoleColor setColor:temp];
+    [self updateColorControlsWithPalette:colors];
 
-    temp = [[self preferences] preferenceForKey:@"atlantis.colors.selection" withCharacter:[self character] fallback:NO];
-    if (!temp) {
-        temp = [[self preferences] preferenceForKey:@"atlantis.colors.selection" withCharacter:[self character] fallback:YES];
-        if (!temp)
-            temp = [NSColor cyanColor];
-    }
-    [_rdSelectionColor setColor:temp];
-
-
-    temp = [[self preferences] preferenceForKey:@"atlantis.colors.background" withCharacter:[self character] fallback:NO];
-    if (!temp) {
-        temp = [[self preferences] preferenceForKey:@"atlantis.colors.background" withCharacter:[self character] fallback:YES];
-        if (!temp)
-            temp = [NSColor blackColor];
-    }
-    [_rdBackgroundColor setColor:temp];
-
-    temp = [[self preferences] preferenceForKey:@"atlantis.colors.default" withCharacter:[self character] fallback:NO];
-    if (!temp) {
-        temp = [[self preferences] preferenceForKey:@"atlantis.colors.default" withCharacter:[self character] fallback:YES];
-        if (!temp)
-            temp = [colors objectAtIndex:7];
-    }
-    [_rdForegroundColor setColor:temp];
-
-    
-    NSNumber *boldNumber = [[self preferences] preferenceForKey:@"atlantis.formatting.boldIntense" withCharacter:[self character] fallback:NO];
-    if (!boldNumber) {
-        boldNumber = [[self preferences] preferenceForKey:@"atlantis.formatting.boldIntense" withCharacter:[self character] fallback:YES];
-    }
-    if (boldNumber && [boldNumber boolValue]) {
-        [_rdAnsiBolding setState:NSOnState];
-    }
-    else {
-        [_rdAnsiBolding setState:NSOffState];    
-    }
-    
     NSFont *tempFont = [[self preferences] preferenceForKey:@"atlantis.formatting.font" withCharacter:[self character] fallback:NO];
     NSString *fontDescription;
     if (!tempFont) {

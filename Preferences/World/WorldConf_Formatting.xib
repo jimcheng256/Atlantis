@@ -319,12 +319,12 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22">
                                 <rect key="frame" x="141" y="376" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26">
                                 <rect key="frame" x="20" y="376" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -341,7 +341,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="35">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="35">
                                 <rect key="frame" x="141" y="347" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -364,12 +364,12 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9">
                                 <rect key="frame" x="20" y="347" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="24">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="24">
                                 <rect key="frame" x="20" y="318" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -383,7 +383,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="28">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="28">
                                 <rect key="frame" x="141" y="318" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -397,12 +397,12 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="39">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="39">
                                 <rect key="frame" x="20" y="289" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="27">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="27">
                                 <rect key="frame" x="141" y="289" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -425,12 +425,12 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12">
                                 <rect key="frame" x="20" y="260" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="13">
                                 <rect key="frame" x="141" y="260" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -453,7 +453,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="15">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="15">
                                 <rect key="frame" x="20" y="231" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -476,7 +476,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="34">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="34">
                                 <rect key="frame" x="141" y="231" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -490,7 +490,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="37">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="37">
                                 <rect key="frame" x="20" y="202" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -504,7 +504,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="33">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="33">
                                 <rect key="frame" x="141" y="202" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -518,12 +518,12 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="23">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="23">
                                 <rect key="frame" x="20" y="173" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="18">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="18">
                                 <rect key="frame" x="141" y="173" width="54" height="26"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -548,12 +548,12 @@
                                     <action selector="toggleDefault:" target="-2" id="89"/>
                                 </connections>
                             </button>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="44">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="44">
                                 <rect key="frame" x="20" y="65" width="52" height="24"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </colorWell>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="45">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="45">
                                 <rect key="frame" x="20" y="38" width="52" height="24"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -576,7 +576,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95">
                                 <rect key="frame" x="20" y="119" width="52" height="24"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -590,7 +590,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="109">
+                            <button fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="109" customClass="FormattingBoldingButton">
                                 <rect key="frame" x="17" y="149" width="180" height="18"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <buttonCell key="cell" type="check" title="Display intense colors bolded" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" inset="2" id="220">
@@ -598,7 +598,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                             </button>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="127">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="127">
                                 <rect key="frame" x="20" y="92" width="52" height="24"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -612,7 +612,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="132">
+                            <colorWell customClass="FormattingColorWell" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="132">
                                 <rect key="frame" x="20" y="11" width="52" height="24"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>

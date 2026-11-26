@@ -63,6 +63,17 @@ with the same collection format used by the unchanged application save path.
 
 See the [six-pane workplan](PreferencePaneWorkplan.md) for pass order and regression targets.
 
+## Address Book formatting defaults
+
+In **Formatting → Color Mapping**, **Use defaults** removes the selected
+world or character's local color and intense-color bolding overrides. The
+editor immediately displays the inherited values. The color wells and
+bolding checkbox keep their normal appearance while inherited values are
+active. Clicking a locked control shows a hint to uncheck **Use defaults**
+to configure a custom color mapping. The hint closes after about five seconds
+or when you turn off **Use defaults**. Turning off defaults makes the displayed
+values editable again.
+
 ## Address Book removal confirmation
 
 The Events, Aliases, Highlights, and User Variables tabs use the shared Swift

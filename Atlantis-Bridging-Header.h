@@ -7,6 +7,7 @@
 #import <Lemuria/RDNestedTabBarView.h>
 #import <Lemuria/RDNestedOutlineView.h>
 #import "Preferences/World/WorldConfigurationEditor.h"
+#import "Preferences/World/WorldFormattingEditor.h"
 #import "Preferences/World/WorldHighlightEditor.h"
 #import "Preferences/World/WorldUserconfEditor.h"
 
