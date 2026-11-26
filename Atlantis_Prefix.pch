@@ -1,9 +1,0 @@
-//
-// Prefix header for all source files of the 'Atlantis' target in the 'Atlantis' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-    #import <objc/runtime.h>
-    #import <objc/message.h>
-#endif

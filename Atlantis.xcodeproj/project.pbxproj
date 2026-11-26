@@ -299,12 +299,10 @@
 		FFB18D8209A16ED70067536D /* PTHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB18D7509A16ED70067536D /* PTHotKeyCenter.m */; };
 		FFB18D8309A16ED70067536D /* PTKeyboardIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FFB18D7609A16ED70067536D /* PTKeyboardIcon.tiff */; };
 		FFB18D8509A16ED70067536D /* PTKeyBroadcaster.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB18D7809A16ED70067536D /* PTKeyBroadcaster.m */; };
-		FFB18D8709A16ED70067536D /* PTKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB18D7A09A16ED70067536D /* PTKeyCodeTranslator.m */; };
 		FFB18D8909A16ED70067536D /* PTKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB18D7C09A16ED70067536D /* PTKeyCombo.m */; };
 		FFB18D8B09A16ED70067536D /* PTKeyComboPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB18D7E09A16ED70067536D /* PTKeyComboPanel.m */; };
 		FFBF43CD0CB0861A00E309E6 /* LuaScriptingEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBF43CB0CB0861A00E309E6 /* LuaScriptingEngine.m */; };
 		FFBF44300CB0928800E309E6 /* Atlantis.lua in Copy Scripts */ = {isa = PBXBuildFile; fileRef = FFBF44210CB08F4100E309E6 /* Atlantis.lua */; };
-		FFC101A10C2CE9E1003F2E00 /* ImageBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC1019F0C2CE9E1003F2E00 /* ImageBackgroundView.m */; };
 		FFC101B10C2CEA83003F2E00 /* StatusBarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = FFC101AF0C2CEA83003F2E00 /* StatusBarBackground.png */; };
 		FFC101B20C2CEA83003F2E00 /* StatusSep.png in Resources */ = {isa = PBXBuildFile; fileRef = FFC101B00C2CEA83003F2E00 /* StatusSep.png */; };
 		FFC101F80C2CF39D003F2E00 /* statusLocked.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FFC101F70C2CF39D003F2E00 /* statusLocked.tiff */; };
@@ -357,7 +355,6 @@
 		FFFE638809A31A22003F118B /* RDAtlantisApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE638609A31A22003F118B /* RDAtlantisApplication.m */; };
 		FFFE64F009A3FB2C003F118B /* RDLogOpener.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE64EE09A3FB2C003F118B /* RDLogOpener.m */; };
 		FFFE675409A4197B003F118B /* RDLogCloser.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE675209A4197B003F118B /* RDLogCloser.m */; };
-		FFFE69FC09A442CF003F118B /* RoundedBox.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFE69FA09A442CF003F118B /* RoundedBox.m */; };
 		FFFE6AEE09A45192003F118B /* Variables.txt in Resources */ = {isa = PBXBuildFile; fileRef = FFFE6AED09A45192003F118B /* Variables.txt */; };
 		FFFF6CE40999E0DA00E56390 /* atlantis-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = FFFF6CE30999E0DA00E56390 /* atlantis-logo.icns */; };
 		A71A500000000000000000D7 /* AtlantisNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000D8 /* AtlantisNotifications.swift */; };
@@ -472,7 +469,6 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		3226D1222EE14B9C0016D727 /* JSScriptingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JSScriptingEngine.swift; path = Scripting/JSScriptingEngine.swift; sourceTree = "<group>"; };
 		3226D1262EE1537C0016D727 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		32CA4F630368D1EE00C91783 /* Atlantis_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atlantis_Prefix.pch; sourceTree = "<group>"; };
 		5303ACB825413BF100565FBD /* ActionConf_SendText.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionConf_SendText.xib; path = "Event System/Actions/ActionConf_SendText.xib"; sourceTree = "<group>"; };
 		5311D1872210FA390010AB9D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5311D18A2210FF300010AB9D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PTKeyComboPanel.xib; sourceTree = "<group>"; };
@@ -886,8 +882,6 @@
 		FFB18D7609A16ED70067536D /* PTKeyboardIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PTKeyboardIcon.tiff; path = Support/PTHotKeysLib/PTKeyboardIcon.tiff; sourceTree = "<group>"; };
 		FFB18D7709A16ED70067536D /* PTKeyBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyBroadcaster.h; path = Support/PTHotKeysLib/PTKeyBroadcaster.h; sourceTree = "<group>"; };
 		FFB18D7809A16ED70067536D /* PTKeyBroadcaster.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyBroadcaster.m; path = Support/PTHotKeysLib/PTKeyBroadcaster.m; sourceTree = "<group>"; };
-		FFB18D7909A16ED70067536D /* PTKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyCodeTranslator.h; path = Support/PTHotKeysLib/PTKeyCodeTranslator.h; sourceTree = "<group>"; };
-		FFB18D7A09A16ED70067536D /* PTKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyCodeTranslator.m; path = Support/PTHotKeysLib/PTKeyCodeTranslator.m; sourceTree = "<group>"; };
 		FFB18D7B09A16ED70067536D /* PTKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyCombo.h; path = Support/PTHotKeysLib/PTKeyCombo.h; sourceTree = "<group>"; };
 		FFB18D7C09A16ED70067536D /* PTKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyCombo.m; path = Support/PTHotKeysLib/PTKeyCombo.m; sourceTree = "<group>"; };
 		FFB18D7D09A16ED70067536D /* PTKeyComboPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyComboPanel.h; path = Support/PTHotKeysLib/PTKeyComboPanel.h; sourceTree = "<group>"; };
@@ -895,8 +889,6 @@
 		FFBF43CA0CB0861A00E309E6 /* LuaScriptingEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LuaScriptingEngine.h; path = Scripting/LuaScriptingEngine.h; sourceTree = "<group>"; };
 		FFBF43CB0CB0861A00E309E6 /* LuaScriptingEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LuaScriptingEngine.m; path = Scripting/LuaScriptingEngine.m; sourceTree = "<group>"; };
 		FFBF44210CB08F4100E309E6 /* Atlantis.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Atlantis.lua; path = Scripting/Atlantis.lua; sourceTree = "<group>"; };
-		FFC1019E0C2CE9E1003F2E00 /* ImageBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ImageBackgroundView.h; path = Worlds/ImageBackgroundView.h; sourceTree = "<group>"; };
-		FFC1019F0C2CE9E1003F2E00 /* ImageBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ImageBackgroundView.m; path = Worlds/ImageBackgroundView.m; sourceTree = "<group>"; };
 		FFC101AF0C2CEA83003F2E00 /* StatusBarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusBarBackground.png; path = Worlds/StatusBarBackground.png; sourceTree = "<group>"; };
 		FFC101B00C2CEA83003F2E00 /* StatusSep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusSep.png; path = Worlds/StatusSep.png; sourceTree = "<group>"; };
 		FFC101F70C2CF39D003F2E00 /* statusLocked.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = statusLocked.tiff; path = Worlds/statusLocked.tiff; sourceTree = "<group>"; };
@@ -994,8 +986,6 @@
 		FFFE64EE09A3FB2C003F118B /* RDLogOpener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDLogOpener.m; path = "Log System/RDLogOpener.m"; sourceTree = "<group>"; };
 		FFFE675109A4197B003F118B /* RDLogCloser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RDLogCloser.h; path = "Log System/RDLogCloser.h"; sourceTree = "<group>"; };
 		FFFE675209A4197B003F118B /* RDLogCloser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RDLogCloser.m; path = "Log System/RDLogCloser.m"; sourceTree = "<group>"; };
-		FFFE69F909A442CF003F118B /* RoundedBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RoundedBox.h; path = "Utility Classes/RoundedBox.h"; sourceTree = "<group>"; };
-		FFFE69FA09A442CF003F118B /* RoundedBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RoundedBox.m; path = "Utility Classes/RoundedBox.m"; sourceTree = "<group>"; };
 		FFFE6AED09A45192003F118B /* Variables.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Variables.txt; sourceTree = "<group>"; };
 		FFFF6CE30999E0DA00E56390 /* atlantis-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "atlantis-logo.icns"; path = "Core/atlantis-logo.icns"; sourceTree = "<group>"; };
 		FFFF6D250999E54E00E56390 /* RDAtlantisMainController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RDAtlantisMainController.h; path = Core/RDAtlantisMainController.h; sourceTree = "<group>"; };
@@ -1151,7 +1141,6 @@
 			isa = PBXGroup;
 			children = (
 				8B55F9182EE94D070085B611 /* Atlantis-Bridging-Header.h */,
-				32CA4F630368D1EE00C91783 /* Atlantis_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -1522,8 +1511,6 @@
 				FFB18D7609A16ED70067536D /* PTKeyboardIcon.tiff */,
 				FFB18D7709A16ED70067536D /* PTKeyBroadcaster.h */,
 				FFB18D7809A16ED70067536D /* PTKeyBroadcaster.m */,
-				FFB18D7909A16ED70067536D /* PTKeyCodeTranslator.h */,
-				FFB18D7A09A16ED70067536D /* PTKeyCodeTranslator.m */,
 				FFB18D7B09A16ED70067536D /* PTKeyCombo.h */,
 				FFB18D7C09A16ED70067536D /* PTKeyCombo.m */,
 				FFB18D7D09A16ED70067536D /* PTKeyComboPanel.h */,
@@ -1726,13 +1713,9 @@
 				FF261ED609C68290000E0026 /* RDBlockingOutlineView.m */,
 				FFD1899F09C118A300763B31 /* RDColorWellCell.h */,
 				FFD189A009C118A300763B31 /* RDColorWellCell.m */,
-				FFFE69F909A442CF003F118B /* RoundedBox.h */,
-				FFFE69FA09A442CF003F118B /* RoundedBox.m */,
 				FF3C9A8909C42FDF003A9509 /* RDView.h */,
 				FF3C9A8A09C42FDF003A9509 /* RDView.m */,
 				A71A50000000000000000004 /* Spawn */,
-				FFC1019E0C2CE9E1003F2E00 /* ImageBackgroundView.h */,
-				FFC1019F0C2CE9E1003F2E00 /* ImageBackgroundView.m */,
 				FF966CE7099ADC12005886F4 /* RDAtlantisTextInputView.h */,
 				FF966CE8099ADC12005886F4 /* RDAtlantisTextInputView.m */,
 				FF4680E20A6D7078006152E4 /* RDMUSHTextView.h */,
@@ -2254,7 +2237,6 @@
 				FFB18D8009A16ED70067536D /* PTHotKey.m in Sources */,
 				FFB18D8209A16ED70067536D /* PTHotKeyCenter.m in Sources */,
 				FFB18D8509A16ED70067536D /* PTKeyBroadcaster.m in Sources */,
-				FFB18D8709A16ED70067536D /* PTKeyCodeTranslator.m in Sources */,
 				FFB18D8909A16ED70067536D /* PTKeyCombo.m in Sources */,
 				FFB18D8B09A16ED70067536D /* PTKeyComboPanel.m in Sources */,
 				FFFE5DED09A2A9CE003F118B /* NSStringExtensions.m in Sources */,
@@ -2264,7 +2246,6 @@
 				FFFE638809A31A22003F118B /* RDAtlantisApplication.m in Sources */,
 				FFFE64F009A3FB2C003F118B /* RDLogOpener.m in Sources */,
 				FFFE675409A4197B003F118B /* RDLogCloser.m in Sources */,
-				FFFE69FC09A442CF003F118B /* RoundedBox.m in Sources */,
 				FF1C9D3609B68B6100E55E57 /* EventEditor.m in Sources */,
 				A71A50000000000000000101 /* RemovalConfirmation.swift in Sources */,
 				FF1C9D4109B68B8700E55E57 /* EventCollection.m in Sources */,
@@ -2432,7 +2413,6 @@
 				FFE129970BD4B27000ED98EF /* Condition-CharConnected.m in Sources */,
 				FF25A5050BFFA6040005E24A /* RDAtlantisEventItem.m in Sources */,
 				FFA1BECC0C05558400335957 /* ToolbarConnection.m in Sources */,
-				FFC101A10C2CE9E1003F2E00 /* ImageBackgroundView.m in Sources */,
 				FF85DC250C34C3FA001EA8FC /* Action-StatusBarDisplay.m in Sources */,
 				FFEC02340C3ADB61000FF14D /* WorldNotesView.m in Sources */,
 				FFEC02F10C3AE8DD000FF14D /* Action-WorldNotesShow.m in Sources */,
