@@ -1,4 +1,5 @@
 import AppKit
+import WebKit
 import XCTest
 @testable import Atlantis
 
@@ -137,6 +138,115 @@ final class ANSIColorTests: XCTestCase {
         assertColors(storage, foreground: rgb(12, 34, 56), background: rgb(78, 90, 123), at: range.location)
     }
 
+    func testTruecolorHTMLLogsInWebKit() async throws {
+        let fixture = Fixture()
+        let directory = try temporaryLogDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+
+        let line = fixture.input(
+            "\u{1B}[31;44mA\u{1B}[38;2;1;2;254mB\u{1B}[4mC"
+            + "\u{1B}[48:2::254:128:0mD\u{1B}[7mE\u{1B}[39mF\u{1B}[27;0mG"
+            + "\u{1B}[32;48;2;254;128;0mH\u{1B}[49mI\n"
+        )
+        for css in [true, false] {
+            let url = directory.appendingPathComponent(css ? "stylesheet.html" : "inline.html")
+            let log = try XCTUnwrap(RDHTMLLog(filename: url.path, forSpawn: nil, inWorld: fixture.world,
+                                              withOptions: ["css": css, "cssFile": "colors.css"]))
+            try writeLog(log, line: line, world: fixture.world)
+            let html = try String(contentsOf: url, encoding: .utf8)
+            XCTAssertTrue(html.contains("color: #0102FE;"))
+            XCTAssertTrue(html.contains("background-color: #FE8000;"))
+            if css {
+                XCTAssertTrue(html.contains("class='bg04 ' style='color: #0102FE; '>B"))
+                XCTAssertTrue(html.contains("class='bg04 ' style='color: #0102FE; '>C"))
+                XCTAssertTrue(html.contains("class='fg02 ' style='background-color: #FE8000; '>H"))
+                XCTAssertTrue(html.contains("class='fg02 '>I"))
+            }
+
+            let webView = WKWebView()
+            webView.loadFileURL(url, allowingReadAccessTo: directory)
+            let script = """
+                (() => {
+                    const row = [...document.querySelectorAll('div')].find(el => el.textContent === 'ABCDEFGHI');
+                    if (!row || document.readyState !== 'complete') return null;
+                    const walker = document.createTreeWalker(row, NodeFilter.SHOW_TEXT);
+                    const colors = [];
+                    while (walker.nextNode()) {
+                        const style = getComputedStyle(walker.currentNode.parentElement);
+                        for (const char of walker.currentNode.textContent) {
+                            colors.push([char, style.color, style.backgroundColor]);
+                        }
+                    }
+                    return colors;
+                })()
+                """
+            var rendered: [[String]]?
+            for _ in 0..<100 {
+                if let colors = try? await webView.evaluateJavaScript(script) as? [[String]] {
+                    rendered = colors
+                    break
+                }
+                try await Task.sleep(for: .milliseconds(50))
+            }
+            let colors = try XCTUnwrap(rendered, "WebKit did not render \(url.lastPathComponent)")
+            XCTAssertEqual(colors.map { $0[0] }.joined(), "ABCDEFGHI")
+            guard colors.count == 9 else { return }
+            XCTAssertEqual(colors[1], ["B", "rgb(1, 2, 254)", colors[0][2]])
+            XCTAssertEqual(colors[2], ["C", "rgb(1, 2, 254)", colors[0][2]])
+            XCTAssertEqual(colors[3], ["D", "rgb(1, 2, 254)", "rgb(254, 128, 0)"])
+            XCTAssertEqual(colors[4], ["E", "rgb(254, 128, 0)", "rgb(1, 2, 254)"])
+            XCTAssertEqual(colors[5][1], "rgb(254, 128, 0)")
+            XCTAssertNotEqual(colors[5][2], "rgb(1, 2, 254)")
+            XCTAssertNotEqual(colors[6][1], "rgb(254, 128, 0)")
+            XCTAssertEqual(colors[7][2], "rgb(254, 128, 0)")
+            XCTAssertEqual(colors[8][1], colors[7][1])
+            XCTAssertEqual(colors[8][2], colors[6][2])
+            if css {
+                XCTAssertNotEqual(colors[0][2], "rgba(0, 0, 0, 0)", "Palette stylesheet must load")
+                XCTAssertEqual(colors[6][2], "rgba(0, 0, 0, 0)")
+            }
+        }
+    }
+
+    func testPlainAndFormattedLogsDiscardTruecolor() throws {
+        let fixture = Fixture()
+        let directory = try temporaryLogDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let colored = fixture.input("\u{1B}[38;2;1;2;254;48;2;254;128;0mcolored text\u{1B}[0m\n")
+        let plain = NSAttributedString(string: colored.string)
+
+        for (index, line) in [colored, plain].enumerated() {
+            let plainURL = directory.appendingPathComponent("plain-\(index).txt")
+            let formattedURL = directory.appendingPathComponent("formatted-\(index).txt")
+            let plainLog = try XCTUnwrap(RDPlainText(filename: plainURL.path, forSpawn: nil, inWorld: fixture.world))
+            let formattedLog = try XCTUnwrap(RDFormattedText(filename: formattedURL.path, forSpawn: nil,
+                inWorld: fixture.world, withOptions: ["wrap": false, "skiplines": false]))
+            try writeLog(plainLog, line: line, world: fixture.world)
+            try writeLog(formattedLog, line: line, world: fixture.world)
+            for url in [plainURL, formattedURL] {
+                let contents = try String(contentsOf: url, encoding: .utf8)
+                XCTAssertTrue(contents.contains("colored text\n"))
+                XCTAssertFalse(contents.contains("\u{1B}"))
+                XCTAssertFalse(contents.contains("#0102FE"))
+            }
+        }
+    }
+
+    private func temporaryLogDirectory() throws -> URL {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        return directory
+    }
+
+    private func writeLog(_ log: RDLogType, line: NSAttributedString, world: ColorTestWorld) throws {
+        guard log.openFile() else {
+            throw CocoaError(.fileWriteUnknown)
+        }
+        let state = AtlantisState(string: nil, inWorld: world, for: nil)
+        log.write(line, with: state)
+        XCTAssertTrue(log.closeFile())
+    }
+
     private func rgb(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat) -> NSColor {
         NSColor(srgbRed: red / 255, green: green / 255, blue: blue / 255, alpha: 1)
     }
@@ -186,7 +296,10 @@ private final class ColorTestWorld: RDAtlantisWorldInstance {
     let background = NSColor(srgbRed: 0.1, green: 0.2, blue: 0.3, alpha: 1)
     let palette = (0..<16).map { NSColor(srgbRed: CGFloat($0) / 16, green: 0.4, blue: 0.6, alpha: 1) }
 
+    override func displayFont() -> NSFont! { .monospacedSystemFont(ofSize: 12, weight: .regular) }
     override func paragraphStyle() -> NSParagraphStyle! { .default }
+    override func baseStateInfo() -> [AnyHashable: Any]! { ["world.name": "Color Test"] }
+    override func outputStatus(_ string: String!, toSpawn spawnPath: String!) {}
     override func closeAndRemove() {}
 
 

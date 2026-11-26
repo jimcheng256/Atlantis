@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "RDAtlantisFilter.h"
 
+extern NSString * const RDAnsiRGBForegroundAttributeName;
+extern NSString * const RDAnsiRGBBackgroundAttributeName;
+
 @interface RDAnsiState : NSObject
 {
     BOOL        _rdAnsiBoldMe;

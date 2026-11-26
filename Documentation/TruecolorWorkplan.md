@@ -42,3 +42,12 @@ group has an unknown mode, parsing resumes with the next escape sequence
 because the group has no reliable boundary. Incomplete CSI input is held
 for the next chunk. The Atlantis process log records up to five ANSI
 diagnostics per filter in a ten-second window.
+
+## HTML log behavior
+
+Both HTML modes preserve explicit RGB as exact sRGB hex values. Stylesheet
+mode combines existing palette classes with inline declarations for RGB
+foreground or background. Inline mode writes both colors on each span so
+adjacent spans with the same color render consistently. The hosted tests
+open the generated files in WebKit and check computed colors, and verify
+that plain and formatted logs still write text.

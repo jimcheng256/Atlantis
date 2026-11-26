@@ -10,6 +10,9 @@
 #import "RDAtlantisMainController.h"
 #import "NSColorAdditions.h"
 
+NSString * const RDAnsiRGBForegroundAttributeName = @"RDAnsiRGBForegroundColor";
+NSString * const RDAnsiRGBBackgroundAttributeName = @"RDAnsiRGBBackgroundColor";
+
 static NSMutableArray *s_extendedColors = nil;
 
 static BOOL RDParseSGRNumber(NSString *parameter, int maximum, int *value)
@@ -136,11 +139,15 @@ static BOOL RDParseSGRNumber(NSString *parameter, int maximum, int *value)
 
 - (void) applyRGBColors
 {
+    [_rdCurrentAttributes removeObjectForKey:RDAnsiRGBForegroundAttributeName];
+    [_rdCurrentAttributes removeObjectForKey:RDAnsiRGBBackgroundAttributeName];
     if (_rdRGBForeground) {
+        [_rdCurrentAttributes setObject:@YES forKey:(_rdAnsiInvertMe ? RDAnsiRGBBackgroundAttributeName : RDAnsiRGBForegroundAttributeName)];
         [_rdCurrentAttributes setObject:_rdRGBForeground forKey:(_rdAnsiInvertMe ? NSBackgroundColorAttributeName : NSForegroundColorAttributeName)];
         [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? @"RDAnsiBackgroundColor" : @"RDAnsiForegroundColor")];
     }
     if (_rdRGBBackground) {
+        [_rdCurrentAttributes setObject:@YES forKey:(_rdAnsiInvertMe ? RDAnsiRGBForegroundAttributeName : RDAnsiRGBBackgroundAttributeName)];
         [_rdCurrentAttributes setObject:_rdRGBBackground forKey:(_rdAnsiInvertMe ? NSForegroundColorAttributeName : NSBackgroundColorAttributeName)];
         [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? @"RDAnsiForegroundColor" : @"RDAnsiBackgroundColor")];
     }
@@ -294,6 +301,7 @@ static BOOL RDParseSGRNumber(NSString *parameter, int maximum, int *value)
     [_rdRGBForeground release];
     _rdRGBForeground = nil;
     _rdAnsiLastColor = color;
+    [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? RDAnsiRGBBackgroundAttributeName : RDAnsiRGBForegroundAttributeName)];
     
     int effFg = _rdAnsiLastColor + (((_rdAnsiLastColor != -1) && (_rdAnsiLastColor < 8)) ? (_rdAnsiBoldMe ? 8 : 0) : 0);
     NSColor *fgColor = nil;
@@ -331,6 +339,7 @@ static BOOL RDParseSGRNumber(NSString *parameter, int maximum, int *value)
     [_rdRGBBackground release];
     _rdRGBBackground = nil;
     _rdAnsiLastBackground = background;
+    [_rdCurrentAttributes removeObjectForKey:(_rdAnsiInvertMe ? RDAnsiRGBForegroundAttributeName : RDAnsiRGBBackgroundAttributeName)];
 
     NSColor *bgColor = nil;
 

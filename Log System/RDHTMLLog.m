@@ -7,6 +7,7 @@
 //
 
 #import "RDHTMLLog.h"
+#import "RDAnsiFilter.h"
 #import "AtlantisState.h"
 #import "NSStringExtensions.h"
 #import "RDAtlantisWorldInstance.h"
@@ -485,17 +486,26 @@
 }
 
 
+- (NSString *) webCodeForColor:(NSColor *)color explicitRGB:(BOOL)explicitRGB
+{
+    if (!explicitRGB)
+        return [self webCode:color];
+
+    NSColor *rgb = [color colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
+    return [NSString stringWithFormat:@"#%02X%02X%02X",
+            (unsigned int)lround([rgb redComponent] * 255),
+            (unsigned int)lround([rgb greenComponent] * 255),
+            (unsigned int)lround([rgb blueComponent] * 255)];
+}
+
 - (NSString *) htmlString:(NSAttributedString *)mainString css:(BOOL) useCSS
 {
     NSMutableString *result = [NSMutableString string];
-    NSColor *currentFG = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:0.0f alpha:1.0f];
-    NSColor *currentBG = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
-    
     unsigned long pos = 0;
     
     if ([self writeTimestamps]) {
         NSRange effectiveRange;
-        NSDictionary *attrs;
+        NSDictionary *attrs = nil;
         
         if ([mainString length])
             attrs = [mainString attributesAtIndex:0 effectiveRange:&effectiveRange];
@@ -523,54 +533,42 @@
         
         if (attrs) {
             NSMutableString *wholeBlock = [NSMutableString string];
-            NSMutableString *spanBlock = [NSMutableString string];
-            
-            if (!useCSS) {
-                NSColor *newFG = [attrs objectForKey:NSForegroundColorAttributeName];
-                NSColor *newBG = [attrs objectForKey:NSBackgroundColorAttributeName];
-                
-                if (!newFG) {
-                    newFG = [NSColor colorWithCalibratedRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
-                }
-                if (!newBG) {
-                    newBG = [NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:1.0f];            
-                }
-                
-                if (![[self webCode:newFG] isEqualToString:[self webCode:currentFG]]) {
-                    [spanBlock appendString:[NSString stringWithFormat:@"color: %@; ", [self webCode:newFG]]];
-                    currentFG = newFG;
-                }
-                
-                if (![[self webCode:newBG] isEqualToString:[self webCode:currentBG]]) {
-                    [spanBlock appendString:[NSString stringWithFormat:@"background-color: %@; ", [self webCode:newBG]]];
-                    currentBG = newBG;
-                }
-            }
-            else {
+            NSMutableString *classes = [NSMutableString string];
+            NSMutableString *styles = [NSMutableString string];
+            BOOL rgbFg = [[attrs objectForKey:RDAnsiRGBForegroundAttributeName] boolValue];
+            BOOL rgbBg = [[attrs objectForKey:RDAnsiRGBBackgroundAttributeName] boolValue];
+
+            if (useCSS) {
                 NSNumber *ansiFg = [attrs objectForKey:@"RDAnsiForegroundColor"];
                 NSNumber *ansiBg = [attrs objectForKey:@"RDAnsiBackgroundColor"];
-                
-                if (ansiFg && ([ansiFg intValue] != -1)) {
-                    [spanBlock appendString:[NSString stringWithFormat:@"fg%02d ",[ansiFg intValue]]];
-                }
-                if (ansiBg && ([ansiBg intValue] != -1)) {
-                    [spanBlock appendString:[NSString stringWithFormat:@"bg%02d ",[ansiBg intValue]]];
-                }
+                if (!rgbFg && ansiFg && [ansiFg intValue] != -1)
+                    [classes appendFormat:@"fg%02d ", [ansiFg intValue]];
+                if (!rgbBg && ansiBg && [ansiBg intValue] != -1)
+                    [classes appendFormat:@"bg%02d ", [ansiBg intValue]];
             }
-            
-            if ([spanBlock length]) {
-                if (useCSS) {
-                    [result appendString:@"<span class='"];
-                    [result appendString:spanBlock];
-                    [result appendString:@"'>"];
-                }
-                else {
-                    [result appendString:@"<span style='"];
-                    [result appendString:spanBlock];
-                    [result appendString:@"'>"];                    
-                }
+
+            // Each run is a sibling span, so it needs its own inline colors.
+            if (!useCSS || rgbFg) {
+                NSColor *color = [attrs objectForKey:NSForegroundColorAttributeName];
+                if (!color)
+                    color = [NSColor colorWithCalibratedRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
+                [styles appendFormat:@"color: %@; ", [self webCodeForColor:color explicitRGB:rgbFg]];
             }
-            
+            if (!useCSS || rgbBg) {
+                NSColor *color = [attrs objectForKey:NSBackgroundColorAttributeName] ?: [NSColor blackColor];
+                [styles appendFormat:@"background-color: %@; ", [self webCodeForColor:color explicitRGB:rgbBg]];
+            }
+
+            BOOL hasSpan = [classes length] || [styles length];
+            if (hasSpan) {
+                [result appendString:@"<span"];
+                if ([classes length])
+                    [result appendFormat:@" class='%@'", classes];
+                if ([styles length])
+                    [result appendFormat:@" style='%@'", styles];
+                [result appendString:@">"];
+            }
+
             NSString *link = [attrs objectForKey:NSLinkAttributeName];
             
             NSMutableString *textblock = [[[mainString string] substringWithRange:NSMakeRange(pos,effectiveRange.length)] mutableCopy];
@@ -617,7 +615,7 @@
             }
             [result appendString:wholeBlock];
             [result appendString:textblock];
-            if ([spanBlock length])
+            if (hasSpan)
                 [result appendString:@"</span>"];
                 
             [textblock release];

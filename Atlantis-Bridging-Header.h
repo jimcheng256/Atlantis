@@ -42,3 +42,6 @@ static inline RDAtlantisMainController * _Nullable RDPreferenceMainController(vo
 #import "Scripting/LuaScriptingEngine.h"
 #import "Scripting/ScriptBridge.h"
 #import "Filter System/RDAnsiFilter.h"
+#import "Log System/RDHTMLLog.h"
+#import "Log System/RDPlainText.h"
+#import "Log System/RDFormattedText.h"
