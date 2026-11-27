@@ -10,6 +10,7 @@
 #import "ConditionPicker.h"
 #import "ConditionClasses.h"
 #import "RDAtlantisMainController.h"
+#include <limits.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
 
@@ -135,13 +136,9 @@
 
 - (void) conditionAndedChanged:(id) sender
 {
-    unsigned position = [_rdConditionsAndedPicker indexOfItem:[_rdConditionsAndedPicker selectedItem]];
-    
-    if (position) {
-        _rdConditionsAnded = YES;
-    }
-    else {
-        _rdConditionsAnded = NO;
+    NSInteger position = [_rdConditionsAndedPicker indexOfSelectedItem];
+    if (position == 0 || position == 1) {
+        _rdConditionsAnded = position == 1;
     }
 }
 
@@ -184,7 +181,7 @@
     
     if (item) {
         unsigned position = [_rdConditionsChain positionOfItem:item];
-        if (position != NSNotFound) {
+        if (position != UINT_MAX && position < [_rdConditions count]) {
             [_rdConditions removeObjectAtIndex:position];
             [_rdConditionsChain removeItem:item];
         }

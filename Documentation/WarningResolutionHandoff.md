@@ -21,13 +21,13 @@
   Conditions tab batch at `968d412`, hit testing at `06df675`,
   whole-event reordering at `a3cc2b1`, chain removal at `ae0c0fb`,
   selected-row checks at `7a7d79f`, and extra-data columns at
-  `d0c3e80`. The EventCollection batch is committed at `e4e4610`.
-  The twenty-third batch fixes BaseEvent move source indexes.
-  Its universal Debug capture has 803 Atlantis warning lines and
-  1,564 total. Artifacts are in `/tmp/atlantis-increment3-base-event.mdhEEp`.
-- The next batch covers condition mode and removal in the collected
-  conditions editor. The World Idle initialization issue remains
-  recorded in [Discovered bugs](DiscoveredBugs.md).
+  `d0c3e80`. EventCollection is committed at `e4e4610` and BaseEvent
+  move indexes at `9676ce1`. The twenty-fourth batch fixes the
+  collected-conditions editor. Its universal Debug capture has 801
+  Atlantis warning lines and 1,562 total. Artifacts are in
+  `/tmp/atlantis-increment3-collected-condition.3QgFgB`.
+- The next batch covers the Computer Idle condition's time comparison
+  and the idle-time helper's seconds conversion.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -757,6 +757,28 @@ tests and the numeric alias check passed. Artifacts are in
 A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
 macOS 26.5 SDK removed two warning sites. Atlantis warning lines fell
 from 807 to 803 and the raw count fell from 1,568 to 1,564. No new source
+diagnostics appeared. The hosted test target built for both architectures.
+All 68 selected hosted smoke tests passed on Intel. Results are in
+`smoke-current-user`.
+
+## Third increment, collected-conditions indexes
+
+The baseline is BaseEvent move batch commit `9676ce1`. A missing or
+out-of-range menu selection now preserves the existing Any or All
+mode. The removal action recognizes Lemuria's missing-position
+sentinel and checks the array bound before removing a subcondition.
+The additional caller is recorded in Lemuria's `DiscoveredBugs.md`.
+
+The [standalone collected-condition tests](../Tests/WarningResolution/test_collected_condition_indexes.py)
+compile both production actions. The original passed ordinary choices
+and removals and failed six subcases involving invalid modes or missing
+and out-of-range positions. The three focused tests passed after the
+fix. All 86 standalone tests and the numeric alias check passed.
+Artifacts are in `/tmp/atlantis-increment3-collected-condition.3QgFgB`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed one warning site. Atlantis warning lines fell
+from 803 to 801 and the raw count fell from 1,564 to 1,562. No new source
 diagnostics appeared. The hosted test target built for both architectures.
 All 68 selected hosted smoke tests passed on Intel. Results are in
 `smoke-current-user`.

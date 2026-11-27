@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, BaseEvent move source indexes**.
+Status as of 2026-11-27 is **increment 3, collected-conditions indexes**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -476,6 +476,19 @@ before dispatching a move to Lemuria.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_base_event_move_indexes.py -v
+```
+
+The twenty-fourth batch covers the collected-conditions editor. At
+`9676ce1`, the Atlantis warning in
+`Event System/Conditions/Condition-CollectedConditions.m` is at line 138.
+Keep the AppKit popup index signed and change the mode only for
+Any or All. The original treated a missing menu selection as All.
+The removal action also recognizes Lemuria's `UINT_MAX` missing
+position and verifies the array bound before removing either item.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_collected_condition_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep
