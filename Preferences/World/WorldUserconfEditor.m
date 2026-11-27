@@ -74,12 +74,12 @@
 
 #pragma mark Table Datasource
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    return [_rdUserConfKeys count];
+    return (NSInteger)[_rdUserConfKeys count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     NSString *curKey = [_rdUserConfKeys objectAtIndex:rowIndex];
     NSString *curValue = [_rdUserConf objectForKey:curKey];
@@ -94,7 +94,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     NSString *curKey = [_rdUserConfKeys objectAtIndex:rowIndex];
     NSString *curValue = [_rdUserConf objectForKey:curKey];
@@ -145,7 +145,7 @@
 
     [_rdUserConfTable reloadData];
     
-    int selectedRow = [_rdUserConfKeys count] - 1;
+    NSInteger selectedRow = (NSInteger)([_rdUserConfKeys count] - 1);
     [_rdUserConfTable selectRow:selectedRow byExtendingSelection:NO];
     [_rdUserConfTable editColumn:0 row:selectedRow withEvent:nil select:YES];
 }

@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **paused after the third-increment log-closing batch**.
+Status as of 2026-11-26 is **under review after the third-increment User Variables batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -202,6 +202,17 @@ and closing the selected log with ordinary and synthetic wide indexes.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_log_closer_indexes.py -v
+```
+
+The fourth batch covers the User Variables table in World Configuration.
+Match AppKit's signed row count and row parameters, and keep the index used
+to select and edit a newly added variable at full width. Verify empty,
+ordinary, and synthetic wide tables, and use the hosted editor to check
+selection before and after adding a variable.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_user_variable_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

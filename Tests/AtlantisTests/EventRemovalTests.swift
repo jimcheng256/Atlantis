@@ -25,10 +25,12 @@ final class EventRemovalTests: XCTestCase {
 
         XCTAssertGreaterThanOrEqual(add.frame.width, add.intrinsicContentSize.width)
         XCTAssertGreaterThanOrEqual(remove.frame.width, remove.intrinsicContentSize.width)
+        XCTAssertEqual(table.selectedRow, -1)
         remove.performClick(nil)
         XCTAssertNil(window.attachedSheet)
         add.performClick(nil)
         XCTAssertEqual(table.numberOfRows, 1)
+        XCTAssertEqual(table.selectedRow, 0)
 
         remove.performClick(nil)
         let cancelSheet = try XCTUnwrap(window.attachedSheet)

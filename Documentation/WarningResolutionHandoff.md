@@ -8,12 +8,11 @@
   fresh warning capture and an automated application smoke baseline.
   The first increment is committed at `b5836e8`. The second increment
   is committed at `f576972`. The picker batch is committed at
-  `49330c1` and the editor batch at `76b2a75`. The latest
-  integer-narrowing batch covers the log-closing table.
-- Work is paused after the log-closing batch. Use its fresh warning capture
-  as the baseline when resuming the remaining AppKit index and count
-  batches. Start by inventorying the remaining diagnostics and selecting
-  one UI path. Keep byte-level conversions in separate batches.
+  `49330c1`, the editor batch at `76b2a75`, and the log-closing table batch
+  at `cc5291e`. The latest integer-narrowing batch covers the User
+  Variables table in World Configuration.
+- Review the User Variables batch before selecting the next AppKit UI
+  path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -210,10 +209,36 @@ same artifact directory.
 All 58 current-user hosted smoke tests passed on Intel. The `smoke`
 subdirectory contains the capture and XCTest result bundle.
 
-If the temporary capture is unavailable in a later session, regenerate a
-fresh universal Debug warning baseline from the log-closing batch commit
-before making source edits. Use the workplan's build and current-user smoke
-commands.
+## Third increment, User Variables table indexes
+
+The baseline is log-closing batch commit `cc5291e`. The User Variables
+table uses AppKit's signed `NSInteger` row count and row parameters. Add
+Variable passes the full-width index of the new row when selecting it and
+starting inline editing. The existing removal action already checks for a
+missing or out-of-range selection before looking up the variable.
+
+The [standalone User Variables tests](../Tests/WarningResolution/test_user_variable_indexes.py)
+compile the production callbacks and Add action with synthetic row counts.
+The original code passed the empty and ordinary cases. Its runtime
+signatures disagreed with AppKit, and it truncated wide indexes during
+lookup, editing, and selection. All four cases passed after the change.
+All 24 Python standalone tests and the numeric alias check passed.
+
+The [workplan](WarningResolutionWorkplan.md#third-increment-batches)
+records the test command. Artifacts are in
+`/tmp/atlantis-increment3-user-variables.4JH5MQ`.
+
+The fresh Debug build used Xcode 26.6 (17F113) and the macOS 26.5 SDK
+for arm64 and x86_64. It removed five warning sites across both
+architectures. Atlantis warning lines fell from 965 to 955 and the raw
+count fell from 1,726 to 1,716. There were no new source diagnostics.
+Use this capture as the comparison baseline for the next batch.
+
+The hosted test target built successfully. The first smoke attempt could
+not reach the XCTest service from the sandbox. The current-user run
+passed all 58 selected tests on Intel, including the User Variables
+check for no selection before Add and selection of the new row after Add.
+The capture, test log, and result bundle are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 
