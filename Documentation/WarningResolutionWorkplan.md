@@ -1,8 +1,8 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 paused after batch 30** for
-review of formatted-log wrapping. The latest universal Debug build
-has 777 Atlantis warning lines. See the
+Status as of 2026-11-27 is **increment 3 through batch 31**, the
+formatted-log wrapping fix. The latest universal Debug build has 775
+Atlantis warning lines. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -604,18 +604,33 @@ warning lines and 1,538 total, including 52 Xcode environment warnings.
 All 97 standalone tests, the numeric alias check, and all 68 hosted
 smoke tests passed.
 
-Batch 31 is pending review. The narrowing warning at
+Batch 31 covers formatted-log wrapping. The narrowing warning at
 `Log System/RDFormattedText.m:345` is in the formatted-log wrapping
 loop. A probe of the production method with `abcdef` confirmed that
 margin 4 and indent 2 emit `abc-` followed by `  ef`, dropping
 `d` at the hard wrap. Margin 4 and indent 4, or margin 11 with
 timestamps enabled, raise `NSInvalidArgumentException` because the
 available width is zero and subtracting the hyphen width underflows.
-The fix needs a policy for unusable widths in saved settings, a
-forward-progress guarantee, and exact-output checks covering hard
-wraps, indentation, and timestamp prefixes. The probe and its output
-are in `/tmp/atlantis-log-export.yMNDRA` as `format-wrap-probe.m`
-and `format-wrap-probe.log`.
+The fix keeps UTF-16 units for the margin and uses Foundation's
+composed-character boundaries for breaks. Hard wraps resume at the
+first source character beyond the slice. When the margin leaves no
+usable width, the writer emits the remaining text unwrapped. When a
+whole grapheme cannot fit alongside a hyphen, the writer emits the
+grapheme whole and omits the hyphen.
+
+The focused probe in
+`Tests/WarningResolution/test_formatted_log_wrap.py` runs the same
+production writer against the original and revised code. It checks
+exact UTF-8 output for soft and hard wraps, unusable and one-unit
+widths, timestamp prefixes, and surrogate pairs, combining marks,
+and joined emoji. Nine of its eleven cases failed on `fe59a1c`.
+All eleven pass after the fix.
+
+The fresh universal Debug build removed the narrowing warning on
+arm64 and x86_64 without adding source diagnostics. The capture has
+775 Atlantis warning lines and 1,536 total, including 52 Xcode
+environment warnings. All 98 standalone tests and the numeric alias
+check passed. All 68 hosted smoke tests passed on Intel.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

@@ -862,6 +862,24 @@ Xcode environment warnings. All 97 standalone checks and the numeric
 alias check passed. All 68 hosted smoke tests passed on Intel in
 `smoke-current-user`.
 
+## Third increment, formatted-log wrapping
+
+The `RDFormattedText` writer now measures margins in UTF-16 units and
+wraps at composed-character boundaries. It preserves source characters
+at hard wraps, omits the hyphen when needed to fit a whole grapheme,
+and writes the remainder unwrapped when the prefix leaves no width.
+
+The focused probe in `Tests/WarningResolution/test_formatted_log_wrap.py`
+uses the production writer with an in-memory capture sink. Nine of its
+eleven byte-for-byte cases failed on `fe59a1c`, and all eleven pass
+after the fix. The capture is in `/tmp/atlantis-formatted-wrap.Zqmdyu`.
+The universal Debug build with Xcode 26.6 (17F113) and the macOS 26.5
+SDK removed the narrowing warning for arm64 and x86_64. The
+comparison records 775 Atlantis warning lines and 1,536 total,
+including 52 environment warnings, with no new source diagnostics.
+All 98 standalone tests and the numeric alias check passed. All 68
+hosted smoke tests passed on Intel in `smoke-current-user`.
+
 ## Post-profile warning baseline
 
 Commit `9910494` adds optional Atlantis profile storage. Its fresh

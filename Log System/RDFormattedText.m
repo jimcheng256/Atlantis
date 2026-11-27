@@ -276,8 +276,8 @@
     }
 
     NSMutableString *newString = [[NSMutableString alloc] init];
-    unsigned indent = 2;
-    unsigned margin = 79;
+    NSInteger indent = 2;
+    NSInteger margin = 79;
     BOOL wordWrap = YES;
     BOOL skipLines = YES;
     BOOL condenseLines = NO;
@@ -302,7 +302,7 @@
     if (![realString length])
         blankLine = YES;
     else {
-        int pos = 0;
+        NSUInteger pos = 0;
         BOOL allBlank = YES;
         NSCharacterSet *charSet = [NSCharacterSet whitespaceCharacterSet];
         while (allBlank && (pos < [realString length])) {
@@ -326,57 +326,61 @@
     }
 
     if (wordWrap) {
-        unsigned pos = 0;    
-        unsigned firstline = 0;
-        
-        if ([self writeTimestamps]) {
-            firstline = 11;
-        }
-        while (pos < [realString length]) {
-            if ((pos + (pos ? (margin - indent) : (margin - firstline))) >= [realString length]) {
-                NSString *tempString = [realString substringFromIndex:pos];
-                if (pos) {
-                    int loop;
-                    for (loop = 0; loop < indent; loop++)
-                        [newString appendString:@" "];
-                }
-                [newString appendString:tempString];
+        NSUInteger length = [realString length];
+        NSUInteger pos = 0;
+        NSInteger firstLinePrefix = [self writeTimestamps] ? 11 : 0;
+        while (pos < length) {
+            NSInteger prefix = pos == 0 ? firstLinePrefix : indent;
+            if (prefix < 0 || margin <= prefix) {
+                [newString appendString:[realString substringFromIndex:pos]];
                 [newString appendString:@"\n"];
-                pos = [realString length];
+                break;
             }
-            else {
-                unsigned nextMark = pos + (pos ? (margin - indent) : (margin - firstline));
-                unsigned resumeAt;
-                
-                while ((nextMark != pos) && (nextMark < [realString length]) && !isspace([realString characterAtIndex:nextMark]))
-                    nextMark--;
-                
-                BOOL hyphenate = NO;
-                
-                if (nextMark == pos) {
-                    // Just give up and hyphenate.
-                    nextMark = pos + (pos ? ((margin - 1) - indent) : ((margin - 1) - firstline));
-                    hyphenate = YES;
-                    resumeAt = pos + (pos ? (margin - indent) : (margin - firstline));
+
+            NSUInteger width = (NSUInteger)(margin - prefix);
+            NSUInteger end = length;
+            NSUInteger resumeAt = length;
+            BOOL hyphenate = NO;
+            if (width < length - pos) {
+                NSUInteger limit = pos + width;
+                end = [realString rangeOfComposedCharacterSequenceAtIndex:limit].location;
+                while (end > pos) {
+                    NSRange cluster = [realString rangeOfComposedCharacterSequenceAtIndex:end];
+                    unichar character = [realString characterAtIndex:end];
+                    if (cluster.length == 1 && character < 128 && isspace(character))
+                        break;
+                    end = [realString rangeOfComposedCharacterSequenceAtIndex:end - 1].location;
+                }
+
+                if (end > pos) {
+                    resumeAt = end;
+                    while (resumeAt < length) {
+                        NSRange cluster = [realString rangeOfComposedCharacterSequenceAtIndex:resumeAt];
+                        unichar character = [realString characterAtIndex:resumeAt];
+                        if (cluster.length != 1 || character >= 128 || !isspace(character))
+                            break;
+                        resumeAt = NSMaxRange(cluster);
+                    }
                 }
                 else {
-                    resumeAt = nextMark;
-                    while ((resumeAt < [realString length]) && isspace([realString characterAtIndex:resumeAt]))
-                        resumeAt++;                
+                    // Reserve a unit for the hyphen, or emit one whole cluster by itself.
+                    end = [realString rangeOfComposedCharacterSequenceAtIndex:limit - 1].location;
+                    hyphenate = end > pos;
+                    if (!hyphenate)
+                        end = NSMaxRange([realString rangeOfComposedCharacterSequenceAtIndex:pos]);
+                    resumeAt = end;
                 }
-                
-                NSString *tempString = [realString substringWithRange:NSMakeRange(pos,nextMark - pos)];
-                if (pos) {
-                    int loop;
-                    for (loop = 0; loop < indent; loop++)
-                        [newString appendString:@" "];
-                }
-                [newString appendString:tempString];
-                if (hyphenate)
-                    [newString appendString:@"-"];
-                [newString appendString:@"\n"];
-                pos = resumeAt;
             }
+
+            if (pos > 0) {
+                for (NSInteger space = 0; space < indent; space++)
+                    [newString appendString:@" "];
+            }
+            [newString appendString:[realString substringWithRange:NSMakeRange(pos, end - pos)]];
+            if (hyphenate)
+                [newString appendString:@"-"];
+            [newString appendString:@"\n"];
+            pos = resumeAt;
         }
     }
     else {
