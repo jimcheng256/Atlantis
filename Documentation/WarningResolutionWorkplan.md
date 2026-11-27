@@ -25,7 +25,7 @@ environment diagnostics separately from the Atlantis warning counts.
   behavior. Check Objective-C selectors, AppKit ownership and lifecycle,
   Swift imports, and existing archive or wire formats where relevant.
 - For every substantive change, express the focused behavior probes as
-  standalone unit tests under `Tests/Focused` and keep them in version
+  standalone unit tests under `Tests/WarningResolution` and keep them in version
   control with the increment. Keep hosted coverage in `Tests/AtlantisTests`.
   Exercise the production code or expressions using deterministic fixtures.
   Run the same assertions against the original implementation before editing
@@ -135,7 +135,7 @@ temporary process. The alert cases use AppKit in the current user session.
 
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-  python3 Tests/Focused/test_warning_formats.py -v
+  python3 Tests/WarningResolution/test_warning_formats.py -v
 ```
 
 ## Second-increment scope
@@ -150,7 +150,7 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 ### Deferred pasteboard migration
 
 - During deprecated API replacements, add a standalone test in
-  `Tests/Focused` using a uniquely named pasteboard in the current user
+  `Tests/WarningResolution` using a uniquely named pasteboard in the current user
   session. Write with each of `NSStringPboardType` and
   `NSPasteboardTypeString` and read with both. Assert exact text, including
   Unicode and line breaks. For the MUSH editor, also assert that the

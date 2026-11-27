@@ -24,7 +24,7 @@ setup.
   migrations, characterize the old behavior before replacing it. Exercise
   the actual hosted window or editor for layout, focus, and responder changes.
   Use temporary defaults suites and archive paths for persistence tests.
-- Put standalone warning-resolution unit tests in `Tests/Focused`. Run
+- Put standalone warning-resolution unit tests in `Tests/WarningResolution`. Run
   them when verifying warning fixes or tracing regressions from that work.
   Routine verification for new Atlantis features uses the relevant app
   and hosted tests.

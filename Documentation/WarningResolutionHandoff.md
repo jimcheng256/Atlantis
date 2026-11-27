@@ -99,7 +99,7 @@ To reproduce the numeric alias check from the repository root, run:
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 alias_dir="$(mktemp -d /tmp/atlantis-alias-check.XXXXXX)"
 xcrun clang -arch arm64 -arch x86_64 -Wno-deprecated-declarations \
-  -framework AppKit -framework Foundation Tests/Focused/warning_constant_aliases.m \
+  -framework AppKit -framework Foundation Tests/WarningResolution/warning_constant_aliases.m \
   -o "$alias_dir/warning-constant-aliases"
 "$alias_dir/warning-constant-aliases"
 ```
