@@ -31,7 +31,7 @@
 }
 
 - (uint64_t)idleTime {
-   NSMutableDictionary *hidProperties;
+   NSMutableDictionary *hidProperties = nil;
    kern_return_t err = IORegistryEntryCreateCFProperties( _hidEntry,(CFMutableDictionaryRef*) &hidProperties, kCFAllocatorDefault, 0 );
    if (!hidProperties || (err != KERN_SUCCESS))
     return 0;
@@ -42,10 +42,10 @@
     return 0;
    uint64_t result;
    if( [hidIdleTimeObj isKindOfClass:[NSData class]] ) {
-        if (![(NSData*)hidIdleTimeObj length] == sizeof( result ) ) {
+        if ([(NSData *)hidIdleTimeObj length] != sizeof(result) ) {
             return 0;
         }
-       [hidIdleTimeObj getBytes:&result];
+       [hidIdleTimeObj getBytes:&result length:sizeof(result)];
    } else {
        result = [hidIdleTimeObj longLongValue];
    }

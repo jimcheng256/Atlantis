@@ -786,7 +786,7 @@ AddressBook *s_addyBook = nil;
 - (void) askQuestion:(NSString *) question info:(NSString *) info action:(SEL)selector context:(void *) context
 {
     NSAlert *alert =
-        [NSAlert alertWithMessageText:question defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:info];
+        [NSAlert alertWithMessageText:question defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:@"%@", info];
 
     NSArray *buttons = [alert buttons];
     NSButton *noButton = [buttons objectAtIndex:1];

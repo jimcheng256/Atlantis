@@ -34,7 +34,7 @@
 
 - (NSString *) conditionDescription
 {
-    NSString *string = [[NSString stringWithFormat:@"Computer has been idle %d seconds.", _rdInterval] retain];
+    NSString *string = [[NSString stringWithFormat:@"Computer has been idle %@ seconds.", @(_rdInterval)] retain];
     
     return [string autorelease];
 }

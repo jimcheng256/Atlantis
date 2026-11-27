@@ -751,7 +751,7 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 - (NSString *) mcpSessionKey
 {
     if (!_rdMcpSessionKey) {
-        _rdMcpSessionKey = [[NSString stringWithFormat:@"%ul", [[NSDate date] timeIntervalSinceReferenceDate]] retain];
+        _rdMcpSessionKey = [[NSString stringWithFormat:@"%.0f", trunc([[NSDate date] timeIntervalSinceReferenceDate])] retain];
     }
     
     return _rdMcpSessionKey;

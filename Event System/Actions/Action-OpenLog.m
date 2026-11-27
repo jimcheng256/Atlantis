@@ -310,7 +310,7 @@ extern NSInteger scrollbackSort(id obj1, id obj2, void *context);
         [_rdLogTypes addItemWithTitle:result];        
         if (typeName && [typeName isEqualToString:_rdLogType]) {
             selectMe = [_rdLogTypes indexOfItemWithTitle:result];
-            enabled = (SendReturningBool(logWalk,@selector(supportsOptions)) != nil);
+            enabled = SendReturningBool(logWalk,@selector(supportsOptions));
         }
     }
 

@@ -6,7 +6,8 @@
   (`feat(telnet): prefer UTF-8 in CHARSET`).
 - The [warning resolution workplan](WarningResolutionWorkplan.md) has a
   fresh warning capture and an automated application smoke baseline.
-  The first fix batch and its focused characterization tests are pending.
+  The first increment has passed verification. Pause before
+  starting deprecated constants and mechanical cleanup.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -30,23 +31,50 @@ These files are temporary. If unavailable, regenerate the baseline at
 `ee9deed` in a fresh Derived Data directory using the same configuration
 and record any Xcode or SDK difference before comparing counts.
 
-## First batch after approval
+## First-increment results
 
-1. Use the captured automated smoke baseline below for comparison. Run
-   the focused characterization checks before editing the first batch.
-2. Inventory the Atlantis format and expression diagnostics, which account
-   for 20 baseline lines including repeats. Inspect the ineffective length
-   guard in `Utility Classes/HIDIdleTime.m`, the format call in
-   `Utility Classes/RDStringPattern.m`, and the BOOL comparison in
-   `Event System/Actions/Action-OpenLog.m`. Verify each intended behavior
-   independently before applying a fix.
-3. Run focused characterization tests against the original code. Run the
-   same assertions after each substantive change and document any agreed
-   correction separately. Pay particular attention to literal percent
-   signs, valid and invalid lengths, and observable UI or logging behavior.
-4. Finish the batch with a fresh warning comparison, relevant hosted tests,
-   and the automated smoke suite. Present the results for review before
-   moving on to deprecated constants and mechanical cleanup.
+The original implementation returned the expected HID idle time for numeric
+values and exact-size data, and accepted oversized data. The revised code
+preserves both valid paths and rejects short and oversized payloads. The
+invalid-regex path still returns no match and now logs the original pattern
+with its percent signs intact.
+
+The MCP multiline message probe compared exact UTF-8 bytes across the
+four-digit hex boundary. It also verified the entry at `ffffffff` and the
+next entry, which now emits `100000000` across the header, continuations,
+and terminator. The session-key, connected-time, idle-description, and
+alert probes exercised the production formatting expressions with
+deterministic inputs. They verified whole elapsed seconds beyond the
+32-bit range, a fractional idle threshold, whole reference-date seconds
+for the session key, and matching text with a literal percent sign in both
+AppKit alerts.
+
+The hosted Open Log test passed against the original code. It opens the
+real configuration view and checks the Options button on initial load,
+after switching between Plain Text and Plain Text (Formatted), and after
+refreshing the view.
+
+The fresh universal Debug build used Xcode 26.6 (17F113) and the macOS
+26.5 SDK. It removed all 20 planned warning lines and the two architecture
+repeats for the HID copy method. The Atlantis count fell from 1,421 to
+1,399 and the raw count fell from 2,182 to 2,160. No new source diagnostics
+appeared. Lemuria stayed at 698, Xcode environment at 52, diagnostic echoes
+at 6, and pathless diagnostics at 5.
+
+The build log, numbered warning extract, source comparison, and focused
+probe logs are in `/tmp/atlantis-increment1.4Qs2hz`.
+
+The current-user smoke suite passed all 58 selected tests before and after
+the changes, including the new Open Log check. XCTest ran on Intel. The
+`smoke-before` and `smoke-after` directories under the same artifact
+directory contain the result bundles, captures, and test logs.
+
+The seven standalone format tests passed for the first-increment changes.
+The same harness rejected all seven original format calls at compile time
+on the pre-increment revision, `7b16ab8`. The
+[workplan](WarningResolutionWorkplan.md#first-increment-behavior) records
+the command. The temporary probe logs retain the before-and-after output
+observations.
 
 ## Post-profile warning baseline
 

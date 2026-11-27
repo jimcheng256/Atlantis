@@ -5,6 +5,26 @@ import XCTest
 
 @MainActor
 final class ApplicationSmokeTests: XCTestCase {
+    func testOpenLogOptionsFollowSelectedFormat() throws {
+        let actionType = try XCTUnwrap(NSClassFromString("Action_OpenLog") as? NSObject.Type)
+        let action = actionType.init()
+        XCTAssertNotNil(action.perform(NSSelectorFromString("actionConfigurationView")))
+        let formats = try XCTUnwrap(action.value(forKey: "rdLogTypes") as? NSPopUpButton)
+        let options = try XCTUnwrap(action.value(forKey: "rdOptionsButton") as? NSButton)
+        XCTAssertEqual(formats.titleOfSelectedItem, "Plain Text")
+        XCTAssertFalse(options.isEnabled)
+
+        for (title, enabled) in [("Plain Text (Formatted)", true), ("Plain Text", false)] {
+            XCTAssertNotNil(formats.item(withTitle: title))
+            formats.selectItem(withTitle: title)
+            action.perform(NSSelectorFromString("logTypeChanged:"), with: formats)
+            XCTAssertEqual(options.isEnabled, enabled)
+            action.perform(NSSelectorFromString("actionConfigurationView"))
+            XCTAssertEqual(formats.titleOfSelectedItem, title)
+            XCTAssertEqual(options.isEnabled, enabled)
+        }
+    }
+
     func testWorldConnectsDisplaysOutputAndReconnects() async throws {
         let environment = ProcessInfo.processInfo.environment
         if let profile = environment["ATLANTIS_SMOKE_PROFILE"] {

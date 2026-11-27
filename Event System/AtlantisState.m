@@ -79,7 +79,7 @@
             
         if ([world isConnected]) {
             NSTimeInterval secs = [[NSDate date] timeIntervalSinceDate:[world connectedSince]];
-            [self setExtraData:[NSString stringWithFormat:@"%d", secs] forKey:@"world.connected"];
+            [self setExtraData:[NSString stringWithFormat:@"%.0f", trunc(secs)] forKey:@"world.connected"];
         }
         else {
             [self setExtraData:@"-1" forKey:@"world.connected"];

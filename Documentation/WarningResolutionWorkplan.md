@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **planned, awaiting review**. The starting point
+Status as of 2026-11-26 is **first increment awaiting review**. The starting point
 is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -24,14 +24,21 @@ environment diagnostics separately from the Atlantis warning counts.
   requires reviewing the old and new API contracts, callers, and runtime
   behavior. Check Objective-C selectors, AppKit ownership and lifecycle,
   Swift imports, and existing archive or wire formats where relevant.
-- For every substantive change, write focused unit tests and run them
-  against the original implementation before changing it. Run the same
-  assertions against the revised implementation. Compare observable
-  results, including bytes on the wire, decoded text and attributed runs,
-  persisted values, errors, callbacks, or responder behavior as applicable.
-  Use hosted tests when behavior depends on the actual window, pane, or
-  editor. Use temporary defaults suites and archive paths for persistence
-  tests.
+- For every substantive change, express the focused behavior probes as
+  standalone unit tests and keep them in version control with the increment.
+  Exercise the production code or expressions using deterministic fixtures.
+  Run the same assertions against the original implementation before editing
+  it and against the revised implementation afterward. Assert observable
+  results, such as exact wire bytes, decoded text, persisted values, or
+  errors. Add hosted tests where verification requires the actual window,
+  pane, or editor. Use temporary defaults suites and archive paths for
+  persistence tests.
+- Record the source revisions, test paths and commands, expected results,
+  and observed outcomes for each increment in the handoff. Identify
+  intentional behavior corrections and any baseline checks that fail to
+  compile or run. Keep the tests and this evidence available so a later
+  regression can be traced by rerunning the relevant checks at earlier
+  revisions.
 - For numeric and byte-length changes, identify the unit and signedness at
   each boundary. Exercise zero, normal values, boundary values on both
   sides of a conversion, sentinels such as `NSNotFound`, split input,
@@ -97,9 +104,38 @@ on arm64 and x86_64.
 | `Utility Classes/HIDIdleTime.m:45` | Verify valid data and number paths. Specify expected results for short and oversized payloads as a separate correction to the ineffective guard. |
 | `Utility Classes/RDStringPattern.m:192` | Exercise the invalid-regex path with percent signs and inspect the logged message. |
 | `Event System/Actions/Action-OpenLog.m:313` | Check the Options button for log types with and without options on editor load and after switching types. |
-| `Event System/AtlantisState.m:82`, `Event System/Conditions/Condition-ComputerIdle.m:37`, `Worlds/RDAtlantisWorldInstance.m:753` | Verify intended units and precision for the `NSTimeInterval` arguments, including fractional values. |
+| `Event System/AtlantisState.m:82`, `Event System/Conditions/Condition-ComputerIdle.m:37`, `Worlds/RDAtlantisWorldInstance.m:754` | Verify intended units and precision for the `NSTimeInterval` arguments, including fractional values. |
 | `MCP System/MCPMessage.m:224` | Verify the integer type and the field's role. Compare exact encoded bytes if it goes on the wire. |
-| `Preferences/World/WorldSpawnEditor.m:960`, `Worlds/AddressBook.m:788` | Verify the displayed messages preserve literal percent signs and interpolated text. |
+| `Preferences/World/WorldSpawnEditor.m:960`, `Worlds/AddressBook.m:789` | Verify the displayed messages preserve literal percent signs and interpolated text. |
+
+### First-increment behavior
+
+- HID idle-time decoding still accepts numeric values and exact eight-byte
+  payloads. It now returns zero for short or oversized payloads and uses a
+  bounded copy. This also removes the warning for the deprecated copy method.
+- Invalid regex diagnostics and both confirmation messages preserve percent
+  signs in interpolated text. The Open Log editor reads the log format's
+  boolean capability directly. The hosted test exercises its Options button
+  on initial load, after switching formats, and when refreshing the editor.
+- `world.connected` reports completed seconds and retains the offline
+  sentinel `-1`. The Computer Idle description retains fractional seconds
+  from its configured threshold.
+- The MCP session key uses whole seconds since the Foundation reference
+  date and is cached as before. Multiline data tags retain their prefix and
+  minimum four-digit lowercase hex format. The formatter now uses the
+  full-width counter, so the tag continues growing beyond 32 bits.
+
+See the [handoff](WarningResolutionHandoff.md#first-increment-results) for
+the verification record.
+
+Run the seven standalone format tests with full Xcode selected. They
+compile the production format expressions and MCP encoder into a
+temporary process. The alert cases use AppKit in the current user session.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/Focused/test_warning_formats.py -v
+```
 
 ## Between-increment gate
 
@@ -107,8 +143,9 @@ on arm64 and x86_64.
    establish the smoke baseline with a dedicated test world and disposable
    data. Record the app version, Xcode version, architectures, fixture
    configuration, and any existing failures.
-2. For each increment, run the smallest focused checks before the edit and
-   again afterward. Run the shared hosted suite for changes involving
+2. For each increment, run the focused standalone unit tests before the edit
+   and again afterward, then record the evidence in the handoff. Run the
+   shared hosted suite for changes involving
    windows, panes, or editors. If Xcode requires separate environments, use
    `build-for-testing` and `test-without-building` with the same settings and
    Derived Data path. Report compilation and hosted execution separately.
@@ -181,5 +218,4 @@ The smoke suite excludes macOS settings, live notification delivery,
 Dock integration, and saved window frames. Add targeted hosted checks
 when an increment affects an application path this suite does not exercise.
 
-The post-profile warning baseline is captured at `9910494`. No warning
-fixes have been started.
+The post-profile warning baseline is captured at `9910494`.

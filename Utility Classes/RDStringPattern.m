@@ -189,7 +189,7 @@
                 }
             }
             @catch (NSException *e) {
-                NSLog([NSString stringWithFormat:@"Ignoring invalid regexp: %@", _rdPattern]);
+                NSLog(@"Ignoring invalid regexp: %@", _rdPattern);
                 return NSMakeRange(0,0);
             }
 

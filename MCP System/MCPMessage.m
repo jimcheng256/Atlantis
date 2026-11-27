@@ -221,7 +221,7 @@ static unsigned long s_dataCounter = 0;
             if ([self attributeIsMultiline:attrWalk]) {
                 [output appendString:@"*: \"\""];
                 if (!dataTag) {
-                    dataTag = [NSString stringWithFormat:@"atl%0.4x", s_dataCounter];
+                    dataTag = [NSString stringWithFormat:@"atl%04lx", s_dataCounter];
                     s_dataCounter++;
                 }
             }
