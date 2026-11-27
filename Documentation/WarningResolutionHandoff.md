@@ -18,13 +18,15 @@
   batch at `8f4b35a`, and the column and tab lookup batch at `b593707`.
   The Event Editor table data-source batch is committed at `c3ae6e1`.
 - The Event Editor move batch is committed at `909740a`, the
-  Conditions tab batch at `968d412`, hit testing at `06df675`, and
-  whole-event reordering at `a3cc2b1`. The nineteenth batch covers
-  condition and action removal. Its universal Debug capture is the
-  next baseline, with 825 Atlantis warning lines and 1,586 total.
-  Artifacts are in `/tmp/atlantis-increment3-event-chain-removal.vIj4Xl`.
-- The next batch covers the remaining Event Editor selected rows
-  used during refresh, condition mode changes, additions, and event removal.
+  Conditions tab batch at `968d412`, hit testing at `06df675`,
+  whole-event reordering at `a3cc2b1`, and chain removal at `ae0c0fb`.
+  The twentieth batch covers remaining selected-row consumers. Its
+  universal Debug capture is the next baseline, with 815 Atlantis
+  warning lines and 1,576 total. Artifacts are in
+  `/tmp/atlantis-increment3-event-selected.5Gdy0T`.
+- The next batch covers Event Editor extra-data column ordering.
+  The World Idle initialization issue is deferred to
+  [Discovered bugs](DiscoveredBugs.md).
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -670,6 +672,27 @@ from 829 to 825 and the raw count fell from 1,590 to 1,586. No new source
 diagnostics appeared. The hosted test target built for both architectures.
 All 68 selected hosted smoke tests passed on Intel. The capture, test log,
 and result bundle are in `smoke-current-user`.
+
+## Third increment, Event Editor selected rows
+
+The baseline is chain removal batch commit `ae0c0fb`. Refresh, condition
+mode changes, additions, and event removal now validate the full-width
+selected row before collection lookup. The condition mode callback
+accepts the Any and All menu entries. A missing or invalid menu index
+preserves the current setting. The separate object initialization
+issue is recorded in [Discovered bugs](DiscoveredBugs.md).
+
+The [standalone selected-row tests](../Tests/WarningResolution/test_event_selected_rows.py)
+compile five production methods. The original passed ordinary operations
+and failed 14 subcases involving row or menu validation. All three focused
+tests, all 78 standalone tests, and the numeric alias check passed after
+the changes. Artifacts are in `/tmp/atlantis-increment3-event-selected.5Gdy0T`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed five warning sites. Atlantis warning lines fell
+from 825 to 815 and the raw count fell from 1,586 to 1,576. No new source
+diagnostics appeared. The hosted tests built for both architectures and
+all 68 selected tests passed on Intel. Results are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 

@@ -318,13 +318,13 @@ static NSImage *s_downArrow;
 
 - (void)resynchChainedView
 {
-    int selected = [_rdTableView selectedRow];
+    NSInteger selected = [_rdTableView selectedRow];
     
     [_rdConditionChainView removeAllItems];
     [_rdActionChainView removeAllItems];
     
-    if (selected >= 0) {
-        id <EventDataProtocol> event = [_rdEventData eventAtIndex:selected];
+    if (selected >= 0 && selected < [_rdEventData eventsCount]) {
+        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)selected];
 
         NSInteger condIndex = [_rdTabView indexOfTabViewItemWithIdentifier:@"eventConds"];
         
@@ -550,7 +550,8 @@ static NSImage *s_downArrow;
 {
     NSInteger selected = [_rdTableView selectedRow];
     EventCollection *collection = _rdEventData;
-    id <EventDataProtocol> event = selected < 0 ? nil : [collection eventAtIndex:(unsigned)selected];
+    id <EventDataProtocol> event = selected >= 0 && selected < [collection eventsCount]
+        ? [collection eventAtIndex:(unsigned)selected] : nil;
     NSWindow *window = [_rdTableView window];
 
     if (self.confirmsEventRemoval && (!event || !window)) {
@@ -581,15 +582,16 @@ static NSImage *s_downArrow;
 - (void) changeConditionsAnded:(id) sender
 {
     id <EventDataProtocol> event = nil;
-    int selected = [_rdTableView selectedRow];
+    NSInteger selected = [_rdTableView selectedRow];
     
-    if (selected != -1) {
-        event = [_rdEventData eventAtIndex:selected];
+    if (selected >= 0 && selected < [_rdEventData eventsCount]) {
+        event = [_rdEventData eventAtIndex:(unsigned)selected];
         
         if (event) {
-            int selected = [_rdConditionType indexOfSelectedItem];
-
-            [event eventSetConditionsAnded:selected];
+            NSInteger mode = [_rdConditionType indexOfSelectedItem];
+            if (mode == 0 || mode == 1) {
+                [event eventSetConditionsAnded:mode == 1];
+            }
         }
     }
 }
@@ -597,10 +599,10 @@ static NSImage *s_downArrow;
 - (void) addCondition:(id) sender
 {
     id <EventDataProtocol> event = nil;
-    int selected = [_rdTableView selectedRow];
+    NSInteger selected = [_rdTableView selectedRow];
     
-    if (selected != -1) {
-        event = [_rdEventData eventAtIndex:selected];
+    if (selected >= 0 && selected < [_rdEventData eventsCount]) {
+        event = [_rdEventData eventAtIndex:(unsigned)selected];
 
         BaseCondition *condition = nil;
         
@@ -649,10 +651,10 @@ static NSImage *s_downArrow;
 - (void) addAction:(id) sender
 {
     id <EventDataProtocol> event = nil;
-    int selected = [_rdTableView selectedRow];
+    NSInteger selected = [_rdTableView selectedRow];
     
-    if (selected != -1) {
-        event = [_rdEventData eventAtIndex:selected];
+    if (selected >= 0 && selected < [_rdEventData eventsCount]) {
+        event = [_rdEventData eventAtIndex:(unsigned)selected];
         
         BaseAction *action = nil;
         

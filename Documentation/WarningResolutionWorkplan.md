@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, Event Editor condition and action removal batch**.
+Status as of 2026-11-27 is **increment 3, Event Editor selected-row batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -407,6 +407,24 @@ The Lemuria lookup issue is tracked in `DiscoveredBugs.md`.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_event_chain_removal_indexes.py -v
+```
+
+The twentieth batch covers the remaining Event Editor selected-row
+consumers used during refresh, condition mode changes, additions, and
+event removal. At `ae0c0fb` the five warnings in
+`Event Configuration Kit/EventEditor.m` are at lines 321, 584, 590, 600,
+and 652. Validate AppKit rows before converting them for the collection.
+This also prevents the event removal path from truncating a wide row to
+another event. A missing or invalid condition mode leaves the existing
+mode intact.
+
+The separate object initialization bug is recorded in
+[Discovered bugs](DiscoveredBugs.md#event-creation-skips-initialization-and-loses-the-world-idle-default)
+for follow-up outside warning resolution.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_selected_rows.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep
