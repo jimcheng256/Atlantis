@@ -14,9 +14,9 @@
   committed at `62a75f0`, the Spawn outline batch at `2e26532`, and the
   Spawn table batch at `66ef54e`, and the Spawn removal batch at
   `734abb6`. The Address Book outline data-source batch is committed at
-  `adecaa0`. The latest integer-narrowing batch covers Address Book
-  selection and editor tab restoration.
-- Review the Address Book selection batch before selecting the next
+  `adecaa0` and the selection batch at `2b40fd4`. The latest
+  integer-narrowing batch covers the Address Book add and focus actions.
+- Review the Address Book add and focus batch before selecting the next
   AppKit UI path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
@@ -464,6 +464,35 @@ passed on Intel. The new test switched between a world and character
 and verified restoration of a shared tab and preservation of the
 destination selection when a source tab had no counterpart. The capture,
 test log, and result bundle are in `smoke-current-user`.
+
+## Third increment, Address Book add and focus row indexes
+
+The baseline is Address Book selection batch commit `2b40fd4`.
+Add World, Add Character, and Focus World now keep AppKit's signed row
+index through selection. They leave the selection alone when the row
+lookup returns `-1`.
+
+The [standalone Address Book action tests](../Tests/WarningResolution/test_address_book_action_indexes.py)
+compile the production actions with synthetic row lookups. The baseline
+passed ordinary and missing rows. All four wide-row subcases truncated
+the result. The [workplan](WarningResolutionWorkplan.md#third-increment-batches)
+records the command. Artifacts are in
+`/tmp/atlantis-increment3-address-book-actions.R4ipKj`.
+
+Both focused tests passed after the change. All 55 Python standalone
+tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed three warning sites. Atlantis warning lines
+fell from 875 to 869 and the raw count fell from 1,636 to 1,630.
+The comparison found no new source diagnostics. Use this capture as
+the baseline for the next batch.
+
+The hosted test target built successfully. All 65 selected smoke tests
+passed on Intel. The new test verified that Add World, Add Character,
+and Focus World each selected the intended record in a disposable
+Address Book. The capture, test log, and result bundle are in
+`smoke-current-user`.
 
 ## Post-profile warning baseline
 

@@ -927,7 +927,7 @@ AddressBook *s_addyBook = nil;
     [self resynchAll];
     [self reloadKeepingSelection];
     
-    int newWorldRow = [_rdWorldList rowForItem:newRecord];
+    NSInteger newWorldRow = [_rdWorldList rowForItem:newRecord];
     if (newWorldRow != -1) {
         [_rdWorldList selectRow:newWorldRow byExtendingSelection:NO];
     }
@@ -981,7 +981,7 @@ AddressBook *s_addyBook = nil;
         [self addEditorForWorldRecord:newRecord];
         
         if (newRecord) {
-            int selected = [_rdWorldList rowForItem:newRecord];
+            NSInteger selected = [_rdWorldList rowForItem:newRecord];
             if (selected != -1) {
                 [_rdWorldList selectRow:selected byExtendingSelection:NO];
             }
@@ -1026,7 +1026,7 @@ AddressBook *s_addyBook = nil;
     }
     
     if (record) {
-        int row = [_rdWorldList rowForItem:record];
+        NSInteger row = [_rdWorldList rowForItem:record];
         
         if (row != -1) {
             [_rdWorldList selectRow:row byExtendingSelection:NO];

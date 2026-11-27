@@ -5,7 +5,7 @@ import XCTest
 final class AddressBookTests: XCTestCase {
     @MainActor
     func testOutlineDisplaysWorldsAndTheirCharacters() throws {
-        try withAddressBook { _, outline, _ in
+        try withAddressBook { _, _, outline, _ in
             let dataSource = try XCTUnwrap(outline.dataSource)
             let column = try XCTUnwrap(outline.tableColumns.first { $0.identifier.rawValue == "worldName" })
             XCTAssertEqual(outline.numberOfRows, 1)
@@ -24,7 +24,7 @@ final class AddressBookTests: XCTestCase {
 
     @MainActor
     func testEditorTabRestorationChecksTheDestinationTabs() throws {
-        try withAddressBook { content, outline, world in
+        try withAddressBook { _, content, outline, world in
             let configuration = try XCTUnwrap(findSubview(NSTabView.self, in: content))
             let worldID = try XCTUnwrap(world.uuid())
             let characterID = try XCTUnwrap(world.uuid(forCharacter: "Test Character"))
@@ -55,8 +55,28 @@ final class AddressBookTests: XCTestCase {
     }
 
     @MainActor
+    func testAddingAndFocusingSelectsTheRequestedRecord() throws {
+        try withAddressBook { book, _, outline, world in
+            let dataSource = try XCTUnwrap(outline.dataSource)
+            let column = try XCTUnwrap(outline.tableColumns.first { $0.identifier.rawValue == "worldName" })
+            book.addWorld(nil)
+            let addedWorld = try XCTUnwrap(outline.item(atRow: outline.selectedRow) as AnyObject?)
+            XCTAssertEqual(dataSource.outlineView?(outline, objectValueFor: column, byItem: addedWorld) as? String, "<world01>")
+
+            book.addCharacter(nil)
+            let addedCharacter = try XCTUnwrap(outline.item(atRow: outline.selectedRow) as AnyObject?)
+            XCTAssertTrue(outline.parent(forItem: addedCharacter) as AnyObject? === addedWorld)
+            XCTAssertEqual(dataSource.outlineView?(outline, objectValueFor: column, byItem: addedCharacter) as? String, "<character01>")
+
+            book.focusWorld(world, forCharacter: "Test Character")
+            let focused = try XCTUnwrap(outline.item(atRow: outline.selectedRow))
+            XCTAssertEqual(dataSource.outlineView?(outline, objectValueFor: column, byItem: focused) as? String, "Test Character")
+        }
+    }
+
+    @MainActor
     private func withAddressBook(
-        _ exercise: (NSView, NSOutlineView, RDAtlantisWorldPreferences) throws -> Void
+        _ exercise: (AddressBook, NSView, NSOutlineView, RDAtlantisWorldPreferences) throws -> Void
     ) throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -74,14 +94,18 @@ final class AddressBookTests: XCTestCase {
         let world = RDAtlantisWorldPreferences()
         world.setPreference("Outline fixture", forKey: "atlantis.world.name", withCharacter: nil)
         world.addCharacter("Test Character")
-        let identifier = try XCTUnwrap(world.uuid())
         defer {
-            RDAtlantisDefaults().removeObject(forKey: "addressbook.expands:\(identifier)")
+            window.orderOut(nil)
+            for case let fixture as RDAtlantisWorldPreferences in collection.worlds() {
+                if let identifier = fixture.uuid() {
+                    RDAtlantisDefaults().removeObject(forKey: "addressbook.expands:\(identifier)")
+                }
+            }
             withExtendedLifetime(book) {}
         }
         collection.addWorld(world)
         book.setWorldCollection(collection)
-        try exercise(content, outline, world)
+        try exercise(book, content, outline, world)
     }
 
     @MainActor
