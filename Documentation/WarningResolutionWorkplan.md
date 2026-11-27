@@ -1,8 +1,8 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 31**, the
-formatted-log wrapping fix. The latest universal Debug build has 775
-Atlantis warning lines. See the
+Status as of 2026-11-27 is **increment 3 through batch 32**, the
+formatted and HTML log settings dialogs. Review the overwrite and
+append flow before batch 33. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -631,6 +631,34 @@ arm64 and x86_64 without adding source diagnostics. The capture has
 775 Atlantis warning lines and 1,536 total, including 52 Xcode
 environment warnings. All 98 standalone tests and the numeric alias
 check passed. All 68 hosted smoke tests passed on Intel.
+
+Batch 32 covers the settings dialogs in `RDFormattedText.m:132` and
+`RDHTMLLog.m:182` at `6f2c8bd`. They both accept the dialog's own
+response code 1 and keep existing options for other responses.
+The 32-bit local converted synthetic responses `4294967297` and
+`-4294967295` into 1, applying settings for an unrelated response.
+Use `NSModalResponse` from AppKit for both results. The same focused
+probe verifies acceptance, cancellation, abort, and both wide
+responses before and after the change.
+
+The fresh universal Debug build removed both warnings on arm64 and
+x86_64 with no new source diagnostics. The capture has 771 Atlantis
+warning lines and 1,532 total, including 52 Xcode environment
+warnings. All 99 standalone tests and the numeric alias check passed.
+All 68 hosted smoke tests passed on Intel.
+
+Batch 33 needs review. At `RDLogOpener.m:329`, the legacy overwrite
+alert also narrows `NSModalResponse` to `int`. An isolated probe of
+the production save-panel delegate with a fake file manager confirms
+that a synthetic response of `4294967297` selects Replace. It also
+shows that ordinary Replace removes the original file during filename
+validation, before the logger opens it, and ordinary Append returns
+the filename even when moving the existing log fails. The save
+completion ignores the result of the move back into place and has no
+recovery on failure to open the logger. Review file ownership and
+failure handling across the save-panel delegate, its completion,
+and the logger before changing the alert path. The probe source and
+output are in `/tmp/atlantis-log-modal.dnvcYz`.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

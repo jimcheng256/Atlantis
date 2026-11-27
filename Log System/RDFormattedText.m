@@ -129,7 +129,7 @@
     [_rdIndentField setIntValue:[indentBy intValue]];
     [_rdCharactersField setIntValue:[wrapAt intValue]];
     
-    int result = [NSApp runModalForWindow:_rdConfigWindow];
+    NSModalResponse result = [NSApp runModalForWindow:_rdConfigWindow];
     
     NSDictionary *results = oldOptions;
     

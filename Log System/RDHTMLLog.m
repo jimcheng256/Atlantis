@@ -179,7 +179,7 @@
         [[_rdFooterData textStorage] replaceCharactersInRange:NSMakeRange(0,[[_rdFooterData textStorage] length]) withString:footerData];
     }
     
-    int result = [NSApp runModalForWindow:_rdConfigWindow];
+    NSModalResponse result = [NSApp runModalForWindow:_rdConfigWindow];
     
     NSDictionary *results = oldOptions;
     

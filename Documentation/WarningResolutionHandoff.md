@@ -880,6 +880,27 @@ including 52 environment warnings, with no new source diagnostics.
 All 98 standalone tests and the numeric alias check passed. All 68
 hosted smoke tests passed on Intel in `smoke-current-user`.
 
+## Third increment, log settings dialog responses
+
+The formatted and HTML log settings dialogs narrowed AppKit modal
+responses before checking for their own accept code 1. The focused
+`Tests/WarningResolution/test_log_configuration_responses.py` probe
+confirmed that both positive and negative wide responses with low
+bits equal to 1 applied new settings. Both dialogs now compare the
+full AppKit response. The probe fails on `6f2c8bd` and passes after
+the fix.
+
+The fresh universal Debug build removed two warning sites on both
+arm64 and x86_64 with no new source diagnostics. It has 771 Atlantis
+warning lines and 1,532 total, including 52 Xcode environment
+warnings. All 99 standalone tests and the numeric alias check passed.
+All 68 hosted smoke tests passed on Intel in `smoke-current-user`.
+
+The fresh capture and the separate overwrite-alert probe are in
+`/tmp/atlantis-log-modal.dnvcYz`. The overwrite and append paths need
+review before batch 33. See the
+[workplan](WarningResolutionWorkplan.md#third-increment-batches).
+
 ## Post-profile warning baseline
 
 Commit `9910494` adds optional Atlantis profile storage. Its fresh
