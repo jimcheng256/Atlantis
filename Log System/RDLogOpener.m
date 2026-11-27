@@ -36,6 +36,7 @@
 - (void) dealloc
 {
     [_rdSavePanel release];
+    [_rdCurrentOptions release];
     [_rdState release];
     [super dealloc];
 }
@@ -69,15 +70,75 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
     }    
 }
 
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo
+static BOOL RDLogModeForAlertResponse(NSModalResponse response, BOOL canAppend, RDLogSaveMode *mode)
 {
-    if (returnCode == NSModalResponseOK) {
-        [NSApp endSheet:sheet];
-        [sheet orderOut:self];
-        NSArray *logtypes = [[RDAtlantisMainController controller] logTypes];
+    switch (response) {
+        case NSAlertFirstButtonReturn:
+            *mode = RDLogSaveModeReplace;
+            return YES;
+        case NSAlertThirdButtonReturn:
+            if (canAppend) {
+                *mode = RDLogSaveModeAppend;
+                return YES;
+            }
+            return NO;
+        default:
+            return NO;
+    }
+}
 
-        NSString *filename = [sheet filename];
-        Class logClass = [logtypes objectAtIndex:[_rdLogTypes indexOfSelectedItem]];
+- (void)showLogOpenError:(NSError *)error
+{
+    if (!error)
+        error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:nil];
+    NSAlert *alert = [NSAlert alertWithError:error];
+    if ([NSApp keyWindow])
+        [alert beginSheetModalForWindow:[NSApp keyWindow] completionHandler:nil];
+    else
+        [alert runModal];
+}
+
+- (void)savePanelDidEnd:(NSSavePanel *)sheet response:(NSModalResponse)response
+{
+    if (response == NSModalResponseOK) {
+        NSArray *logtypes = [[RDAtlantisMainController controller] logTypes];
+        NSString *filename = [[sheet URL] path];
+        NSInteger selected = [_rdLogTypes indexOfSelectedItem];
+        if (!filename || selected < 0 || (NSUInteger)selected >= [logtypes count])
+            return;
+        Class logClass = [logtypes objectAtIndex:(NSUInteger)selected];
+
+        NSError *fileError = nil;
+        NSDictionary *existingFile = [[NSFileManager defaultManager] attributesOfItemAtPath:filename
+                                                                                       error:&fileError];
+        RDLogSaveMode mode = RDLogSaveModeCreate;
+        if (existingFile) {
+            if (![existingFile[NSFileType] isEqual:NSFileTypeRegular]) {
+                [self showLogOpenError:[NSError errorWithDomain:NSCocoaErrorDomain
+                                                          code:NSFileWriteInvalidFileNameError
+                                                      userInfo:@{NSFilePathErrorKey: filename}]];
+                return;
+            }
+            BOOL canAppend = [logClass canAppendToLog];
+            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+            [alert setMessageText:@"A log file already exists"];
+            [alert setInformativeText:[NSString stringWithFormat:@"Choose how to open %@.",
+                                                                     [filename lastPathComponent]]];
+            [alert addButtonWithTitle:@"Replace"];
+            NSButton *cancelButton = [alert addButtonWithTitle:@"Cancel"];
+            if (canAppend)
+                [alert addButtonWithTitle:@"Append"];
+            // Keep the destructive action on an explicit button click.
+            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@""];
+            [cancelButton setKeyEquivalent:@"\r"];
+            if (!RDLogModeForAlertResponse([alert runModal], canAppend, &mode))
+                return;
+        }
+        else if (![[fileError domain] isEqualToString:NSCocoaErrorDomain] ||
+                 ([fileError code] != NSFileReadNoSuchFileError && [fileError code] != NSFileNoSuchFileError)) {
+            [self showLogOpenError:fileError];
+            return;
+        }
 
         NSString* (*SendReturningString)(id, SEL) = (NSString* (*)(id, SEL))objc_msgSend;
         
@@ -86,14 +147,8 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         if (logtype) {
             [RDAtlantisDefaults() setObject:logtype forKey:@"atlantis.logsave.type"];
         }
-        [RDAtlantisDefaults() setObject:[sheet directory] forKey:@"atlantis.logsave.directory"];
+        [RDAtlantisDefaults() setObject:[filename stringByDeletingLastPathComponent] forKey:@"atlantis.logsave.directory"];
 
-        if (_rdTempFilename) {
-            [[NSFileManager defaultManager] movePath:_rdTempFilename toPath:filename handler:NULL];
-            [_rdTempFilename release];
-            _rdTempFilename = nil;
-        }
-        
         NSString *spawnPath = nil;
         if ([_rdSpawnOnlyButton state] == NSControlStateValueOn) {
             spawnPath = [[_rdState spawn] internalPath];
@@ -105,10 +160,11 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         }
         [RDAtlantisDefaults() setBool:([_rdTimestampButton state] == NSControlStateValueOn) forKey:@"atlantis.logsave.timestamps"];
         
-        RDLogType *logger = (RDLogType *)class_createInstance(logClass,0);
-        [logger initWithFilename:filename forSpawn:spawnPath inWorld:[_rdState world] withOptions:_rdCurrentOptions];
+        RDLogType *logger = [[[logClass alloc] initWithFilename:filename forSpawn:spawnPath
+                                                       inWorld:[_rdState world] withOptions:_rdCurrentOptions] autorelease];
         [logger setWriteTimestamps:showTimestamps];
-        if ([logger openFile]) {
+        NSError *openError = nil;
+        if ([logger openFileForSavePanelWithMode:mode existingFile:existingFile error:&openError]) {
             [[_rdState world] addLogfile:logger];
             
             if ([_rdScrollbackButton state] == NSControlStateValueOn) {
@@ -135,8 +191,6 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
                             [scrollbackData release];
                             [progressSheet closePanel];
                             [progressSheet release];                
-                            [_rdCurrentOptions release];
-                            _rdCurrentOptions = nil;
                             return;                        
                         }
                         [scrollbackData addObjectsFromArray:[spawnWalk scrollbackData]];
@@ -179,8 +233,6 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
                             [scrollbackData release];
                             [progressSheet closePanel];
                             [progressSheet autorelease];                
-                            [_rdCurrentOptions release];
-                            _rdCurrentOptions = nil;
                             return;
                         }
                         
@@ -199,11 +251,9 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
             }            
         }
         else {
-            // TODO: Uhm... error handling of some sort.
+            [self showLogOpenError:openError];
         }
         
-        [_rdCurrentOptions release];
-        _rdCurrentOptions = nil;
     }
 }
 
@@ -247,6 +297,8 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
 
 - (BOOL) openPanel
 {
+    if (_rdSavePanel)
+        return NO;
     if ([NSBundle loadNibNamed:@"LogOptionPanel" owner:self])
     {
         [_rdSpawnOnlyButton setState:NSControlStateValueOff];
@@ -287,73 +339,29 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         
         NSWindow *window = [NSApp keyWindow];
         
-        _rdTempFilename = nil;
         _rdSavePanel = [[NSSavePanel savePanel] retain];
         [_rdSavePanel setAccessoryView:_rdOptionsView];
-        [_rdSavePanel setDelegate:self];
         NSString *lastDirectory = [RDAtlantisDefaults() objectForKey:@"atlantis.logsave.directory"];
         if (!lastDirectory)
             lastDirectory = RDAtlantisDefaultLogDirectory();
-        [_rdSavePanel beginSheetForDirectory:lastDirectory file:nil modalForWindow:window modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+        [_rdSavePanel setDirectoryURL:[NSURL fileURLWithPath:lastDirectory isDirectory:YES]];
+        void (^completion)(NSModalResponse) = ^(NSModalResponse result) {
+            [_rdSavePanel orderOut:self];
+            [self savePanelDidEnd:_rdSavePanel response:result];
+            [_rdSavePanel release];
+            _rdSavePanel = nil;
+            [_rdCurrentOptions release];
+            _rdCurrentOptions = nil;
+        };
+        if (window)
+            [_rdSavePanel beginSheetModalForWindow:window completionHandler:completion];
+        else
+            [_rdSavePanel beginWithCompletionHandler:completion];
         return YES;
     }
     else
         return NO;
     
-}
-
-- (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
-{
-    if (okFlag) {
-        
-        NSFileManager *manager = [NSFileManager defaultManager];
-        NSString *savePanelPath = [_rdSavePanel directory];
-        NSString *realFilename = [NSString stringWithFormat:@"%@/%@", savePanelPath, filename];
-        
-        if ([manager fileExistsAtPath:realFilename]) {
-            NSArray *logtypes = [[RDAtlantisMainController controller] logTypes];
-            Class logClass = [logtypes objectAtIndex:[_rdLogTypes indexOfSelectedItem]];
-            
-            BOOL (*SendReturningBool)(id, SEL) = (BOOL (*)(id, SEL))objc_msgSend;
-            
-            if (SendReturningBool(logClass,@selector(canAppendToLog))) {                
-                // Lookie, lookie; we need to ask if we should append, or replace!
-                
-                NSAlert *alert = 
-                [NSAlert alertWithMessageText:@"File already Exists!" 
-                                 defaultButton:@"Replace" 
-                               alternateButton:@"Cancel" 
-                                   otherButton:@"Append" 
-                     informativeTextWithFormat:@"A file named %@ already exists, but this logfile format can append to existing logs.  Would you like to append to the existing file, or replace it?", filename];
-                    
-                    int result = [alert runModal];
-                    
-                    if (result == NSAlertAlternateReturn) {
-                        // Cancel button
-                        return nil;
-                    }
-                    else if (result == NSAlertDefaultReturn) {
-                        // Replace button
-                        [manager removeFileAtPath:realFilename handler:NULL];
-                    }
-                    else if (result == NSAlertOtherReturn) {
-                        // Append button
-                        _rdTempFilename = 
-                            [[NSString stringWithFormat:@"%@/.temp-%@", savePanelPath, filename] retain];
-                            
-                        [manager movePath:realFilename toPath:_rdTempFilename handler:NULL];
-                        return filename;
-                    }
-            }
-            else {
-                return filename;
-            }
-        }
-        else
-            return filename;        
-    }
-    
-    return filename;
 }
 
 @end

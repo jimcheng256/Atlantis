@@ -901,6 +901,36 @@ The fresh capture and the separate overwrite-alert probe are in
 review before batch 33. See the
 [workplan](WarningResolutionWorkplan.md#third-increment-batches).
 
+## Third increment, log save-panel replacement and append
+
+The legacy alert narrowed its response, and its filename-validation
+callback deleted or moved existing data before the logger was ready.
+The save panel now waits for the confirmed URL, then uses an explicit
+full-width response. Create and Replace prepare a sibling file and
+publish it atomically. Append uses an identity-checked descriptor
+opened in append mode. Cooperative locks protect active Atlantis logs.
+See the [workplan](WarningResolutionWorkplan.md#third-increment-batches)
+for the transaction and the original reproduction.
+
+The capture is in `/tmp/atlantis-log-replace.yu2imC`. The focused
+overwrite response check is
+`Tests/WarningResolution/test_log_overwrite_response.py`. The hosted
+tests in `Tests/AtlantisTests/ANSIColorTests.swift` exercise the
+production logger against disposable files and compare their exact
+bytes through preparation, failed and successful publication, and
+append.
+
+The fresh capture in `verified-build.log` used Xcode 26.6 (17F113)
+and the macOS 26.5 SDK to build arm64 and x86_64. The comparison
+removed 12 warning sites across both architectures and added no
+source diagnostics. The capture has 747 Atlantis warning lines and
+1,508 total, including 52 environment warnings. All 100 standalone
+tests and the numeric alias check passed. In `smoke-final`, all 75
+hosted tests passed on Intel. The earlier `smoke-current-user` run
+passed the log tests and failed
+`RDAtlantisSpawnTests.testCommittedInputAddsPrefixOnce`, which passed
+on rerun.
+
 ## Post-profile warning baseline
 
 Commit `9910494` adds optional Atlantis profile storage. Its fresh

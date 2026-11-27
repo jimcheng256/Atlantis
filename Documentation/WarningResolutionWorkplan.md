@@ -1,8 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 32**, the
-formatted and HTML log settings dialogs. Review the overwrite and
-append flow before batch 33. See the
+Status as of 2026-11-27 is **increment 3 through batch 33**, the
+log save panel's replacement and append flows. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -647,18 +646,48 @@ warning lines and 1,532 total, including 52 Xcode environment
 warnings. All 99 standalone tests and the numeric alias check passed.
 All 68 hosted smoke tests passed on Intel.
 
-Batch 33 needs review. At `RDLogOpener.m:329`, the legacy overwrite
-alert also narrows `NSModalResponse` to `int`. An isolated probe of
+Batch 33 covers the log save panel. At `00bea17`, the legacy
+overwrite alert at `RDLogOpener.m:329` narrowed `NSModalResponse`
+to `int`. An isolated probe of
 the production save-panel delegate with a fake file manager confirms
 that a synthetic response of `4294967297` selects Replace. It also
 shows that ordinary Replace removes the original file during filename
 validation, before the logger opens it, and ordinary Append returns
 the filename even when moving the existing log fails. The save
 completion ignores the result of the move back into place and has no
-recovery on failure to open the logger. Review file ownership and
-failure handling across the save-panel delegate, its completion,
-and the logger before changing the alert path. The probe source and
-output are in `/tmp/atlantis-log-modal.dnvcYz`.
+recovery on failure to open the logger. The original probe source
+and output are in `/tmp/atlantis-log-modal.dnvcYz`.
+
+The save-panel completion now uses the final URL and full-width modal
+responses. For an existing regular file, Atlantis asks for an explicit
+action, with Cancel as the default. Append opens the confirmed file
+in place and validates the descriptor's identity. Replace prepares
+and flushes the new logger in a private sibling file. It then swaps
+the two names atomically. The logger keeps the prepared descriptor,
+and Atlantis removes the displaced file only after confirming its
+identity and metadata. If a competing change is detected after the
+swap, Atlantis attempts to restore the displaced file and reports its
+recovery path if restoration fails. New log files use exclusive
+publication so a file that appears during preparation stays intact.
+The logger uses cooperative locks to reject save-panel operations on
+an active log. The existing event action opens files without truncating
+them and reports an open failure before registering the logger.
+
+The overwrite-response probe checks that Cancel, an abort, and an
+unexpected wide response authorize no operation. Hosted tests use
+disposable files and assert exact bytes before and after preparation,
+on a failed preparation, and on an actual failed swap with an
+immutable original. They also cover an intervening writer, exclusive
+creation, append in place, a missing append target, an active log,
+and cleanup after an unrelated file takes the staging name.
+
+The fresh universal Debug build removed 12 warning sites across
+arm64 and x86_64, with no new source diagnostics. It has 747 Atlantis
+warning lines and 1,508 total. All 100 standalone tests, the numeric
+alias check, and all 75 Intel hosted smoke tests passed on the final
+run. The first hosted run passed the log cases but failed
+`RDAtlantisSpawnTests.testCommittedInputAddsPrefixOnce`, which passed
+on rerun.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

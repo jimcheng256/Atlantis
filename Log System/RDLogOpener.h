@@ -11,7 +11,7 @@
 
 @class RDHotkeyState;
 
-@interface RDLogOpener : NSObject <NSOpenSavePanelDelegate> {
+@interface RDLogOpener : NSObject {
 
     IBOutlet NSPopUpButton              *_rdLogTypes;
     IBOutlet NSButton                   *_rdSpawnOnlyButton;
@@ -24,7 +24,6 @@
     AtlantisState                       *_rdState;
     
     NSSavePanel                         *_rdSavePanel;
-    NSString                            *_rdTempFilename;
 
     NSDictionary                        *_rdCurrentOptions;
 

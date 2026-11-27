@@ -126,7 +126,12 @@ extern NSInteger scrollbackSort(id obj1, id obj2, void *context);
         if (newLog) {
             [newLog initWithFilename:filename forSpawn:spawn inWorld:[state world] withOptions:_rdOptions];
             [newLog setWriteTimestamps:_rdTimestamps];
-            [newLog openFile];
+            if (![newLog openFile]) {
+                [[state world] outputStatus:[NSString stringWithFormat:@"Could not open log file: %@", filename]
+                                    toSpawn:spawn];
+                [newLog release];
+                return NO;
+            }
             [[state world] addLogfile:newLog];
             
             if (_rdScrollback) {

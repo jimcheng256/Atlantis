@@ -357,6 +357,167 @@ final class ANSIColorTests: XCTestCase {
         }
     }
 
+    func testLogReplacementPublishesOnlyAfterPreparation() throws {
+        let directory = try temporaryLogDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("log.txt")
+        let original = Data("original\n".utf8)
+        try original.write(to: url)
+
+        let logger = try XCTUnwrap(PreparedLogProbe(filename: url.path, forSpawn: nil, inWorld: nil))
+        logger.prepare = { log in
+            XCTAssertEqual(try? Data(contentsOf: url), original)
+            log.writeString(toFile: "prepared\n")
+            XCTAssertEqual(try? Data(contentsOf: url), original)
+            return true
+        }
+        let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+        try logger.openFileForSavePanel(with: .replace, existingFile: attributes)
+        XCTAssertEqual(try Data(contentsOf: url), Data("prepared\n".utf8))
+        logger.writeString(toFile: "after publish\n")
+        XCTAssertTrue(logger.closeFile())
+        XCTAssertEqual(try Data(contentsOf: url), Data("prepared\nafter publish\n".utf8))
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: directory.path), [url.lastPathComponent])
+    }
+
+    func testLogReplacementPreservesOriginalOnPreparationAndPublicationFailure() throws {
+        let directory = try temporaryLogDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("log.txt")
+        let original = Data([0, 1, 2, 0xFF])
+        try original.write(to: url)
+        defer { _ = chflags(url.path, 0) }
+
+        for failPublish in [false, true] {
+            let logger = try XCTUnwrap(PreparedLogProbe(filename: url.path, forSpawn: nil, inWorld: nil))
+            logger.prepare = { log in
+                log.writeString(toFile: "partial replacement")
+                if failPublish {
+                    XCTAssertEqual(chflags(url.path, UInt32(UF_IMMUTABLE)), 0)
+                }
+                return failPublish
+            }
+            let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+            XCTAssertThrowsError(try logger.openFileForSavePanel(with: .replace, existingFile: attributes))
+            XCTAssertFalse(logger.isOpen())
+            XCTAssertEqual(try Data(contentsOf: url), original)
+            XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: directory.path), [url.lastPathComponent])
+            XCTAssertEqual(chflags(url.path, 0), 0)
+        }
+    }
+
+    func testLogSavePreservesAFileThatAppearsOrChangesDuringPreparation() throws {
+        let directory = try temporaryLogDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("log.txt")
+        let intervening = Data("changed by another writer".utf8)
+
+        for mode in [RDLogSaveMode.create, .replace] {
+            let attributes: [FileAttributeKey: Any]?
+            if mode == .replace {
+                try Data("old".utf8).write(to: url)
+                attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+            } else {
+                attributes = nil
+            }
+            let logger = try XCTUnwrap(PreparedLogProbe(filename: url.path, forSpawn: nil, inWorld: nil))
+            logger.prepare = { _ in
+                do {
+                    try intervening.write(to: url, options: .atomic)
+                    return true
+                } catch {
+                    XCTFail("Could not update the destination: \(error)")
+                    return false
+                }
+            }
+            XCTAssertThrowsError(try logger.openFileForSavePanel(with: mode, existingFile: attributes))
+            XCTAssertEqual(try Data(contentsOf: url), intervening)
+            XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: directory.path), [url.lastPathComponent])
+        }
+    }
+
+    func testLogCreatePublishesPreparedBytesAtNewDestination() throws {
+        let directory = try temporaryLogDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("log.txt")
+        let logger = try XCTUnwrap(PreparedLogProbe(filename: url.path, forSpawn: nil, inWorld: nil))
+        logger.prepare = { log in
+            log.writeString(toFile: "new log")
+            XCTAssertFalse(FileManager.default.fileExists(atPath: url.path))
+            return true
+        }
+        try logger.openFileForSavePanel(with: .create, existingFile: nil)
+        XCTAssertTrue(logger.closeFile())
+        XCTAssertEqual(try Data(contentsOf: url), Data("new log".utf8))
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: directory.path), [url.lastPathComponent])
+    }
+
+    func testLogPreparationDoesNotRemoveAnUnrelatedFileAtTheStagingName() throws {
+        let manager = FileManager.default
+        let directory = try temporaryLogDirectory()
+        defer { try? manager.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("log.txt")
+        let original = Data("original".utf8)
+        let unrelated = Data("unrelated".utf8)
+        try original.write(to: url)
+        var reusedStagingURL: URL?
+        let logger = try XCTUnwrap(PreparedLogProbe(filename: url.path, forSpawn: nil, inWorld: nil))
+        logger.prepare = { _ in
+            do {
+                let names = try manager.contentsOfDirectory(atPath: directory.path)
+                let stagingName = try XCTUnwrap(names.first { $0.hasPrefix(".atlantis-log.") })
+                let stagingURL = directory.appendingPathComponent(stagingName)
+                try manager.moveItem(at: stagingURL, to: directory.appendingPathComponent("moved-stage"))
+                try unrelated.write(to: stagingURL)
+                reusedStagingURL = stagingURL
+            } catch {
+                XCTFail("Could not reuse the staging name: \(error)")
+            }
+            return false
+        }
+        let attributes = try manager.attributesOfItem(atPath: url.path)
+        XCTAssertThrowsError(try logger.openFileForSavePanel(with: .replace, existingFile: attributes))
+        XCTAssertEqual(try Data(contentsOf: url), original)
+        XCTAssertEqual(try Data(contentsOf: XCTUnwrap(reusedStagingURL)), unrelated)
+    }
+
+    func testLogAppendKeepsExistingBytesAndRequiresExistingFile() throws {
+        let directory = try temporaryLogDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("log.txt")
+        let original = Data([0, 1, 0xFF])
+        try original.write(to: url)
+        let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+        let logger = try XCTUnwrap(RDPlainText(filename: url.path, forSpawn: nil, inWorld: nil))
+        try logger.openFileForSavePanel(with: .append, existingFile: attributes)
+        logger.writeString(toFile: "appended")
+        XCTAssertTrue(logger.closeFile())
+        XCTAssertEqual(try Data(contentsOf: url), original + Data("appended".utf8))
+        try FileManager.default.removeItem(at: url)
+        XCTAssertThrowsError(try logger.openFileForSavePanel(with: .append, existingFile: attributes))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: url.path))
+    }
+
+    func testSavePanelDoesNotReplaceOrAppendToAnActiveLog() throws {
+        let directory = try temporaryLogDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let url = directory.appendingPathComponent("log.txt")
+        let original = Data("active log".utf8)
+        try original.write(to: url)
+        let active = try XCTUnwrap(RDPlainText(filename: url.path, forSpawn: nil, inWorld: nil))
+        let proposed = try XCTUnwrap(RDPlainText(filename: url.path, forSpawn: nil, inWorld: nil))
+        XCTAssertTrue(active.openFile())
+        defer { _ = active.closeFile() }
+
+        let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+        for mode in [RDLogSaveMode.replace, .append] {
+            XCTAssertThrowsError(try proposed.openFileForSavePanel(with: mode, existingFile: attributes))
+            XCTAssertEqual(try Data(contentsOf: url), original)
+        }
+        active.writeString(toFile: " stays writable")
+        XCTAssertEqual(try Data(contentsOf: url), original + Data(" stays writable".utf8))
+    }
+
     private func temporaryLogDirectory() throws -> URL {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -448,5 +609,14 @@ private final class ColorTestWorld: RDAtlantisWorldInstance {
         case "atlantis.network.keepalive": return 3
         default: return nil
         }
+    }
+}
+
+
+private final class PreparedLogProbe: RDPlainText {
+    var prepare: ((PreparedLogProbe) -> Bool)?
+
+    override func openFile() -> Bool {
+        super.openFile() && (prepare?(self) ?? true)
     }
 }

@@ -11,6 +11,12 @@
 
 @class AtlantisState;
 
+typedef NS_ENUM(NSInteger, RDLogSaveMode) {
+    RDLogSaveModeCreate,
+    RDLogSaveModeAppend,
+    RDLogSaveModeReplace,
+};
+
 @interface RDLogType : NSObject {
 
     NSString                    *_rdFilename;
@@ -36,6 +42,9 @@
 - (id) initWithFilename:(NSString *)filename forSpawn:(NSString *)spawnPath inWorld:(RDAtlantisWorldInstance *)world withOptions:(NSDictionary *)dictionary;
 
 - (BOOL) openFile;
+- (BOOL)openFileForSavePanelWithMode:(RDLogSaveMode)mode
+                     existingFile:(NSDictionary *)existingFile
+                            error:(NSError **)error;
 - (BOOL) closeFile;
 - (BOOL) isOpen;
 
