@@ -110,7 +110,7 @@
         [_rdActualTargetSpawn setStringValue:_rdTarget];
     else {
         [_rdActualTargetSpawn setStringValue:@"%{event.spawn}"];
-        _rdTarget = [[NSString stringWithString:@"%{event.spawn}"] retain];
+        _rdTarget = [@"%{event.spawn}" retain];
     }
     
     return _rdInternalConfigurationView;

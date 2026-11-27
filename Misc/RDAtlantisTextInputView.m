@@ -29,7 +29,7 @@
     BOOL rawEnter = YES;
     
     NSEvent *currentEvent = [NSApp currentEvent];
-    if ([currentEvent modifierFlags] & NSShiftKeyMask)
+    if ([currentEvent modifierFlags] & NSEventModifierFlagShift)
         rawEnter = NO;
 
     if (rawEnter && [[self delegate] respondsToSelector:@selector(textView:committedInput:)]) {

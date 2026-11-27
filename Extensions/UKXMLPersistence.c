@@ -263,7 +263,6 @@ CFDictionaryRef	UKCreateDictionaryFromXML( CFStringRef padStr, unsigned int flag
 																&kCFTypeDictionaryValueCallBacks );
 	CFMutableStringRef		currToken = NULL;
 	UniChar					ch;
-	int						slashIndex = -1;
 	
 	for( x = 0; x < len; x++ )
 	{

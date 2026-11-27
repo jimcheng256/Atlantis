@@ -71,7 +71,7 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
 
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo
 {
-    if (returnCode == NSOKButton) {
+    if (returnCode == NSModalResponseOK) {
         [NSApp endSheet:sheet];
         [sheet orderOut:self];
         NSArray *logtypes = [[RDAtlantisMainController controller] logTypes];
@@ -95,15 +95,15 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         }
         
         NSString *spawnPath = nil;
-        if ([_rdSpawnOnlyButton state] == NSOnState) {
+        if ([_rdSpawnOnlyButton state] == NSControlStateValueOn) {
             spawnPath = [[_rdState spawn] internalPath];
         }
 
         BOOL showTimestamps = NO;
-        if ([_rdTimestampButton state] == NSOnState) {
+        if ([_rdTimestampButton state] == NSControlStateValueOn) {
             showTimestamps = YES;
         }
-        [RDAtlantisDefaults() setBool:([_rdTimestampButton state] == NSOnState) forKey:@"atlantis.logsave.timestamps"];
+        [RDAtlantisDefaults() setBool:([_rdTimestampButton state] == NSControlStateValueOn) forKey:@"atlantis.logsave.timestamps"];
         
         RDLogType *logger = (RDLogType *)class_createInstance(logClass,0);
         [logger initWithFilename:filename forSpawn:spawnPath inWorld:[_rdState world] withOptions:_rdCurrentOptions];
@@ -111,7 +111,7 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         if ([logger openFile]) {
             [[_rdState world] addLogfile:logger];
             
-            if ([_rdScrollbackButton state] == NSOnState) {
+            if ([_rdScrollbackButton state] == NSControlStateValueOn) {
                 
                 NSMutableArray *scrollbackData = nil; 
                 AtlantisProgressSheet *progressSheet = [[AtlantisProgressSheet alloc] init];
@@ -119,7 +119,7 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
                 [progressSheet openPanel:@"Preparing log..." withMaxValue:-1];
                 BOOL cancelled = NO;                
                 
-                if (([[_rdState world] countOpenSpawns] != 1) && ([_rdSpawnOnlyButton state] == NSOffState)) {
+                if (([[_rdState world] countOpenSpawns] != 1) && ([_rdSpawnOnlyButton state] == NSControlStateValueOff)) {
                     // Generate combined scrollback
                     scrollbackData = [[NSMutableArray alloc] init];
 
@@ -249,9 +249,9 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
 {
     if ([NSBundle loadNibNamed:@"LogOptionPanel" owner:self])
     {
-        [_rdSpawnOnlyButton setState:NSOffState];
-        [_rdScrollbackButton setState:NSOffState];
-        [_rdTimestampButton setState:NSOffState];
+        [_rdSpawnOnlyButton setState:NSControlStateValueOff];
+        [_rdScrollbackButton setState:NSControlStateValueOff];
+        [_rdTimestampButton setState:NSControlStateValueOff];
         [_rdLogTypes removeAllItems];
         _rdCurrentOptions = nil;
         
@@ -282,7 +282,7 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
         
         BOOL lastTimestamp = [RDAtlantisDefaults() boolForKey:@"atlantis.logsave.timestamps"];
         if (lastTimestamp) {
-            [_rdTimestampButton setState:NSOnState];
+            [_rdTimestampButton setState:NSControlStateValueOn];
         }
         
         NSWindow *window = [NSApp keyWindow];

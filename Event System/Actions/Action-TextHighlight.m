@@ -76,7 +76,7 @@
 
 - (void) fgColorActive:(id) sender
 {
-    if ([_rdFgColorActive state] == NSOnState) {
+    if ([_rdFgColorActive state] == NSControlStateValueOn) {
         [_rdFgColorPicker setEnabled:YES];    
         _rdFgColor = [[_rdFgColorPicker color] retain];
     }
@@ -88,7 +88,7 @@
 
 - (void) bgColorActive:(id) sender
 {
-    if ([_rdBgColorActive state] == NSOnState) {
+    if ([_rdBgColorActive state] == NSControlStateValueOn) {
         [_rdBgColorPicker setEnabled:YES];    
         _rdBgColor = [[_rdBgColorPicker color] retain];
     }
@@ -100,14 +100,14 @@
 
 - (void) fgColorChanged:(id) sender
 {
-    if ([_rdFgColorActive state] == NSOnState) {
+    if ([_rdFgColorActive state] == NSControlStateValueOn) {
         _rdFgColor = [[_rdFgColorPicker color] retain];
     }
 }
 
 - (void) bgColorChanged:(id) sender
 {
-    if ([_rdBgColorActive state] == NSOnState) {
+    if ([_rdBgColorActive state] == NSControlStateValueOn) {
         _rdBgColor = [[_rdBgColorPicker color] retain];
     }
 }
@@ -119,22 +119,22 @@
     }
 
     if (_rdFgColor) {
-        [_rdFgColorActive setState:NSOnState];
+        [_rdFgColorActive setState:NSControlStateValueOn];
         [_rdFgColorPicker setEnabled:YES];
         [_rdFgColorPicker setColor:_rdFgColor];
     }
     else {
-        [_rdFgColorActive setState:NSOffState];
+        [_rdFgColorActive setState:NSControlStateValueOff];
         [_rdFgColorPicker setEnabled:NO];
     }
     
     if (_rdBgColor) {
-        [_rdBgColorActive setState:NSOnState];
+        [_rdBgColorActive setState:NSControlStateValueOn];
         [_rdBgColorPicker setEnabled:YES];
         [_rdBgColorPicker setColor:_rdBgColor];
     }
     else {
-        [_rdBgColorActive setState:NSOffState];
+        [_rdBgColorActive setState:NSControlStateValueOff];
         [_rdBgColorPicker setEnabled:NO];
     }
     

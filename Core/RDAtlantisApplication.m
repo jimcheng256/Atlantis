@@ -44,11 +44,11 @@
 {
 	static long cocoaToCarbon[6][2] =
 	{
-		{ NSCommandKeyMask, cmdKey},
-		{ NSAlternateKeyMask, optionKey},
-		{ NSControlKeyMask, controlKey},
-		{ NSShiftKeyMask, shiftKey},
-		{ NSFunctionKeyMask, rightControlKey},
+		{ NSEventModifierFlagCommand, cmdKey},
+		{ NSEventModifierFlagOption, optionKey},
+		{ NSEventModifierFlagControl, controlKey},
+		{ NSEventModifierFlagShift, shiftKey},
+		{ NSEventModifierFlagFunction, rightControlKey},
 		//{ NSAlphaShiftKeyMask, alphaLock }, //Ignore this?
 	};
 
@@ -66,7 +66,7 @@
 {
     switch ([theEvent type]) {
     
-        case NSKeyDown:
+        case NSEventTypeKeyDown:
             {
                 int keyCode = [theEvent keyCode];
                 int modifiers = [self cocoaModifiersAsCarbonModifiers:[theEvent modifierFlags]];

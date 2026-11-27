@@ -203,7 +203,7 @@
 
 - (void) colorWasSet:(id)sender
 {
-    if ([_rdAnsiDefaults state] == NSOffState) {
+    if ([_rdAnsiDefaults state] == NSControlStateValueOff) {
         NSArray *colors = [[self preferences] preferenceForKey:@"atlantis.colors.ansi" withCharacter:[self character]];
         NSMutableArray *newColors = [colors mutableCopy];
         
@@ -254,7 +254,7 @@
 {
     [[self preferences] beginBulk];
     
-    if (_rdGlobal || ([_rdAnsiDefaults state] == NSOffState)) {
+    if (_rdGlobal || ([_rdAnsiDefaults state] == NSControlStateValueOff)) {
         NSMutableArray *colors;
         
         colors = [[NSMutableArray alloc] init];
@@ -283,7 +283,7 @@
         [[self preferences] setPreference:[_rdForegroundColor color] forKey:@"atlantis.colors.default" withCharacter:[self character]];
         [[self preferences] setPreference:[_rdSelectionColor color] forKey:@"atlantis.colors.selection" withCharacter:[self character]];
         
-        NSNumber *bolding = [NSNumber numberWithBool:([_rdAnsiBolding state] == NSOnState)];
+        NSNumber *bolding = [NSNumber numberWithBool:([_rdAnsiBolding state] == NSControlStateValueOn)];
         [[self preferences] setPreference:bolding forKey:@"atlantis.formatting.boldIntense" withCharacter:[self character]];
         
         [colors release];
@@ -299,20 +299,20 @@
     }
     
     int indent = [_rdIndent intValue];
-    if ([_rdIndentDefault state] == NSOffState) {
+    if ([_rdIndentDefault state] == NSControlStateValueOff) {
         [[self preferences] setPreference:[NSNumber numberWithInt:indent] forKey:@"atlantis.formatting.indent" withCharacter:[self character]];
     }
     else {
         [[self preferences] removePreferenceForKey:@"atlantis.formatting.indent" withCharacter:[self character]];
     }
     
-    if ([_rdLocalEchoDefault state] == NSOffState) {
+    if ([_rdLocalEchoDefault state] == NSControlStateValueOff) {
         BOOL echo = NO;
-        if ([_rdLocalEcho state] == NSOnState)
+        if ([_rdLocalEcho state] == NSControlStateValueOn)
             echo = YES;
             
         BOOL timestamps = NO;
-        if ([_rdTimestamps state] == NSOnState)
+        if ([_rdTimestamps state] == NSControlStateValueOn)
             timestamps = YES;
             
         NSString *prefix = [_rdLocalEchoPrefix stringValue];
@@ -334,7 +334,7 @@
     else
         [[self preferences] removePreferenceForKey:@"atlantis.formatting.font" withCharacter:[self character]];
     
-    if ([_rdCodepageDefault state] == NSOnState) {
+    if ([_rdCodepageDefault state] == NSControlStateValueOn) {
         [[self preferences] removePreferenceForKey:@"atlantis.encoding" withCharacter:[self character]];
     }
     else {
@@ -342,7 +342,7 @@
         [[self preferences] setPreference:[NSNumber numberWithUnsignedInt:codepage] forKey:@"atlantis.encoding" withCharacter:[self character]];
     }
     
-    if ([_rdGrabpassDefault state] == NSOnState) {
+    if ([_rdGrabpassDefault state] == NSControlStateValueOn) {
         [[self preferences] removePreferenceForKey:@"atlantis.grab.password" withCharacter:[self character]];
     }
     else {
@@ -350,7 +350,7 @@
     }
     
     if ([_rdRhost isEnabled] && ![_rdRhost isHidden]) {
-        [[self preferences] setPreference:[NSNumber numberWithBool:([_rdRhost state] == NSOnState)] forKey:@"atlantis.world.rhost" withCharacter:[self character]];
+        [[self preferences] setPreference:[NSNumber numberWithBool:([_rdRhost state] == NSControlStateValueOn)] forKey:@"atlantis.world.rhost" withCharacter:[self character]];
     }
     
     [[self preferences] endBulk];
@@ -366,7 +366,7 @@
 
 - (void) colorDefaults:(BOOL) defaults
 {
-    [_rdAnsiDefaults setState:(defaults ? NSOnState : NSOffState)];
+    [_rdAnsiDefaults setState:(defaults ? NSControlStateValueOn : NSControlStateValueOff)];
 
     if (!defaults)
         [self dismissColorMappingHint];
@@ -459,7 +459,7 @@
 
 - (IBAction) chooseCodepage: (id) sender
 {
-    if ([_rdCodepageDefault state] == NSOnState) {
+    if ([_rdCodepageDefault state] == NSControlStateValueOn) {
         [[self preferences] removePreferenceForKey:@"atlantis.encoding" withCharacter:[self character]];
     }
     else {
@@ -470,7 +470,7 @@
 
 - (IBAction) chooseLinefeed: (id)sender
 {
-    if ([_rdCodepageDefault state] == NSOnState) {
+    if ([_rdCodepageDefault state] == NSControlStateValueOn) {
         [[self preferences] removePreferenceForKey:@"atlantis.text.linefeed" withCharacter:[self character]];
     }
     else {
@@ -498,7 +498,7 @@
 
 - (void) toggleDefault:(id) sender
 {
-    BOOL enabled = ([sender state] == NSOnState);
+    BOOL enabled = ([sender state] == NSControlStateValueOn);
 
     if (sender == _rdFontDefault) {        
         if (enabled) {
@@ -581,20 +581,20 @@
         BOOL localEcho = [tempNumber boolValue];
         
         if (localEcho) {
-            [_rdLocalEcho setState:NSOnState];
+            [_rdLocalEcho setState:NSControlStateValueOn];
         }
         else {
-            [_rdLocalEcho setState:NSOffState];
+            [_rdLocalEcho setState:NSControlStateValueOff];
         }
 
         tempNumber = [[self preferences] preferenceForKey:@"atlantis.formatting.timestamps" withCharacter:[self character]];
         BOOL timestamps = [tempNumber boolValue];
         
         if (timestamps) {
-            [_rdTimestamps setState:NSOnState];
+            [_rdTimestamps setState:NSControlStateValueOn];
         }
         else {
-            [_rdTimestamps setState:NSOffState];
+            [_rdTimestamps setState:NSControlStateValueOff];
         }
 
     }    
@@ -669,7 +669,7 @@
     [_rdForegroundColor setColor:foreground];
 
     NSNumber *bold = [preferences preferenceForKey:@"atlantis.formatting.boldIntense" withCharacter:character];
-    [_rdAnsiBolding setState:[bold boolValue] ? NSOnState : NSOffState];
+    [_rdAnsiBolding setState:[bold boolValue] ? NSControlStateValueOn : NSControlStateValueOff];
 }
 
 - (void) worldWasUpdated:(NSNotification *)notification
@@ -734,13 +734,13 @@
     if (!encodingValue) {
         if (!_rdGlobal) {
             encodingValue = [[self preferences] preferenceForKey:@"atlantis.encoding" withCharacter:[self character] fallback:YES];
-            [_rdCodepageDefault setState:NSOnState];
+            [_rdCodepageDefault setState:NSControlStateValueOn];
             [_rdCodepage setEnabled:NO];
         }
     }
     else {
         [_rdCodepage setEnabled:YES];
-        [_rdCodepageDefault setState:NSOffState];
+        [_rdCodepageDefault setState:NSControlStateValueOff];
     }
     if (encodingValue)
         encoding = [encodingValue intValue];
@@ -777,11 +777,11 @@
             [_rdFont displayName], [_rdFont pointSize]];        
 
         [_rdFontName setStringValue:fontDescription];
-        [_rdFontDefault setState:NSOffState];
+        [_rdFontDefault setState:NSControlStateValueOff];
         [_rdFontChange setEnabled:YES];
     }
     else {
-        [_rdFontDefault setState:NSOnState];
+        [_rdFontDefault setState:NSControlStateValueOn];
         [_rdFontChange setEnabled:NO];
     }
 
@@ -805,23 +805,23 @@
         // TODO -- check timestamp setting
         
         if ([localEcho boolValue])
-            [_rdLocalEcho setState:NSOnState];
+            [_rdLocalEcho setState:NSControlStateValueOn];
         else
-            [_rdLocalEcho setState:NSOffState];
+            [_rdLocalEcho setState:NSControlStateValueOff];
         
         if ([timeStamp boolValue])
-            [_rdTimestamps setState:NSOnState];
+            [_rdTimestamps setState:NSControlStateValueOn];
         else
-            [_rdTimestamps setState:NSOffState];
+            [_rdTimestamps setState:NSControlStateValueOff];
         
         if (!_rdGlobal) {
-            [_rdLocalEchoDefault setState:NSOnState];
+            [_rdLocalEchoDefault setState:NSControlStateValueOn];
             [_rdLocalEcho setEnabled:NO];
             [_rdTimestamps setEnabled:NO];
             [_rdLocalEchoPrefix setEnabled:NO];
         }
         else {
-            [_rdLocalEchoDefault setState:NSOffState];
+            [_rdLocalEchoDefault setState:NSControlStateValueOff];
             [_rdLocalEcho setEnabled:YES];
             [_rdTimestamps setEnabled:YES];
             [_rdLocalEchoPrefix setEnabled:YES];
@@ -840,18 +840,18 @@
         if (!prefix)
             prefix = @"> ";
             
-        [_rdLocalEchoDefault setState:NSOffState];
+        [_rdLocalEchoDefault setState:NSControlStateValueOff];
         [_rdLocalEcho setEnabled:YES];
         if ([localEcho boolValue])
-            [_rdLocalEcho setState:NSOnState];
+            [_rdLocalEcho setState:NSControlStateValueOn];
         else
-            [_rdLocalEcho setState:NSOffState];
+            [_rdLocalEcho setState:NSControlStateValueOff];
 
         [_rdTimestamps setEnabled:YES];
         if ([timeStamp boolValue])
-            [_rdTimestamps setState:NSOnState];
+            [_rdTimestamps setState:NSControlStateValueOn];
         else
-            [_rdTimestamps setState:NSOffState];
+            [_rdTimestamps setState:NSControlStateValueOff];
         
         [_rdLocalEchoPrefix setStringValue:prefix];
     }
@@ -864,18 +864,18 @@
             
         if (!_rdGlobal) {
             [[_rdIndent cell] setPlaceholderString:[indent description]];
-            [_rdIndentDefault setState:NSOnState];
+            [_rdIndentDefault setState:NSControlStateValueOn];
             [_rdIndent setStringValue:@""];
             [_rdIndentStepper setEnabled:NO];
         }
         else {
-            [_rdIndentDefault setState:NSOffState];
+            [_rdIndentDefault setState:NSControlStateValueOff];
             [_rdIndentStepper setEnabled:YES];
             [_rdIndent setIntValue:[indent intValue]];        
         }
     }
     else {
-        [_rdIndentDefault setState:NSOffState];
+        [_rdIndentDefault setState:NSControlStateValueOff];
         [_rdIndentStepper setEnabled:YES];
         [_rdIndentStepper setIntValue:[indent intValue]];
         [_rdIndent setIntValue:[indent intValue]];        
@@ -891,16 +891,16 @@
             [[_rdGrabpass cell] setPlaceholderString:grabpass];
             [_rdGrabpass setStringValue:@""];
             [_rdGrabpass setEnabled:NO];
-            [_rdGrabpassDefault setState:NSOnState];
+            [_rdGrabpassDefault setState:NSControlStateValueOn];
         }
         else {
             [_rdGrabpass setStringValue:grabpass];
-            [_rdGrabpassDefault setState:NSOffState];
+            [_rdGrabpassDefault setState:NSControlStateValueOff];
         }
     }
     else {
         [_rdGrabpass setStringValue:grabpass];
-        [_rdGrabpassDefault setState:NSOffState];
+        [_rdGrabpassDefault setState:NSControlStateValueOff];
     }
     
     NSNumber *linefeed = [[self preferences] preferenceForKey:@"atlantis.text.linefeed" withCharacter:[self character] fallback:NO];

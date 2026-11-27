@@ -35,7 +35,7 @@
 {
     BOOL enabled = YES;
     
-    if ([_rdCodeButton state] == NSOnState) {
+    if ([_rdCodeButton state] == NSControlStateValueOn) {
         enabled = NO;
     }
     
@@ -46,13 +46,13 @@
 
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo
 {
-    if (returnCode == NSOKButton) {
+    if (returnCode == NSModalResponseOK) {
         NSString *filename = [sheet filename];
         if (!filename) {
             return;
         }
         [RDAtlantisDefaults() setObject:[sheet directory] forKey:@"atlantis.upload.directory"];
-        if ([_rdCodeButton state] == NSOnState) {
+        if ([_rdCodeButton state] == NSControlStateValueOn) {
             CodeUploader *uploader = [[CodeUploader alloc] initWithFile:filename forWorld:[_rdState world] atInterval:1 withPrefix:nil suffix:nil];
 
             if (uploader)    
@@ -90,7 +90,7 @@
         [_rdPrefixField setStringValue:@""];
         [_rdSuffixField setStringValue:@""];
         [_rdDelayField setStringValue:@"1"];
-        [_rdCodeButton setState:NSOffState];
+        [_rdCodeButton setState:NSControlStateValueOff];
     }
     
     _rdPanel = [NSOpenPanel openPanel];

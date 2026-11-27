@@ -49,47 +49,47 @@
     if (sender == _rdSSLButton) {
         if (world) {
             if ([world isSSL]) {
-                [sender setState:NSOnState];
+                [sender setState:NSControlStateValueOn];
             }
             else {
-                [sender setState:NSOffState];
+                [sender setState:NSControlStateValueOff];
             }
         }
         else
-            [sender setState:NSOffState];
+            [sender setState:NSControlStateValueOff];
     }
 
     if (sender == _rdMCCPButton) {
         if (world) {
             if ([world isCompressing]) {
-                [sender setState:NSOnState];
+                [sender setState:NSControlStateValueOn];
             }
             else {
-                [sender setState:NSOffState];
+                [sender setState:NSControlStateValueOff];
             }
         }
         else
-            [sender setState:NSOffState];
+            [sender setState:NSControlStateValueOff];
     }
 
     if (sender == _rdMCPButton) {
         if (world) {
             if ([world supportsMCP]) {
-                [sender setState:NSOnState];
+                [sender setState:NSControlStateValueOn];
             }
             else {
-                [sender setState:NSOffState];
+                [sender setState:NSControlStateValueOff];
             }
         }
         else
-            [sender setState:NSOffState];
+            [sender setState:NSControlStateValueOff];
     }
 }
 
 - (void) updateButton:(id) button forValue:(BOOL) value
 {
-    if (([button state] == NSOnState) != value) {
-        [button setState:(value ? NSOnState : NSOffState)];
+    if (([button state] == NSControlStateValueOn) != value) {
+        [button setState:(value ? NSControlStateValueOn : NSControlStateValueOff)];
     }
 }
 
@@ -124,9 +124,9 @@
         [_rdConnectedString setStringValue:connectString];         
     }
     else {
-        [_rdSSLButton setState:NSOffState];
-        [_rdMCCPButton setState:NSOffState];
-        [_rdMCPButton setState:NSOffState];
+        [_rdSSLButton setState:NSControlStateValueOff];
+        [_rdMCCPButton setState:NSControlStateValueOff];
+        [_rdMCPButton setState:NSControlStateValueOff];
         [_rdConnectedString setStringValue:@"offline"];
     }
 }

@@ -32,7 +32,7 @@
     self = [self init];
     if (self) {
         _rdString = [[string copyWithZone:nil] retain];
-        _rdTarget = [[NSString stringWithString:@"%{event.spawn}"] retain];
+        _rdTarget = [@"%{event.spawn}" retain];
     }
     return self;
 }
@@ -52,7 +52,7 @@
         _rdTarget = [[coder decodeObjectForKey:@"action.statusTarget"] retain];
         
         if (!_rdTarget)
-            _rdTarget = [[NSString stringWithString:@"%{event.spawn}"] retain];
+            _rdTarget = [@"%{event.spawn}" retain];
     }
     return self;
 }
@@ -174,7 +174,7 @@
         [_rdActualTargetSpawn setStringValue:_rdTarget];
     else {
         [_rdActualTargetSpawn setStringValue:@"%{event.spawn}"];
-        _rdTarget = [[NSString stringWithString:@"%{event.spawn}"] retain];
+        _rdTarget = [@"%{event.spawn}" retain];
     }
     
     return _rdInternalConfigurationView;

@@ -193,8 +193,8 @@
     [self colorPickedId:0 background:YES];
     
     _rdIsBackground = NO;
-    [_rdInvertColors setState:NSOffState];
-    [_rdUnderline setState:NSOffState];
+    [_rdInvertColors setState:NSControlStateValueOff];
+    [_rdUnderline setState:NSControlStateValueOff];
     
     [_rdEditorView setInsertionPointColor:[self colorForId:7]];
 }
@@ -206,11 +206,11 @@
     BOOL inverted = NO;
     BOOL underlined = NO;
     
-    if ([_rdUnderline state] == NSOnState) {
+    if ([_rdUnderline state] == NSControlStateValueOn) {
         underlined = YES;
     }
     
-    if ([_rdInvertColors state] == NSOnState) {
+    if ([_rdInvertColors state] == NSControlStateValueOn) {
         inverted = YES;
         fgAttrName = NSBackgroundColorAttributeName;
         bgAttrName = NSForegroundColorAttributeName;
@@ -608,16 +608,16 @@
                             NSString *repeatString;
                             
                             if (lastChar == ',') {
-                                repeatString = [NSString stringWithString:@"\\,"];
+                                repeatString = @"\\,";
                             }
                             else if (lastChar == ' ') {
-                                repeatString = [NSString stringWithString:@"%b"];
+                                repeatString = @"%b";
                             }
                             else if (lastChar == '(') {
-                                repeatString = [NSString stringWithString:@"\\("];
+                                repeatString = @"\\(";
                             }
                             else if (lastChar == ')') {
-                                repeatString = [NSString stringWithString:@"\\)"];
+                                repeatString = @"\\)";
                             }
                             else {
                                 repeatString = [NSString stringWithFormat:@"%c", lastChar];
@@ -690,7 +690,7 @@
                                 NSString *charString;
                                 
                                 if ([currentColor length] && (showType == 2) && (currentChar == ',')) {
-                                    charString = [NSString stringWithString:@"\\,"];
+                                    charString = @"\\,";
                                 }
                                 else {
                                     charString = [NSString stringWithFormat:@"%c",currentChar];
@@ -710,16 +710,16 @@
                     NSString *repeatString;
                     
                     if (lastChar == ',') {
-                        repeatString = [NSString stringWithString:@"\\,"];
+                        repeatString = @"\\,";
                     }
                     else if (lastChar == ' ') {
-                        repeatString = [NSString stringWithString:@"%b"];
+                        repeatString = @"%b";
                     }
                     else if (lastChar == '(') {
-                        repeatString = [NSString stringWithString:@"\\("];
+                        repeatString = @"\\(";
                     }
                     else if (lastChar == ')') {
-                        repeatString = [NSString stringWithString:@"\\)"];
+                        repeatString = @"\\)";
                     }
                     else {
                         repeatString = [NSString stringWithFormat:@"%c", lastChar];

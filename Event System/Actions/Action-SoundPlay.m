@@ -100,7 +100,7 @@
 
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode  contextInfo:(void  *)contextInfo
 {
-    if (returnCode == NSOKButton) {
+    if (returnCode == NSModalResponseOK) {
         [RDAtlantisDefaults() setObject:[panel directory] forKey:@"action.sound.lastDirectory"];
         
         [_rdSoundFilename release];

@@ -57,7 +57,7 @@
         
     }
 
-    if (![self character] || ([_rdIconOverride state] == NSOnState)) {
+    if (![self character] || ([_rdIconOverride state] == NSControlStateValueOn)) {
         NSImage *worldIcon = [_rdIconWell image];
         if (worldIcon) {
             [[self preferences] setPreference:worldIcon forKey:@"atlantis.info.icon" withCharacter:[self character]];
@@ -70,7 +70,7 @@
 
 - (void) iconOverrideToggle:(id) sender
 {
-    BOOL edit = [sender state] == NSOnState;
+    BOOL edit = [sender state] == NSControlStateValueOn;
     
     [_rdIconWell setEditable:edit];
     if (!edit) {
@@ -110,7 +110,7 @@
     }
     
     BOOL editIcon = [[[self preferences] preferenceForKey:@"atlantis.info.iconOverride" withCharacter:[self character]] boolValue];
-    [_rdIconOverride setState:editIcon ? NSOnState : NSOffState];
+    [_rdIconOverride setState:editIcon ? NSControlStateValueOn : NSControlStateValueOff];
     if (!editIcon && ![self character])
         editIcon = YES;
     

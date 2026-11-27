@@ -45,7 +45,7 @@ static ConditionPicker *s_cPicker = nil;
 
 - (void)_sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-    if (returnCode == NSOKButton) {
+    if (returnCode == NSModalResponseOK) {
         NSMenuItem *item = [_rdConditionList selectedItem];
         unsigned position = [_rdConditionList indexOfItem:item];
         
@@ -93,12 +93,12 @@ static ConditionPicker *s_cPicker = nil;
 
 - (void) addCondition:(id) sender
 {
-    [NSApp endSheet:_rdConditionPicker returnCode:NSOKButton];
+    [NSApp endSheet:_rdConditionPicker returnCode:NSModalResponseOK];
 }
 
 - (void) cancel:(id) sender
 {
-    [NSApp endSheet:_rdConditionPicker returnCode:NSCancelButton];
+    [NSApp endSheet:_rdConditionPicker returnCode:NSModalResponseCancel];
 }
 
 - (NSMenu *) menuForConditions:(NSArray *) conditions withTarget:(id) obj

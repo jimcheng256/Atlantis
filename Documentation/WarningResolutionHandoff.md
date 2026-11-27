@@ -6,8 +6,9 @@
   (`feat(telnet): prefer UTF-8 in CHARSET`).
 - The [warning resolution workplan](WarningResolutionWorkplan.md) has a
   fresh warning capture and an automated application smoke baseline.
-  The first increment has passed verification. Pause before
-  starting deprecated constants and mechanical cleanup.
+  The first increment is committed at `b5836e8`. The second increment
+  covers deprecated numeric constants and mechanical cleanup and is ready
+  for review before integer narrowing.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -75,6 +76,46 @@ on the pre-increment revision, `7b16ab8`. The
 [workplan](WarningResolutionWorkplan.md#first-increment-behavior) records
 the command. The temporary probe logs retain the before-and-after output
 observations.
+
+## Second-increment results
+
+The comparison baseline is `2bbe48d`, which retains the first increment's
+app sources and warning capture. The second increment replaces 15 distinct
+numeric AppKit aliases. An SDK check verified equal values for all 15 and
+compatible expression types for 13. The two legacy modal constants have
+type `int` and the replacements use `NSModalResponse`. Their values and
+the comparisons and arguments at the Atlantis call sites are preserved.
+The check compiled for arm64 and x86_64 and ran on Intel.
+
+The 18 literal simplifications preserve the original string contents,
+including MUSH escaping, with ownership operations intact. The removed
+XML local had a constant initializer and no reads. The pasteboard
+replacement and the MCP editor initializer are deferred as described in
+the [workplan](WarningResolutionWorkplan.md#second-increment-scope).
+
+To reproduce the numeric alias check from the repository root, run:
+
+```sh
+export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
+alias_dir="$(mktemp -d /tmp/atlantis-alias-check.XXXXXX)"
+xcrun clang -arch arm64 -arch x86_64 -Wno-deprecated-declarations \
+  -framework AppKit -framework Foundation Tests/Focused/warning_constant_aliases.m \
+  -o "$alias_dir/warning-constant-aliases"
+"$alias_dir/warning-constant-aliases"
+```
+
+The fresh Debug build compiled for arm64 and x86_64 with Xcode 26.6
+(17F113) and the macOS 26.5 SDK. It removed 418 warning lines across 209
+source sites. Atlantis dropped from 1,399 to 981 lines and the raw count
+dropped from 2,160 to 1,742. Lemuria stayed at 698 and the other diagnostic
+counts were unchanged. The comparison rejoined one split XIB diagnostic
+to match the existing baseline warning. No new source diagnostics remained.
+
+The seven standalone format checks passed on both the baseline sources
+and the second-increment sources. The current-user application smoke suite
+passed all 58 selected tests on Intel, matching the first-increment run.
+The build log, numbered warning extracts, comparison, focused check logs,
+and hosted test artifacts are in `/tmp/atlantis-increment2.jacwyS`.
 
 ## Post-profile warning baseline
 

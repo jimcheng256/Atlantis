@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **first increment awaiting review**. The starting point
-is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
+Status as of 2026-11-26 is **second increment awaiting review**. The starting
+point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
 The remaining 63 lines comprise 52 Xcode environment lines, 6 diagnostic
@@ -137,6 +137,40 @@ temporary process. The alert cases use AppKit in the current user session.
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/Focused/test_warning_formats.py -v
 ```
+
+## Second-increment scope
+
+- Replace numeric AppKit aliases for control state and size, modal
+  responses, mouse and keyboard events, and modifier masks.
+- Simplify redundant immutable string literals and remove the unused
+  `slashIndex` local in `UKCreateDictionaryFromXML`.
+- Review nullability and symbol visibility annotations with the API
+  contracts increment.
+
+### Deferred pasteboard migration
+
+- During deprecated API replacements, add a standalone test in
+  `Tests/Focused` using a uniquely named pasteboard in the current user
+  session. Write with each of `NSStringPboardType` and
+  `NSPasteboardTypeString` and read with both. Assert exact text, including
+  Unicode and line breaks. For the MUSH editor, also assert that the
+  custom `RDTextType` bytes survive alongside the plain-text representation.
+- Use those results to migrate the input-copy action, output-copy action,
+  and MUSH editor together. Preserve legacy compatibility for any reader
+  that loses access. Rerun the standalone checks and the application smoke
+  suite, and record the results in the handoff.
+
+### Deferred MCP editor cleanup
+
+- Use a synthetic MCP edit message in a hosted test in the current user
+  session. Check the editor title and contents, exercise Send and Close,
+  and trace controller ownership through window close. Capture the Send
+  response in a test fixture.
+- If the existing lifetime is sound, discard the unused initializer
+  result explicitly while preserving the call and ownership. If the
+  ownership needs correction, give it a separately reviewed change with
+  lifecycle coverage. Rerun the hosted checks and application smoke suite,
+  and record the results in the handoff.
 
 ## Between-increment gate
 

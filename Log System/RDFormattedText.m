@@ -102,26 +102,26 @@
         condenseLines = [NSNumber numberWithBool:NO];
         
     if ([skipLines boolValue]) {
-        [_rdSkipLines setState:NSOnState];
+        [_rdSkipLines setState:NSControlStateValueOn];
         [_rdCondenseLines setEnabled:YES];
     } 
     else {
-        [_rdSkipLines setState:NSOffState];
+        [_rdSkipLines setState:NSControlStateValueOff];
         [_rdCondenseLines setEnabled:NO];
     }
 
     if ([condenseLines boolValue])
-        [_rdCondenseLines setState:NSOnState];
+        [_rdCondenseLines setState:NSControlStateValueOn];
     else
-        [_rdCondenseLines setState:NSOffState];
+        [_rdCondenseLines setState:NSControlStateValueOff];
         
     if ([wordWrap boolValue]) {
-        [_rdWordWrap setState:NSOnState];
+        [_rdWordWrap setState:NSControlStateValueOn];
         [_rdIndentField setEnabled:YES];
         [_rdCharactersField setEnabled:YES];
     }
     else {
-        [_rdWordWrap setState:NSOffState];
+        [_rdWordWrap setState:NSControlStateValueOff];
         [_rdIndentField setEnabled:NO];
         [_rdCharactersField setEnabled:NO];
     }
@@ -137,9 +137,9 @@
         
         indentBy = [NSNumber numberWithInt:[_rdIndentField intValue]];
         wrapAt = [NSNumber numberWithInt:[_rdCharactersField intValue]];
-        wordWrap = [NSNumber numberWithBool:([_rdWordWrap state] == NSOnState)];
-        skipLines = [NSNumber numberWithBool:([_rdSkipLines state] == NSOnState)];
-        condenseLines = [NSNumber numberWithBool:([_rdCondenseLines state] == NSOnState)];
+        wordWrap = [NSNumber numberWithBool:([_rdWordWrap state] == NSControlStateValueOn)];
+        skipLines = [NSNumber numberWithBool:([_rdSkipLines state] == NSControlStateValueOn)];
+        condenseLines = [NSNumber numberWithBool:([_rdCondenseLines state] == NSControlStateValueOn)];
 
         results = 
             [NSDictionary dictionaryWithObjectsAndKeys:
@@ -158,7 +158,7 @@
 
 - (void) wrapToggled:(id) sender
 {
-    if ([_rdWordWrap state] == NSOnState) {
+    if ([_rdWordWrap state] == NSControlStateValueOn) {
         [_rdIndentField setEnabled:YES];
         [_rdCharactersField setEnabled:YES];    
     }
@@ -170,7 +170,7 @@
 
 - (void) skipToggled:(id) sender
 {
-    if ([_rdSkipLines state] == NSOnState) {
+    if ([_rdSkipLines state] == NSControlStateValueOn) {
         [_rdCondenseLines setEnabled:YES];
     }
     else {
@@ -190,9 +190,9 @@
 
     indentBy = [NSNumber numberWithInt:[_rdIndentField intValue]];
     wrapAt = [NSNumber numberWithInt:[_rdCharactersField intValue]];
-    wordWrap = [NSNumber numberWithBool:([_rdWordWrap state] == NSOnState)];
-    skipLines = [NSNumber numberWithBool:([_rdSkipLines state] == NSOnState)];
-    condenseLines = [NSNumber numberWithBool:([_rdCondenseLines state] == NSOnState)];
+    wordWrap = [NSNumber numberWithBool:([_rdWordWrap state] == NSControlStateValueOn)];
+    skipLines = [NSNumber numberWithBool:([_rdSkipLines state] == NSControlStateValueOn)];
+    condenseLines = [NSNumber numberWithBool:([_rdCondenseLines state] == NSControlStateValueOn)];
     
     NSDictionary *result = 
         [NSDictionary dictionaryWithObjectsAndKeys:

@@ -43,7 +43,7 @@
         basefont = defaultFont;
     }
     else {
-        basefont = [NSFont controlContentFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+        basefont = [NSFont controlContentFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
     }
     
     colors = [world preferenceForKey:@"atlantis.colors.ansi"];

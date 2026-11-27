@@ -800,10 +800,10 @@
             [_rdPrefixField setStringValue:@""];
         
         [_rdActivityButton setState:
-            ([record activity] ? NSOnState : NSOffState)];
+            ([record activity] ? NSControlStateValueOn : NSControlStateValueOff)];
         [_rdActivityButton setEnabled:YES];
         [_rdStatusbarButton setState:
-            ([record statusBar] ? NSOnState : NSOffState)];
+            ([record statusBar] ? NSControlStateValueOn : NSControlStateValueOff)];
         [_rdStatusbarButton setEnabled:YES];
         return;
     }
@@ -826,9 +826,9 @@
     [_rdPrefixField setStringValue:@""];
     [_rdPrefixField setEnabled:NO];
     [_rdActivityButton setEnabled:NO];
-    [_rdActivityButton setState:NSOffState];
+    [_rdActivityButton setState:NSControlStateValueOff];
     [_rdStatusbarButton setEnabled:NO];
-    [_rdStatusbarButton setState:NSOffState];
+    [_rdStatusbarButton setState:NSControlStateValueOff];
 }
 
 #pragma mark Table Delegate
@@ -995,14 +995,14 @@
 {
     WorldSpawnRecord *current = [self currentSelectedSpawn];
 
-    [current setActivity:([_rdActivityButton state] == NSOnState)];
+    [current setActivity:([_rdActivityButton state] == NSControlStateValueOn)];
 }
 
 - (IBAction) toggleStatusBar:(id) sender
 {
     WorldSpawnRecord *current = [self currentSelectedSpawn];
 
-    [current setStatusBar:([_rdStatusbarButton state] == NSOnState)];
+    [current setStatusBar:([_rdStatusbarButton state] == NSControlStateValueOn)];
 }
 
 

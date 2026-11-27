@@ -69,11 +69,11 @@
 
 - (NSDictionary *) currentConfigurationState
 {
-    BOOL cssEnabled = ([_rdCssEnabled state] == NSOnState);
-    BOOL nbspEnabled = ([_rdNbspSpaceEnabled state] == NSOnState);
-    BOOL headerEnabled = ([_rdHeaderEnabled state] == NSOnState);
-    BOOL footerEnabled = ([_rdFooterEnabled state] == NSOnState);
-    BOOL titleEnabled = ([_rdTitleEnabled state] == NSOnState);
+    BOOL cssEnabled = ([_rdCssEnabled state] == NSControlStateValueOn);
+    BOOL nbspEnabled = ([_rdNbspSpaceEnabled state] == NSControlStateValueOn);
+    BOOL headerEnabled = ([_rdHeaderEnabled state] == NSControlStateValueOn);
+    BOOL footerEnabled = ([_rdFooterEnabled state] == NSControlStateValueOn);
+    BOOL titleEnabled = ([_rdTitleEnabled state] == NSControlStateValueOn);
     
     NSString *cssFilename = [_rdCssFilename stringValue];
     NSString *titleString = [_rdTitle stringValue];
@@ -101,14 +101,14 @@
         [NSBundle loadNibNamed:@"LogConf_HTML" owner:self];
     }
 
-    [_rdCssEnabled setState:NSOffState];
+    [_rdCssEnabled setState:NSControlStateValueOff];
     [_rdCssFilename setEnabled:NO];
-    [_rdNbspSpaceEnabled setState:NSOffState];
-    [_rdHeaderEnabled setState:NSOffState];
+    [_rdNbspSpaceEnabled setState:NSControlStateValueOff];
+    [_rdHeaderEnabled setState:NSControlStateValueOff];
     [_rdHeaderData setEditable:NO];
-    [_rdHeaderEnabled setState:NSOffState];
+    [_rdHeaderEnabled setState:NSControlStateValueOff];
     [_rdHeaderData setEditable:NO];
-    [_rdTitleEnabled setState:NSOffState];
+    [_rdTitleEnabled setState:NSControlStateValueOff];
     [_rdTitle setEnabled:NO];
     
     
@@ -121,34 +121,34 @@
     NSNumber *css = [realOptions objectForKey:@"css"];
     if (css) {
         if ([css boolValue]) {
-            [_rdCssEnabled setState:NSOnState];
+            [_rdCssEnabled setState:NSControlStateValueOn];
             [_rdCssFilename setEnabled:YES];
         }
     }
     NSNumber *nbsp = [realOptions objectForKey:@"nbspSpace"];
     if (nbsp) {
         if ([nbsp boolValue]) {
-            [_rdNbspSpaceEnabled setState:NSOnState];
+            [_rdNbspSpaceEnabled setState:NSControlStateValueOn];
         }
     }
     NSNumber *headerEnabled = [realOptions objectForKey:@"headerEnabled"];
     if (headerEnabled) {
         if ([headerEnabled boolValue]) {
-            [_rdHeaderEnabled setState:NSOnState];
+            [_rdHeaderEnabled setState:NSControlStateValueOn];
             [_rdHeaderData setEditable:YES];
         }
     }
     NSNumber *footerEnabled = [realOptions objectForKey:@"footerEnabled"];
     if (footerEnabled) {
         if ([footerEnabled boolValue]) {
-            [_rdFooterEnabled setState:NSOnState];
+            [_rdFooterEnabled setState:NSControlStateValueOn];
             [_rdFooterData setEditable:YES];
         }
     }
     NSNumber *titleEnabled = [realOptions objectForKey:@"titleEnabled"];
     if (titleEnabled) {
         if ([titleEnabled boolValue]) {
-            [_rdTitleEnabled setState:NSOnState];
+            [_rdTitleEnabled setState:NSControlStateValueOn];
             [_rdTitle setEnabled:YES];
         }
     }
@@ -204,7 +204,7 @@
 
 - (void) cssToggled:(id) sender
 {
-    if ([_rdCssEnabled state] == NSOnState) {
+    if ([_rdCssEnabled state] == NSControlStateValueOn) {
         [_rdCssFilename setEnabled:YES];
     }
     else {
@@ -214,7 +214,7 @@
 
 - (void) titleToggled:(id) sender
 {
-    if ([_rdTitleEnabled state] == NSOnState) {
+    if ([_rdTitleEnabled state] == NSControlStateValueOn) {
         [_rdTitle setEnabled:YES];
     }
     else {
@@ -224,7 +224,7 @@
 
 - (void) headerToggled:(id) sender
 {
-    if ([_rdHeaderEnabled state] == NSOnState) {
+    if ([_rdHeaderEnabled state] == NSControlStateValueOn) {
         [_rdHeaderData setEditable:YES];
     }
     else {
@@ -234,7 +234,7 @@
 
 - (void) footerToggled:(id) sender
 {
-    if ([_rdFooterEnabled state] == NSOnState) {
+    if ([_rdFooterEnabled state] == NSControlStateValueOn) {
         [_rdFooterData setEditable:YES];
     }
     else {

@@ -45,7 +45,7 @@ static ActionPicker *s_Picker = nil;
 
 - (void)_sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-    if (returnCode == NSOKButton) {
+    if (returnCode == NSModalResponseOK) {
         NSMenuItem *item = [_rdActionList selectedItem];
         unsigned position = [_rdActionList indexOfItem:item];
         
@@ -93,12 +93,12 @@ static ActionPicker *s_Picker = nil;
 
 - (void) addAction:(id) sender
 {
-    [NSApp endSheet:_rdActionPicker returnCode:NSOKButton];
+    [NSApp endSheet:_rdActionPicker returnCode:NSModalResponseOK];
 }
 
 - (void) cancel:(id) sender
 {
-    [NSApp endSheet:_rdActionPicker returnCode:NSCancelButton];
+    [NSApp endSheet:_rdActionPicker returnCode:NSModalResponseCancel];
 }
 
 - (NSMenu *) menuForActions:(NSArray *) actions withTarget:(id) obj

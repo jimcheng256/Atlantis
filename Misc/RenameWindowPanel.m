@@ -36,7 +36,7 @@ static RenameWindowPanel        *s_rdRenameWindowPanel = nil;
 
 - (void)_sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-    if (returnCode == NSOKButton) {
+    if (returnCode == NSModalResponseOK) {
         NSString *result = [_rdRenameText stringValue];
         RDNestedViewWindow *window = (RDNestedViewWindow *)contextInfo;
         if (result && window) {
@@ -59,12 +59,12 @@ static RenameWindowPanel        *s_rdRenameWindowPanel = nil;
 
 - (void) rename:(id) sender
 {
-    [NSApp endSheet:_rdRenamePanel returnCode:NSOKButton];
+    [NSApp endSheet:_rdRenamePanel returnCode:NSModalResponseOK];
 }
 
 - (void) cancel:(id) sender
 {
-    [NSApp endSheet:_rdRenamePanel returnCode:NSCancelButton];
+    [NSApp endSheet:_rdRenamePanel returnCode:NSModalResponseCancel];
 }   
 
 @end

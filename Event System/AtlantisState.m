@@ -155,10 +155,10 @@
                 [_rdScriptSafeData setObject:[commandOptions objectForKey:walk] forKey:[NSString stringWithFormat:@"command.%@",walk]];
             }
             else if ([walk isEqualToString:@"RDOptsMainData"]) {
-                [_rdScriptSafeData setObject:[commandOptions objectForKey:walk] forKey:[NSString stringWithString:@"command.data"]];
+                [_rdScriptSafeData setObject:[commandOptions objectForKey:walk] forKey:@"command.data"];
             }
             else if ([walk isEqualToString:@"RDOptsFullString"]) {
-                [_rdScriptSafeData setObject:[NSString stringWithFormat:@"%@ %@", [self extraDataForKey:@"event.command"], [commandOptions objectForKey:walk]] forKey:[NSString stringWithString:@"event.script.command"]];
+                [_rdScriptSafeData setObject:[NSString stringWithFormat:@"%@ %@", [self extraDataForKey:@"event.command"], [commandOptions objectForKey:walk]] forKey:@"event.script.command"];
             }
         }
     }

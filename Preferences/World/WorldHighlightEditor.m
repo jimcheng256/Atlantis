@@ -118,22 +118,22 @@
         NSColor *bg = [event background];
         
         if (fg) {
-            [_rdHighlightUseFgButton setState:NSOnState];
+            [_rdHighlightUseFgButton setState:NSControlStateValueOn];
             [_rdForegroundColorWell setEnabled:YES];
             [_rdForegroundColorWell setColor:fg];
         }
         else {
-            [_rdHighlightUseFgButton setState:NSOffState];
+            [_rdHighlightUseFgButton setState:NSControlStateValueOff];
             [_rdForegroundColorWell setEnabled:NO];
         }
 
         if (bg) {
-            [_rdHighlightUseBgButton setState:NSOnState];
+            [_rdHighlightUseBgButton setState:NSControlStateValueOn];
             [_rdBackgroundColorWell setEnabled:YES];
             [_rdBackgroundColorWell setColor:bg];
         }
         else {
-            [_rdHighlightUseBgButton setState:NSOffState];
+            [_rdHighlightUseBgButton setState:NSControlStateValueOff];
             [_rdBackgroundColorWell setEnabled:NO];
         }
         
@@ -276,7 +276,7 @@
     if (row != -1) {
         HighlightEvent *event = [_rdHighlights objectAtIndex:row];
 
-        if ([_rdHighlightUseFgButton state] == NSOnState) {
+        if ([_rdHighlightUseFgButton state] == NSControlStateValueOn) {
             NSColor *tempFg = [_rdForegroundColorWell color];
     
             [_rdForegroundColorWell setEnabled:YES];
@@ -299,7 +299,7 @@
     if (row != -1) {
         HighlightEvent *event = [_rdHighlights objectAtIndex:row];
 
-        if ([_rdHighlightUseBgButton state] == NSOnState) {
+        if ([_rdHighlightUseBgButton state] == NSControlStateValueOn) {
             NSColor *tempBg = [_rdBackgroundColorWell color];
     
             [_rdBackgroundColorWell setEnabled:YES];

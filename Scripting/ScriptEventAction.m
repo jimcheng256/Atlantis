@@ -66,7 +66,7 @@
 {
     self = [super init];
     if (self) {
-        _rdType = [[NSString stringWithString:@"command"] retain];
+        _rdType = [@"command" retain];
         _rdPattern = nil;
         _rdLanguage = [eventLanguage copy];
         _rdWorld = [world copy];
@@ -85,7 +85,7 @@
 {
     self = [super init];
     if (self) {
-        _rdType = [[NSString stringWithString:@"hotkey"] retain];
+        _rdType = [@"hotkey" retain];
         _rdPattern = nil;
         _rdLanguage = [eventLanguage copy];
         _rdWorld = [world copy];

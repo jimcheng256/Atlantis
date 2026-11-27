@@ -132,7 +132,7 @@
 {
     [[self preferences] beginBulk];
     int numResult = [_rdAutoconnect state];
-    if (numResult == NSOnState) {
+    if (numResult == NSControlStateValueOn) {
         int selected = [_rdAutopicker indexOfItem:[_rdAutopicker selectedItem]];
         
         if (selected == 0) {
@@ -148,7 +148,7 @@
 
 - (void) hostSSLChanged:(id) sender
 {
-    if ([_rdHostSSL state] == NSOnState) {
+    if ([_rdHostSSL state] == NSControlStateValueOn) {
         [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.ssl" withCharacter:[self character]];
     }
     else {
@@ -166,7 +166,7 @@
 {
     [[self preferences] beginBulk];
     int numResult = [_rdAutoconnect state];
-    if (numResult == NSOnState) {
+    if (numResult == NSControlStateValueOn) {
         [_rdAutopicker setEnabled:YES];
         int selected = [_rdAutopicker indexOfItem:[_rdAutopicker selectedItem]];
         
@@ -212,7 +212,7 @@
 
     numResult = [_rdHostSSL state];
     if ([_rdHostSSL isEnabled]) {
-        if (numResult == NSOnState) {
+        if (numResult == NSControlStateValueOn) {
             [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.ssl" withCharacter:[self character]];
         }
         else {
@@ -239,7 +239,7 @@
     }            
 
     numResult = [_rdAutoconnect state];
-    if (numResult == NSOnState) {
+    if (numResult == NSControlStateValueOn) {
         int selected = [_rdAutopicker indexOfItem:[_rdAutopicker selectedItem]];
         
         if (selected == 0) {
@@ -327,15 +327,15 @@
     if (numResult && [numResult boolValue]) {
         [_rdAutopicker setEnabled:YES];
         [_rdAutopicker selectItemAtIndex:1];
-        [_rdAutoconnect setState:NSOnState];
+        [_rdAutoconnect setState:NSControlStateValueOn];
     }
     else if (numResult2 && [numResult2 boolValue]) {
         [_rdAutopicker setEnabled:YES];
         [_rdAutopicker selectItemAtIndex:0];
-        [_rdAutoconnect setState:NSOnState];
+        [_rdAutoconnect setState:NSControlStateValueOn];
     }
     else {
-        [_rdAutoconnect setState:NSOffState];
+        [_rdAutoconnect setState:NSControlStateValueOff];
         [_rdAutopicker setEnabled:NO];
     }
     
@@ -386,10 +386,10 @@
 
         numResult = [[self preferences] preferenceForKey:@"atlantis.world.ssl" withCharacter:[self character] fallback:YES];
         if (numResult && [numResult boolValue]) {
-            [_rdHostSSL setState:NSOnState];
+            [_rdHostSSL setState:NSControlStateValueOn];
         }
         else {
-            [_rdHostSSL setState:NSOffState];
+            [_rdHostSSL setState:NSControlStateValueOff];
         }
     }
     else {
@@ -398,10 +398,10 @@
 
         numResult = [[self preferences] preferenceForKey:@"atlantis.world.ssl" withCharacter:nil fallback:NO];
         if (numResult && [numResult boolValue]) {
-            [_rdHostSSL setState:NSOnState];
+            [_rdHostSSL setState:NSControlStateValueOn];
         }
         else {
-            [_rdHostSSL setState:NSOffState];
+            [_rdHostSSL setState:NSControlStateValueOff];
         }
         
     }

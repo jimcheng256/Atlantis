@@ -37,7 +37,7 @@
     int blue = [self blueComponent] * 255.0;
     
     if ([self isEqualTo:[NSColor clearColor]]) {
-        return [NSString stringWithString:@"ffffff"];
+        return @"ffffff";
     }
     
     return [NSString stringWithFormat:@"%02X%02X%02X",red,green,blue];

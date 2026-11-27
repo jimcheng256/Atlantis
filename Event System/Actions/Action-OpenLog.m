@@ -221,7 +221,7 @@ extern NSInteger scrollbackSort(id obj1, id obj2, void *context);
 
 - (void) spawnEnabledChanged:(id) sender
 {
-    if ([_rdSpawnEnabled state] == NSOnState) {
+    if ([_rdSpawnEnabled state] == NSControlStateValueOn) {
         [_rdSpawnTextfield setEnabled:YES];    
     }
     else {
@@ -231,12 +231,12 @@ extern NSInteger scrollbackSort(id obj1, id obj2, void *context);
 
 - (void) scrollbackEnabledChanged:(id) sender
 {
-    _rdScrollback = ([_rdLogScrollback state] == NSOnState);
+    _rdScrollback = ([_rdLogScrollback state] == NSControlStateValueOn);
 }
 
 - (void) timestampsChanged:(id) sender
 {
-    _rdTimestamps = ([_rdTimestampsEnabled state] == NSOnState);
+    _rdTimestamps = ([_rdTimestampsEnabled state] == NSControlStateValueOn);
 }
 
 - (void) optionsButton:(id) sender
@@ -269,23 +269,23 @@ extern NSInteger scrollbackSort(id obj1, id obj2, void *context);
     if (_rdSpawnPath) {
         [_rdSpawnTextfield setStringValue:_rdSpawnPath];
         [_rdSpawnTextfield setEnabled:YES];
-        [_rdSpawnEnabled setState:NSOnState];
+        [_rdSpawnEnabled setState:NSControlStateValueOn];
     }
     else {
         [_rdSpawnTextfield setStringValue:@""];
         [_rdSpawnTextfield setEnabled:NO];
-        [_rdSpawnEnabled setState:NSOffState];
+        [_rdSpawnEnabled setState:NSControlStateValueOff];
     }
     
     if (_rdScrollback)
-        [_rdLogScrollback setState:NSOnState];
+        [_rdLogScrollback setState:NSControlStateValueOn];
     else
-        [_rdLogScrollback setState:NSOffState];
+        [_rdLogScrollback setState:NSControlStateValueOff];
         
     if (_rdTimestamps)
-        [_rdTimestampsEnabled setState:NSOnState];
+        [_rdTimestampsEnabled setState:NSControlStateValueOn];
     else
-        [_rdTimestampsEnabled setState:NSOffState];
+        [_rdTimestampsEnabled setState:NSControlStateValueOff];
     
     [_rdLogTypes removeAllItems];
     

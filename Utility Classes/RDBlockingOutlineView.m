@@ -48,15 +48,15 @@
 - (void) mouseDown:(NSEvent *)theEvent
 {
 	NSEvent *nextEvent = [NSApp
-		nextEventMatchingMask:NSLeftMouseDraggedMask|NSLeftMouseUpMask
+		nextEventMatchingMask:NSEventMaskLeftMouseDragged|NSEventMaskLeftMouseUp
 					untilDate:[NSDate distantFuture] // or perhaps some reasonable time-out
 					   inMode:NSEventTrackingRunLoopMode
 					  dequeue:NO];	// don't dequeue in case it's not a drag
 	
-	if ([nextEvent type] != NSLeftMouseDragged) {
+	if ([nextEvent type] != NSEventTypeLeftMouseDragged) {
         BOOL blockMe = NO;
         
-        if ([nextEvent type] == NSLeftMouseUp) {
+        if ([nextEvent type] == NSEventTypeLeftMouseUp) {
             NSPoint clickPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
             
             int row = [self rowAtPoint:clickPoint];
