@@ -27,12 +27,14 @@
   checks the String Match and Variable Match pattern menus. Its universal
   Debug capture has 789 Atlantis warning lines and 1,550 total.
   Artifacts are in `/tmp/atlantis-increment3-condition-patterns.I5lKJG`.
-- The twenty-seventh batch covers Negated Condition child-class lookup
-  and popup selection. Its universal Debug capture has 785 Atlantis
-  warning lines and 1,494 total. Artifacts are in
-  `/tmp/atlantis-negate-verified.rnD965`.
-- The next batch covers the Text Spawn copy/move menu and attributed-text
-  range.
+- The Negated Condition batch is committed at `fdd69ca`. Its universal
+  Debug capture has 785 Atlantis warning lines and 1,494 total. Artifacts
+  are in `/tmp/atlantis-negate-verified.rnD965`.
+- The twenty-eighth batch covers the Text Spawn copy/move menu and
+  attributed-text range. Its universal Debug capture has 781 Atlantis
+  warning lines and 1,490 total. Artifacts are in
+  `/tmp/atlantis-text-spawn-verified.NVpOJe`.
+- The next candidate is the Set Variable action's scope popup.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria

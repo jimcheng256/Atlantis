@@ -93,7 +93,7 @@
 
     [workArray addObject:expandPath];
     
-    unsigned stringLen = [[state stringData] length];
+    NSUInteger stringLen = [[state stringData] length];
     effRange = NSMakeRange(0,stringLen);
     
     [[state stringData] addAttribute:@"RDExtraSpawns" value:[NSArray arrayWithArray:workArray] range:effRange];
@@ -135,7 +135,7 @@
 
 - (void) copyMoveChanged:(id) sender
 {
-    int selected = [_rdCopyTextButton indexOfSelectedItem];
+    NSInteger selected = [_rdCopyTextButton indexOfSelectedItem];
     
     if (selected == 0)
         _rdCopyText = YES;

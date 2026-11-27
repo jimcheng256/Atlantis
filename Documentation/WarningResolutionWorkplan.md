@@ -551,6 +551,22 @@ The capture in `/tmp/atlantis-negate-verified.rnD965` has 785 Atlantis warning l
 and 1,494 total. All 93 standalone tests, the numeric alias check,
 and all 68 hosted smoke tests passed.
 
+The twenty-eighth batch covers the Text Spawn copy/move menu and
+attributed-text range. At `fdd69ca`, the two narrowing sites are at
+lines 96 and 138 in `Event System/Actions/Action-TextSpawn.m`. The
+original truncated a synthetic length of 4,294,967,297 UTF-16 code
+units to 1 and treated the synthetic selection 4,294,967,296 as Copy.
+Use the native Cocoa widths for both values. The same focused probe
+failed on the original and passed on the revision. It checks Copy,
+Move, missing selection, a wide index, empty text, and the ranges and
+values written for both spawn attributes.
+
+The fresh universal Debug comparison removed both narrowing sites on
+each architecture with no new source diagnostics. The capture in
+`/tmp/atlantis-text-spawn-verified.NVpOJe` has 781 Atlantis warning
+lines and 1,490 total. All 94 standalone tests, the numeric alias check,
+and all 68 hosted smoke tests passed.
+
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate
 batches.
