@@ -33,6 +33,9 @@ setup.
   constant aliases, run the same focused assertions before and after the
   edit. Exercise numeric boundaries and compare exact bytes for changes to
   protocol fields, buffer lengths, or encoded output.
+- For AppKit index and count warnings, check the full delegate or data
+  source signature against the SDK. Cover ordinary and synthetic wide
+  indexes, and verify missing-selection sentinels where applicable.
 - Update the relevant architecture documentation when changing behavior,
   integration points, or test commands.
 - Keep README.md focused on the project overview and checkout and build setup.

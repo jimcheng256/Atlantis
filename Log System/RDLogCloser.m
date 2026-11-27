@@ -82,15 +82,15 @@
     [NSApp endSheet:_rdCloserView];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     return [_rdLogfiles count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     if ([[aTableColumn identifier] isEqualToString:@"logNum"]) {
-        return [NSString stringWithFormat:@"%d", rowIndex];
+        return [NSString stringWithFormat:@"%ld", (long)rowIndex];
     }
     else if ([[aTableColumn identifier] isEqualToString:@"logName"]) {
         RDLogType *logObj = [_rdLogfiles objectAtIndex:rowIndex];

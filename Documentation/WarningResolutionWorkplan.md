@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **third-increment editor batch awaiting review**.
+Status as of 2026-11-26 is **paused after the third-increment log-closing batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -193,6 +193,15 @@ configuration alone. Use synthetic indexes above the 32-bit range.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_editor_indexes.py -v
+```
+
+The third batch covers the log-closing table. Match AppKit's data-source
+signatures and verify row counts, zero-based labels, metadata lookups,
+and closing the selected log with ordinary and synthetic wide indexes.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_log_closer_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

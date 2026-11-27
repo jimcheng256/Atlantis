@@ -8,8 +8,12 @@
   fresh warning capture and an automated application smoke baseline.
   The first increment is committed at `b5836e8`. The second increment
   is committed at `f576972`. The picker batch is committed at
-  `49330c1`. The next integer-narrowing batch covers World Configuration
-  and Open Log indexes.
+  `49330c1` and the editor batch at `76b2a75`. The latest
+  integer-narrowing batch covers the log-closing table.
+- Work is paused after the log-closing batch. Use its fresh warning capture
+  as the baseline when resuming the remaining AppKit index and count
+  batches. Start by inventorying the remaining diagnostics and selecting
+  one UI path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -176,6 +180,40 @@ comparison are in the same artifact directory.
 The current-user hosted smoke suite passed all 58 selected tests on
 Intel, including the Open Log format and World Configuration tab
 checks. The `smoke` subdirectory contains the capture and result bundle.
+
+## Third increment, log-closing table indexes
+
+The baseline is editor-batch commit `76b2a75`. The log-closing table data
+source now matches the AppKit protocol's `NSInteger` return and row
+parameter types. Row labels retain their zero-based decimal format.
+Closing a selected log already used `NSUInteger` indexes.
+
+The [standalone log-closer tests](../Tests/WarningResolution/test_log_closer_indexes.py)
+compile the production data-source and close methods with a synthetic
+log collection. On the baseline, the empty and ordinary row cases
+passed. The runtime signatures disagreed with AppKit and the wide row
+truncated in the row label and metadata lookup. On the revised sources,
+all four tests passed, including the selected-log close and removal
+assertions. All 20 Python standalone tests passed.
+
+The [workplan](WarningResolutionWorkplan.md#third-increment-batches)
+records the run command. Before-and-after logs are in
+`/tmp/atlantis-increment3-log-closer.D5Y9Ps`.
+
+The fresh arm64 and x86_64 Debug build removed three warning sites,
+including the row-count narrowing and both protocol signature
+mismatches. Atlantis warning lines fell from 971 to 965 and the raw
+count fell from 1,732 to 1,726. The comparison found no new source
+diagnostics. Build logs and the numbered warning extract are in the
+same artifact directory.
+
+All 58 current-user hosted smoke tests passed on Intel. The `smoke`
+subdirectory contains the capture and XCTest result bundle.
+
+If the temporary capture is unavailable in a later session, regenerate a
+fresh universal Debug warning baseline from the log-closing batch commit
+before making source edits. Use the workplan's build and current-user smoke
+commands.
 
 ## Post-profile warning baseline
 

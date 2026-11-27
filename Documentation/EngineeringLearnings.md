@@ -39,6 +39,14 @@ for detailed design and test instructions.
 
 ## Building, testing, and publishing
 
+- A narrowing warning inside an AppKit callback can expose a protocol
+  signature mismatch. In `RDLogCloser`, an Intel probe calling the legacy
+  row-count method through `NSTableViewDataSource` observed the expected
+  wide count despite its `int` return declaration. Runtime type encodings
+  exposed the mismatch, and a wide row separately showed truncation in the
+  label and metadata lookup. Check the Objective-C signature alongside
+  the returned values when testing these callbacks.
+
 - A fresh Atlantis build can report the same diagnostic for arm64 and
   x86_64 and include warnings from the Lemuria project reference. The
   warning-resolution baseline contained 2,182 captured lines, of which
