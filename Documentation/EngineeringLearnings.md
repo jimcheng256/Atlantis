@@ -72,6 +72,18 @@ for detailed design and test instructions.
   `build-for-testing` ran separately from `test-without-building`, which
   needed access to the host session. A universal build verifies that both
   architectures compile. The preferences migration tests ran on Intel.
+- Hosted smoke tests run in the current user context. The smoke runner
+  copies the Debug products and gives the copy a disposable bundle identifier
+  and an Atlantis profile directory. The bundle identifier separates AppKit
+  and Lemuria's standard defaults. The profile separates Atlantis preferences
+  and archives. Verify the runtime profile and retain the XCTest result
+  bundle. The smoke suite covers in-session layout and focus and excludes
+  macOS integrations and saved window positions.
+- A loopback test using a real Atlantis world waits for the listener to
+  publish a nonzero port. For a prompt without a trailing newline, send
+  Telnet Go Ahead after the final chunk so Atlantis releases the buffered
+  prompt. Use the hosted spawn to verify visible text and color, then assert
+  exact command bytes and CRLF at the server on both connections.
 - Git SSH push access and GitHub PR creation permissions are independent.
   The GitHub integration returned HTTP 403 for PR creation on the fork
   even though the branch push succeeded. If that recurs, verify the

@@ -17,7 +17,6 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
             XCTAssertEqual(window.title, "First")
             XCTAssertEqual(first.viewRequests, 1)
             XCTAssertEqual(second.viewRequests, 0)
-            XCTAssertEqual(window.frameAutosaveName, AtlantisPreferenceController.frameAutosaveName)
 
             let initialFrame = window.frame
             click(items[1])
@@ -45,6 +44,7 @@ final class AtlantisPreferenceControllerTests: XCTestCase {
         try withPreferences { controller, _, _ in
             let window = try XCTUnwrap(controller.window)
             let items = try XCTUnwrap(window.toolbar?.items)
+            XCTAssertEqual(window.frameAutosaveName, AtlantisPreferenceController.frameAutosaveName)
             window.setContentSize(NSSize(width: 610, height: 360))
             let resizedFrame = window.frame
 

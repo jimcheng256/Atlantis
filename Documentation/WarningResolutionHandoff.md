@@ -4,10 +4,9 @@
 
 - Branch `warning-resolution` starts from `main` at `ee9deed`
   (`feat(telnet): prefer UTF-8 in CHARSET`).
-- The [warning resolution workplan](WarningResolutionWorkplan.md) is written
-  and awaiting approval to execute. The fresh warning capture and triage
-  are complete. The first fix batch, characterization tests, and application
-  smoke baseline are pending.
+- The [warning resolution workplan](WarningResolutionWorkplan.md) has a
+  fresh warning capture and an automated application smoke baseline.
+  The first fix batch and its focused characterization tests are pending.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -33,9 +32,8 @@ and record any Xcode or SDK difference before comparing counts.
 
 ## First batch after approval
 
-1. Run and record the workplan's smoke checklist against the baseline
-   before editing. Use a disposable world, a local Telnet fixture, and
-   temporary preferences, archives, and logs.
+1. Use the captured automated smoke baseline below for comparison. Run
+   the focused characterization checks before editing the first batch.
 2. Inventory the Atlantis format and expression diagnostics, which account
    for 20 baseline lines including repeats. Inspect the ineffective length
    guard in `Utility Classes/HIDIdleTime.m`, the format call in
@@ -47,5 +45,41 @@ and record any Xcode or SDK difference before comparing counts.
    correction separately. Pay particular attention to literal percent
    signs, valid and invalid lengths, and observable UI or logging behavior.
 4. Finish the batch with a fresh warning comparison, relevant hosted tests,
-   and the full smoke checklist. Present the results for review before
+   and the automated smoke suite. Present the results for review before
    moving on to deprecated constants and mechanical cleanup.
+
+## Post-profile warning baseline
+
+Commit `9910494` adds optional Atlantis profile storage. Its fresh
+universal Debug build succeeded with Xcode 26.6 (17F113) and the macOS
+26.5 SDK. The raw warning counts match `ee9deed`: 2,182 total, 1,421
+Atlantis-path, and 698 Lemuria-path. The source comparison flagged ten
+edited lines whose existing diagnostics moved with them. Review of the
+locations and messages found no new warning sites.
+
+Artifacts are in `/tmp/atlantis-profile-warning-baseline.RpwQGe`, including
+the build log, numbered warnings, source comparison, and a passing
+synthetic fixture capture for the new build.
+
+Run the automated application smoke suite from the current macOS user.
+The [workplan](WarningResolutionWorkplan.md#automated-application-smoke-tests)
+has the build and run commands. The runner uses the hosted Atlantis app
+with a disposable bundle identifier and profile. The smoke gate covers
+Atlantis functionality and excludes macOS settings and saved window
+frames.
+
+The current-user application baseline built the app at `9910494` and
+passed all 57 selected hosted tests. The loopback world rendered the
+split Truecolor prompt, sent the expected ASCII and UTF-8 bytes with
+CRLF, and disconnected and reconnected. The runtime capture confirmed
+the disposable storage path and preference suite.
+
+Artifacts are in `/tmp/atlantis-application-smoke.4IpMgE/results`:
+
+- `capture.json` records the revision, profile, toolchain, test selection,
+  and result counts.
+- `Smoke.xcresult` contains the hosted XCTest results.
+- `test.log` includes startup and test execution details.
+
+If the temporary artifacts are gone, use the workplan's smoke commands
+to recreate them before beginning the first warning batch.

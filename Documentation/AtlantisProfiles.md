@@ -18,7 +18,8 @@ paths still resolve normally. Omitting the flag preserves the normal
 Atlantis defaults and Application Support directory.
 
 Lemuria and AppKit continue using the application preference domain for
-framework settings such as window grouping and view state. The Preferences window disables frame
-autosave in profile mode. Sparkle's automatic update cycle is skipped in
-profile mode. Use a disposable GUI account when validating that a smoke
-session leaves the normal application's window and framework state intact.
+framework settings such as window grouping and view state. The Preferences
+window disables frame autosave in profile mode, and Sparkle skips its
+automatic update cycle. The hosted smoke runner stages a separate app
+identity in the current user context, so framework settings use a
+disposable application domain.

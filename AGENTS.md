@@ -51,11 +51,20 @@ GUI test execution, use `build-for-testing` followed by
 and derived data path. Report compile coverage and runtime coverage
 separately when they differ.
 
+Run application tests in the current macOS user context. Use hosted
+XCTest, temporary profiles, and disposable fixtures for isolation.
+Separate GUI logins cannot be automated in this workflow. Do not propose
+switching accounts, creating a test user, or asking someone to sign into
+another desktop. Focus smoke coverage on Atlantis functionality and
+correctness. Omit macOS settings and saved window positioning.
+
 For the warning-resolution effort, follow the
 [warning workplan](Documentation/WarningResolutionWorkplan.md) one batch at
 a time. Limit changes to Atlantis and keep Lemuria in the integration build.
-Compare fresh build diagnostics and run the workplan's smoke checklist
-between batches.
+Compare fresh build diagnostics between batches. Run
+[`Tests/Smoke/run.py`](Tests/Smoke/run.py) on the Debug
+`build-for-testing` products as described in the workplan. Keep the
+smoke capture, test log, and XCTest result bundle outside the checkout.
 
 ## Git and pull requests
 

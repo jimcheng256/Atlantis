@@ -58,11 +58,13 @@ implementation in a separate commit for review.
   Atlantis-managed files under the selected directory. Audit direct
   defaults access, Cocoa bindings, SwiftUI storage, and home-relative
   paths for worlds, hotkeys, toolbar events, globals, and default logs.
-  Verify AppKit-managed state, including window restoration, separately.
+  The smoke checks cover Atlantis-owned settings. macOS-managed
+  settings and AppKit window restoration are outside the checklist.
 - Use two temporary profiles for verification. Save a preference and a
   world in the first, relaunch to confirm persistence, and confirm the
   second profile starts without either value. Verify that the isolated
-  run leaves the normal preferences and archive paths untouched.
+  run leaves the normal Atlantis-owned preferences and archive paths
+  untouched.
 - Record the effective preference suite and storage paths in the smoke
   capture. Retain the warning capture from `ee9deed` and take a fresh
   capture from the accepted profile-support commit. Compare the two for
@@ -118,9 +120,9 @@ on arm64 and x86_64.
    across edits. Retain raw counts and architecture repeats. Attribute
    pathless diagnostics by target or enclosing build step where possible.
    Report Lemuria, diagnostic echoes, and Xcode environment lines separately.
-4. Run the entire smoke checklist below, with extra coverage for the
-   affected subsystem. Record pass, fail, or blocked for each row and
-   include the fixture and observed result for any deviation. Stop for
+4. Run the automated application smoke suite below, with extra coverage
+   for the affected subsystem. Keep the XCTest result bundle, capture
+   summary, and test log with the warning comparison. Stop for
    review if the change introduces a regression or a behavior change
    outside the agreed scope. Review each increment before starting the next.
 
@@ -146,38 +148,38 @@ xcodebuild -project Atlantis.xcodeproj -scheme Atlantis -configuration Debug \
   -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO test
 ```
 
-## Application smoke checklist
+## Automated application smoke tests
 
-Use a disposable Address Book entry, a local Telnet fixture, and temporary
-log files. Preserve real profiles and network credentials. Keep the
-fixture and checks the same between increments.
+Run from the current macOS user context. The runner stages the Debug
+products from `build-for-testing` and starts the hosted XCTest app with
+a temporary bundle identifier and a new Atlantis profile. The original
+build products stay intact. The test app uses its own macOS application
+domain, a profile-specific Atlantis preferences suite, and a disposable
+archive directory.
+The runner records the effective profile and suite, toolchain, build
+architecture, test log, and XCTest result bundle.
 
-Use the smoke runner for the application baseline and subsequent
-increments. Have it accept the built
-app path and an output directory outside the checkout. Record the commit,
-app version, build toolchain and SDK, and binary architectures. Start a
-loopback Telnet fixture and record negotiation, expected command bytes,
-actual received bytes, and a transcript. Pin the fixture inputs, including
-the ANSI and Truecolor output chunks and the split prompt.
+```sh
+export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
+smoke_dir="$(mktemp -d /tmp/atlantis-smoke.XXXXXX)"
+xcodebuild -project Atlantis.xcodeproj -scheme Atlantis -configuration Debug \
+  -destination 'platform=macOS' -derivedDataPath "$smoke_dir/DerivedData" \
+  CODE_SIGNING_ALLOWED=NO build-for-testing > "$smoke_dir/build.log" 2>&1
+python3 Tests/Smoke/run.py "$smoke_dir"/DerivedData/Build/Products/*.xctestrun \
+  "$smoke_dir/results" --build-log "$smoke_dir/build.log" --revision "$(git rev-parse HEAD)"
+```
 
-Use a disposable macOS test account or a verified isolated app data
-environment. Record and verify where Atlantis resolves preferences and
-archives before running the GUI checks, and store logs in temporary paths.
-Have the runner print the connection details and prepare a result sheet
-for the operator to mark each row pass, fail, or blocked, with observations
-and artifact paths. Keep visual layout, focus, menus, and window restoration
-in the operator checklist.
-
-| Area | Check and expected result |
+| Application area | Automated coverage |
 | --- | --- |
-| Launch, menus, and main window | Launch the fresh app, open About and the principal menus, and open and close the Address Book and Preferences. Confirm menus work, windows activate, and focus returns to the expected view. |
-| Address Book and world editor | Open a disposable world and character. Visit the connection and formatting tabs, edit and save a test preference, then reopen and verify it. Cancel a second edit and confirm the saved value persists. |
-| Main Preferences | Visit General, Network, World Defaults, Hotkeys, Toolbar Events, and Windowing. Resize the window, switch panes, and confirm labels, scrolling, focus, and saved settings remain usable. |
-| Connection, input, and output | Connect to the local fixture, send an ASCII command and a multibyte command, and compare the received bytes. Verify normal output, ANSI palette and Truecolor text, a split prompt, input echo, scrollback, and clean disconnect and reconnect. |
-| Spawns, tabs, and windowing | Open or route output to a secondary spawn. Switch tabs and worlds, exercise an input split and status bar, resize, and verify input focus, scrolling, and output routing. |
-| Events, aliases, hotkeys, and scripts | Exercise a disposable alias, a line event that routes or highlights output, a configured hotkey or toolbar action, and a small local JavaScript callback. Check each fires once and the resulting text reaches the expected pane. |
-| Logging and editors | Open and close plain and HTML logs and inspect text and color output. Open the MUSH editor, exercise keyboard focus and a basic edit, and verify cancel or close returns to the session. |
-| Quit and relaunch | Quit cleanly, relaunch, and confirm the disposable world, saved settings, and expected window state persist. Check the process log for unexpected errors. |
+| Launch and profile | Start the hosted app with a disposable profile. Verify that Atlantis resolves storage to that profile and that preferences and worlds persist when reopened in a separate store instance. |
+| Preferences and world editors | Open the hosted preference panes, switch panes, commit changes, and exercise live focus and resize behavior. Verify network settings, world defaults, hotkey archives, and toolbar event archives. |
+| Connection, input, and output | Connect a real Atlantis world to the loopback fixture. Verify ASCII and UTF-8 command bytes, a palette banner, a Truecolor prompt with a split sequence, disconnect, and reconnect. |
+| Spawns and events | Exercise hosted terminal input, scrollback, draft selection, spawn routing, in-app splits, event confirmation, and JavaScript callbacks and timers. |
+| Logging | Verify plain, formatted, and HTML output, including Truecolor rendering in WebKit. |
 
-No warning fixes, characterization tests, or smoke runs have been started
-under this workplan.
+The smoke suite excludes macOS settings, live notification delivery,
+Dock integration, and saved window frames. Add targeted hosted checks
+when an increment affects an application path this suite does not exercise.
+
+The post-profile warning baseline is captured at `9910494`. No warning
+fixes have been started.

@@ -46,6 +46,7 @@
 		A71A50000000000000000105 /* JSScriptingEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000106 /* JSScriptingEngineTests.swift */; };
 		A71A50000000000000000140 /* ANSIColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000141 /* ANSIColorTests.swift */; };
 		A71A50000000000000000204 /* AtlantisProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000205 /* AtlantisProfileTests.swift */; };
+		A71A50000000000000000206 /* ApplicationSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A50000000000000000207 /* ApplicationSmokeTests.swift */; };
 		A71A500000000000000000BF /* HotkeyPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */; };
 		A71A500000000000000000BC /* WorldDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000BD /* WorldDefaultsTests.swift */; };
 		A71A500000000000000000BA /* WindowingPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71A500000000000000000BB /* WindowingPreferencesTests.swift */; };
@@ -451,6 +452,7 @@
 		A71A50000000000000000106 /* JSScriptingEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSScriptingEngineTests.swift; sourceTree = "<group>"; };
 		A71A50000000000000000141 /* ANSIColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ANSIColorTests.swift; sourceTree = "<group>"; };
 		A71A50000000000000000205 /* AtlantisProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlantisProfileTests.swift; sourceTree = "<group>"; };
+		A71A50000000000000000207 /* ApplicationSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationSmokeTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyPreferencesTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000BD /* WorldDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldDefaultsTests.swift; sourceTree = "<group>"; };
 		A71A500000000000000000BB /* WindowingPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowingPreferencesTests.swift; sourceTree = "<group>"; };
@@ -1039,6 +1041,7 @@
 				A71A50000000000000000106 /* JSScriptingEngineTests.swift */,
 				A71A50000000000000000141 /* ANSIColorTests.swift */,
 				A71A50000000000000000205 /* AtlantisProfileTests.swift */,
+				A71A50000000000000000207 /* ApplicationSmokeTests.swift */,
 				A71A500000000000000000C0 /* HotkeyPreferencesTests.swift */,
 				A71A500000000000000000BD /* WorldDefaultsTests.swift */,
 				A71A500000000000000000BB /* WindowingPreferencesTests.swift */,
@@ -2170,6 +2173,7 @@
 				A71A50000000000000000105 /* JSScriptingEngineTests.swift in Sources */,
 				A71A50000000000000000140 /* ANSIColorTests.swift in Sources */,
 				A71A50000000000000000204 /* AtlantisProfileTests.swift in Sources */,
+				A71A50000000000000000206 /* ApplicationSmokeTests.swift in Sources */,
 				A71A500000000000000000BF /* HotkeyPreferencesTests.swift in Sources */,
 				A71A500000000000000000BC /* WorldDefaultsTests.swift in Sources */,
 				A71A500000000000000000BA /* WindowingPreferencesTests.swift in Sources */,
