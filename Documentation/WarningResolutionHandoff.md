@@ -22,12 +22,13 @@
   whole-event reordering at `a3cc2b1`, chain removal at `ae0c0fb`,
   selected-row checks at `7a7d79f`, and extra-data columns at
   `d0c3e80`. EventCollection is committed at `e4e4610` and BaseEvent
-  move indexes at `9676ce1`. The twenty-fourth batch fixes the
-  collected-conditions editor. Its universal Debug capture has 801
-  Atlantis warning lines and 1,562 total. Artifacts are in
-  `/tmp/atlantis-increment3-collected-condition.3QgFgB`.
-- The next batch covers the Computer Idle condition's time comparison
-  and the idle-time helper's seconds conversion.
+  move indexes at `9676ce1`. The collected-conditions batch is committed
+  at `1856fb5`. The twenty-fifth batch fixes Computer Idle acquisition,
+  decoding, and threshold comparison. Its universal Debug capture has
+  793 Atlantis warning lines and 1,554 total. Artifacts are in
+  `/tmp/atlantis-increment3-computer-idle.gAtP2Z`.
+- The next batch covers the pattern type menu in the String Match and
+  Variable Match condition editors.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -782,6 +783,35 @@ from 803 to 801 and the raw count fell from 1,564 to 1,562. No new source
 diagnostics appeared. The hosted test target built for both architectures.
 All 68 selected hosted smoke tests passed on Intel. Results are in
 `smoke-current-user`.
+
+## Third increment, Computer Idle reader and units
+
+The baseline is collected-conditions batch commit `1856fb5`. The old
+condition turned 600 actual seconds into 558 and could abort on a short
+data payload. The separate helper skipped acquisition after a successful
+IOKit match. The baseline probes are in
+`/tmp/atlantis-computer-idle-review.hs5XtN`.
+
+The condition now uses one reader, releases owned IOKit and Core Foundation
+objects, and distinguishes a valid zero reading from failure. The archive
+still stores seconds. Threshold comparisons use exact nanosecond-to-second
+units and preserve fractional thresholds.
+
+The [standalone idle tests](../Tests/WarningResolution/test_computer_idle_reader.py)
+compile the actual reader and condition comparison with stubbed IOKit.
+They cover acquisition and read failures, resource release, both data
+representations, invalid lengths and numeric values, and readings one
+nanosecond below and at whole and fractional thresholds. The four tests
+passed. After-change artifacts are in
+`/tmp/atlantis-increment3-computer-idle.gAtP2Z`. All 90 standalone tests
+and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed two narrowing sites and two deprecated
+IOKit calls. Atlantis warning lines fell from 801 to 793 and the total
+fell from 1,562 to 1,554. No new source diagnostics appeared. The hosted
+test target built for both architectures and all 68 selected smoke tests
+passed on Intel. Results are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 

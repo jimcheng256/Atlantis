@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, collected-conditions indexes**.
+Status as of 2026-11-27 is **increment 3, Computer Idle time handling**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -489,6 +489,37 @@ position and verifies the array bound before removing either item.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_collected_condition_indexes.py -v
+```
+
+The twenty-fifth batch covers
+Computer Idle's time comparison and the idle-time helper's seconds
+conversion. At `1856fb5`, the Atlantis sites are
+`Event System/Conditions/Condition-ComputerIdle.m:140` and
+`Utility Classes/HIDIdleTime.m:57`.
+
+The live condition reads HID idle nanoseconds and shifts right by 30,
+which divides by 1,073,741,824. The extracted conversion reports 558
+seconds for 600 seconds of actual idle time. A configured 600-second
+threshold first matches at 644.2450944 seconds. A subprocess exercising
+the condition's eight-byte read with a one-byte datum aborted on a
+Core Foundation range assertion. The separate helper already checks
+the data size, but its initializer skips `IOIteratorNext` on a successful
+match with a valid iterator. A stubbed IOKit success reproduced zero
+iterator advances and a zero registry entry.
+
+The replacement condition uses the repaired `HIDIdleTime` reader.
+It advances a valid iterator after a successful match and releases
+owned IOKit and Core Foundation objects. The reader accepts exactly
+eight bytes or an exact nonnegative integer and reports failures
+separately from a zero reading. The condition compares actual seconds,
+including fractional thresholds, and a failed read leaves it unsatisfied.
+The stored threshold remains in seconds under the same archive key.
+Baseline probe sources and logs are in
+`/tmp/atlantis-computer-idle-review.hs5XtN`.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_computer_idle_reader.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

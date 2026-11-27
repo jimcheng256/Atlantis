@@ -7,16 +7,7 @@
 //
 
 #import "Condition-ComputerIdle.h"
-#import <CoreFoundation/CoreFoundation.h>
-#import <CoreServices/CoreServices.h>
-#import <IOKit/IOKitLib.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-/* 10^9 --  number of ns in a second */
-#define NS_SECONDS 1000000000
+#import "HIDIdleTime.h"
 
 @implementation Condition_ComputerIdle
 
@@ -65,84 +56,14 @@
 
 #pragma mark Execution
 
-UInt64 SystemIdleTime()
-{    
-    mach_port_t masterPort;
-    io_iterator_t iter;
-    io_registry_entry_t curObj;
-    
-    IOMasterPort(MACH_PORT_NULL, &masterPort);
-    
-    /* Get IOHIDSystem */
-    IOServiceGetMatchingServices(masterPort,
-                                 IOServiceMatching("IOHIDSystem"),
-                                 &iter);
-    if (iter == 0) {
-        return 0;
-    }
-    
-    curObj = IOIteratorNext(iter);
-    
-    if (curObj == 0) {
-        return 0;
-    }
-    
-    CFMutableDictionaryRef properties = 0;
-    CFTypeRef obj;
-    
-    if (IORegistryEntryCreateCFProperties(curObj, &properties,
-                                          kCFAllocatorDefault, 0) ==
-        KERN_SUCCESS && properties != NULL) {
-        
-        obj = CFDictionaryGetValue(properties, CFSTR("HIDIdleTime"));
-        if (obj)
-            CFRetain(obj);
-    } else {
-        obj = NULL;
-    }
-    
-    UInt64 tHandle = 0;
-    
-    if (obj) {
-        
-        CFTypeID type = CFGetTypeID(obj);
-        
-        if (type == CFDataGetTypeID()) {
-            CFDataGetBytes((CFDataRef) obj,
-                           CFRangeMake(0, sizeof(tHandle)),
-                           (UInt8*) &tHandle);
-        }  else if (type == CFNumberGetTypeID()) {
-            CFNumberGetValue((CFNumberRef)obj,
-                             kCFNumberSInt64Type,
-                             &tHandle);
-        } else {
-            return 0;
-        }
-
-        CFRelease(obj);
-        
-        // essentially divides by 10^9
-        tHandle >>= 30;
-    } else {
-        return 0;
-    }
-    
-    /* Release our resources */
-    IOObjectRelease(curObj);
-    IOObjectRelease(iter);
-    CFRelease((CFTypeRef)properties);
-    
-    return tHandle;
-}
-
 - (BOOL) isTrueForState:(AtlantisState *) state
 {
-    unsigned idleTime = SystemIdleTime();
+    HIDIdleTime *reader = [[HIDIdleTime alloc] init];
+    uint64_t nanoseconds = 0;
+    BOOL read = [reader readIdleTime:&nanoseconds];
+    [reader release];
 
-    if (idleTime >= _rdInterval)
-        return YES;
-    
-    return NO;
+    return read && nanoseconds / 1000000000.0 >= _rdInterval;
 }
 
 #pragma mark Configuration
