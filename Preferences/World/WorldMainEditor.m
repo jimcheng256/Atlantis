@@ -158,8 +158,10 @@
 
 - (void) keepaliveChanged:(id) sender
 {
-    int keepaliveType = [_rdKeepaliveLogic indexOfSelectedItem];
-    [[self preferences] setPreference:[NSNumber numberWithInt:keepaliveType] forKey:@"atlantis.network.keepalive" withCharacter:[self character]];
+    NSInteger keepaliveType = [_rdKeepaliveLogic indexOfSelectedItem];
+    if (keepaliveType >= 0 && keepaliveType < [_rdKeepaliveLogic numberOfItems]) {
+        [[self preferences] setPreference:@(keepaliveType) forKey:@"atlantis.network.keepalive" withCharacter:[self character]];
+    }
 }
 
 - (void) autoconnectChanged:(id) sender
@@ -223,8 +225,7 @@
         [[self preferences] removePreferenceForKey:@"atlantis.world.ssl" withCharacter:[self character]];
     }
 
-    int keepaliveType = [_rdKeepaliveLogic indexOfSelectedItem];
-    [[self preferences] setPreference:[NSNumber numberWithInt:keepaliveType] forKey:@"atlantis.network.keepalive" withCharacter:[self character]];
+    [self keepaliveChanged:nil];
         
     result = [_rdCharacterName stringValue];
     
@@ -340,11 +341,12 @@
     }
     
     numResult = [[self preferences] preferenceForKey:@"atlantis.network.keepalive" withCharacter:nil fallback:NO];
-    if (numResult) {
-        [_rdKeepaliveLogic selectItemAtIndex:[numResult intValue]];
-    }
-    else {
-        [_rdKeepaliveLogic selectItemAtIndex:0];
+    NSInteger keepaliveType = [numResult integerValue];
+    NSInteger keepaliveCount = [_rdKeepaliveLogic numberOfItems];
+    if (keepaliveCount > 0) {
+        if (keepaliveType < 0 || keepaliveType >= keepaliveCount)
+            keepaliveType = 0;
+        [_rdKeepaliveLogic selectItemAtIndex:keepaliveType];
     }
 
 

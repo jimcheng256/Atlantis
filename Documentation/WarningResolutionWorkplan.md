@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 33**, the
-log save panel's replacement and append flows. See the
+Status as of 2026-11-27 is **increment 3 through batch 34**, the
+world editor's Keepalive popup. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -688,6 +688,31 @@ alias check, and all 75 Intel hosted smoke tests passed on the final
 run. The first hosted run passed the log cases but failed
 `RDAtlantisSpawnTests.testCommittedInputAddsPrefixOnce`, which passed
 on rerun.
+
+Batch 34 covers the world editor's Keepalive popup. At `1969b9a`,
+`Preferences/World/WorldMainEditor.m:161` and `:226` narrowed
+AppKit's selected index to an `int`. Both save paths persisted
+missing selection as `-1`, and a synthetic index of `4294967297`
+was saved as row 1. The popup now validates the native-width
+selection before saving, and final commit calls the same action.
+Restoration checks saved values at native width and displays the
+existing row-0 default for invalid or absent values. The preference
+key, valid mode values, and Telnet consumers retain their existing
+contract.
+
+The focused `Tests/WarningResolution/test_world_keepalive_selection.py`
+probe checks both save paths and restoration for rows 0–3,
+missing and out-of-range selections, a synthetic wide value, and an
+absent preference. The same assertions failed on `1969b9a` and
+passed on the revision.
+
+The fresh universal Debug build removed both warning sites on arm64
+and x86_64 and added no source diagnostics. It has 743 Atlantis
+warning lines and 1,504 total. All 101 standalone tests and the
+numeric alias check passed.
+
+All 76 hosted smoke tests passed on Intel, including the pending
+spawn input diagnostic test in the working tree.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

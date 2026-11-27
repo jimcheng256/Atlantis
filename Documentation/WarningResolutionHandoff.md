@@ -966,3 +966,21 @@ Artifacts are in `/tmp/atlantis-application-smoke.4IpMgE/results`:
 
 If the temporary artifacts are gone, use the workplan's smoke commands
 to recreate them before beginning the first warning batch.
+
+## Third increment, world editor Keepalive selection
+
+The Keepalive change handler and final commit now share validation of
+the native AppKit index. Both preserve an existing preference when no
+valid row is selected. Restoration displays row 0 for invalid or
+missing values. The focused probe at
+`Tests/WarningResolution/test_world_keepalive_selection.py` failed on
+`1969b9a` and passed after the fix. The capture is in
+`/tmp/atlantis-keepalive-verified.RTIqtP`.
+
+Xcode 26.6 (17F113) and the macOS 26.5 SDK built both architectures.
+The fresh build removed both warning sites on arm64 and x86_64, with
+743 Atlantis warning lines and 1,504 total. No source diagnostics
+were added. All 101 standalone tests and the numeric alias check
+passed. All 76 hosted smoke tests passed on Intel in
+`smoke-current-user`, including the pending spawn input diagnostic
+test in the working tree.
