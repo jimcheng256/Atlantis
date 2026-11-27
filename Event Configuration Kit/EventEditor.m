@@ -91,7 +91,7 @@ static NSImage *s_downArrow;
     [_rdRemoveActionButton setEnabled:NO];
     [_rdRemoveConditionButton setEnabled:NO];
     
-    int tempIndex = [_rdTabView indexOfTabViewItemWithIdentifier:@"eventConds"];
+    NSInteger tempIndex = [_rdTabView indexOfTabViewItemWithIdentifier:@"eventConds"];
     _rdCondItem = [[_rdTabView tabViewItemAtIndex:tempIndex] retain];    
 }
 
@@ -141,7 +141,7 @@ static NSImage *s_downArrow;
         if (nameColumn)
             [nameColumn setEditable:[tempEvent eventCanEditName]];
 
-        int condIndex = [_rdTabView indexOfTabViewItemWithIdentifier:@"eventConds"];
+        NSInteger condIndex = [_rdTabView indexOfTabViewItemWithIdentifier:@"eventConds"];
         
         if ((condIndex != NSNotFound) && ![tempEvent eventSupportsConditions]) {
             [_rdTabView removeTabViewItem:_rdCondItem];
@@ -326,13 +326,15 @@ static NSImage *s_downArrow;
     if (selected >= 0) {
         id <EventDataProtocol> event = [_rdEventData eventAtIndex:selected];
 
-        int condIndex = [_rdTabView indexOfTabViewItemWithIdentifier:@"eventConds"];
+        NSInteger condIndex = [_rdTabView indexOfTabViewItemWithIdentifier:@"eventConds"];
         
         if ((condIndex != NSNotFound) && ![event eventSupportsConditions]) {
             [_rdTabView removeTabViewItem:_rdCondItem];
+            [_rdTabView setTabViewType:NSNoTabsNoBorder];
         }
         else if ((condIndex == NSNotFound) && [event eventSupportsConditions]) {
             [_rdTabView insertTabViewItem:_rdCondItem atIndex:0];
+            [_rdTabView setTabViewType:NSTopTabsBezelBorder];
         }
         
         if ([event eventConditionsAnded]) {

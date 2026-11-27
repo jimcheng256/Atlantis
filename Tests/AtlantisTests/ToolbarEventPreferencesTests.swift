@@ -30,6 +30,44 @@ final class ToolbarEventPreferencesTests: XCTestCase {
     }
 
     @MainActor
+    func testConditionsTabReturnsAfterSwitchingEventTypes() throws {
+        let collection = EventCollection()
+        let supported = ToolbarUserEvent()
+        let unsupported = HotkeyEvent()
+        collection.addEvent(supported)
+        collection.addEvent(unsupported)
+        let editor = EventEditor()
+        editor.setDataRepresentation(collection)
+        let content = try XCTUnwrap(editor.editorView())
+        let window = NSWindow(contentRect: content.frame, styleMask: [.titled], backing: .buffered, defer: false)
+        window.isReleasedWhenClosed = false
+        window.contentView = content
+        window.orderFront(nil)
+        defer { window.close() }
+
+        func findTabs(in view: NSView) -> NSTabView? {
+            if let tabs = view as? NSTabView { return tabs }
+            return view.subviews.lazy.compactMap { findTabs(in: $0) }.first
+        }
+        let tabs = try XCTUnwrap(findTabs(in: content))
+        let conditions = try XCTUnwrap(tabs.tabViewItems.first { $0.identifier as? String == "eventConds" })
+
+        editor.setForEventType(unsupported)
+        XCTAssertFalse(tabs.tabViewItems.contains(conditions))
+        XCTAssertEqual(tabs.tabViewType, .noTabsNoBorder)
+        editor.setForEventType(supported)
+        XCTAssertTrue(tabs.tabViewItems.contains(conditions))
+        XCTAssertEqual(tabs.tabViewType, .topTabsBezelBorder)
+
+        editor.selectEvent(unsupported)
+        XCTAssertFalse(tabs.tabViewItems.contains(conditions))
+        XCTAssertEqual(tabs.tabViewType, .noTabsNoBorder)
+        editor.selectEvent(supported)
+        XCTAssertTrue(tabs.tabViewItems.contains(conditions))
+        XCTAssertEqual(tabs.tabViewType, .topTabsBezelBorder)
+    }
+
+    @MainActor
     func testCommitCallsSaveAndUsesLegacyArchive() throws {
         let collection = ToolbarCollection()
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)

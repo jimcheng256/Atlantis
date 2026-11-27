@@ -17,12 +17,12 @@
   `adecaa0`, the selection batch at `2b40fd4`, and the add and focus
   batch at `8f4b35a`, and the column and tab lookup batch at `b593707`.
   The Event Editor table data-source batch is committed at `c3ae6e1`.
-- The fifteenth batch covers Event Editor `moveUp:` and `moveDown:`.
-  Its universal Debug capture is the next baseline, with 847 Atlantis
-  warning lines and 1,608 total. Artifacts are in
-  `/tmp/atlantis-increment3-event-moves.qsBFPM`.
-  Review the Conditions tab restoration issue before the next batch.
-  The workplan records the AppKit sentinel probe and proposed hosted check.
+- The Event Editor move batch is committed at `909740a`. The sixteenth
+  batch fixes Conditions tab restoration. Its universal Debug capture
+  is the next baseline, with 841 Atlantis warning lines and 1,602 total.
+  Artifacts are in `/tmp/atlantis-increment3-event-tabs.0aGwir`.
+- The next batch covers signed row and column hit testing in
+  `eventDoubleClicked:` and `enableEvent:`.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -576,6 +576,28 @@ from 859 to 847, and the raw count fell from 1,620 to 1,608. There were no
 new source diagnostics. The hosted test target built for both architectures.
 All 66 selected hosted smoke tests passed on Intel with a disposable
 profile. The capture, test log, and result bundle are in `smoke-current-user`.
+
+## Third increment, Event Editor Conditions tab indexes
+
+The baseline is Event Editor move batch commit `909740a`. The original
+code narrowed the missing-tab sentinel, preventing the Conditions tab
+from returning after an event type that does not support conditions.
+The three tab lookups now preserve `NSInteger`. Row selection also
+updates the tab view style when removing or restoring the tab.
+
+The [standalone tab test](../Tests/WarningResolution/test_event_tab_indexes.py)
+failed on the baseline and passed after the fix. All 67 standalone
+tests and the numeric alias check passed. The hosted regression reproduced
+the failure on both event-type and row changes on the baseline.
+The build log and test artifacts are in
+`/tmp/atlantis-increment3-event-tabs.0aGwir`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed three warning sites. Atlantis warning lines fell
+from 847 to 841 and the raw count fell from 1,608 to 1,602. No new source
+diagnostics appeared. The hosted test target built for both architectures.
+All 67 selected hosted smoke tests passed on Intel after the fix. The
+runs are in `smoke-before` and `smoke-after`.
 
 ## Post-profile warning baseline
 

@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, Event Editor move batch complete, Conditions tab restoration under review**.
+Status as of 2026-11-27 is **increment 3, Event Editor Conditions tab lookup batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -349,16 +349,20 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_event_move_indexes.py -v
 ```
 
-The next candidate batch covers the Event Editor Conditions tab lookups
-in `awakeFromNib`, `setForEventType:`, and `resynchChainedView`. An AppKit
-probe confirmed that a missing tab returns `NSNotFound` at full width,
-which becomes `-1` in the current `int` locals. The comparison to
-`NSNotFound` then skips restoration after switching back to an event
-that supports conditions. A probe with the production `setForEventType:`
-method and a real `NSTabView` confirmed zero tabs after switching in
-both directions. Its source is `tab-restoration.m` in the move-batch
-artifact directory. Review this behavior before editing, then exercise
-the same switch in the hosted editor.
+The sixteenth batch covers the Event Editor Conditions tab lookups in
+`awakeFromNib`, `setForEventType:`, and `resynchChainedView`. The original
+code narrowed AppKit's `NSNotFound` to `-1`, skipping the restoration
+branch after returning to an event that supports conditions. Keep each
+lookup in `NSInteger` and update the tab view style when a row selection
+removes or restores the Conditions tab. The hosted editor verifies both
+explicit event-type changes and table selection changes with real event
+types. The standalone probe exercises the actual event-type setter and
+asserts tab presence and style.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_tab_indexes.py -v
+```
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate
