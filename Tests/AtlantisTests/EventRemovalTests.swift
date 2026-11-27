@@ -100,6 +100,7 @@ final class EventRemovalTests: XCTestCase {
         delegate.addEvent()
         let event = try XCTUnwrap(collection.events()?.first as? ToolbarUserEvent)
         let view = try XCTUnwrap(editor.editorView())
+        let table = try XCTUnwrap(testPreferenceTable(in: view))
         let window = NSWindow(
             contentRect: view.frame,
             styleMask: [.titled],
@@ -110,6 +111,13 @@ final class EventRemovalTests: XCTestCase {
         window.contentView = view
         window.orderFront(nil)
         defer { window.close() }
+
+        let dataSource = try XCTUnwrap(table.dataSource)
+        let column = try XCTUnwrap(table.tableColumns.first { $0.identifier.rawValue == "eventName" })
+        XCTAssertEqual(table.numberOfRows, 1)
+        dataSource.tableView?(table, setObjectValue: "Hosted event", for: column, row: 0)
+        dataSource.tableView?(table, setObjectValue: "Invalid edit", for: column, row: Int(UInt32.max) + 1)
+        XCTAssertEqual(dataSource.tableView?(table, objectValueFor: column, row: 0) as? String, "Hosted event")
 
         editor.removeEvent(nil)
         let cancelSheet = try XCTUnwrap(window.attachedSheet)

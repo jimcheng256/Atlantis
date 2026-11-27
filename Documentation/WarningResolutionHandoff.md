@@ -15,9 +15,9 @@
   Spawn table batch at `66ef54e`, and the Spawn removal batch at
   `734abb6`. The Address Book outline data-source batch is committed at
   `adecaa0`, the selection batch at `2b40fd4`, and the add and focus
-  batch at `8f4b35a`. The latest integer-narrowing batch covers Address
-  Book column and editor tab lookups.
-- Review the Address Book lookup batch before selecting the next
+  batch at `8f4b35a`, and the column and tab lookup batch at `b593707`.
+  The latest integer-narrowing batch covers the Event Editor table data source.
+- Review the Event Editor table batch before selecting the next
   AppKit UI path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
@@ -523,6 +523,31 @@ The hosted test target built successfully. All 66 selected smoke tests
 passed on Intel. The new test verified the first connection column and
 one selected editor tab after adding a character. The capture, test log,
 and result bundle are in `smoke-current-user`.
+
+## Third increment, Event Editor table data-source indexes
+
+The baseline is Address Book lookup batch commit `b593707`. The Event
+Editor uses AppKit's signed row count and row parameters. Both data
+callbacks check the row against the collection count before converting
+it to the collection's unsigned index type.
+
+The [standalone Event Editor table tests](../Tests/WarningResolution/test_event_table_indexes.py)
+compile the production callbacks. The baseline passed ordinary edits
+and ignored an unrelated table. Five subcases failed across the runtime
+signatures and invalid row lookups. Artifacts are in
+`/tmp/atlantis-increment3-event-table.kWUVYs`.
+
+All four focused tests passed after the change. All 63 Python standalone
+tests and the numeric alias check passed. The fresh arm64 and x86_64
+Debug build used Xcode 26.6 (17F113) and the macOS 26.5 SDK. It removed
+three warning sites. Atlantis warning lines fell from 865 to 859, and
+the raw count fell from 1,626 to 1,620. No new source diagnostics
+appeared. Use this capture as the baseline for the next batch.
+
+All 66 selected hosted smoke tests passed on Intel. The Event Editor
+test verified an ordinary name edit and that a row above the 32-bit
+range could not edit that event. The capture, test log, and result bundle
+are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 

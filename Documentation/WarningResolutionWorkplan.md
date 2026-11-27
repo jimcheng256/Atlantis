@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **under review after the Address Book column and tab lookup batch in increment 3**.
+Status as of 2026-11-27 is **under review after the Event Editor table data-source batch in increment 3**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -315,6 +315,16 @@ character creates one editor tab even when the editor is installed twice.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_address_book_lookup_indexes.py -v
+```
+
+The fourteenth batch covers the Event Editor table data-source callbacks.
+Match AppKit's row signatures and validate the row before converting it
+for EventCollection. Exercise ordinary edits and invalid rows in the
+hosted editor.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_table_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

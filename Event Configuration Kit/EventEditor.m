@@ -188,7 +188,7 @@ static NSImage *s_downArrow;
 
 #pragma mark Tableview Data Delegate
 
-- (int) numberOfRowsInTableView:(NSTableView *) aTable
+- (NSInteger) numberOfRowsInTableView:(NSTableView *) aTable
 {
     if (aTable == _rdTableView) {
         // Sanity check
@@ -200,11 +200,11 @@ static NSImage *s_downArrow;
     return 0;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     if (_rdEventData && (aTableView == _rdTableView)) {
-        if (rowIndex < [_rdEventData eventsCount]) {
-            id<EventDataProtocol> event = [_rdEventData eventAtIndex:rowIndex];
+        if (rowIndex >= 0 && rowIndex < [_rdEventData eventsCount]) {
+            id<EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)rowIndex];
             
             if (event) {                
                 if ([[aTableColumn identifier] isEqualToString:@"eventName"]) {
@@ -226,10 +226,10 @@ static NSImage *s_downArrow;
     return @"";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    if (aTableView == _rdTableView) {
-        id <EventDataProtocol> event = [_rdEventData eventAtIndex:rowIndex];
+    if (aTableView == _rdTableView && rowIndex >= 0 && rowIndex < [_rdEventData eventsCount]) {
+        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)rowIndex];
         
         if (event) {
             if ([[aTableColumn identifier] isEqualToString:@"eventName"]) {
