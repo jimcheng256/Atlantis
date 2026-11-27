@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, condition pattern menus**.
+Status as of 2026-11-27 is **increment 3, Negated Condition indexes in progress**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -534,6 +534,22 @@ index to a different choice.
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_condition_pattern_indexes.py -v
 ```
+
+The twenty-seventh batch covers the Negated Condition child-class
+lookup and popup selection. At `c621709`, the two warning sites in
+`Event System/Conditions/Condition-Negate.m` are at lines 75 and 128.
+The baseline regression probe truncated a synthetic index of
+4,294,967,297 to index 1 in both directions and attempted to restore a
+missing class at index -1. The fix preserves wide lookup and popup
+indexes, skips restoration for a missing class, and bounds-checks the
+popup index against the class array before lookup. The regression probe
+failed on the original source and passed on the revision.
+
+The fresh universal Debug comparison removed both narrowing sites, one
+per architecture, with no new source diagnostics.
+The capture in `/tmp/atlantis-negate-verified.rnD965` has 785 Atlantis warning lines
+and 1,494 total. All 93 standalone tests, the numeric alias check,
+and all 68 hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

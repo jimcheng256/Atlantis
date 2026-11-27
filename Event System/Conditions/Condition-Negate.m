@@ -14,7 +14,7 @@
 
 @interface Condition_Negate (Private)
 - (void) resetContentView;
-- (void) setChildConditionClass:(int) index;
+- (void) setChildConditionClass:(NSInteger) index;
 @end
 
 
@@ -72,9 +72,9 @@
         [_rdDisplayView removeItem:old];
 
     NSArray *conditionClasses = [[[RDAtlantisMainController controller] eventConditions] conditions];
-    int conditionIndex = [conditionClasses indexOfObject:[_rdChildCondition class]];
-    if (conditionIndex != NSNotFound) {
-        [_rdConditionPicker selectItemAtIndex:conditionIndex];
+    NSUInteger conditionIndex = [conditionClasses indexOfObject:[_rdChildCondition class]];
+    if (conditionIndex < NSNotFound) {
+        [_rdConditionPicker selectItemAtIndex:(NSInteger)conditionIndex];
     }
     
     [item setTitle:[_rdChildCondition conditionName]];
@@ -87,15 +87,15 @@
     [item release];
 }
 
-- (void) setChildConditionClass:(int) index
+- (void) setChildConditionClass:(NSInteger) index
 {
     BaseCondition *newCondition = nil;
     
     NSArray *conditionClasses = [[[RDAtlantisMainController controller] eventConditions] conditions];
-    if ((index < 0) || (index >= [conditionClasses count]))
+    if ((index < 0) || ((NSUInteger)index >= [conditionClasses count]))
         return;
         
-    Class newClass = [conditionClasses objectAtIndex:index];
+    Class newClass = [conditionClasses objectAtIndex:(NSUInteger)index];
     if (newClass && ![_rdChildCondition isKindOfClass:newClass]) {    
         newCondition = (id)class_createInstance(newClass,0);
         [newCondition init];
@@ -125,7 +125,7 @@
 
 - (void) conditionTypeChanged:(id) sender
 {
-    int selected = [_rdConditionPicker indexOfSelectedItem];
+    NSInteger selected = [_rdConditionPicker indexOfSelectedItem];
     
     [self setChildConditionClass:selected];
 }
