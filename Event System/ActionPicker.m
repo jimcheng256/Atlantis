@@ -46,10 +46,9 @@ static ActionPicker *s_Picker = nil;
 - (void)_sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     if (returnCode == NSModalResponseOK) {
-        NSMenuItem *item = [_rdActionList selectedItem];
-        unsigned position = [_rdActionList indexOfItem:item];
-        
-        if (position != NSNotFound) {
+        NSInteger position = [_rdActionList indexOfSelectedItem];
+
+        if (position >= 0 && (NSUInteger)position < [_rdActionClasses count]) {
             Class aClass = [_rdActionClasses objectAtIndex:position];
             
             BaseAction *newAction = (BaseAction *)class_createInstance(aClass,0);

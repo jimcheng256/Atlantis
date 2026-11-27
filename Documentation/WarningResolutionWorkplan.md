@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **second increment awaiting review**. The starting
+Status as of 2026-11-26 is **third-increment picker batch awaiting review**. The starting
 point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -171,6 +171,23 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   ownership needs correction, give it a separately reviewed change with
   lifecycle coverage. Rerun the hosted checks and application smoke suite,
   and record the results in the handoff.
+
+## Third-increment batches
+
+The first batch covers the Action and Condition picker sheet callbacks.
+Read the signed AppKit selection index directly and check it against the
+backing array count before dispatching. Verify ordinary selections, wide
+indexes, missing selections, and out-of-range indexes independently of
+the hosted application.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_picker_indexes.py -v
+```
+
+Review this batch before taking on the remaining AppKit indexes and
+counts. Keep networking, compression, and other byte-level conversions
+in separate batches.
 
 ## Between-increment gate
 

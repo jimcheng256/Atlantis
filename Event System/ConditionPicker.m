@@ -46,10 +46,9 @@ static ConditionPicker *s_cPicker = nil;
 - (void)_sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     if (returnCode == NSModalResponseOK) {
-        NSMenuItem *item = [_rdConditionList selectedItem];
-        unsigned position = [_rdConditionList indexOfItem:item];
-        
-        if (position != NSNotFound) {
+        NSInteger position = [_rdConditionList indexOfSelectedItem];
+
+        if (position >= 0 && (NSUInteger)position < [_rdConditionClasses count]) {
             Class aClass = [_rdConditionClasses objectAtIndex:position];
             
             BaseCondition *newCondition = (BaseCondition *)class_createInstance(aClass,0);

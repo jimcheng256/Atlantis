@@ -7,8 +7,8 @@
 - The [warning resolution workplan](WarningResolutionWorkplan.md) has a
   fresh warning capture and an automated application smoke baseline.
   The first increment is committed at `b5836e8`. The second increment
-  covers deprecated numeric constants and mechanical cleanup and is ready
-  for review before integer narrowing.
+  is committed at `f576972`. The first integer-narrowing batch covers
+  the Action and Condition picker sheet callbacks.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -116,6 +116,35 @@ and the second-increment sources. The current-user application smoke suite
 passed all 58 selected tests on Intel, matching the first-increment run.
 The build log, numbered warning extracts, comparison, focused check logs,
 and hosted test artifacts are in `/tmp/atlantis-increment2.jacwyS`.
+
+## Third increment, picker indexes
+
+The source baseline is `4ed1986`, which retains the second increment's
+application sources. Both picker callbacks now use AppKit's signed
+selection index directly and check it against the backing array before
+looking up a class or calling the delegate.
+
+The [standalone picker tests](../Tests/WarningResolution/test_picker_indexes.py)
+compile both production callbacks with synthetic menus and class arrays.
+On the baseline, ordinary selections passed for both pickers. Ten
+subcases failed because the old callbacks truncated the wide index or
+attempted an invalid lookup. On the revised sources, all four tests
+passed for both pickers. The cases include a valid index above
+`UINT32_MAX`, `-1`, `NSNotFound` with a normal array count, an empty
+array, and an index equal to the array count.
+
+The [workplan](WarningResolutionWorkplan.md#third-increment-batches)
+records the test command. Before-and-after logs are in
+`/tmp/atlantis-increment3-pickers.3ldSoW`.
+
+The fresh universal Debug build removed both picker warning sites across
+arm64 and x86_64. Atlantis warning lines fell from 981 to 977 and the raw
+count fell from 1,742 to 1,738. The comparison found no new source
+diagnostics. The build log, numbered warning extract, and comparison are
+in the same artifact directory. All 11 Python-driven standalone tests
+passed, including the seven existing format tests.
+The current-user hosted smoke suite passed all 58 selected tests on Intel.
+Its capture and XCTest result bundle are in the `smoke` subdirectory.
 
 ## Post-profile warning baseline
 
