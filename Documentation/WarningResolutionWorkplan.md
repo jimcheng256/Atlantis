@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **under review after the third-increment Highlights batch**.
+Status as of 2026-11-26 is **under review after the third-increment outline click batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -225,6 +225,18 @@ Add and the removal confirmation flow.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_highlight_indexes.py -v
+```
+
+The sixth batch covers click hit testing in the shared outline view used
+by the Address Book and Spawn editor. Keep AppKit row and column indexes
+at full width. Forward clicks outside a row or column to AppKit without
+calling the delegate. Verify ordinary, wide, and missing indexes with
+the standalone probe and check delegate dispatch in the hosted Spawn
+editor.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_outline_click_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

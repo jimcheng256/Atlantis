@@ -9,10 +9,10 @@
   The first increment is committed at `b5836e8`. The second increment
   is committed at `f576972`. The picker batch is committed at
   `49330c1`, the editor batch at `76b2a75`, and the log-closing table batch
-  at `cc5291e`. The User Variables batch is committed at `afe6dc5`.
-  The latest integer-narrowing batch covers the Highlights table in
-  World Configuration.
-- Review the Highlights batch before selecting the next AppKit UI
+  at `cc5291e`. The User Variables batch is committed at `afe6dc5` and
+  the Highlights batch at `659e515`. The latest integer-narrowing batch
+  covers click hit testing in the shared outline view.
+- Review the outline click batch before selecting the next AppKit UI
   path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
@@ -274,6 +274,37 @@ passed on Intel with a disposable profile. The hosted Highlights test
 checked no selection, selection after Add, and canceling and confirming
 removal. The capture, test log, and result bundle are in
 `smoke-current-user`.
+
+## Third increment, outline click indexes
+
+The baseline is Highlights batch commit `659e515`. The shared outline
+view used by the Address Book and Spawn editor preserves the signed
+row and column indexes from AppKit hit testing. The custom click
+delegate runs only when the click hits both a row and a column.
+Clicks outside a cell and mouse drags continue through AppKit.
+
+The [standalone outline click tests](../Tests/WarningResolution/test_outline_click_indexes.py)
+compile the production mouse handler with synthetic events and indexes.
+The baseline passed the ordinary click, drag, and missing-row cases.
+It truncated both wide indexes and tried to look up a column when
+AppKit returned its missing-column sentinel. The
+[workplan](WarningResolutionWorkplan.md#third-increment-batches) records
+the test command. Artifacts are in
+`/tmp/atlantis-increment3-outline-clicks.xLOOi8`.
+
+All four focused tests passed after the change. All 33 Python
+standalone tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed both warning sites. Atlantis warning lines fell
+from 931 to 927 and the raw count fell from 1,692 to 1,688. The
+comparison found no new source diagnostics. Use this capture as the
+baseline for the next batch.
+
+The hosted test target built successfully. All 59 selected smoke tests
+passed on Intel, including the new test that clicks the hosted Spawn
+outline and checks the item and column delivered to its delegate.
+The capture, test log, and result bundle are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 

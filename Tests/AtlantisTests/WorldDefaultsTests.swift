@@ -15,6 +15,58 @@ final class WorldDefaultsTests: XCTestCase {
     }
 
     @MainActor
+    func testSpawnOutlineClickReportsTheHitItemAndColumn() throws {
+        let pane = WorldDefaults()
+        let tabs = try XCTUnwrap(pane.preferencePaneView() as? NSTabView)
+        let spawnTab = try XCTUnwrap(tabs.tabViewItems.first { $0.label == "Spawns" })
+        tabs.selectTabViewItem(spawnTab)
+        let content = try XCTUnwrap(spawnTab.view)
+        let outline = try XCTUnwrap(descendants(of: content).compactMap { $0 as? NSOutlineView }.first)
+        let window = NSWindow(contentRect: tabs.frame, styleMask: [.titled], backing: .buffered, defer: false)
+        window.isReleasedWhenClosed = false
+        window.contentView = tabs
+        window.orderFront(nil)
+        defer {
+            window.close()
+            withExtendedLifetime(pane) {}
+        }
+
+        let expectedItem = try XCTUnwrap(outline.item(atRow: 0) as AnyObject?)
+        let expectedColumn = try XCTUnwrap(outline.tableColumns.first)
+        let oldDelegate = outline.delegate
+        let delegate = OutlineClickDelegate()
+        outline.delegate = delegate
+        defer { outline.delegate = oldDelegate }
+
+        let cell = outline.frameOfCell(atColumn: 0, row: 0)
+        let point = NSPoint(x: cell.midX, y: cell.midY)
+        XCTAssertEqual(outline.row(at: point), 0)
+        XCTAssertEqual(outline.column(at: point), 0)
+        let location = outline.convert(point, to: nil)
+        let down = try XCTUnwrap(NSEvent.mouseEvent(
+            with: .leftMouseDown, location: location, modifierFlags: [], timestamp: 0,
+            windowNumber: window.windowNumber, context: nil, eventNumber: 1, clickCount: 1, pressure: 1
+        ))
+        let up = try XCTUnwrap(NSEvent.mouseEvent(
+            with: .leftMouseUp, location: location, modifierFlags: [], timestamp: 0,
+            windowNumber: window.windowNumber, context: nil, eventNumber: 2, clickCount: 1, pressure: 0
+        ))
+        NSApp.postEvent(up, atStart: true)
+        defer {
+            if NSApp.nextEvent(matching: .leftMouseUp, until: .distantPast, inMode: .eventTracking, dequeue: false) === up {
+                _ = NSApp.nextEvent(matching: .leftMouseUp, until: .distantPast, inMode: .eventTracking, dequeue: true)
+            }
+        }
+        _ = try XCTUnwrap(NSApp.nextEvent(
+            matching: .leftMouseUp, until: .distantPast, inMode: .eventTracking, dequeue: false
+        ))
+        outline.mouseDown(with: down)
+
+        XCTAssertTrue(delegate.item === expectedItem)
+        XCTAssertTrue(delegate.column === expectedColumn)
+    }
+
+    @MainActor
     func testFormattingDefaultsRestoreInheritedColorsAndLockControlsWithoutDimming() throws {
         let preferences = RDAtlantisWorldPreferences()
         let character = "Test Character"
@@ -124,6 +176,19 @@ final class WorldDefaultsTests: XCTestCase {
         XCTAssertEqual(editor.commits, 0)
         pane.preferencePaneCommit()
         XCTAssertEqual(editor.commits, 1)
+    }
+}
+
+@MainActor
+private final class OutlineClickDelegate: NSObject, NSOutlineViewDelegate {
+    private(set) var item: AnyObject?
+    private(set) var column: NSTableColumn?
+
+    @objc(outlineView:clickedItem:inColumn:)
+    func outlineView(_ outlineView: NSOutlineView, clickedItem item: AnyObject, inColumn column: NSTableColumn) -> Bool {
+        self.item = item
+        self.column = column
+        return true
     }
 }
 

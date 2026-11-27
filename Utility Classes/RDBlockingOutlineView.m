@@ -59,9 +59,9 @@
         if ([nextEvent type] == NSEventTypeLeftMouseUp) {
             NSPoint clickPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
             
-            int row = [self rowAtPoint:clickPoint];
-            int col = [self columnAtPoint:clickPoint];
-            if (row != -1) {
+            NSInteger row = [self rowAtPoint:clickPoint];
+            NSInteger col = [self columnAtPoint:clickPoint];
+            if (row >= 0 && col >= 0) {
                 if ([[self delegate] respondsToSelector:@selector(outlineView:clickedItem:inColumn:)])
                     blockMe = [[self delegate] outlineView:self clickedItem:[self itemAtRow:row] inColumn:[[self tableColumns] objectAtIndex:col]];
             }
