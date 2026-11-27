@@ -757,8 +757,9 @@ static NSImage *s_downArrow;
 {
     [self addExtraDataColumn:identifier withTitle:title andCell:cell];
     
-    int colIndex = [_rdTableView columnWithIdentifier:identifier];
-    if (colIndex != NSNotFound) {
+    NSInteger colIndex = [_rdTableView columnWithIdentifier:identifier];
+    NSInteger count = [_rdTableView numberOfColumns];
+    if (colIndex >= 0 && colIndex < count && position >= 0 && position < count) {
         [_rdTableView moveColumn:colIndex toColumn:position];
     }
 }

@@ -19,12 +19,12 @@
   The Event Editor table data-source batch is committed at `c3ae6e1`.
 - The Event Editor move batch is committed at `909740a`, the
   Conditions tab batch at `968d412`, hit testing at `06df675`,
-  whole-event reordering at `a3cc2b1`, and chain removal at `ae0c0fb`.
-  The twentieth batch covers remaining selected-row consumers. Its
-  universal Debug capture is the next baseline, with 815 Atlantis
-  warning lines and 1,576 total. Artifacts are in
-  `/tmp/atlantis-increment3-event-selected.5Gdy0T`.
-- The next batch covers Event Editor extra-data column ordering.
+  whole-event reordering at `a3cc2b1`, chain removal at `ae0c0fb`,
+  and selected-row checks at `7a7d79f`. The twenty-first batch covers
+  extra-data columns. Its universal Debug capture is the next baseline,
+  with 813 Atlantis warning lines and 1,574 total. Artifacts are in
+  `/tmp/atlantis-increment3-event-columns.GRIgLa`.
+- The next batch covers EventCollection count and index contracts.
   The World Idle initialization issue is deferred to
   [Discovered bugs](DiscoveredBugs.md).
 - The generated change in `English.lproj/InfoPlist.strings` predates this
@@ -693,6 +693,27 @@ macOS 26.5 SDK removed five warning sites. Atlantis warning lines fell
 from 825 to 815 and the raw count fell from 1,586 to 1,576. No new source
 diagnostics appeared. The hosted tests built for both architectures and
 all 68 selected tests passed on Intel. Results are in `smoke-current-user`.
+
+## Third increment, Event Editor extra-data column indexes
+
+The baseline is selected-row batch commit `7a7d79f`. The positioned
+extra-data column method now preserves AppKit's full-width lookup and
+bounds-checks both indexes before moving. The original treated AppKit's
+`-1` missing-column result as a valid index.
+
+The [standalone column tests](../Tests/WarningResolution/test_event_column_indexes.py)
+compile the production method. The baseline passed normal positioning
+and failed five subcases covering a wide source, a missing column, and
+out-of-range positions. Both focused tests, all 80 standalone tests,
+and the numeric alias check passed after the fix. Artifacts are in
+`/tmp/atlantis-increment3-event-columns.GRIgLa`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed one warning site. Atlantis warning lines fell
+from 815 to 813 and the raw count fell from 1,576 to 1,574. No new source
+diagnostics appeared. The hosted test target built for both architectures
+and all 68 selected tests passed on Intel. Results are in
+`smoke-current-user`.
 
 ## Post-profile warning baseline
 

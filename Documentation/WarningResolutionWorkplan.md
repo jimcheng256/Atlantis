@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, Event Editor selected-row batch**.
+Status as of 2026-11-27 is **increment 3, Event Editor extra-data column batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -425,6 +425,20 @@ for follow-up outside warning resolution.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_event_selected_rows.py -v
+```
+
+The twenty-first batch covers positioned extra-data columns in the
+Event Editor. At `7a7d79f`, the Atlantis warning in
+`Event Configuration Kit/EventEditor.m` is at line 760. AppKit's
+column lookup returns `-1` for an absent column and moving an invalid
+source or destination raises an exception. Characterize normal and
+synthetic column positions before editing. Keep the lookup at AppKit
+width and check both indexes against the table column count before
+moving the column.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_column_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep
