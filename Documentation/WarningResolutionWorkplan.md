@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **under review after the third-increment Spawn pattern and exception tables batch**.
+Status as of 2026-11-26 is **under review after the Spawn removal sheet batch in increment 3**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -261,6 +261,17 @@ both tables.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_spawn_pattern_indexes.py -v
+```
+
+The ninth batch covers the row passed to the Spawn removal sheet.
+Preserve the signed AppKit index across the callback and retain its
+context until the callback releases it. Verify ordinary and wide rows,
+canceling, missing selection, and a detached editor. Use the hosted
+editor to check both buttons on the actual sheet.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_spawn_removal_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

@@ -968,13 +968,11 @@
 - (void)handleRemoveResult:(NSAlert *)alert returnCode:(int)returnCode  contextInfo:(void  *)contextInfo
 {
     NSNumber *rowNum = (NSNumber *)contextInfo;
-    int row = [rowNum intValue];
+    NSInteger row = [rowNum integerValue];
     
     if ((row != -1) && (returnCode == NSAlertDefaultReturn)) {
         WorldSpawnRecord *current = [_rdSpawnList itemAtRow:row];
-        if (row != -1) {
-            [_rdSpawnList deselectRow:row];
-        }
+        [_rdSpawnList deselectRow:row];
         [self traverseAndRemove:current];
         [_rdSpawnList reloadData];
     }
@@ -983,9 +981,14 @@
 
 - (IBAction) removeSpawn:(id) sender
 {
-    [[_rdSpawnList window] makeFirstResponder:[_rdSpawnList window]];
-    int row = [_rdSpawnList selectedRow];
-    NSNumber *current = [NSNumber numberWithInt:row];
+    NSWindow *window = [_rdSpawnList window];
+    if (!window)
+        return;
+
+    [window makeFirstResponder:window];
+    NSInteger row = [_rdSpawnList selectedRow];
+    // The sheet callback releases the context after reading the row.
+    NSNumber *current = [[NSNumber alloc] initWithInteger:row];
 
     [self askQuestion:@"Really Remove?" info:@"Removing this spawn or folder will remove it and all its children." action:@selector(handleRemoveResult:returnCode:contextInfo:) context:current];
 }

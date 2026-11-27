@@ -121,6 +121,33 @@ final class WorldDefaultsTests: XCTestCase {
     }
 
     @MainActor
+    func testSpawnRemovalSheetCancelsAndConfirmsTheSelectedRow() throws {
+        try withSpawnEditor { window, outline, content in
+            try addSpawn(in: outline, content: content)
+            XCTAssertTrue(window.makeFirstResponder(window))
+            XCTAssertEqual(outline.selectedRow, 1)
+            let spawn = try XCTUnwrap(outline.item(atRow: 1) as AnyObject?)
+            let remove = try XCTUnwrap(descendants(of: content).compactMap { $0 as? NSButton }.first {
+                $0.action == NSSelectorFromString("removeSpawn:")
+            })
+
+            for (title, expectedRows) in [("No", 2), ("Yes", 1)] {
+                remove.performClick(nil)
+                XCTAssertEqual(outline.numberOfRows, 2)
+                let sheet = try XCTUnwrap(window.attachedSheet)
+                let alertView = try XCTUnwrap(sheet.contentView)
+                let button = try XCTUnwrap(descendants(of: alertView).compactMap { $0 as? NSButton }.first {
+                    $0.title == title
+                })
+                button.performClick(nil)
+                XCTAssertNil(window.attachedSheet)
+                XCTAssertEqual(outline.numberOfRows, expectedRows)
+                XCTAssertEqual(outline.row(forItem: spawn), expectedRows == 2 ? 1 : -1)
+            }
+        }
+    }
+
+    @MainActor
     private func withSpawnEditor(
         _ exercise: (NSWindow, NSOutlineView, NSView) throws -> Void
     ) throws {

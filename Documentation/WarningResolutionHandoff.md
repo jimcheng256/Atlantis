@@ -11,10 +11,10 @@
   `49330c1`, the editor batch at `76b2a75`, and the log-closing table batch
   at `cc5291e`. The User Variables batch is committed at `afe6dc5` and
   the Highlights batch at `659e515`. The shared outline click batch is
-  committed at `62a75f0` and the Spawn outline batch at `2e26532`. The
-  latest integer-narrowing batch covers the Spawn editor's pattern and
-  exception tables.
-- Review the Spawn table batch before selecting the next AppKit UI
+  committed at `62a75f0`, the Spawn outline batch at `2e26532`, and the
+  Spawn table batch at `66ef54e`. The latest integer-narrowing batch
+  covers the Spawn removal sheet.
+- Review the Spawn removal batch before selecting the next AppKit UI
   path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
@@ -369,6 +369,36 @@ locating its controls. After that correction, all 61 selected smoke
 tests passed on Intel. The new hosted test added, edited, and removed
 a row on each tab. The capture, test log, and result bundle are in
 `smoke-final`.
+
+## Third increment, Spawn removal sheet row index
+
+The baseline is Spawn table batch commit `66ef54e`. The selected row
+is boxed and read as `NSInteger`, and the callback releases its context
+after using it. A detached editor skips opening the sheet.
+
+The [standalone Spawn removal tests](../Tests/WarningResolution/test_spawn_removal_indexes.py)
+run the production action and callback across an autorelease pool
+boundary. The original code passed ordinary confirmation, cancellation,
+and missing selection. It truncated both wide rows to row 2 and tried
+to start a sheet in the detached case. The
+[workplan](WarningResolutionWorkplan.md#third-increment-batches) records
+the test command. Artifacts are in
+`/tmp/atlantis-increment3-spawn-removal.BZN1Ln`.
+
+All three focused tests passed after the change. All 47 Python
+standalone tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed the row narrowing warning on both
+architectures. Atlantis warning lines fell from 895 to 893 and the raw
+count fell from 1,656 to 1,654. The comparison found no new source
+diagnostics. Use this capture as the baseline for the next batch.
+
+The hosted test target built successfully. All 62 selected smoke tests
+passed on Intel. The new test pressed No and then Yes on the actual
+Spawn removal sheet and verified that only confirmation removed the
+selected spawn. The capture, test log, and result bundle are in
+`smoke-current-user`.
 
 ## Post-profile warning baseline
 
