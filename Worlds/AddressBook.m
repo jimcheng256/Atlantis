@@ -585,15 +585,15 @@ AddressBook *s_addyBook = nil;
 
 #pragma mark Outline View Datasource
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     AddressBookRecord *record = (AddressBookRecord *)item;
     
     if (!record)
-        return [_rdWorldRecords count];
+        return (NSInteger)[_rdWorldRecords count];
     
     if ([record subitems]) {
-        return [[record subitems] count];
+        return (NSInteger)[[record subitems] count];
     }
     
     return 0;
@@ -611,7 +611,7 @@ AddressBook *s_addyBook = nil;
     return NO;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
     AddressBookRecord *record = (AddressBookRecord *)item;
     
@@ -623,7 +623,7 @@ AddressBook *s_addyBook = nil;
     else
         tempArray = _rdWorldRecords;
         
-    if ((index < 0) || (index >= [tempArray count]))
+    if (index < 0 || (NSUInteger)index >= [tempArray count])
         return nil;
     
     return [tempArray objectAtIndex:index];

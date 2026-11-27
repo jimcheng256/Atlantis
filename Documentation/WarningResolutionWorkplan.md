@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **under review after the Spawn removal sheet batch in increment 3**.
+Status as of 2026-11-26 is **under review after the Address Book outline data-source batch in increment 3**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -272,6 +272,17 @@ editor to check both buttons on the actual sheet.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_spawn_removal_indexes.py -v
+```
+
+The tenth batch covers the Address Book outline data source. Match
+AppKit's child count and child index types for worlds and characters.
+Verify ordinary, wide, missing, and out-of-range indexes, and exercise
+expansion and collapse in the hosted Address Book with a disposable
+world collection.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_address_book_outline_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

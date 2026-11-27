@@ -1,4 +1,5 @@
 #import "Core/AtlantisProfile.h"
+#import "Worlds/AddressBook.h"
 #import "Worlds/WorldCollection.h"
 #import "Worlds/RDAtlantisWorldPreferences.h"
 

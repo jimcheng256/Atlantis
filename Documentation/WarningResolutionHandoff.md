@@ -12,9 +12,10 @@
   at `cc5291e`. The User Variables batch is committed at `afe6dc5` and
   the Highlights batch at `659e515`. The shared outline click batch is
   committed at `62a75f0`, the Spawn outline batch at `2e26532`, and the
-  Spawn table batch at `66ef54e`. The latest integer-narrowing batch
-  covers the Spawn removal sheet.
-- Review the Spawn removal batch before selecting the next AppKit UI
+  Spawn table batch at `66ef54e`, and the Spawn removal batch at
+  `734abb6`. The latest integer-narrowing batch covers the Address Book
+  outline data source.
+- Review the Address Book data-source batch before selecting the next AppKit UI
   path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
@@ -399,6 +400,37 @@ passed on Intel. The new test pressed No and then Yes on the actual
 Spawn removal sheet and verified that only confirmation removed the
 selected spawn. The capture, test log, and result bundle are in
 `smoke-current-user`.
+
+## Third increment, Address Book outline data-source indexes
+
+The baseline is Spawn removal batch commit `734abb6`. The Address Book
+data source now matches AppKit's signed child count and index signatures
+for top-level worlds and character rows. Child lookup validates the
+full-width index against the relevant collection.
+
+The [standalone Address Book tests](../Tests/WarningResolution/test_address_book_outline_indexes.py)
+compile the production callbacks with synthetic world and character
+collections. The baseline passed ordinary, empty, and missing cases.
+Three subcases failed across the signatures, wide lookup, and wide
+out-of-range lookup. The
+[workplan](WarningResolutionWorkplan.md#third-increment-batches) records
+the test command. Artifacts are in
+`/tmp/atlantis-increment3-address-book-outline.ETrX3P`.
+
+All three focused tests passed after the change. All 50 Python
+standalone tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed four warning sites. Atlantis warning lines
+fell from 893 to 885 and the raw count fell from 1,654 to 1,646.
+The comparison found no new source diagnostics. Use this capture as
+the baseline for the next batch.
+
+The hosted test target built successfully. All 63 selected smoke tests
+passed on Intel. The new test loaded the actual Address Book nib with
+an empty collection, added a fixture world, and verified its character
+row on expansion and collapse. The capture, test log, and result bundle
+are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 
