@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, Computer Idle time handling**.
+Status as of 2026-11-27 is **increment 3, condition pattern menus**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -520,6 +520,19 @@ Baseline probe sources and logs are in
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_computer_idle_reader.py -v
+```
+
+The twenty-sixth batch covers the String Match and Variable Match
+pattern popups. At `0919fb7` the narrowing sites are at line 156 in
+`Condition-StringMatch.m` and line 145 in `Condition-VariableMatch.m`.
+Both actions retain the full-width menu selection and validate it
+against the four pattern types before conversion. The original could
+replace an existing pattern with an invalid type or truncate a wide
+index to a different choice.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_condition_pattern_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

@@ -153,13 +153,16 @@
 
 - (void) patternTypeChanged:(id) sender
 {
-    int patternType = [_rdPatternType indexOfItem:[_rdPatternType selectedItem]];
+    NSInteger patternType = [_rdPatternType indexOfSelectedItem];
+    if (patternType < RDPatternBeginsWith || patternType > RDPatternRegexp) {
+        return;
+    }
     NSString *patternString = [_rdPattern pattern];
     
     if (!patternString)
         patternString = [NSString string];
     
-    RDStringPattern *pattern = [RDStringPattern patternWithString:patternString type:patternType];
+    RDStringPattern *pattern = [RDStringPattern patternWithString:patternString type:(int)patternType];
     
     [_rdPattern release];
     _rdPattern = [pattern retain];

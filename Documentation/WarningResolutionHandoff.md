@@ -23,12 +23,12 @@
   selected-row checks at `7a7d79f`, and extra-data columns at
   `d0c3e80`. EventCollection is committed at `e4e4610` and BaseEvent
   move indexes at `9676ce1`. The collected-conditions batch is committed
-  at `1856fb5`. The twenty-fifth batch fixes Computer Idle acquisition,
-  decoding, and threshold comparison. Its universal Debug capture has
-  793 Atlantis warning lines and 1,554 total. Artifacts are in
-  `/tmp/atlantis-increment3-computer-idle.gAtP2Z`.
-- The next batch covers the pattern type menu in the String Match and
-  Variable Match condition editors.
+  at `1856fb5` and Computer Idle at `0919fb7`. The twenty-sixth batch
+  checks the String Match and Variable Match pattern menus. Its universal
+  Debug capture has 789 Atlantis warning lines and 1,550 total.
+  Artifacts are in `/tmp/atlantis-increment3-condition-patterns.I5lKJG`.
+- The next batch covers the Negated Condition child-class lookup and
+  popup selection.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -812,6 +812,27 @@ IOKit calls. Atlantis warning lines fell from 801 to 793 and the total
 fell from 1,562 to 1,554. No new source diagnostics appeared. The hosted
 test target built for both architectures and all 68 selected smoke tests
 passed on Intel. Results are in `smoke-current-user`.
+
+## Third increment, condition pattern menus
+
+The baseline is Computer Idle batch commit `0919fb7`. The String Match
+and Variable Match condition editors now check the full-width AppKit
+menu index before replacing a pattern. A missing or out-of-range
+selection preserves the existing pattern.
+
+The [standalone pattern tests](../Tests/WarningResolution/test_condition_pattern_indexes.py)
+compile both production callbacks. The original passed the four valid
+choices and failed eight invalid-selection subcases. Both focused
+tests passed after the change. Artifacts are in
+`/tmp/atlantis-increment3-condition-patterns.I5lKJG`. All 92 standalone
+tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed two warning sites. Atlantis warning lines fell
+from 793 to 789 and the total fell from 1,554 to 1,550. No new source
+diagnostics appeared. The hosted test target built for both architectures
+and all 68 selected smoke tests passed on Intel. Results are in
+`smoke-current-user`.
 
 ## Post-profile warning baseline
 
