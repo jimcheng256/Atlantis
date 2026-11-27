@@ -984,3 +984,22 @@ were added. All 101 standalone tests and the numeric alias check
 passed. All 76 hosted smoke tests passed on Intel in
 `smoke-current-user`, including the pending spawn input diagnostic
 test in the working tree.
+
+## Third increment, world editor Server Type selection
+
+Both Server Type save paths now reject invalid native-width indexes
+and preserve the stored world preference. The change handler sets
+the MUD scrollback default only for a valid MUD selection without an
+existing value. Restoration displays the existing row-0 default for
+invalid or missing preferences. The focused probe at
+`Tests/WarningResolution/test_world_server_type_selection.py` failed
+on `cc48db6` and passed after the fix. The capture is in
+`/tmp/atlantis-server-type-verified.dBCXN8`.
+
+Xcode 26.6 (17F113) and the macOS 26.5 SDK built arm64 and
+x86_64. The fresh comparison removed both warning sites on both
+architectures with no new source diagnostics. It has 739 Atlantis
+warning lines and 1,500 total. All 102 standalone tests and the
+numeric alias check passed. All 76 hosted smoke tests passed on Intel
+in `smoke-current-user`, including the pending spawn input diagnostic
+test in the working tree.

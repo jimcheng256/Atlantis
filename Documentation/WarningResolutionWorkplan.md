@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 34**, the
-world editor's Keepalive popup. See the
+Status as of 2026-11-27 is **increment 3 through batch 35**, the
+world editor's Server Type popup. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -713,6 +713,29 @@ numeric alias check passed.
 
 All 76 hosted smoke tests passed on Intel, including the pending
 spawn input diagnostic test in the working tree.
+
+Batch 35 covers the world editor's Server Type popup. At `cc48db6`,
+`Preferences/World/WorldMainEditor.m:260` and `:270` narrowed the
+selected index to an `int`. Both save paths persisted missing
+selection as `-1`. A synthetic index of `4294967297` selected
+the MUD mode and, in the change handler, set its 500-line scrollback
+default. Both paths now share native-width selection validation.
+Invalid or absent saved values display the nib's row-0 default.
+Only a valid MUD selection in the change handler initializes
+scrollback, and it preserves an existing value. Character editors
+continue to leave these world-level preferences alone.
+
+The focused `Tests/WarningResolution/test_world_server_type_selection.py`
+probe checks valid, missing, out-of-range, and wide values through
+both save paths and restoration. It also checks the MUD scrollback
+default, preservation of an existing override, and character editing.
+The same assertions failed on `cc48db6` and passed after the fix.
+
+The fresh universal Debug build removed both warning sites on arm64
+and x86_64, with no new source diagnostics. It has 739 Atlantis
+warning lines and 1,500 total. All 102 standalone tests and the
+numeric alias check passed. All 76 hosted smoke tests passed on Intel,
+including the pending spawn input diagnostic test in the working tree.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

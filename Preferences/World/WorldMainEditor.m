@@ -188,6 +188,19 @@
     [[self preferences] endBulk];
 }
 
+- (NSInteger) saveServerTypeSelection
+{
+    if ([self character])
+        return -1;
+
+    NSInteger serverType = [_rdServerType indexOfItem:[_rdServerType selectedItem]];
+    if (serverType < 0 || serverType >= [_rdServerType numberOfItems])
+        return -1;
+
+    [[self preferences] setPreference:@(serverType) forKey:@"atlantis.world.codebase" withCharacter:nil];
+    return serverType;
+}
+
 - (void) finalCommit
 {
     NSString *result;
@@ -256,25 +269,17 @@
         [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.autoopen" withCharacter:[self character]];   
     }
     
-    if (![self character]) {
-        int serverType = [_rdServerType indexOfItem:[_rdServerType selectedItem]];
-        [[self preferences] setPreference:[NSNumber numberWithInt:serverType] forKey:@"atlantis.world.codebase" withCharacter:nil];
-    }
+    [self saveServerTypeSelection];
 
     [[self preferences] endBulk];    
 }
 
 - (IBAction) serverTypeChanged:(id) sender
 {
-    if (![self character]) {
-        int serverType = [_rdServerType indexOfItem:[_rdServerType selectedItem]];
-        [[self preferences] setPreference:[NSNumber numberWithInt:serverType] forKey:@"atlantis.world.codebase" withCharacter:nil];
-        
-        if (serverType == 1) {
-            NSNumber *rootLines = [[self preferences] preferenceForKey:@"atlantis.mainview.lines" withCharacter:[self character] fallback:YES];
-            if (!rootLines) {
-                [[self preferences] setPreference:[NSNumber numberWithInt:500] forKey:@"atlantis.mainview.lines" withCharacter:[self character]];
-            }
+    if ([self saveServerTypeSelection] == 1) {
+        NSNumber *rootLines = [[self preferences] preferenceForKey:@"atlantis.mainview.lines" withCharacter:[self character] fallback:YES];
+        if (!rootLines) {
+            [[self preferences] setPreference:@500 forKey:@"atlantis.mainview.lines" withCharacter:nil];
         }
     }
 }
@@ -423,8 +428,12 @@
         [_rdCharacterPass setStringValue:@""];
     
     numResult = [[self preferences] preferenceForKey:@"atlantis.world.codebase" withCharacter:nil fallback:NO];
-    if (numResult) {
-        [_rdServerType selectItemAtIndex:[numResult intValue]];
+    NSInteger serverType = [numResult integerValue];
+    NSInteger serverTypeCount = [_rdServerType numberOfItems];
+    if (serverTypeCount > 0) {
+        if (serverType < 0 || serverType >= serverTypeCount)
+            serverType = 0;
+        [_rdServerType selectItemAtIndex:serverType];
     }
 
     if ([self character]) {
