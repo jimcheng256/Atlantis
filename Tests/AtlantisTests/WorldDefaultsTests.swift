@@ -67,6 +67,45 @@ final class WorldDefaultsTests: XCTestCase {
     }
 
     @MainActor
+    func testSpawnOutlineKeepsTheAddedSpawnSelectedAfterRename() throws {
+        let preferences = RDAtlantisWorldPreferences()
+        let editor = try XCTUnwrap(WorldConfigurationEditor(world: preferences, forCharacter: nil))
+        let tabs = try XCTUnwrap(editor.configView() as? NSTabView)
+        let spawnTab = try XCTUnwrap(tabs.tabViewItems.first { $0.label == "Spawns" })
+        tabs.selectTabViewItem(spawnTab)
+        let content = try XCTUnwrap(spawnTab.view)
+        let controls = descendants(of: content)
+        let outline = try XCTUnwrap(controls.compactMap { $0 as? NSOutlineView }.first)
+        let add = try XCTUnwrap(controls.compactMap { $0 as? NSButton }.first {
+            $0.action == NSSelectorFromString("addSpawn:")
+        })
+        let window = NSWindow(contentRect: content.frame, styleMask: [.titled], backing: .buffered, defer: false)
+        window.isReleasedWhenClosed = false
+        window.contentView = tabs
+        window.orderFront(nil)
+        defer {
+            window.close()
+            withExtendedLifetime(editor) {}
+        }
+
+        let root = try XCTUnwrap(outline.item(atRow: 0) as AnyObject?)
+        XCTAssertEqual(outline.numberOfRows, 1)
+        outline.selectRowIndexes(IndexSet(integer: 0), byExtendingSelection: false)
+        add.performClick(nil)
+        XCTAssertEqual(outline.numberOfRows, 2)
+        XCTAssertEqual(outline.selectedRow, 1)
+        let spawn = try XCTUnwrap(outline.item(atRow: 1) as AnyObject?)
+        XCTAssertTrue(outline.parent(forItem: spawn) as AnyObject? === root)
+
+        XCTAssertTrue(window.makeFirstResponder(window))
+        let column = try XCTUnwrap(outline.tableColumns.first)
+        outline.dataSource?.outlineView?(outline, setObjectValue: "Renamed", for: column, byItem: spawn)
+        XCTAssertEqual(outline.selectedRow, 1)
+        XCTAssertTrue(outline.item(atRow: outline.selectedRow) as AnyObject? === spawn)
+        XCTAssertEqual(outline.dataSource?.outlineView?(outline, objectValueFor: column, byItem: spawn) as? String, "Renamed")
+    }
+
+    @MainActor
     func testFormattingDefaultsRestoreInheritedColorsAndLockControlsWithoutDimming() throws {
         let preferences = RDAtlantisWorldPreferences()
         let character = "Test Character"

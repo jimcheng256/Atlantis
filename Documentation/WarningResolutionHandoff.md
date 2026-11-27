@@ -10,9 +10,10 @@
   is committed at `f576972`. The picker batch is committed at
   `49330c1`, the editor batch at `76b2a75`, and the log-closing table batch
   at `cc5291e`. The User Variables batch is committed at `afe6dc5` and
-  the Highlights batch at `659e515`. The latest integer-narrowing batch
-  covers click hit testing in the shared outline view.
-- Review the outline click batch before selecting the next AppKit UI
+  the Highlights batch at `659e515`. The shared outline click batch is
+  committed at `62a75f0`. The latest integer-narrowing batch covers the
+  Spawn editor outline.
+- Review the Spawn outline batch before selecting the next AppKit UI
   path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
@@ -304,6 +305,36 @@ baseline for the next batch.
 The hosted test target built successfully. All 59 selected smoke tests
 passed on Intel, including the new test that clicks the hosted Spawn
 outline and checks the item and column delivered to its delegate.
+The capture, test log, and result bundle are in `smoke-current-user`.
+
+## Third increment, Spawn editor outline indexes
+
+The baseline is shared outline click batch commit `62a75f0`. The Spawn
+outline data-source signatures now match AppKit. Child lookup retains
+the branch bounds check. Reading and restoring the selection and
+selecting an added spawn now retain full-width row indexes.
+
+The [standalone Spawn outline tests](../Tests/WarningResolution/test_spawn_outline_indexes.py)
+compile the production callbacks and actions with synthetic indexes.
+The baseline preserved ordinary rows and the missing and out-of-range
+cases. The signature check and the wide-index subcase failed on the
+baseline. The
+[workplan](WarningResolutionWorkplan.md#third-increment-batches) records
+the test command. Artifacts are in
+`/tmp/atlantis-increment3-spawn-outline.WPjSfq`.
+
+All five focused tests passed after the change, and all 38 Python
+standalone tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed eight warning sites. Atlantis warning lines
+fell from 927 to 911 and the raw count fell from 1,688 to 1,672. The
+comparison rejoined a split Formatting XIB diagnostic and found no new
+source diagnostics. Use this capture as the baseline for the next batch.
+
+The hosted test target built successfully. All 60 selected smoke tests
+passed on Intel, including the new test that adds and renames a spawn
+and verifies that the same item stays selected after the outline reloads.
 The capture, test log, and result bundle are in `smoke-current-user`.
 
 ## Post-profile warning baseline

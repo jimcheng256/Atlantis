@@ -652,12 +652,12 @@
 
 #pragma mark Outline Data Source
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     WorldSpawnRecord *record = (WorldSpawnRecord *)item;
     
     if (record)
-        return [[record subSpawns] count];
+        return (NSInteger)[[record subSpawns] count];
     else
         return 1;
 }
@@ -672,7 +672,7 @@
     return NO;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
     WorldSpawnRecord *record = (WorldSpawnRecord *)item;
     
@@ -680,7 +680,7 @@
         NSArray *array = [record subSpawns];
         
         if (array) {
-            if ((index < 0) || (index >= [array count]))
+            if (index < 0 || (NSUInteger)index >= [array count])
                 return nil;
             
             return [array objectAtIndex:index];        
@@ -702,10 +702,9 @@
 
 - (void) reloadKeepingSelection
 {
-    int row;
     WorldSpawnRecord *spawn = nil;
     
-    row = [_rdSpawnList selectedRow];
+    NSInteger row = [_rdSpawnList selectedRow];
     if (row != -1) {
         spawn = [_rdSpawnList itemAtRow:row];
     }
@@ -738,7 +737,7 @@
 
 - (WorldSpawnRecord *) currentSelectedSpawn
 {
-    int selected = [_rdSpawnList selectedRow];
+    NSInteger selected = [_rdSpawnList selectedRow];
     
     if (selected != -1) {
         return [_rdSpawnList itemAtRow:selected];
@@ -754,7 +753,7 @@
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    int selected = [_rdSpawnList selectedRow];
+    NSInteger selected = [_rdSpawnList selectedRow];
     
     if (selected != -1) {
         WorldSpawnRecord *record = [_rdSpawnList itemAtRow:selected];
@@ -926,7 +925,7 @@
     else
         [_rdSpawnList expandItem:_rdRootSpawn];
     
-    int row = [_rdSpawnList rowForItem:newSpawn];
+    NSInteger row = [_rdSpawnList rowForItem:newSpawn];
     if (row != -1) {
         [_rdSpawnList selectRow:row byExtendingSelection:NO];
         [_rdSpawnList editColumn:0 row:row withEvent:nil select:YES];

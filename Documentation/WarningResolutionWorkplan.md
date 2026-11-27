@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **under review after the third-increment outline click batch**.
+Status as of 2026-11-26 is **under review after the third-increment Spawn outline batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -237,6 +237,18 @@ editor.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_outline_click_indexes.py -v
+```
+
+The seventh batch covers the Spawn editor outline data source, selection
+refresh and restoration, and selection and editing of an added spawn.
+Verify child counts and indexes, wide rows, and missing selections.
+Use the hosted editor to check that an added child stays selected when
+renaming it reloads the outline. The removal sheet's row context and
+the pattern and exception tables have their own warning sites.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_spawn_outline_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep
