@@ -68,6 +68,38 @@ final class ToolbarEventPreferencesTests: XCTestCase {
     }
 
     @MainActor
+    func testReorderingKeepsTheMovedEventSelected() throws {
+        let collection = ToolbarCollection()
+        let first = ToolbarUserEvent()
+        let second = ToolbarUserEvent()
+        collection.addEvent(first)
+        collection.addEvent(second)
+        let editor = EventEditor()
+        editor.setDataRepresentation(collection)
+        let view = try XCTUnwrap(editor.editorView())
+        let table = try XCTUnwrap(testPreferenceTable(in: view))
+        let window = NSWindow(contentRect: view.frame, styleMask: [.titled], backing: .buffered, defer: false)
+        window.isReleasedWhenClosed = false
+        window.contentView = view
+        window.orderFront(nil)
+        defer { window.close() }
+
+        editor.selectEvent(first)
+        editor.moveEventUp(nil)
+        XCTAssertEqual(table.selectedRow, 0)
+        XCTAssertTrue(collection.events()?.first as AnyObject === first)
+        editor.moveEventDown(nil)
+        XCTAssertEqual(table.selectedRow, 1)
+        XCTAssertTrue(collection.events()?.last as AnyObject === first)
+        editor.moveEventDown(nil)
+        XCTAssertEqual(table.selectedRow, 1)
+        XCTAssertTrue(collection.events()?.last as AnyObject === first)
+        editor.moveEventUp(nil)
+        XCTAssertEqual(table.selectedRow, 0)
+        XCTAssertTrue(collection.events()?.first as AnyObject === first)
+    }
+
+    @MainActor
     func testCommitCallsSaveAndUsesLegacyArchive() throws {
         let collection = ToolbarCollection()
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)

@@ -17,13 +17,14 @@
   `adecaa0`, the selection batch at `2b40fd4`, and the add and focus
   batch at `8f4b35a`, and the column and tab lookup batch at `b593707`.
   The Event Editor table data-source batch is committed at `c3ae6e1`.
-- The Event Editor move batch is committed at `909740a` and the
-  Conditions tab batch at `968d412`. The seventeenth batch fixes table
-  hit testing. Its universal Debug capture is the next baseline, with
-  833 Atlantis warning lines and 1,594 total. Artifacts are in
-  `/tmp/atlantis-increment3-event-hits.01fmht`.
-- The next batch covers selection and destinations in Event Editor
-  `moveEventUp:` and `moveEventDown:`.
+- The Event Editor move batch is committed at `909740a`, the
+  Conditions tab batch at `968d412`, and the table hit-testing batch
+  at `06df675`. The eighteenth batch covers whole-event reordering.
+  Its universal Debug capture is the next baseline, with 829 Atlantis
+  warning lines and 1,590 total. Artifacts are in
+  `/tmp/atlantis-increment3-event-reorder.V3jNEY`.
+- The next batch covers selected rows and chain membership during
+  Event Editor condition and action removal.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -621,6 +622,30 @@ from 841 to 833 and the raw count fell from 1,602 to 1,594. There were
 no new source diagnostics. The hosted test target built for both architectures.
 All 67 selected hosted smoke tests passed on Intel. The capture, test log,
 and result bundle are in `smoke-current-user`.
+
+## Third increment, Event Editor whole-event move indexes
+
+The baseline is Event Editor hit-testing commit `06df675`. Both
+whole-event move actions check the selected AppKit row and the signed
+destination before converting them for the collection. The original
+could truncate a wide row to an ordinary row and reorder the wrong
+event. The responder reset, table reload, and selection of the moved
+event are preserved.
+
+The [standalone reorder tests](../Tests/WarningResolution/test_event_reorder_indexes.py)
+compile the production move actions. The baseline passed ordinary
+moves, endpoints, and an absent event within the collection bounds.
+Six invalid selection subcases failed. After the fix all three focused
+tests, all 72 standalone tests, and the numeric alias check passed.
+Artifacts are in `/tmp/atlantis-increment3-event-reorder.V3jNEY`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed two warning sites. Atlantis warning lines fell
+from 833 to 829 and the raw count fell from 1,594 to 1,590. There were
+no new source diagnostics. The hosted test target built for both architectures.
+All 68 selected hosted smoke tests passed on Intel, including the new
+reorder check. The capture, test log, and result bundle are in
+`smoke-current-user`.
 
 ## Post-profile warning baseline
 

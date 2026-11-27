@@ -494,17 +494,18 @@ static NSImage *s_downArrow;
 - (void) moveEventUp:(id) sender
 {
     id <EventDataProtocol> event = nil;
-    int selected = [_rdTableView selectedRow];
+    NSInteger selected = [_rdTableView selectedRow];
     [[_rdTableView window] makeFirstResponder:[_rdTableView window]];
     
-    if (selected != -1) {
-        event = [_rdEventData eventAtIndex:selected];
+    NSInteger count = [_rdEventData eventsCount];
+    if (selected >= 0 && selected < count) {
+        event = [_rdEventData eventAtIndex:(unsigned)selected];
     
         if (event) {
-            unsigned newIndex = selected - 1;
+            NSInteger newIndex = selected - 1;
             
-            if ((newIndex >= 0) && (newIndex < [_rdEventData eventsCount])) {
-                [_rdEventData moveEvent:event toIndex:newIndex];
+            if (newIndex >= 0 && newIndex < count) {
+                [_rdEventData moveEvent:event toIndex:(unsigned)newIndex];
                 [_rdTableView reloadData];
                 _rdNoRedraw = YES;
                 [_rdTableView selectRow:newIndex byExtendingSelection:NO];
@@ -517,17 +518,18 @@ static NSImage *s_downArrow;
 - (void) moveEventDown:(id) sender
 {
     id <EventDataProtocol> event = nil;
-    int selected = [_rdTableView selectedRow];
+    NSInteger selected = [_rdTableView selectedRow];
     [[_rdTableView window] makeFirstResponder:[_rdTableView window]];
     
-    if (selected != -1) {
-        event = [_rdEventData eventAtIndex:selected];
+    NSInteger count = [_rdEventData eventsCount];
+    if (selected >= 0 && selected < count) {
+        event = [_rdEventData eventAtIndex:(unsigned)selected];
     
         if (event) {
-            unsigned newIndex = selected + 1;
+            NSInteger newIndex = selected + 1;
             
-            if ((newIndex >= 0) && (newIndex < [_rdEventData eventsCount])) {
-                [_rdEventData moveEvent:event toIndex:newIndex];
+            if (newIndex >= 0 && newIndex < count) {
+                [_rdEventData moveEvent:event toIndex:(unsigned)newIndex];
                 [_rdTableView reloadData];
                 _rdNoRedraw = YES;
                 [_rdTableView selectRow:newIndex byExtendingSelection:NO];
