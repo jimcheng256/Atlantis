@@ -16,11 +16,15 @@
   `734abb6`. The Address Book outline data-source batch is committed at
   `adecaa0`, the selection batch at `2b40fd4`, and the add and focus
   batch at `8f4b35a`, and the column and tab lookup batch at `b593707`.
-  The latest integer-narrowing batch covers the Event Editor table data source.
-- Review the Event Editor table batch before selecting the next
-  AppKit UI path. Keep byte-level conversions in separate batches.
+  The Event Editor table data-source batch is committed at `c3ae6e1`.
+- The fifteenth batch covers Event Editor `moveUp:` and `moveDown:`.
+  Its universal Debug capture is the next baseline, with 847 Atlantis
+  warning lines and 1,608 total. Artifacts are in
+  `/tmp/atlantis-increment3-event-moves.qsBFPM`.
+  Review the Conditions tab restoration issue before the next batch.
+  The workplan records the AppKit sentinel probe and proposed hosted check.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
-  effort. Preserve it and stage only explicit task files.
+  effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
   remains in the build for integration coverage.
 
@@ -548,6 +552,30 @@ All 66 selected hosted smoke tests passed on Intel. The Event Editor
 test verified an ordinary name edit and that a row above the 32-bit
 range could not edit that event. The capture, test log, and result bundle
 are in `smoke-current-user`.
+
+## Third increment, Event Editor move indexes
+
+The baseline is Event Editor table batch commit `c3ae6e1`. The move
+actions validate the selected row before event lookup and keep the chain
+position at full width until both source and destination fit the existing
+signed move APIs. A synthetic probe of both original `BaseEvent` methods
+showed that a source of `INT_MAX + 1` became an out-of-bounds array index
+when moving up to `INT_MAX`. Lemuria uses the same source conversion in
+its view implementation. See `DiscoveredBugs.md` in the Lemuria checkout.
+
+The [standalone move tests](../Tests/WarningResolution/test_event_move_indexes.py)
+compile both production editor actions. The original passed ordinary moves
+and endpoints, and failed 14 subcases involving invalid rows, missing
+items, or wide positions. All three focused tests, all 66 Python standalone
+tests, and the numeric alias check passed after the change. Artifacts are
+in `/tmp/atlantis-increment3-event-moves.qsBFPM`.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed six warning sites. Atlantis warning lines fell
+from 859 to 847, and the raw count fell from 1,620 to 1,608. There were no
+new source diagnostics. The hosted test target built for both architectures.
+All 66 selected hosted smoke tests passed on Intel with a disposable
+profile. The capture, test log, and result bundle are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 

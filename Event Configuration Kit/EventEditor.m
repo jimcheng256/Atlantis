@@ -21,6 +21,7 @@
 #import "RDAtlantisEventItem.h"
 #import "Atlantis-Swift.h"
 
+#include <limits.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
 
@@ -254,28 +255,30 @@ static NSImage *s_downArrow;
 
 - (void) moveUp:(id) sender
 {
-    int selected = [_rdTableView selectedRow];
-    if (selected >= 0) {
-        id <EventDataProtocol> event = [_rdEventData eventAtIndex:selected];
+    NSInteger selected = [_rdTableView selectedRow];
+    if (selected >= 0 && selected < [_rdEventData eventsCount]) {
+        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)selected];
         NSArray *conditions = [event eventConditions];
-        NSArray *actions = [event eventActions];        
-        
+        NSArray *actions = [event eventActions];
+
         if ([sender isKindOfClass:[RDAtlantisConditionItem class]]) {
             id <EventConditionProtocol> condition = [(RDAtlantisConditionItem *)sender itemCondition];
-            
-            int index = [conditions indexOfObject:condition];
-            if (index > 0) { 
-                [event eventMoveCondition:condition toPosition:(index - 1)];
-                [_rdConditionChainView moveItem:sender toPosition:(index - 1)];
+
+            NSUInteger index = [conditions indexOfObject:condition];
+            if (index > 0 && index <= INT_MAX) {
+                int destination = (int)(index - 1);
+                [event eventMoveCondition:condition toPosition:destination];
+                [_rdConditionChainView moveItem:sender toPosition:destination];
             }
         }
         else if ([sender isKindOfClass:[RDAtlantisActionItem class]]) {
             id <EventActionProtocol> action = [(RDAtlantisActionItem *)sender itemAction];
-            
-            int index = [actions indexOfObject:action];
-            if (index > 0) {
-                [event eventMoveAction:action toPosition:(index - 1)];
-                [_rdActionChainView moveItem:sender toPosition:(index - 1)];
+
+            NSUInteger index = [actions indexOfObject:action];
+            if (index > 0 && index <= INT_MAX) {
+                int destination = (int)(index - 1);
+                [event eventMoveAction:action toPosition:destination];
+                [_rdActionChainView moveItem:sender toPosition:destination];
             }
         }
     }
@@ -283,28 +286,30 @@ static NSImage *s_downArrow;
 
 - (void) moveDown:(id) sender
 {
-    int selected = [_rdTableView selectedRow];
-    if (selected >= 0) {
-        id <EventDataProtocol> event = [_rdEventData eventAtIndex:selected];
+    NSInteger selected = [_rdTableView selectedRow];
+    if (selected >= 0 && selected < [_rdEventData eventsCount]) {
+        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)selected];
         NSArray *conditions = [event eventConditions];
-        NSArray *actions = [event eventActions];        
-        
+        NSArray *actions = [event eventActions];
+
         if ([sender isKindOfClass:[RDAtlantisConditionItem class]]) {
             id <EventConditionProtocol> condition = [(RDAtlantisConditionItem *)sender itemCondition];
-            
-            int index = [conditions indexOfObject:condition];
-            if ((index + 1) < [conditions count]) {
-                [event eventMoveCondition:condition toPosition:(index + 1)];
-                [_rdConditionChainView moveItem:sender toPosition:(index + 1)];
+
+            NSUInteger index = [conditions indexOfObject:condition];
+            if (index < INT_MAX && index + 1 < [conditions count]) {
+                int destination = (int)(index + 1);
+                [event eventMoveCondition:condition toPosition:destination];
+                [_rdConditionChainView moveItem:sender toPosition:destination];
             }
         }
         else if ([sender isKindOfClass:[RDAtlantisActionItem class]]) {
             id <EventActionProtocol> action = [(RDAtlantisActionItem *)sender itemAction];
-            
-            int index = [actions indexOfObject:action];
-            if ((index + 1) < [actions count]) {
-                [event eventMoveAction:action toPosition:(index + 1)];
-                [_rdActionChainView moveItem:sender toPosition:(index + 1)];
+
+            NSUInteger index = [actions indexOfObject:action];
+            if (index < INT_MAX && index + 1 < [actions count]) {
+                int destination = (int)(index + 1);
+                [event eventMoveAction:action toPosition:destination];
+                [_rdActionChainView moveItem:sender toPosition:destination];
             }
         }
     }

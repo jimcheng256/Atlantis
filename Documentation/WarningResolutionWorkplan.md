@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **under review after the Event Editor table data-source batch in increment 3**.
+Status as of 2026-11-27 is **increment 3, Event Editor move batch complete, Conditions tab restoration under review**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -326,6 +326,39 @@ hosted editor.
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_event_table_indexes.py -v
 ```
+
+The fifteenth batch covers Event Editor `moveUp:` and
+`moveDown:`. At `c3ae6e1`, the six sites in `Event Configuration Kit/EventEditor.m`
+are at lines 257, 266, 275, 286, 295, and 304. Characterize both condition
+and action moves before editing. Cover ordinary and wide indexes,
+missing or out-of-range selected rows, missing chain items, and the
+first and last positions. Verify that a successful move sends the same
+destination to the event model and its chain view.
+
+A synthetic probe against the original `BaseEvent` move implementations
+showed that moving from `INT_MAX + 1` to `INT_MAX` passes an out-of-bounds
+source to the array exchange. Both the event model and Lemuria's
+`RDChainedListView` store the source index in an `int`. The Event Editor
+now validates its selected AppKit row before lookup and requires both
+positions to fit in `int` before dispatching either move. This preserves
+the shared selectors and prevents the invalid exchange from the editor.
+Lemuria's underlying issue is tracked in `DiscoveredBugs.md` in its checkout.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_move_indexes.py -v
+```
+
+The next candidate batch covers the Event Editor Conditions tab lookups
+in `awakeFromNib`, `setForEventType:`, and `resynchChainedView`. An AppKit
+probe confirmed that a missing tab returns `NSNotFound` at full width,
+which becomes `-1` in the current `int` locals. The comparison to
+`NSNotFound` then skips restoration after switching back to an event
+that supports conditions. A probe with the production `setForEventType:`
+method and a real `NSTabView` confirmed zero tabs after switching in
+both directions. Its source is `tab-restoration.m` in the move-batch
+artifact directory. Review this behavior before editing, then exercise
+the same switch in the hosted editor.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate
