@@ -126,11 +126,14 @@
 
 - (BOOL)tabView:(NSTabView *)tabView shouldSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    WorldConfigurationTab *tab;
-    int position = [_rdConfigTabView indexOfTabViewItem:[_rdConfigTabView selectedTabViewItem]];
-    
-    if ((position >= 0) && (position < [_rdConfigPages count])) {
-        tab = [_rdConfigPages objectAtIndex:position];
+    NSTabViewItem *selected = [_rdConfigTabView selectedTabViewItem];
+    if (!selected) {
+        return YES;
+    }
+
+    NSInteger position = [_rdConfigTabView indexOfTabViewItem:selected];
+    if (position >= 0 && (NSUInteger)position < [_rdConfigPages count]) {
+        WorldConfigurationTab *tab = [_rdConfigPages objectAtIndex:position];
         if (tab) {
             [tab finalCommit];
         }

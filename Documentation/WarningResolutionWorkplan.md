@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **third-increment picker batch awaiting review**. The starting
-point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
+Status as of 2026-11-26 is **third-increment editor batch awaiting review**.
+The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
 The remaining 63 lines comprise 52 Xcode environment lines, 6 diagnostic
@@ -185,9 +185,19 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_picker_indexes.py -v
 ```
 
-Review this batch before taking on the remaining AppKit indexes and
-counts. Keep networking, compression, and other byte-level conversions
-in separate batches.
+The second batch covers the World Configuration tab commit and Open Log
+format selection and restoration. Preserve full-width selections and
+verify that a missing or out-of-range selection leaves the current
+configuration alone. Use synthetic indexes above the 32-bit range.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_editor_indexes.py -v
+```
+
+Review each batch before taking on more AppKit indexes and counts. Keep
+networking, compression, and other byte-level conversions in separate
+batches.
 
 ## Between-increment gate
 

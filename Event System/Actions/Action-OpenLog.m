@@ -194,9 +194,12 @@ extern NSInteger scrollbackSort(id obj1, id obj2, void *context);
 
 - (void) logTypeChanged:(id) sender
 {
-    int selected = [_rdLogTypes indexOfSelectedItem];
-    
+    NSInteger selected = [_rdLogTypes indexOfSelectedItem];
     NSArray *logTypes = [[RDAtlantisMainController controller] logTypes];
+    if (selected < 0 || (NSUInteger)selected >= [logTypes count]) {
+        return;
+    }
+
     Class newLogType = [logTypes objectAtIndex:selected];
 
     NSString* (*SendReturningString)(id, SEL) = (NSString* (*)(id, SEL))objc_msgSend;
@@ -293,7 +296,7 @@ extern NSInteger scrollbackSort(id obj1, id obj2, void *context);
     NSEnumerator *logEnum = [logTypes objectEnumerator];
     Class logWalk;
     
-    int selectMe = 0;
+    NSInteger selectMe = 0;
     BOOL enabled = YES;
 
     NSString* (*SendReturningString)(id, SEL) = (NSString* (*)(id, SEL))objc_msgSend;

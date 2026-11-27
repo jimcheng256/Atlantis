@@ -7,8 +7,9 @@
 - The [warning resolution workplan](WarningResolutionWorkplan.md) has a
   fresh warning capture and an automated application smoke baseline.
   The first increment is committed at `b5836e8`. The second increment
-  is committed at `f576972`. The first integer-narrowing batch covers
-  the Action and Condition picker sheet callbacks.
+  is committed at `f576972`. The picker batch is committed at
+  `49330c1`. The next integer-narrowing batch covers World Configuration
+  and Open Log indexes.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -145,6 +146,36 @@ in the same artifact directory. All 11 Python-driven standalone tests
 passed, including the seven existing format tests.
 The current-user hosted smoke suite passed all 58 selected tests on Intel.
 Its capture and XCTest result bundle are in the `smoke` subdirectory.
+
+## Third increment, editor indexes
+
+The baseline is picker-batch commit `49330c1`. World Configuration and
+Open Log now keep AppKit indexes at full width. World Configuration skips
+the commit when there is no current tab. Open Log ignores a missing or
+out-of-range format selection and preserves the existing default when
+restoring the format menu.
+
+The [standalone editor tests](../Tests/WarningResolution/test_editor_indexes.py)
+compile the three production methods with synthetic selections and
+collections. The baseline preserved ordinary selections and already
+skipped the tab commit for an invalid index. Seven subcases failed on
+the baseline because the methods truncated wide indexes or Open Log
+attempted an invalid lookup. All five editor tests passed on the revised
+sources, along with the eleven existing Python tests.
+
+The [workplan](WarningResolutionWorkplan.md#third-increment-batches)
+records the test command. Logs are in
+`/tmp/atlantis-increment3-editors.gjQ8r6`.
+
+The fresh universal Debug build removed three narrowing warning sites
+across arm64 and x86_64. Atlantis warning lines fell from 977 to 971 and
+the raw count fell from 1,738 to 1,732. The comparison found no new
+source diagnostics. The build log, numbered warning extract, and
+comparison are in the same artifact directory.
+
+The current-user hosted smoke suite passed all 58 selected tests on
+Intel, including the Open Log format and World Configuration tab
+checks. The `smoke` subdirectory contains the capture and result bundle.
 
 ## Post-profile warning baseline
 
