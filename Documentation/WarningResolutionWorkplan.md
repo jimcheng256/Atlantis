@@ -1,6 +1,10 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, Negated Condition indexes in progress**.
+Status as of 2026-11-27 is **increment 3 through batch 30**, the log
+export progress count. The latest universal Debug build has 777
+Atlantis warning lines. See the
+[handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
+
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -584,6 +588,21 @@ both architectures with no new source diagnostics. The capture in
 `/tmp/atlantis-set-variable-scope.z05WBy` has 779 Atlantis
 warning lines and 1,488 total. All 96 standalone tests, the
 numeric alias check, and all 68 hosted smoke tests passed.
+
+The thirtieth batch covers the log export progress count. At
+`a671957`, `Log System/RDLogOpener.m:157` narrows the scrollback
+count from `NSUInteger` to `unsigned int`. The label displays
+negative counts starting at 2³¹, and the progress maximum wraps at
+2³². Preserve the Cocoa count width and format the label as unsigned.
+The focused probe checks zero, 42, 2³¹, and 2³² + 1 against both the
+label and the progress maximum.
+
+The probe failed on `a671957` and passed after the fix. The fresh
+universal Debug build removed the narrowing warning on arm64 and
+x86_64 with no new source diagnostics. The build had 777 Atlantis
+warning lines and 1,538 total, including 52 Xcode environment warnings.
+All 97 standalone tests, the numeric alias check, and all 68 hosted
+smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

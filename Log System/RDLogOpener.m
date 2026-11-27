@@ -154,9 +154,9 @@ NSInteger scrollbackSort(id obj1, id obj2, void * __nullable context)
                     NSEnumerator *scrollbackEnum = [scrollbackData objectEnumerator];
                     NSAttributedString *stringWalk;
                     
-                    unsigned int totalLines = [scrollbackData count];
+                    NSUInteger totalLines = [scrollbackData count];
                     
-                    [progressSheet setLabel:[NSString stringWithFormat:@"Writing %d lines...", totalLines]];
+                    [progressSheet setLabel:[NSString stringWithFormat:@"Writing %lu lines...", (unsigned long)totalLines]];
                     [progressSheet setMaxValue:(double)totalLines];
                     
                     double progress = 0;

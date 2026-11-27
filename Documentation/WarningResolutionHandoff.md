@@ -843,6 +843,25 @@ diagnostics appeared. The hosted test target built for both architectures
 and all 68 selected smoke tests passed on Intel. Results are in
 `smoke-current-user`.
 
+## Third increment, log export progress count
+
+The log export progress count in `Log System/RDLogOpener.m` used a
+32-bit unsigned local and a signed decimal label. The focused
+`Tests/WarningResolution/test_log_export_count.py` probe failed on
+`a671957` and passed after widening the count and using an unsigned
+format. The probe covers both the label and progress maximum at zero,
+42, 2³¹, and 2³² + 1.
+
+The capture in `/tmp/atlantis-log-export.yMNDRA` has the fresh build,
+warning comparison, and standalone logs. Xcode 26.6 (17F113) with
+the macOS 26.5 SDK compiled arm64 and x86_64. The build removed one
+Atlantis warning site on both architectures and added no source
+diagnostics. The 1,538 lines comprise 777 Atlantis lines, 698 Lemuria
+lines, 6 diagnostic echoes, 5 pathless warnings, and 52 sandbox-related
+Xcode environment warnings. All 97 standalone checks and the numeric
+alias check passed. All 68 hosted smoke tests passed on Intel in
+`smoke-current-user`.
+
 ## Post-profile warning baseline
 
 Commit `9910494` adds optional Atlantis profile storage. Its fresh
