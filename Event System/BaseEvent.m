@@ -171,12 +171,10 @@
 
 - (void) eventMoveCondition:(id <EventConditionProtocol>)condition toPosition:(int) index
 {
-    if ([_rdConditions containsObject:condition]) {
-        int oldIndex = [_rdConditions indexOfObject:condition];
-        
-        if ((oldIndex != index) && (index >= 0) && (index < [_rdConditions count])) {
-            [_rdConditions exchangeObjectAtIndex:oldIndex withObjectAtIndex:index];
-        }
+    NSUInteger oldIndex = [_rdConditions indexOfObject:condition];
+    if (oldIndex != NSNotFound && index >= 0 && (NSUInteger)index < [_rdConditions count] &&
+        oldIndex != (NSUInteger)index) {
+        [_rdConditions exchangeObjectAtIndex:oldIndex withObjectAtIndex:(NSUInteger)index];
     }
 }
 
@@ -200,12 +198,10 @@
 
 - (void) eventMoveAction:(id <EventActionProtocol>)action toPosition:(int) index
 {
-    if ([_rdActions containsObject:action]) {
-        int oldIndex = [_rdActions indexOfObject:action];
-        
-        if ((oldIndex != index) && (index >= 0) && (index < [_rdActions count])) {
-            [_rdActions exchangeObjectAtIndex:oldIndex withObjectAtIndex:index];
-        }
+    NSUInteger oldIndex = [_rdActions indexOfObject:action];
+    if (oldIndex != NSNotFound && index >= 0 && (NSUInteger)index < [_rdActions count] &&
+        oldIndex != (NSUInteger)index) {
+        [_rdActions exchangeObjectAtIndex:oldIndex withObjectAtIndex:(NSUInteger)index];
     }
 }
 

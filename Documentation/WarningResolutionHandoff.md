@@ -21,13 +21,13 @@
   Conditions tab batch at `968d412`, hit testing at `06df675`,
   whole-event reordering at `a3cc2b1`, chain removal at `ae0c0fb`,
   selected-row checks at `7a7d79f`, and extra-data columns at
-  `d0c3e80`. The twenty-second batch widens EventCollection counts
-  and indexes. Its universal Debug capture has 807 Atlantis warning
-  lines and 1,568 total. Artifacts are in
-  `/tmp/atlantis-increment3-event-collection.Y7UlyN`.
-- The EventCollection batch is ready for review before resuming the
-  workplan. The World Idle initialization issue remains recorded in
-  [Discovered bugs](DiscoveredBugs.md).
+  `d0c3e80`. The EventCollection batch is committed at `e4e4610`.
+  The twenty-third batch fixes BaseEvent move source indexes.
+  Its universal Debug capture has 803 Atlantis warning lines and
+  1,564 total. Artifacts are in `/tmp/atlantis-increment3-base-event.mdhEEp`.
+- The next batch covers condition mode and removal in the collected
+  conditions editor. The World Idle initialization issue remains
+  recorded in [Discovered bugs](DiscoveredBugs.md).
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -738,6 +738,28 @@ from 813 to 807 and the raw count fell from 1,574 to 1,568. No new source
 diagnostics appeared. The hosted tests built for both architectures. All
 68 selected tests passed on Intel, including the absent-event selection
 check and ordinary reordering. Results are in `smoke-current-user`.
+
+## Third increment, BaseEvent move source indexes
+
+The baseline is EventCollection batch commit `e4e4610`. Both BaseEvent
+move methods keep the array's full-width source index and check the
+missing sentinel before the exchange. Destinations retain the signed
+move API. The Event Editor still guards both positions before updating
+the model and the Lemuria view.
+
+The [standalone move tests](../Tests/WarningResolution/test_base_event_move_indexes.py)
+compile both production methods. Two wide-source subcases failed on
+the original and passed after the fix. Ordinary moves, missing items,
+invalid destinations, and unchanged positions passed. All 83 standalone
+tests and the numeric alias check passed. Artifacts are in
+`/tmp/atlantis-increment3-base-event.mdhEEp`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed two warning sites. Atlantis warning lines fell
+from 807 to 803 and the raw count fell from 1,568 to 1,564. No new source
+diagnostics appeared. The hosted test target built for both architectures.
+All 68 selected hosted smoke tests passed on Intel. Results are in
+`smoke-current-user`.
 
 ## Post-profile warning baseline
 

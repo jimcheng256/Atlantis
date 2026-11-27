@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, EventCollection index batch under review**.
+Status as of 2026-11-27 is **increment 3, BaseEvent move source indexes**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -462,6 +462,20 @@ event preserves its current selection.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_event_collection_indexes.py -v
+```
+
+The twenty-third batch covers the source positions in the two BaseEvent
+move methods. At `e4e4610`, the Atlantis warnings in
+`Event System/BaseEvent.m` are at lines 175 and 204. A synthetic source
+of `INT_MAX + 1` became an invalid array index. A source of `UINT_MAX + 2`
+could alias the destination at index 1 and suppress a valid exchange.
+Retain the array's full-width source and keep the signed destination
+contract used by the editor. The editor still checks both positions
+before dispatching a move to Lemuria.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_base_event_move_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep
