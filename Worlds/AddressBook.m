@@ -355,7 +355,7 @@ AddressBook *s_addyBook = nil;
     [self saveExpands];
     [_rdWorldList reloadData];
     if (current) {
-        int row = [_rdWorldList rowForItem:current];
+        NSInteger row = [_rdWorldList rowForItem:current];
         if (row != -1)
             [_rdWorldList selectRow:row byExtendingSelection:NO];
     }
@@ -677,7 +677,7 @@ AddressBook *s_addyBook = nil;
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id) new
 {
-    int selected = [_rdWorldList selectedRow];
+    NSInteger selected = [_rdWorldList selectedRow];
     if (selected != -1) {
         AddressBookRecord *record = [_rdWorldList itemAtRow:selected];
         
@@ -694,7 +694,7 @@ AddressBook *s_addyBook = nil;
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    int selected = [_rdWorldList selectedRow];
+    NSInteger selected = [_rdWorldList selectedRow];
     if (selected == -1) {
         [_rdRemoveWorldButton setEnabled:NO];
         [_rdAddCharacterButton setEnabled:NO];
@@ -709,10 +709,11 @@ AddressBook *s_addyBook = nil;
             NSString *uuid = [record uuid];
 
             NSView *configView = [[_rdConfigContent selectedTabViewItem] view];
-            int selectedTab = 0;
+            NSInteger selectedTab = 0;
             if ([configView isKindOfClass:[NSTabView class]]) {
                 NSTabView *tabTemp = (NSTabView *)configView;
-                selectedTab = [tabTemp indexOfTabViewItem:[tabTemp selectedTabViewItem]];
+                NSTabViewItem *item = [tabTemp selectedTabViewItem];
+                selectedTab = item ? [tabTemp indexOfTabViewItem:item] : NSNotFound;
             }
 
             
@@ -720,7 +721,10 @@ AddressBook *s_addyBook = nil;
             
             configView = [[_rdConfigContent selectedTabViewItem] view];
             if ([configView isKindOfClass:[NSTabView class]]) {
-                [(NSTabView *)configView selectTabViewItemAtIndex:selectedTab];
+                NSTabView *tabs = (NSTabView *)configView;
+                if (selectedTab >= 0 && selectedTab < [tabs numberOfTabViewItems]) {
+                    [tabs selectTabViewItemAtIndex:selectedTab];
+                }
             }
                         
             if ([record isCharacter]) {
@@ -760,7 +764,7 @@ AddressBook *s_addyBook = nil;
 
 - (AddressBookRecord *) currentSelection
 {
-    int selected = [_rdWorldList selectedRow];
+    NSInteger selected = [_rdWorldList selectedRow];
     if (selected != -1) {
         AddressBookRecord *record = [_rdWorldList itemAtRow:selected];
         return record;

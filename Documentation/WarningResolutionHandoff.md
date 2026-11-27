@@ -13,10 +13,11 @@
   the Highlights batch at `659e515`. The shared outline click batch is
   committed at `62a75f0`, the Spawn outline batch at `2e26532`, and the
   Spawn table batch at `66ef54e`, and the Spawn removal batch at
-  `734abb6`. The latest integer-narrowing batch covers the Address Book
-  outline data source.
-- Review the Address Book data-source batch before selecting the next AppKit UI
-  path. Keep byte-level conversions in separate batches.
+  `734abb6`. The Address Book outline data-source batch is committed at
+  `adecaa0`. The latest integer-narrowing batch covers Address Book
+  selection and editor tab restoration.
+- Review the Address Book selection batch before selecting the next
+  AppKit UI path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -431,6 +432,38 @@ passed on Intel. The new test loaded the actual Address Book nib with
 an empty collection, added a fixture world, and verified its character
 row on expansion and collapse. The capture, test log, and result bundle
 are in `smoke-current-user`.
+
+## Third increment, Address Book selection and tab indexes
+
+The baseline is Address Book data-source batch commit `adecaa0`. The
+selection actions and outline reload keep full-width row indexes. A
+selected editor tab is carried between records when the destination
+contains the index. An unavailable tab leaves the destination editor's
+selection intact.
+
+The [standalone Address Book selection tests](../Tests/WarningResolution/test_address_book_selection_indexes.py)
+compile the production methods with synthetic outline rows and tabs.
+The baseline passed ordinary selection, missing outline selection, and
+a missing row after reload. Six subcases failed across wide indexes and
+tabs that could not be restored. The
+[workplan](WarningResolutionWorkplan.md#third-increment-batches) records
+the test command. Artifacts are in
+`/tmp/atlantis-increment3-address-book-selection.ZEPgep`.
+
+All three focused tests passed after the change. All 53 Python
+standalone tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed five warning sites. Atlantis warning lines
+fell from 885 to 875 and the raw count fell from 1,646 to 1,636.
+The comparison found no new source diagnostics. Use this capture as
+the baseline for the next batch.
+
+The hosted test target built successfully. All 64 selected smoke tests
+passed on Intel. The new test switched between a world and character
+and verified restoration of a shared tab and preservation of the
+destination selection when a source tab had no counterpart. The capture,
+test log, and result bundle are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 
