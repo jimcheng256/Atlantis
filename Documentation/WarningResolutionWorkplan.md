@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **under review after the third-increment Spawn outline batch**.
+Status as of 2026-11-26 is **under review after the third-increment Spawn pattern and exception tables batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -249,6 +249,18 @@ the pattern and exception tables have their own warning sites.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_spawn_outline_indexes.py -v
+```
+
+The eighth batch covers the Spawn editor's pattern and exception tables.
+Match AppKit's row count and row parameters. Verify reads and edits at
+ordinary and wide indexes, check the missing index when adding a row,
+and validate the selection before copying the list for removal. Use
+the hosted editor to verify adding, editing, and removing a row in
+both tables.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_spawn_pattern_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

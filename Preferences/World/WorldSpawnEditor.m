@@ -252,7 +252,7 @@
         return NSOrderedAscending;
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     NSMutableArray *array = nil;
 
@@ -264,12 +264,12 @@
     }
     
     if (array)
-        return [array count];
+        return (NSInteger)[array count];
         
     return 0;    
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     NSMutableArray *array = nil;
 
@@ -283,7 +283,7 @@
     if (!array)
         return nil;
         
-    if ((rowIndex < 0) || (rowIndex >= [array count]))
+    if (rowIndex < 0 || (NSUInteger)rowIndex >= [array count])
         return nil;
 
     RDStringPattern *pattern = [array objectAtIndex:rowIndex];
@@ -298,7 +298,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     NSMutableArray *array = nil;
 
@@ -312,7 +312,7 @@
     if (!array)
         return;
         
-    if ((rowIndex < 0) || (rowIndex >= [array count]))
+    if (rowIndex < 0 || (NSUInteger)rowIndex >= [array count])
         return;
 
     RDStringPattern *pattern = [array objectAtIndex:rowIndex];
@@ -1016,10 +1016,10 @@
     [patterns addObject:pattern];
     [current setPatterns:[NSArray arrayWithArray:patterns]];
     [_rdPatternList reloadData];
-    int row = [patterns indexOfObject:pattern];
+    NSUInteger row = [patterns indexOfObject:pattern];
     if (row != NSNotFound) {
-        [_rdPatternList selectRow:row byExtendingSelection:NO];
-        [_rdPatternList editColumn:1 row:row withEvent:nil select:YES];
+        [_rdPatternList selectRow:(NSInteger)row byExtendingSelection:NO];
+        [_rdPatternList editColumn:1 row:(NSInteger)row withEvent:nil select:YES];
     }
     [patterns release];
 }
@@ -1030,14 +1030,12 @@
 
     WorldSpawnRecord *current = [self currentSelectedSpawn];
 
-    NSMutableArray *patterns = [[current patterns] mutableCopy];
-    int position = [_rdPatternList selectedRow];
-    
-    if (position < 0)
+    NSArray *currentPatterns = [current patterns];
+    NSInteger position = [_rdPatternList selectedRow];
+    if (position < 0 || (NSUInteger)position >= [currentPatterns count])
         return;
-    if (position >= [patterns count])
-        return;
-        
+
+    NSMutableArray *patterns = [currentPatterns mutableCopy];
     [patterns removeObjectAtIndex:position];
     [current setPatterns:[NSArray arrayWithArray:patterns]];
     [_rdPatternList reloadData];
@@ -1055,10 +1053,10 @@
     [patterns addObject:pattern];
     [current setExceptions:[NSArray arrayWithArray:patterns]];
     [_rdExceptionList reloadData];
-    int row = [patterns indexOfObject:pattern];
+    NSUInteger row = [patterns indexOfObject:pattern];
     if (row != NSNotFound) {
-        [_rdExceptionList selectRow:row byExtendingSelection:NO];
-        [_rdExceptionList editColumn:1 row:row withEvent:nil select:YES];
+        [_rdExceptionList selectRow:(NSInteger)row byExtendingSelection:NO];
+        [_rdExceptionList editColumn:1 row:(NSInteger)row withEvent:nil select:YES];
     }
     [patterns release];
 }
@@ -1069,14 +1067,12 @@
 
     WorldSpawnRecord *current = [self currentSelectedSpawn];
     
-    NSMutableArray *patterns = [[current exceptions] mutableCopy];
-    int position = [_rdExceptionList selectedRow];
-    
-    if (position < 0)
+    NSArray *currentExceptions = [current exceptions];
+    NSInteger position = [_rdExceptionList selectedRow];
+    if (position < 0 || (NSUInteger)position >= [currentExceptions count])
         return;
-    if (position >= [patterns count])
-        return;
-        
+
+    NSMutableArray *patterns = [currentExceptions mutableCopy];
     [patterns removeObjectAtIndex:position];
     [current setExceptions:[NSArray arrayWithArray:patterns]];
     [_rdExceptionList reloadData];

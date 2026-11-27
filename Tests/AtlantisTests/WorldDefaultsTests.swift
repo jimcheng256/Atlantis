@@ -68,6 +68,62 @@ final class WorldDefaultsTests: XCTestCase {
 
     @MainActor
     func testSpawnOutlineKeepsTheAddedSpawnSelectedAfterRename() throws {
+        try withSpawnEditor { window, outline, content in
+            let root = try XCTUnwrap(outline.item(atRow: 0) as AnyObject?)
+            XCTAssertEqual(outline.numberOfRows, 1)
+            try addSpawn(in: outline, content: content)
+            XCTAssertEqual(outline.numberOfRows, 2)
+            XCTAssertEqual(outline.selectedRow, 1)
+            let spawn = try XCTUnwrap(outline.item(atRow: 1) as AnyObject?)
+            XCTAssertTrue(outline.parent(forItem: spawn) as AnyObject? === root)
+
+            XCTAssertTrue(window.makeFirstResponder(window))
+            let column = try XCTUnwrap(outline.tableColumns.first)
+            outline.dataSource?.outlineView?(outline, setObjectValue: "Renamed", for: column, byItem: spawn)
+            XCTAssertEqual(outline.selectedRow, 1)
+            XCTAssertTrue(outline.item(atRow: outline.selectedRow) as AnyObject? === spawn)
+            XCTAssertEqual(outline.dataSource?.outlineView?(outline, objectValueFor: column, byItem: spawn) as? String, "Renamed")
+        }
+    }
+
+    @MainActor
+    func testSpawnPatternAndExceptionTablesSelectAndRemoveAddedRows() throws {
+        try withSpawnEditor { window, outline, content in
+            try addSpawn(in: outline, content: content)
+            XCTAssertTrue(window.makeFirstResponder(window))
+            let tabs = try XCTUnwrap(descendants(of: content).compactMap { $0 as? NSTabView }.first)
+
+            for (label, tag, addAction, removeAction, text) in [
+                ("Patterns", 1, "addPattern:", "removePattern:", "match this"),
+                ("Exceptions", 2, "addException:", "removeException:", "except this")
+            ] {
+                let tab = try XCTUnwrap(tabs.tabViewItems.first { $0.label == label })
+                tabs.selectTabViewItem(tab)
+                let view = try XCTUnwrap(tab.view)
+                let controls = descendants(of: view)
+                let table = try XCTUnwrap(controls.compactMap { $0 as? NSTableView }.first { $0.tag == tag })
+                let buttons = controls.compactMap { $0 as? NSButton }
+                let add = try XCTUnwrap(buttons.first { $0.action == NSSelectorFromString(addAction) })
+                let remove = try XCTUnwrap(buttons.first { $0.action == NSSelectorFromString(removeAction) })
+                let column = try XCTUnwrap(table.tableColumns.first { $0.identifier.rawValue == "matchPattern" })
+
+                XCTAssertEqual(table.numberOfRows, 0)
+                add.performClick(nil)
+                XCTAssertEqual(table.numberOfRows, 1)
+                XCTAssertEqual(table.selectedRow, 0)
+                XCTAssertTrue(window.makeFirstResponder(window))
+                table.dataSource?.tableView?(table, setObjectValue: text, for: column, row: 0)
+                XCTAssertEqual(table.dataSource?.tableView?(table, objectValueFor: column, row: 0) as? String, text)
+                remove.performClick(nil)
+                XCTAssertEqual(table.numberOfRows, 0)
+            }
+        }
+    }
+
+    @MainActor
+    private func withSpawnEditor(
+        _ exercise: (NSWindow, NSOutlineView, NSView) throws -> Void
+    ) throws {
         let preferences = RDAtlantisWorldPreferences()
         let editor = try XCTUnwrap(WorldConfigurationEditor(world: preferences, forCharacter: nil))
         let tabs = try XCTUnwrap(editor.configView() as? NSTabView)
@@ -76,9 +132,6 @@ final class WorldDefaultsTests: XCTestCase {
         let content = try XCTUnwrap(spawnTab.view)
         let controls = descendants(of: content)
         let outline = try XCTUnwrap(controls.compactMap { $0 as? NSOutlineView }.first)
-        let add = try XCTUnwrap(controls.compactMap { $0 as? NSButton }.first {
-            $0.action == NSSelectorFromString("addSpawn:")
-        })
         let window = NSWindow(contentRect: content.frame, styleMask: [.titled], backing: .buffered, defer: false)
         window.isReleasedWhenClosed = false
         window.contentView = tabs
@@ -87,22 +140,15 @@ final class WorldDefaultsTests: XCTestCase {
             window.close()
             withExtendedLifetime(editor) {}
         }
+        try exercise(window, outline, content)
+    }
 
-        let root = try XCTUnwrap(outline.item(atRow: 0) as AnyObject?)
-        XCTAssertEqual(outline.numberOfRows, 1)
+    @MainActor
+    private func addSpawn(in outline: NSOutlineView, content: NSView) throws {
+        let buttons = descendants(of: content).compactMap { $0 as? NSButton }
+        let add = try XCTUnwrap(buttons.first { $0.action == NSSelectorFromString("addSpawn:") })
         outline.selectRowIndexes(IndexSet(integer: 0), byExtendingSelection: false)
         add.performClick(nil)
-        XCTAssertEqual(outline.numberOfRows, 2)
-        XCTAssertEqual(outline.selectedRow, 1)
-        let spawn = try XCTUnwrap(outline.item(atRow: 1) as AnyObject?)
-        XCTAssertTrue(outline.parent(forItem: spawn) as AnyObject? === root)
-
-        XCTAssertTrue(window.makeFirstResponder(window))
-        let column = try XCTUnwrap(outline.tableColumns.first)
-        outline.dataSource?.outlineView?(outline, setObjectValue: "Renamed", for: column, byItem: spawn)
-        XCTAssertEqual(outline.selectedRow, 1)
-        XCTAssertTrue(outline.item(atRow: outline.selectedRow) as AnyObject? === spawn)
-        XCTAssertEqual(outline.dataSource?.outlineView?(outline, objectValueFor: column, byItem: spawn) as? String, "Renamed")
     }
 
     @MainActor
