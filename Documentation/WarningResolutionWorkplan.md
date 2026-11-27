@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, Event Editor extra-data column batch**.
+Status as of 2026-11-27 is **increment 3, EventCollection index batch under review**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -439,6 +439,29 @@ moving the column.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_event_column_indexes.py -v
+```
+
+The twenty-second batch covers EventCollection count and index contracts. At
+`d0c3e80`, the Atlantis warnings in `Event Configuration Kit/EventCollection.m`
+are at lines 70, 80, and 85. A probe using the production methods showed
+that a synthetic count of `INT_MAX + 1` becomes negative, a missing event
+sends row `UINT_MAX` to the table, and a move from row 4,294,967,297
+uses row 1 as its source. A count-only change restored the count, but
+allowed the editor to accept row 4,294,967,297 and narrow it to row 1 at
+the collection lookup. Probe sources and logs are in
+`/tmp/atlantis-event-collection-review.PQiDI6`.
+
+Use a signed full-width count for AppKit and unsigned full-width
+collection positions for lookup and exchange. Preserve `NSNotFound`
+and validate selection against the count before passing a signed row
+to AppKit. Keep the Objective-C selectors and archive keys. The
+standalone probe exercises the production collection and editor
+together. The hosted editor also verifies that selecting a missing
+event preserves its current selection.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_collection_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

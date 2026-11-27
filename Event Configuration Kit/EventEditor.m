@@ -156,10 +156,10 @@ static NSImage *s_downArrow;
 
 - (void) selectEvent:(id <EventDataProtocol>)event
 {
-    unsigned position = [_rdEventData indexOfEvent:event];
+    NSUInteger position = [_rdEventData indexOfEvent:event];
     
-    if (position != NSNotFound) {
-        [_rdTableView selectRow:position byExtendingSelection:NO];
+    if (position != NSNotFound && position < (NSUInteger)[_rdEventData eventsCount]) {
+        [_rdTableView selectRow:(NSInteger)position byExtendingSelection:NO];
     }
 }
 
@@ -205,7 +205,7 @@ static NSImage *s_downArrow;
 {
     if (_rdEventData && (aTableView == _rdTableView)) {
         if (rowIndex >= 0 && rowIndex < [_rdEventData eventsCount]) {
-            id<EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)rowIndex];
+            id<EventDataProtocol> event = [_rdEventData eventAtIndex:(NSUInteger)rowIndex];
             
             if (event) {                
                 if ([[aTableColumn identifier] isEqualToString:@"eventName"]) {
@@ -230,7 +230,7 @@ static NSImage *s_downArrow;
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     if (aTableView == _rdTableView && rowIndex >= 0 && rowIndex < [_rdEventData eventsCount]) {
-        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)rowIndex];
+        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(NSUInteger)rowIndex];
         
         if (event) {
             if ([[aTableColumn identifier] isEqualToString:@"eventName"]) {
@@ -257,7 +257,7 @@ static NSImage *s_downArrow;
 {
     NSInteger selected = [_rdTableView selectedRow];
     if (selected >= 0 && selected < [_rdEventData eventsCount]) {
-        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)selected];
+        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(NSUInteger)selected];
         NSArray *conditions = [event eventConditions];
         NSArray *actions = [event eventActions];
 
@@ -288,7 +288,7 @@ static NSImage *s_downArrow;
 {
     NSInteger selected = [_rdTableView selectedRow];
     if (selected >= 0 && selected < [_rdEventData eventsCount]) {
-        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)selected];
+        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(NSUInteger)selected];
         NSArray *conditions = [event eventConditions];
         NSArray *actions = [event eventActions];
 
@@ -324,7 +324,7 @@ static NSImage *s_downArrow;
     [_rdActionChainView removeAllItems];
     
     if (selected >= 0 && selected < [_rdEventData eventsCount]) {
-        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)selected];
+        id <EventDataProtocol> event = [_rdEventData eventAtIndex:(NSUInteger)selected];
 
         NSInteger condIndex = [_rdTabView indexOfTabViewItemWithIdentifier:@"eventConds"];
         
@@ -444,7 +444,7 @@ static NSImage *s_downArrow;
     }
 
     NSTableColumn *colObj = [columns objectAtIndex:(NSUInteger)col];
-    id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)row];
+    id <EventDataProtocol> event = [_rdEventData eventAtIndex:(NSUInteger)row];
     
     if (colObj && event) {
         if ([[colObj identifier] isEqualToString:@"eventName"]) {
@@ -480,7 +480,7 @@ static NSImage *s_downArrow;
     }
 
     NSTableColumn *colObj = [columns objectAtIndex:(NSUInteger)col];
-    id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)row];
+    id <EventDataProtocol> event = [_rdEventData eventAtIndex:(NSUInteger)row];
     
     if (colObj && event) {
         if ([[colObj identifier] isEqualToString:@"eventActive"]) {
@@ -499,13 +499,13 @@ static NSImage *s_downArrow;
     
     NSInteger count = [_rdEventData eventsCount];
     if (selected >= 0 && selected < count) {
-        event = [_rdEventData eventAtIndex:(unsigned)selected];
+        event = [_rdEventData eventAtIndex:(NSUInteger)selected];
     
         if (event) {
             NSInteger newIndex = selected - 1;
             
             if (newIndex >= 0 && newIndex < count) {
-                [_rdEventData moveEvent:event toIndex:(unsigned)newIndex];
+                [_rdEventData moveEvent:event toIndex:(NSUInteger)newIndex];
                 [_rdTableView reloadData];
                 _rdNoRedraw = YES;
                 [_rdTableView selectRow:newIndex byExtendingSelection:NO];
@@ -523,13 +523,13 @@ static NSImage *s_downArrow;
     
     NSInteger count = [_rdEventData eventsCount];
     if (selected >= 0 && selected < count) {
-        event = [_rdEventData eventAtIndex:(unsigned)selected];
+        event = [_rdEventData eventAtIndex:(NSUInteger)selected];
     
         if (event) {
             NSInteger newIndex = selected + 1;
             
             if (newIndex >= 0 && newIndex < count) {
-                [_rdEventData moveEvent:event toIndex:(unsigned)newIndex];
+                [_rdEventData moveEvent:event toIndex:(NSUInteger)newIndex];
                 [_rdTableView reloadData];
                 _rdNoRedraw = YES;
                 [_rdTableView selectRow:newIndex byExtendingSelection:NO];
@@ -551,7 +551,7 @@ static NSImage *s_downArrow;
     NSInteger selected = [_rdTableView selectedRow];
     EventCollection *collection = _rdEventData;
     id <EventDataProtocol> event = selected >= 0 && selected < [collection eventsCount]
-        ? [collection eventAtIndex:(unsigned)selected] : nil;
+        ? [collection eventAtIndex:(NSUInteger)selected] : nil;
     NSWindow *window = [_rdTableView window];
 
     if (self.confirmsEventRemoval && (!event || !window)) {
@@ -585,7 +585,7 @@ static NSImage *s_downArrow;
     NSInteger selected = [_rdTableView selectedRow];
     
     if (selected >= 0 && selected < [_rdEventData eventsCount]) {
-        event = [_rdEventData eventAtIndex:(unsigned)selected];
+        event = [_rdEventData eventAtIndex:(NSUInteger)selected];
         
         if (event) {
             NSInteger mode = [_rdConditionType indexOfSelectedItem];
@@ -602,7 +602,7 @@ static NSImage *s_downArrow;
     NSInteger selected = [_rdTableView selectedRow];
     
     if (selected >= 0 && selected < [_rdEventData eventsCount]) {
-        event = [_rdEventData eventAtIndex:(unsigned)selected];
+        event = [_rdEventData eventAtIndex:(NSUInteger)selected];
 
         BaseCondition *condition = nil;
         
@@ -623,7 +623,7 @@ static NSImage *s_downArrow;
     NSInteger selected = [_rdTableView selectedRow];
     
     if (selected >= 0 && selected < [_rdEventData eventsCount]) {
-        event = [_rdEventData eventAtIndex:(unsigned)selected];
+        event = [_rdEventData eventAtIndex:(NSUInteger)selected];
         
         if (event) {
             id <EventConditionProtocol> condition = nil;
@@ -654,7 +654,7 @@ static NSImage *s_downArrow;
     NSInteger selected = [_rdTableView selectedRow];
     
     if (selected >= 0 && selected < [_rdEventData eventsCount]) {
-        event = [_rdEventData eventAtIndex:(unsigned)selected];
+        event = [_rdEventData eventAtIndex:(NSUInteger)selected];
         
         BaseAction *action = nil;
         
@@ -675,7 +675,7 @@ static NSImage *s_downArrow;
     NSInteger selected = [_rdTableView selectedRow];
     
     if (selected >= 0 && selected < [_rdEventData eventsCount]) {
-        event = [_rdEventData eventAtIndex:(unsigned)selected];
+        event = [_rdEventData eventAtIndex:(NSUInteger)selected];
         
         if (event) {
             id <EventActionProtocol> action = nil;

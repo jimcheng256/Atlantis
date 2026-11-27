@@ -43,12 +43,12 @@ def probe_source():
 
 @interface CollectionFixture : NSObject
 @property NSUInteger lookups;
-@property unsigned lastIndex;
+@property NSUInteger lastIndex;
 @property (retain) EventFixture *event;
 @end
 @implementation CollectionFixture
-- (int)eventsCount { return 2; }
-- (id)eventAtIndex:(unsigned)index {
+- (NSInteger)eventsCount { return 2; }
+- (id)eventAtIndex:(NSUInteger)index {
     self.lookups++;
     self.lastIndex = index;
     return index < 2 ? self.event : nil;
@@ -83,8 +83,8 @@ int main(int argc, char **argv) {
         id<NSTableViewDataSource> dataSource = probe;
         NSString *value = [dataSource tableView:caller objectValueForTableColumn:column row:row];
         [dataSource tableView:caller setObjectValue:@"edited" forTableColumn:column row:row];
-        printf("%ld %s\n%lu %u %s\n", (long)[dataSource numberOfRowsInTableView:caller], value.UTF8String,
-               (unsigned long)collection.lookups, collection.lastIndex, collection.event.eventName.UTF8String);
+        printf("%ld %s\n%lu %lu %s\n", (long)[dataSource numberOfRowsInTableView:caller], value.UTF8String,
+               (unsigned long)collection.lookups, (unsigned long)collection.lastIndex, collection.event.eventName.UTF8String);
     }
 }
 '''

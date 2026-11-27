@@ -85,6 +85,8 @@ final class ToolbarEventPreferencesTests: XCTestCase {
         defer { window.close() }
 
         editor.selectEvent(first)
+        editor.selectEvent(ToolbarUserEvent())
+        XCTAssertEqual(table.selectedRow, 0)
         editor.moveEventUp(nil)
         XCTAssertEqual(table.selectedRow, 0)
         XCTAssertTrue(collection.events()?.first as AnyObject === first)

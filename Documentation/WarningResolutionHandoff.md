@@ -20,12 +20,13 @@
 - The Event Editor move batch is committed at `909740a`, the
   Conditions tab batch at `968d412`, hit testing at `06df675`,
   whole-event reordering at `a3cc2b1`, chain removal at `ae0c0fb`,
-  and selected-row checks at `7a7d79f`. The twenty-first batch covers
-  extra-data columns. Its universal Debug capture is the next baseline,
-  with 813 Atlantis warning lines and 1,574 total. Artifacts are in
-  `/tmp/atlantis-increment3-event-columns.GRIgLa`.
-- The next batch covers EventCollection count and index contracts.
-  The World Idle initialization issue is deferred to
+  selected-row checks at `7a7d79f`, and extra-data columns at
+  `d0c3e80`. The twenty-second batch widens EventCollection counts
+  and indexes. Its universal Debug capture has 807 Atlantis warning
+  lines and 1,568 total. Artifacts are in
+  `/tmp/atlantis-increment3-event-collection.Y7UlyN`.
+- The EventCollection batch is ready for review before resuming the
+  workplan. The World Idle initialization issue remains recorded in
   [Discovered bugs](DiscoveredBugs.md).
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
@@ -714,6 +715,29 @@ from 815 to 813 and the raw count fell from 1,576 to 1,574. No new source
 diagnostics appeared. The hosted test target built for both architectures
 and all 68 selected tests passed on Intel. Results are in
 `smoke-current-user`.
+
+## Third increment, EventCollection counts and indexes
+
+The baseline is extra-data column batch commit `d0c3e80`. The collection
+returns an `NSInteger` count and uses `NSUInteger` for lookup and moves,
+matching the two framework boundaries. The editor preserves the
+`NSNotFound` sentinel and checks the destination against the collection
+count before selecting a signed AppKit row.
+
+The [standalone collection test](../Tests/WarningResolution/test_event_collection_indexes.py)
+compiles the production collection and editor methods together. It failed
+on the baseline and passed after the fix, verifying ordinary selection,
+absent events, and wide counts, selections, lookups, and moves. The editor
+fixtures use the widened method signatures. All 81 standalone tests and
+the numeric alias check passed. Artifacts are in
+`/tmp/atlantis-increment3-event-collection.Y7UlyN`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed three warning sites. Atlantis warning lines fell
+from 813 to 807 and the raw count fell from 1,574 to 1,568. No new source
+diagnostics appeared. The hosted tests built for both architectures. All
+68 selected tests passed on Intel, including the absent-event selection
+check and ordinary reordering. Results are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 

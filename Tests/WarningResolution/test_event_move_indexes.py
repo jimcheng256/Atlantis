@@ -33,9 +33,9 @@ static NSUInteger count;
 @end
 @implementation Fixture
 - (NSInteger)selectedRow { return row; }
-- (int)eventsCount { return 2; }
-- (id)eventAtIndex:(unsigned)index {
-    printf("event %u\n", index);
+- (NSInteger)eventsCount { return 2; }
+- (id)eventAtIndex:(NSUInteger)index {
+    printf("event %lu\n", (unsigned long)index);
     return index < 2 ? self : nil;
 }
 - (NSArray *)eventConditions { return (NSArray *)self; }

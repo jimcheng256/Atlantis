@@ -32,12 +32,12 @@ static BOOL missingEvent;
 - (NSInteger)selectedRow { return selectedRow; }
 - (NSWindow *)window { return (NSWindow *)self; }
 - (BOOL)makeFirstResponder:(NSResponder *)responder { puts("focus"); return YES; }
-- (int)eventsCount { return eventCount; }
-- (id)eventAtIndex:(unsigned)index {
-    printf("event %u\n", index);
+- (NSInteger)eventsCount { return eventCount; }
+- (id)eventAtIndex:(NSUInteger)index {
+    printf("event %lu\n", (unsigned long)index);
     return index < (unsigned)eventCount && !missingEvent ? self : nil;
 }
-- (void)moveEvent:(id)event toIndex:(unsigned)index { printf("move %u\n", index); }
+- (void)moveEvent:(id)event toIndex:(NSUInteger)index { printf("move %lu\n", (unsigned long)index); }
 - (void)reloadData { puts("reload"); }
 - (void)selectRow:(NSInteger)row byExtendingSelection:(BOOL)extend {
     printf("select %ld %d %d\n", (long)row, extend, self.probe->_rdNoRedraw);

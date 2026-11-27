@@ -34,9 +34,9 @@ static NSString *identifier;
     return self;
 }
 - (NSString *)identifier { return identifier; }
-- (int)eventsCount { return 2; }
-- (id)eventAtIndex:(unsigned)index {
-    printf("event %u\n", index);
+- (NSInteger)eventsCount { return 2; }
+- (id)eventAtIndex:(NSUInteger)index {
+    printf("event %lu\n", (unsigned long)index);
     return index < 2 ? self : nil;
 }
 - (BOOL)eventCanEditNameSpecial { return YES; }

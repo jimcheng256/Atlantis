@@ -55,7 +55,7 @@
     }
 }
 
-- (id <EventDataProtocol>) eventAtIndex:(unsigned) index
+- (id <EventDataProtocol>) eventAtIndex:(NSUInteger) index
 {
     if (index < [_rdEvents count]) {
         return [_rdEvents objectAtIndex:index];
@@ -64,25 +64,22 @@
     return nil;
 }
 
-- (void) moveEvent:(id <EventDataProtocol>)event toIndex:(unsigned) index
+- (void) moveEvent:(id <EventDataProtocol>)event toIndex:(NSUInteger) index
 {
-    if ([_rdEvents containsObject:event]) {
-        unsigned oldIndex = [_rdEvents indexOfObject:event];
-        
-        if ((index >= 0) && (index < [_rdEvents count]) && (index != oldIndex)) {
-            [_rdEvents exchangeObjectAtIndex:index withObjectAtIndex:oldIndex];
-        }
+    NSUInteger oldIndex = [_rdEvents indexOfObject:event];
+    if (oldIndex != NSNotFound && index < [_rdEvents count] && index != oldIndex) {
+        [_rdEvents exchangeObjectAtIndex:index withObjectAtIndex:oldIndex];
     }
 }
 
-- (unsigned) indexOfEvent:(id <EventDataProtocol>) event
+- (NSUInteger) indexOfEvent:(id <EventDataProtocol>) event
 {
     return [_rdEvents indexOfObject:event];
 }
 
-- (int) eventsCount
+- (NSInteger) eventsCount
 {
-    return [_rdEvents count];
+    return (NSInteger)[_rdEvents count];
 }
 
 - (NSArray *) events

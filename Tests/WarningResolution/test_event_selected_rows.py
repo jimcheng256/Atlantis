@@ -43,9 +43,9 @@ static NSInteger row, mode;
 @implementation Fixture
 - (NSInteger)selectedRow { return row; }
 - (NSInteger)indexOfSelectedItem { return mode; }
-- (int)eventsCount { return 2; }
-- (id)eventAtIndex:(unsigned)index {
-    printf("event %u\n", index);
+- (NSInteger)eventsCount { return 2; }
+- (id)eventAtIndex:(NSUInteger)index {
+    printf("event %lu\n", (unsigned long)index);
     return index < 2 ? self : nil;
 }
 - (BOOL)eventSupportsConditions { return YES; }

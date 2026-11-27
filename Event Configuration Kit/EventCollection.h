@@ -18,13 +18,13 @@
 
 - (void) addEvent:(id <EventDataProtocol>) event;
 - (void) removeEvent:(id <EventDataProtocol>) event;
-- (void) moveEvent:(id <EventDataProtocol>)event toIndex:(unsigned) index;
+- (void) moveEvent:(id <EventDataProtocol>)event toIndex:(NSUInteger) index;
 
 
-- (int) eventsCount;
+- (NSInteger) eventsCount;
 - (NSArray *) events;
 
-- (id <EventDataProtocol>) eventAtIndex:(unsigned) index;
-- (unsigned) indexOfEvent:(id <EventDataProtocol>) event;
+- (id <EventDataProtocol>) eventAtIndex:(NSUInteger) index;
+- (NSUInteger) indexOfEvent:(id <EventDataProtocol>) event;
 
 @end
