@@ -1,8 +1,8 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 30**, the log
-export progress count. The latest universal Debug build has 777
-Atlantis warning lines. See the
+Status as of 2026-11-27 is **increment 3 paused after batch 30** for
+review of formatted-log wrapping. The latest universal Debug build
+has 777 Atlantis warning lines. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -603,6 +603,19 @@ x86_64 with no new source diagnostics. The build had 777 Atlantis
 warning lines and 1,538 total, including 52 Xcode environment warnings.
 All 97 standalone tests, the numeric alias check, and all 68 hosted
 smoke tests passed.
+
+Batch 31 is pending review. The narrowing warning at
+`Log System/RDFormattedText.m:345` is in the formatted-log wrapping
+loop. A probe of the production method with `abcdef` confirmed that
+margin 4 and indent 2 emit `abc-` followed by `  ef`, dropping
+`d` at the hard wrap. Margin 4 and indent 4, or margin 11 with
+timestamps enabled, raise `NSInvalidArgumentException` because the
+available width is zero and subtracting the hyphen width underflows.
+The fix needs a policy for unusable widths in saved settings, a
+forward-progress guarantee, and exact-output checks covering hard
+wraps, indentation, and timestamp prefixes. The probe and its output
+are in `/tmp/atlantis-log-export.yMNDRA` as `format-wrap-probe.m`
+and `format-wrap-probe.log`.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate
