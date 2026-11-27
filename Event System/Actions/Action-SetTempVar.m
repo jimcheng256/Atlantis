@@ -120,8 +120,12 @@
 
 - (void) variableTypeChanged:(id) sender
 {
+    NSInteger selected = [_rdVariableTypeField indexOfSelectedItem];
+    if (selected < 0 || selected > 2)
+        return;
+
     [_rdVariableType release];
-    _rdVariableType = [[NSNumber numberWithInt:[_rdVariableTypeField indexOfSelectedItem]] retain];
+    _rdVariableType = [[NSNumber numberWithInt:(int)selected] retain];
 }
 
 

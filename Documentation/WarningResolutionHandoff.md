@@ -30,11 +30,14 @@
 - The Negated Condition batch is committed at `fdd69ca`. Its universal
   Debug capture has 785 Atlantis warning lines and 1,494 total. Artifacts
   are in `/tmp/atlantis-negate-verified.rnD965`.
-- The twenty-eighth batch covers the Text Spawn copy/move menu and
-  attributed-text range. Its universal Debug capture has 781 Atlantis
-  warning lines and 1,490 total. Artifacts are in
-  `/tmp/atlantis-text-spawn-verified.NVpOJe`.
-- The next candidate is the Set Variable action's scope popup.
+- The Text Spawn batch is committed at `c4ff8d6`. Its universal
+  Debug capture has 781 Atlantis warning lines and 1,490 total. Artifacts
+  are in `/tmp/atlantis-text-spawn-verified.NVpOJe`.
+- The twenty-ninth batch covers the Set Variable action's scope popup.
+  Its universal Debug capture has 779 Atlantis warning lines and
+  1,488 total. Artifacts are in `/tmp/atlantis-set-variable-scope.z05WBy`.
+- Review the remaining AppKit index and count warnings before selecting
+  the next batch.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria

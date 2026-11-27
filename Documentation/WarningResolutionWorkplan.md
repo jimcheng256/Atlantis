@@ -567,6 +567,24 @@ each architecture with no new source diagnostics. The capture in
 lines and 1,490 total. All 94 standalone tests, the numeric alias check,
 and all 68 hosted smoke tests passed.
 
+The twenty-ninth batch covers the Set Variable action's scope popup.
+At `c4ff8d6`, the narrowing site is at line 124 in
+`Event System/Actions/Action-SetTempVar.m`. The popup uses rows 0–2
+for `temp.`, `worldtemp.`, and `userconf.`. The original callback
+replaced the stored scope with -1 or 3 for invalid selections, and
+wrapped the synthetic index 4,294,967,297 to the world scope. The fix
+checks the native-width index before storing the integer scope.
+The regression probe verifies that rejected selections preserve the
+saved scope and that valid scope values round-trip under the existing
+archive key. It also checks restoration of the legacy -1 value and
+the default when older archives omit the key.
+
+The fresh universal Debug comparison removed the narrowing site for
+both architectures with no new source diagnostics. The capture in
+`/tmp/atlantis-set-variable-scope.z05WBy` has 779 Atlantis
+warning lines and 1,488 total. All 96 standalone tests, the
+numeric alias check, and all 68 hosted smoke tests passed.
+
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate
 batches.
