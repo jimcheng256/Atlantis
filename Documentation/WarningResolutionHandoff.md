@@ -18,13 +18,13 @@
   batch at `8f4b35a`, and the column and tab lookup batch at `b593707`.
   The Event Editor table data-source batch is committed at `c3ae6e1`.
 - The Event Editor move batch is committed at `909740a`, the
-  Conditions tab batch at `968d412`, and the table hit-testing batch
-  at `06df675`. The eighteenth batch covers whole-event reordering.
-  Its universal Debug capture is the next baseline, with 829 Atlantis
-  warning lines and 1,590 total. Artifacts are in
-  `/tmp/atlantis-increment3-event-reorder.V3jNEY`.
-- The next batch covers selected rows and chain membership during
-  Event Editor condition and action removal.
+  Conditions tab batch at `968d412`, hit testing at `06df675`, and
+  whole-event reordering at `a3cc2b1`. The nineteenth batch covers
+  condition and action removal. Its universal Debug capture is the
+  next baseline, with 825 Atlantis warning lines and 1,586 total.
+  Artifacts are in `/tmp/atlantis-increment3-event-chain-removal.vIj4Xl`.
+- The next batch covers the remaining Event Editor selected rows
+  used during refresh, condition mode changes, additions, and event removal.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -646,6 +646,30 @@ no new source diagnostics. The hosted test target built for both architectures.
 All 68 selected hosted smoke tests passed on Intel, including the new
 reorder check. The capture, test log, and result bundle are in
 `smoke-current-user`.
+
+## Third increment, Event Editor chain removal indexes
+
+The baseline is whole-event reorder batch commit `a3cc2b1`. The
+condition and action removal paths check their selected row before
+looking up the event. They recognize Lemuria's `UINT_MAX` sentinel and
+validate the position against the model array before lookup. Removing
+an action now invalidates the action chain. The original invalidated
+the condition chain. Lemuria's position lookup and related relayout
+issue are tracked in `DiscoveredBugs.md` in the Lemuria checkout.
+
+The [standalone chain removal tests](../Tests/WarningResolution/test_event_chain_removal_indexes.py)
+compile both production actions. The baseline failed nine subcases
+covering row validation, ranges, and redraw of the action chain.
+All three focused tests, all 75 standalone tests, and the numeric
+alias check passed after the fix. Artifacts are in
+`/tmp/atlantis-increment3-event-chain-removal.vIj4Xl`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed two warning sites. Atlantis warning lines fell
+from 829 to 825 and the raw count fell from 1,590 to 1,586. No new source
+diagnostics appeared. The hosted test target built for both architectures.
+All 68 selected hosted smoke tests passed on Intel. The capture, test log,
+and result bundle are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 

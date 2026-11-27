@@ -618,10 +618,10 @@ static NSImage *s_downArrow;
 - (void) removeCondition: (id) sender
 {
     id <EventDataProtocol> event = nil;
-    int selected = [_rdTableView selectedRow];
+    NSInteger selected = [_rdTableView selectedRow];
     
-    if (selected != -1) {
-        event = [_rdEventData eventAtIndex:selected];
+    if (selected >= 0 && selected < [_rdEventData eventsCount]) {
+        event = [_rdEventData eventAtIndex:(unsigned)selected];
         
         if (event) {
             id <EventConditionProtocol> condition = nil;
@@ -630,8 +630,9 @@ static NSImage *s_downArrow;
             if (item) {
                 unsigned itemPos = [_rdConditionChainView positionOfItem:item];
                 
-                if (itemPos != NSNotFound) {
-                    condition = [[event eventConditions] objectAtIndex:itemPos];
+                NSArray *conditions = [event eventConditions];
+                if (itemPos != UINT_MAX && itemPos < [conditions count]) {
+                    condition = [conditions objectAtIndex:itemPos];
                     
                     if (condition) {
                         [[_rdTableView window] makeFirstResponder:[_rdTableView window]];
@@ -669,10 +670,10 @@ static NSImage *s_downArrow;
 - (void) removeAction:(id) sender
 {
     id <EventDataProtocol> event = nil;
-    int selected = [_rdTableView selectedRow];
+    NSInteger selected = [_rdTableView selectedRow];
     
-    if (selected != -1) {
-        event = [_rdEventData eventAtIndex:selected];
+    if (selected >= 0 && selected < [_rdEventData eventsCount]) {
+        event = [_rdEventData eventAtIndex:(unsigned)selected];
         
         if (event) {
             id <EventActionProtocol> action = nil;
@@ -681,14 +682,15 @@ static NSImage *s_downArrow;
             if (item) {
                 unsigned itemPos = [_rdActionChainView positionOfItem:item];
                 
-                if (itemPos != NSNotFound) {
-                    action = [[event eventActions] objectAtIndex:itemPos];
+                NSArray *actions = [event eventActions];
+                if (itemPos != UINT_MAX && itemPos < [actions count]) {
+                    action = [actions objectAtIndex:itemPos];
                     
                     if (action) {
                         [[_rdTableView window] makeFirstResponder:[_rdTableView window]];
                         [event eventRemoveAction:action];
                         [_rdActionChainView removeItem:item];
-                        [_rdConditionChainView setNeedsDisplay:YES];
+                        [_rdActionChainView setNeedsDisplay:YES];
                     }
                 }
             }

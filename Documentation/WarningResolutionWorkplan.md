@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, Event Editor whole-event reordering batch**.
+Status as of 2026-11-27 is **increment 3, Event Editor condition and action removal batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -390,6 +390,23 @@ checks both move directions and both endpoints in the actual editor.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_event_reorder_indexes.py -v
+```
+
+The nineteenth batch covers Event Editor `removeCondition:` and
+`removeAction:`. At `a3cc2b1`, the two warnings in the Atlantis target
+are in `Event Configuration Kit/EventEditor.m` at lines 621 and 672.
+Characterize event selection, chain lookup, model removal, and view
+redraw before changing these actions. Lemuria's `positionOfItem:`
+returns `UINT_MAX` for a missing item. The original Atlantis comparison
+with `NSNotFound` missed that sentinel and could raise a range exception.
+Validate the selected AppKit row, reject the sentinel, and check the
+position against the model array. Redraw the action chain after removing
+an action, which previously invalidated the condition chain.
+The Lemuria lookup issue is tracked in `DiscoveredBugs.md`.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_chain_removal_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep
