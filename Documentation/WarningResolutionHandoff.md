@@ -9,9 +9,10 @@
   The first increment is committed at `b5836e8`. The second increment
   is committed at `f576972`. The picker batch is committed at
   `49330c1`, the editor batch at `76b2a75`, and the log-closing table batch
-  at `cc5291e`. The latest integer-narrowing batch covers the User
-  Variables table in World Configuration.
-- Review the User Variables batch before selecting the next AppKit UI
+  at `cc5291e`. The User Variables batch is committed at `afe6dc5`.
+  The latest integer-narrowing batch covers the Highlights table in
+  World Configuration.
+- Review the Highlights batch before selecting the next AppKit UI
   path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
@@ -239,6 +240,40 @@ not reach the XCTest service from the sandbox. The current-user run
 passed all 58 selected tests on Intel, including the User Variables
 check for no selection before Add and selection of the new row after Add.
 The capture, test log, and result bundle are in `smoke-current-user`.
+
+## Third increment, Highlights table indexes
+
+The baseline is User Variables batch commit `afe6dc5`. The Highlights
+table data-source callbacks now match AppKit's signed row types. The
+selection delegate and the pattern and color actions use full-width row
+indexes. Add Highlight checks `NSNotFound` at the array lookup before
+passing the index to AppKit. The pattern popup preserves the current
+pattern when its selection is outside the four supported pattern types.
+The removal confirmation already used full-width indexes.
+
+The [standalone Highlights tests](../Tests/WarningResolution/test_highlight_indexes.py)
+compile the production table and action methods with synthetic indexes.
+All four normal menu choices passed on the baseline. Six baseline
+subcases failed across the runtime signatures, wide rows, the missing
+Add index, and invalid menu selections. The
+[workplan](WarningResolutionWorkplan.md#third-increment-batches) records
+the test command. Artifacts are in
+`/tmp/atlantis-increment3-highlights.sxCEEb`.
+
+All five focused tests passed after the change, and all 29 Python
+standalone tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed 12 warning sites. Atlantis warning lines fell from
+955 to 931 and the raw count fell from 1,716 to 1,692. The comparison
+found no new source diagnostics. Use this capture as the baseline for the
+next batch.
+
+The hosted test target built successfully. All 58 selected smoke tests
+passed on Intel with a disposable profile. The hosted Highlights test
+checked no selection, selection after Add, and canceling and confirming
+removal. The capture, test log, and result bundle are in
+`smoke-current-user`.
 
 ## Post-profile warning baseline
 

@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-26 is **under review after the third-increment User Variables batch**.
+Status as of 2026-11-26 is **under review after the third-increment Highlights batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -213,6 +213,18 @@ selection before and after adding a variable.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_user_variable_indexes.py -v
+```
+
+The fifth batch covers the Highlights table in World Configuration.
+Use AppKit row types for data-source callbacks and edits to the selected
+row. Check the array's missing-index sentinel before selecting an added
+highlight. Validate the pattern popup selection before converting it
+to the stored pattern type. The hosted editor verifies selection after
+Add and the removal confirmation flow.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_highlight_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

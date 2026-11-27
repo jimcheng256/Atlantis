@@ -102,7 +102,7 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-    int row = [_rdHighlightsTable selectedRow];
+    NSInteger row = [_rdHighlightsTable selectedRow];
     
     if (row != -1) {
         HighlightEvent *event = [_rdHighlights objectAtIndex:row];
@@ -158,12 +158,12 @@
 
 #pragma mark Table Data Source
 
-- (int) numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger) numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return [_rdHighlights count];
+    return (NSInteger)[_rdHighlights count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     HighlightEvent *tempevent = [_rdHighlights objectAtIndex:rowIndex];
     
@@ -185,7 +185,7 @@
     return nil;
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     HighlightEvent *tempevent = [_rdHighlights objectAtIndex:rowIndex];
     
@@ -210,7 +210,7 @@
 
 - (void) controlTextDidEndEditing:(NSNotification *) notification
 {
-    int row = [_rdHighlightsTable selectedRow];
+    NSInteger row = [_rdHighlightsTable selectedRow];
     
     if (row != -1) {
         HighlightEvent *event = [_rdHighlights objectAtIndex:row];
@@ -234,9 +234,9 @@
     
     [_rdHighlights addObject:event];
     [_rdHighlightsTable reloadData];
-    int row = [_rdHighlights indexOfObject:event];
+    NSUInteger row = [_rdHighlights indexOfObject:event];
     if (row != NSNotFound) {
-        [_rdHighlightsTable selectRow:row byExtendingSelection:NO];
+        [_rdHighlightsTable selectRow:(NSInteger)row byExtendingSelection:NO];
     }
 }
 
@@ -271,7 +271,7 @@
 
 - (IBAction) toggleForeground:(id) sender
 {
-    int row = [_rdHighlightsTable selectedRow];
+    NSInteger row = [_rdHighlightsTable selectedRow];
     
     if (row != -1) {
         HighlightEvent *event = [_rdHighlights objectAtIndex:row];
@@ -294,7 +294,7 @@
 
 - (IBAction) toggleBackground:(id) sender
 {
-    int row = [_rdHighlightsTable selectedRow];
+    NSInteger row = [_rdHighlightsTable selectedRow];
     
     if (row != -1) {
         HighlightEvent *event = [_rdHighlights objectAtIndex:row];
@@ -318,15 +318,17 @@
 
 - (IBAction) changePatternType:(id) sender
 {
-    int row = [_rdHighlightsTable selectedRow];
+    NSInteger row = [_rdHighlightsTable selectedRow];
     
     if (row != -1) {
-        HighlightEvent *event = [_rdHighlights objectAtIndex:row];
+        NSInteger position = [_rdHighlightTypeButton indexOfSelectedItem];
+        if (position < RDPatternBeginsWith || position > RDPatternRegexp) {
+            return;
+        }
 
-        int position = [_rdHighlightTypeButton indexOfItem:[_rdHighlightTypeButton selectedItem]];
-        
-        RDStringPattern *newPattern = 
-            [RDStringPattern patternWithString:[[event pattern] pattern] type:position];
+        HighlightEvent *event = [_rdHighlights objectAtIndex:row];
+        RDStringPattern *newPattern =
+            [RDStringPattern patternWithString:[[event pattern] pattern] type:(int)position];
         [event setPattern:newPattern];
         [_rdHighlightsTable reloadData];
         [self finalCommit];
@@ -335,7 +337,7 @@
 
 - (IBAction) changeColor:(id) sender
 {
-    int row = [_rdHighlightsTable selectedRow];
+    NSInteger row = [_rdHighlightsTable selectedRow];
     
     if (row != -1) {
         HighlightEvent *event = [_rdHighlights objectAtIndex:row];

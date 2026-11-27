@@ -66,7 +66,11 @@ final class EventRemovalTests: XCTestCase {
         window.orderFront(nil)
         defer { window.close() }
 
+        XCTAssertEqual(table.selectedRow, -1)
+        editor.removeHighlight(nil)
+        XCTAssertNil(window.attachedSheet)
         editor.addHighlight(nil)
+        XCTAssertEqual(table.selectedRow, 0)
         editor.finalCommit()
         let key = "atlantis.highlights"
 
