@@ -436,12 +436,15 @@ static NSImage *s_downArrow;
     
     mousePoint = [_rdTableView convertPoint:mousePoint fromView:nil];
     
-    int row = [_rdTableView rowAtPoint:mousePoint];
-    int col = [_rdTableView columnAtPoint:mousePoint];
+    NSInteger row = [_rdTableView rowAtPoint:mousePoint];
+    NSInteger col = [_rdTableView columnAtPoint:mousePoint];
+    NSArray<NSTableColumn *> *columns = [_rdTableView tableColumns];
+    if (row < 0 || row >= [_rdEventData eventsCount] || col < 0 || (NSUInteger)col >= columns.count) {
+        return;
+    }
 
-    NSTableColumn *colObj = [[_rdTableView tableColumns] objectAtIndex:col];
-    
-    id <EventDataProtocol> event = [_rdEventData eventAtIndex:row];
+    NSTableColumn *colObj = [columns objectAtIndex:(NSUInteger)col];
+    id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)row];
     
     if (colObj && event) {
         if ([[colObj identifier] isEqualToString:@"eventName"]) {
@@ -469,12 +472,15 @@ static NSImage *s_downArrow;
     
     mousePoint = [_rdTableView convertPoint:mousePoint fromView:nil];
     
-    int row = [_rdTableView rowAtPoint:mousePoint];
-    int col = [_rdTableView columnAtPoint:mousePoint];
+    NSInteger row = [_rdTableView rowAtPoint:mousePoint];
+    NSInteger col = [_rdTableView columnAtPoint:mousePoint];
+    NSArray<NSTableColumn *> *columns = [_rdTableView tableColumns];
+    if (row < 0 || row >= [_rdEventData eventsCount] || col < 0 || (NSUInteger)col >= columns.count) {
+        return;
+    }
 
-    NSTableColumn *colObj = [[_rdTableView tableColumns] objectAtIndex:col];
-    
-    id <EventDataProtocol> event = [_rdEventData eventAtIndex:row];
+    NSTableColumn *colObj = [columns objectAtIndex:(NSUInteger)col];
+    id <EventDataProtocol> event = [_rdEventData eventAtIndex:(unsigned)row];
     
     if (colObj && event) {
         if ([[colObj identifier] isEqualToString:@"eventActive"]) {

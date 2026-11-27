@@ -1,6 +1,6 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3, Event Editor Conditions tab lookup batch**.
+Status as of 2026-11-27 is **increment 3, Event Editor table hit-testing batch**.
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
 2,182 captured warning lines, including repeats, dependency diagnostics, and
 Xcode output. Atlantis source and resource paths accounted for 1,421 lines.
@@ -362,6 +362,19 @@ asserts tab presence and style.
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   python3 Tests/WarningResolution/test_event_tab_indexes.py -v
+```
+
+The seventeenth batch covers Event Editor table hit testing in
+`eventDoubleClicked:` and `enableEvent:`. At `968d412`, the four Atlantis
+warning sites in `Event Configuration Kit/EventEditor.m` are at lines 439,
+440, 472, and 473. Characterize ordinary hits, misses, and synthetic
+wide rows and columns before changing the actions. The original sent a
+missing column to the array lookup, which raised a range exception.
+Both actions now validate the signed hits before any column or event lookup.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_hit_indexes.py -v
 ```
 
 Review each batch before taking on more AppKit indexes and counts. Keep

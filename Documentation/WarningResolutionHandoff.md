@@ -17,12 +17,13 @@
   `adecaa0`, the selection batch at `2b40fd4`, and the add and focus
   batch at `8f4b35a`, and the column and tab lookup batch at `b593707`.
   The Event Editor table data-source batch is committed at `c3ae6e1`.
-- The Event Editor move batch is committed at `909740a`. The sixteenth
-  batch fixes Conditions tab restoration. Its universal Debug capture
-  is the next baseline, with 841 Atlantis warning lines and 1,602 total.
-  Artifacts are in `/tmp/atlantis-increment3-event-tabs.0aGwir`.
-- The next batch covers signed row and column hit testing in
-  `eventDoubleClicked:` and `enableEvent:`.
+- The Event Editor move batch is committed at `909740a` and the
+  Conditions tab batch at `968d412`. The seventeenth batch fixes table
+  hit testing. Its universal Debug capture is the next baseline, with
+  833 Atlantis warning lines and 1,594 total. Artifacts are in
+  `/tmp/atlantis-increment3-event-hits.01fmht`.
+- The next batch covers selection and destinations in Event Editor
+  `moveEventUp:` and `moveEventDown:`.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve its pre-build diff and stage only explicit task files.
 - Scope is Atlantis source, resources, and project settings. Lemuria
@@ -598,6 +599,28 @@ from 847 to 841 and the raw count fell from 1,608 to 1,602. No new source
 diagnostics appeared. The hosted test target built for both architectures.
 All 67 selected hosted smoke tests passed on Intel after the fix. The
 runs are in `smoke-before` and `smoke-after`.
+
+## Third increment, Event Editor table hit indexes
+
+The baseline is Conditions tab batch commit `968d412`. Both table hit
+actions now validate the full-width AppKit row and column before
+looking up the column or event. Previously a missing column reached
+the array as an unsigned out-of-bounds index and raised a range
+exception. A wide index could also alias an ordinary cell.
+
+The [standalone hit tests](../Tests/WarningResolution/test_event_hit_indexes.py)
+compile the production actions with synthetic hit results. Valid clicks
+preserved name editing, extra-field editing, and the enable toggle.
+All 16 invalid-hit subcases failed on the baseline and passed after the
+guard. All 69 standalone tests and the numeric alias check passed.
+Artifacts are in `/tmp/atlantis-increment3-event-hits.01fmht`.
+
+A fresh arm64 and x86_64 Debug build with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed four warning sites. Atlantis warning lines fell
+from 841 to 833 and the raw count fell from 1,602 to 1,594. There were
+no new source diagnostics. The hosted test target built for both architectures.
+All 67 selected hosted smoke tests passed on Intel. The capture, test log,
+and result bundle are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 
