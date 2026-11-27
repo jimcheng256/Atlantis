@@ -14,9 +14,10 @@
   committed at `62a75f0`, the Spawn outline batch at `2e26532`, and the
   Spawn table batch at `66ef54e`, and the Spawn removal batch at
   `734abb6`. The Address Book outline data-source batch is committed at
-  `adecaa0` and the selection batch at `2b40fd4`. The latest
-  integer-narrowing batch covers the Address Book add and focus actions.
-- Review the Address Book add and focus batch before selecting the next
+  `adecaa0`, the selection batch at `2b40fd4`, and the add and focus
+  batch at `8f4b35a`. The latest integer-narrowing batch covers Address
+  Book column and editor tab lookups.
+- Review the Address Book lookup batch before selecting the next
   AppKit UI path. Keep byte-level conversions in separate batches.
 - The generated change in `English.lproj/InfoPlist.strings` predates this
   effort. Preserve it and stage only explicit task files.
@@ -493,6 +494,35 @@ passed on Intel. The new test verified that Add World, Add Character,
 and Focus World each selected the intended record in a disposable
 Address Book. The capture, test log, and result bundle are in
 `smoke-current-user`.
+
+## Third increment, Address Book column and tab lookup indexes
+
+The baseline is Address Book add and focus batch commit `8f4b35a`.
+The connection column lookup checks the array's `NSNotFound` before
+converting the index for AppKit. The editor tab lookup keeps AppKit's
+signed index and adds a tab when the lookup reports a missing item.
+
+The [standalone Address Book lookup tests](../Tests/WarningResolution/test_address_book_lookup_indexes.py)
+compile the production lookups with synthetic indexes. The baseline
+passed ordinary lookups and added a tab in the missing-tab cases.
+Three subcases failed across the missing column and wide column and tab
+indexes. The [workplan](WarningResolutionWorkplan.md#third-increment-batches)
+records the command. Artifacts are in
+`/tmp/atlantis-increment3-address-book-lookups.N5liwd`.
+
+All four focused tests passed after the change. All 59 Python
+standalone tests and the numeric alias check passed.
+
+The fresh arm64 and x86_64 Debug build used Xcode 26.6 (17F113) and the
+macOS 26.5 SDK. It removed both warning sites. Atlantis warning lines
+fell from 869 to 865 and the raw count fell from 1,630 to 1,626.
+The comparison found no new source diagnostics. Use this capture as
+the baseline for the next batch.
+
+The hosted test target built successfully. All 66 selected smoke tests
+passed on Intel. The new test verified the first connection column and
+one selected editor tab after adding a character. The capture, test log,
+and result bundle are in `smoke-current-user`.
 
 ## Post-profile warning baseline
 

@@ -75,6 +75,26 @@ final class AddressBookTests: XCTestCase {
     }
 
     @MainActor
+    func testConnectionColumnAndNewCharacterEditorTab() throws {
+        try withAddressBook { book, content, outline, world in
+            XCTAssertEqual(outline.tableColumns.first?.identifier.rawValue, "worldConnected")
+            let configuration = try XCTUnwrap(findSubview(NSTabView.self, in: content))
+            let tabsBefore = configuration.tabViewItems.count
+
+            outline.selectRowIndexes(IndexSet(integer: 0), byExtendingSelection: false)
+            book.addCharacter(nil)
+
+            let identifier = try XCTUnwrap(world.uuid(forCharacter: "<character01>"))
+            let characterTabs = configuration.tabViewItems.filter { $0.identifier as? String == identifier }
+            XCTAssertEqual(configuration.tabViewItems.count, tabsBefore + 1)
+            XCTAssertEqual(characterTabs.count, 1)
+            let characterTab = try XCTUnwrap(characterTabs.first)
+            XCTAssertTrue(configuration.selectedTabViewItem === characterTab)
+            XCTAssertNotNil(characterTab.view as? NSTabView)
+        }
+    }
+
+    @MainActor
     private func withAddressBook(
         _ exercise: (AddressBook, NSView, NSOutlineView, RDAtlantisWorldPreferences) throws -> Void
     ) throws {

@@ -252,9 +252,9 @@ AddressBook *s_addyBook = nil;
 //        else
 //            [imageCol setResizable:NO];
         [_rdWorldList addTableColumn:imageCol];
-        int newColIndex = [[_rdWorldList tableColumns] indexOfObject:imageCol];
+        NSUInteger newColIndex = [[_rdWorldList tableColumns] indexOfObject:imageCol];
         if (newColIndex != NSNotFound)
-            [_rdWorldList moveColumn:newColIndex toColumn:0];
+            [_rdWorldList moveColumn:(NSInteger)newColIndex toColumn:0];
 
         [_rdWorldList setDelegate:self];
         [_rdWorldList setDataSource:self];
@@ -309,10 +309,8 @@ AddressBook *s_addyBook = nil;
     [_rdWorldPreferenceViews setObject:editor forKey:[record uuid]];
     
     NSTabViewItem *item;
-    int index;
-    
-    index = [_rdConfigContent indexOfTabViewItemWithIdentifier:[record uuid]];
-    if (index >= 0) {
+    NSInteger index = [_rdConfigContent indexOfTabViewItemWithIdentifier:[record uuid]];
+    if (index != NSNotFound && index >= 0) {
         item = [_rdConfigContent tabViewItemAtIndex:index];
         [item setView:[editor configView]];
     }
