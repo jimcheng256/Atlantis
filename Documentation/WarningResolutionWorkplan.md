@@ -25,7 +25,8 @@ environment diagnostics separately from the Atlantis warning counts.
   behavior. Check Objective-C selectors, AppKit ownership and lifecycle,
   Swift imports, and existing archive or wire formats where relevant.
 - For every substantive change, express the focused behavior probes as
-  standalone unit tests and keep them in version control with the increment.
+  standalone unit tests under `Tests/Focused` and keep them in version
+  control with the increment. Keep hosted coverage in `Tests/AtlantisTests`.
   Exercise the production code or expressions using deterministic fixtures.
   Run the same assertions against the original implementation before editing
   it and against the revised implementation afterward. Assert observable

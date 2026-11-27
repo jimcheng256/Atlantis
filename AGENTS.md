@@ -24,6 +24,10 @@ setup.
   migrations, characterize the old behavior before replacing it. Exercise
   the actual hosted window or editor for layout, focus, and responder changes.
   Use temporary defaults suites and archive paths for persistence tests.
+- Put standalone warning-resolution unit tests in `Tests/Focused`. Run
+  them when verifying warning fixes or tracing regressions from that work.
+  Routine verification for new Atlantis features uses the relevant app
+  and hosted tests.
 - For warning cleanup, verify Xcode fix-its against the API contract and the
   actual call sites. For substantive changes beyond renames and verified
   constant aliases, run the same focused assertions before and after the
