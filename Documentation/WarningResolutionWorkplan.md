@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 41**,
-view-weight path splitting. See the
+Status as of 2026-11-27 is **increment 3 through batch 42**,
+the Dock badge count. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -883,6 +883,25 @@ with no new source diagnostics after normalizing the split diagnostic
 in the baseline. It captured 745 Atlantis warning lines (715 app lines)
 and 1,453 total. All 108 standalone tests, the numeric alias check,
 and all 76 Intel hosted smoke tests passed.
+
+Batch 42 covers the Dock badge active-view count. At `8b64b19`,
+`Core/RDAtlantisMainController.m:1777` narrowed the count to `int`.
+The badge disappeared at synthetic counts of 2³¹ and 2³², and 2³² + 1
+displayed as 1. Preserve the collection's `NSUInteger` count and format
+it as unsigned decimal. The focused probe compares exact labels and
+checks the existing inactive-only and visible-window rules without
+changing system settings. The expected wide labels fail on the
+baseline and pass after the fix.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_dock_badge_count.py -v
+```
+
+The universal Debug build removed the warning on arm64 and x86_64,
+with no new source diagnostics. It captured 743 Atlantis warning lines
+(713 app lines) and 1,451 total. All 109 standalone tests, the numeric
+alias check, and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

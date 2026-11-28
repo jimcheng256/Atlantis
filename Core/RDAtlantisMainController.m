@@ -1774,10 +1774,10 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
         shouldDisplay = isVisible;
     }
 
-    int activeCount = [[[RDNestedViewManager manager] activeViews] count];
+    NSUInteger activeCount = [[[RDNestedViewManager manager] activeViews] count];
 
     if (shouldDisplay && (activeCount > 0)) {
-        [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%d", activeCount]];
+        [[NSApp dockTile] setBadgeLabel:[NSString stringWithFormat:@"%lu", (unsigned long)activeCount]];
     }
     else {
         [[NSApp dockTile] setBadgeLabel:nil];

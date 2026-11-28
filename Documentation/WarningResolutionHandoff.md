@@ -1107,3 +1107,17 @@ lines) and 1,453 total, with no new source diagnostics after rejoining
 the split baseline diagnostic. All 108 standalone tests, the numeric
 alias check, and all 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-view-weight.dz9xC1`.
+
+## Third increment, Dock badge count
+
+At `8b64b19`, narrowing the active-view count hid the badge for
+synthetic counts of 2³¹ and 2³² and displayed 1 for 2³² + 1. The
+focused `Tests/WarningResolution/test_dock_badge_count.py` probe
+now passes for exact decimal labels, zero, and the existing
+visibility settings with native-width unsigned counts.
+
+The universal Xcode 26.6 (17F113) Debug build removed the warning on
+arm64 and x86_64. It captured 743 Atlantis warning lines (713 app
+lines) and 1,451 total. No new source diagnostics appeared. All 109
+standalone tests, the numeric alias check, and 76 Intel hosted smoke
+tests passed. Artifacts are in `/tmp/atlantis-dock-badge.oci0RQ`.
