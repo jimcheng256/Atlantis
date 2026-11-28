@@ -37,7 +37,7 @@
     NSFont *bolditalicfont;
     NSArray *colors;
     NSFont *basefont;
-    int pos = 0;
+    NSUInteger pos = 0;
     
     if (defaultFont) {
         basefont = defaultFont;

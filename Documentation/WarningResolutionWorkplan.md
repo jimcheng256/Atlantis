@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 53**,
-world collection counts. See the
+Status as of 2026-11-28 is **increment 3 through batch 54**,
+AML parser offsets. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1125,6 +1125,25 @@ with no new source diagnostics. It captured 697 Atlantis warning lines
 (667 app lines) and 1,405 total, with 33 distinct Atlantis narrowing
 sites. All 120 standalone tests, the numeric alias check, and all 76
 Intel hosted smoke tests passed.
+
+Batch 54 widens the AML parser's cursor to match Foundation's UTF-16
+range offsets. The focused probe verifies decoded text for valid tags
+and entities, plus advancement past a synthetic tag endpoint beyond
+2³². The baseline truncates that endpoint. The
+[unterminated-tag exception](DiscoveredBugs.md#handle-unterminated-aml-tags-without-throwing)
+and [status-text API contract](DiscoveredBugs.md#clarify-whether-the-spawn-status-text-api-accepts-aml)
+are separate follow-ups.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_aml_parser_cursor.py -v
+```
+
+The fresh universal Debug build removed all three sites on arm64 and
+x86_64 with no new source diagnostics. It captured 691 Atlantis warning
+lines (661 app lines) and 1,399 total, with 30 distinct Atlantis
+narrowing sites. All 121 standalone tests, the numeric alias check,
+and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

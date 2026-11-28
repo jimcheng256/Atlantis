@@ -221,3 +221,42 @@ Evaluate how to report invalid files, retain valid worlds when a
 directory contains mixed entries, and handle default seeding when
 every existing archive is rejected. Keep the failing files available
 for recovery and verify loading existing world archives.
+
+## Handle unterminated AML tags without throwing
+
+At `b792ed6`, the [AML parser](../Extensions/NSAttributedStringAdditions.m)
+detects a missing closing `>` but continues into the tag extraction.
+The failed search leaves `NSNotFound` in the end range. Subtraction
+using that location produces an out-of-bounds substring request.
+
+To reproduce, run a script in a disposable profile with an open
+spawn. Call `appendAMLToSpawnInWorld("hello <b", spawn, world)` using
+the names of that spawn and world. A focused probe calling the same
+production parser with `hello <b>world</b>` returned `hello world`.
+With `hello <b`, it raised `NSInvalidArgumentException` from
+`substringWithRange:`. The probe and output are in
+`/tmp/atlantis-aml-review.8uBIuh`.
+
+Decide how to handle the unfinished tail and test the chosen behavior
+through spawn output, status text, and event-line replacement. Keep
+the valid markup and entity-decoding cases covered.
+
+## Clarify whether the spawn status-text API accepts AML
+
+The [JavaScript scripting guide](JavaScriptScripting.md) describes
+`setStatusBarTextForSpawnInWorld(text, spawn, world)` as setting
+status-bar text. The [bridge implementation](../Scripting/ScriptBridge.m)
+passes that string to the AML parser, so markup and entity references
+have formatting and decoding effects in an API described as text.
+
+To reproduce in an open spawn, call
+`setStatusBarTextForSpawnInWorld("A &lt; B", spawn, world)` with
+the actual names. A plain-text contract would display `A &lt; B`.
+The AML parser decodes it to `A < B` before the bridge sets the
+status text. A value such as `<b>status</b>` similarly renders as
+formatted `status` through the current parser.
+
+Determine whether to document AML as the supported input, provide a
+separate AML API, or make this API literal. Check existing script
+compatibility and verify the actual status bar for both plain text
+and markup before changing the contract.

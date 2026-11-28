@@ -1307,3 +1307,20 @@ It captured 697 Atlantis warning lines (667 app, 30 test target),
 698 Lemuria lines, and 1,405 total. All 120 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-world-count.QGIJS9`.
+
+## Third increment, AML parser offsets
+
+At `b792ed6`, three assignments narrowed the AML parser's cursor.
+The `Tests/WarningResolution/test_aml_parser_cursor.py` probe verifies
+valid decoded text and a synthetic tag endpoint beyond 2³². It
+fails on the original cursor and passes with `NSUInteger`.
+The [unterminated-tag exception](DiscoveredBugs.md#handle-unterminated-aml-tags-without-throwing)
+and [status-text contract](DiscoveredBugs.md#clarify-whether-the-spawn-status-text-api-accepts-aml)
+are separate follow-ups.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+all three sites on arm64 and x86_64 with no new source diagnostics.
+It captured 691 Atlantis warning lines (661 app, 30 test target),
+698 Lemuria lines, and 1,399 total. All 121 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-aml-cursor.yq2FVq`.
