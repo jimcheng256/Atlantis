@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 47**,
-MUSH Text Editor format tags. See the
+Status as of 2026-11-28 is **increment 3 through batch 48**,
+hotkey modifier dispatch. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1013,6 +1013,24 @@ x86_64 with no new source diagnostics. It captured 717 Atlantis warning
 lines (687 app lines) and 1,425 total, with 43 distinct Atlantis
 narrowing sites. All 114 standalone tests, the numeric alias check,
 and all 76 Intel hosted smoke tests passed.
+
+Batch 48 covers the Carbon modifier mask used by application hotkey
+dispatch. The converter maps five AppKit flags to fixed Carbon bits
+whose combined value fits the `int` parameter accepted by both hotkey
+dispatchers. The conversion at the dispatch boundary is now explicit.
+The same focused probe passed before and after for all 32 combinations
+of the mapped flags, with and without Caps Lock, Numeric Pad, and Help.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_application_modifier_mask.py -v
+```
+
+The fresh universal Debug build removed the site on arm64 and x86_64
+with no new source diagnostics after rejoining a split diagnostic.
+It captured 715 Atlantis warning lines (685 app lines) and 1,423 total,
+with 42 distinct Atlantis narrowing sites. All 115 standalone tests,
+the numeric alias check, and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

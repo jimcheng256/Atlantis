@@ -1204,3 +1204,20 @@ It captured 717 Atlantis warning lines (687 app, 30 test target),
 698 Lemuria lines, and 1,425 total. All 114 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-mush-tags.z4j1Fp`.
+
+## Third increment, hotkey modifier dispatch
+
+At `0c4c23a`, application event dispatch implicitly narrowed the
+Carbon modifier mask. Both dispatchers accept an `int`, and the five
+fixed bits fit within that type. The focused
+`Tests/WarningResolution/test_application_modifier_mask.py` probe
+asserted all 32 combinations with and without ignored flags before
+and after the explicit conversion.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+the site on arm64 and x86_64 with no new source diagnostics after
+rejoining a split diagnostic. It captured 715 Atlantis warning lines
+(685 app, 30 test target), 698 Lemuria lines, and 1,423 total.
+All 115 standalone tests, the numeric alias check, and 76 Intel
+hosted smoke tests passed. Artifacts are in
+`/tmp/atlantis-app-modifiers.kpr6fw`.

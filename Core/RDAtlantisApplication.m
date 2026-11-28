@@ -69,7 +69,8 @@
         case NSEventTypeKeyDown:
             {
                 int keyCode = [theEvent keyCode];
-                int modifiers = [self cocoaModifiersAsCarbonModifiers:[theEvent modifierFlags]];
+                // The conversion combines only the five Carbon modifier bits.
+                int modifiers = (int)[self cocoaModifiersAsCarbonModifiers:[theEvent modifierFlags]];
                 BOOL handled = NO;
                 
                 if ((keyCode == 48) && (modifiers == 4096)) {
