@@ -1,4 +1,5 @@
 import AppKit
+import ObjectiveC.runtime
 import SwiftUI
 import XCTest
 @testable import Atlantis
@@ -204,13 +205,66 @@ final class RDAtlantisSpawnTests: XCTestCase {
             let input = spawn.controller.inputView
             spawn.setPrefix("radio")
             spawn.stringIntoInput("hello")
+            let firstContext = inputCommitContext(input)
             input.insertNewline(nil)
-            XCTAssertEqual(world.committedInput, "radio hello")
+            XCTAssertEqual(world.committedInput, "radio hello", firstContext)
 
             spawn.stringIntoInput("radio already prefixed")
+            let secondContext = inputCommitContext(input)
             input.insertNewline(nil)
-            XCTAssertEqual(world.committedInput, "radio already prefixed")
+            XCTAssertEqual(world.committedInput, "radio already prefixed", secondContext)
         }
+    }
+
+    @MainActor
+    func testEnterSubmissionDependsOnCurrentEventAndDelegate() throws {
+        for (flags, removeDelegate, shouldSubmit) in [
+            (NSEvent.ModifierFlags(), false, true),
+            (.shift, false, false),
+            ([], true, false),
+        ] {
+            try withSpawn { spawn, world in
+                let input = spawn.controller.inputView
+                let delegate = try XCTUnwrap(input.delegate)
+                XCTAssertTrue(delegate === spawn)
+                if removeDelegate {
+                    input.delegate = nil
+                }
+                defer { input.delegate = delegate }
+
+                let event = try XCTUnwrap(NSEvent.keyEvent(
+                    with: .keyDown, location: .zero, modifierFlags: flags, timestamp: 0,
+                    windowNumber: input.window?.windowNumber ?? 0,
+                    context: nil, characters: "x", charactersIgnoringModifiers: "x",
+                    isARepeat: false, keyCode: 7))
+                let getter = try XCTUnwrap(class_getInstanceMethod(
+                    type(of: NSApp!), #selector(getter: NSApplication.currentEvent)))
+                let currentEvent: @convention(block) (NSApplication) -> NSEvent = { _ in event }
+                let replacement = imp_implementationWithBlock(currentEvent)
+                let original = method_setImplementation(getter, replacement)
+                defer {
+                    method_setImplementation(getter, original)
+                    imp_removeBlock(replacement)
+                }
+
+                spawn.setPrefix("radio")
+                spawn.stringIntoInput("hello")
+                input.insertNewline(nil)
+                XCTAssertEqual(world.committedInput, shouldSubmit ? "radio hello" : nil)
+                if !shouldSubmit {
+                    XCTAssertEqual(input.string.filter { $0 == "\n" }.count, 1)
+                }
+            }
+        }
+    }
+
+    @MainActor
+    private func inputCommitContext(_ input: NSTextView) -> String {
+        let event = NSApp.currentEvent
+        let type = event.map { String($0.type.rawValue) } ?? "none"
+        let modifiers = event.map { String($0.modifierFlags.rawValue, radix: 16) } ?? "none"
+        let delegate = input.delegate.map { String(describing: Swift.type(of: $0)) } ?? "none"
+        return "Current event type \(type), modifier flags 0x\(modifiers), input delegate \(delegate)"
     }
 
     @MainActor
