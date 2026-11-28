@@ -104,6 +104,7 @@
     return [options autorelease]; 
 }
 
+// No known production callers in Atlantis or Lemuria. Only the warning-resolution test exercises this method.
 - (NSUInteger) lineCount
 {
     NSUInteger count = 1;
