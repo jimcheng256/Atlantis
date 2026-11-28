@@ -18,7 +18,7 @@
 
 - (instancetype)initWithWorldDirectory:(NSString *)directory;
 - (NSArray *) worlds;
-- (unsigned) count;
+- (NSUInteger) count;
 
 - (void) addWorld:(RDAtlantisWorldPreferences *) world;
 - (void) removeWorld:(RDAtlantisWorldPreferences *) world;

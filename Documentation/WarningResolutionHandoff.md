@@ -1291,3 +1291,19 @@ It captured 699 Atlantis warning lines (669 app, 30 test target),
 698 Lemuria lines, and 1,407 total. All 119 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-pattern-cursor.FcWhHQ`.
+
+## Third increment, world collection counts
+
+At `79af4f0`, `WorldCollection.count` narrowed the backing array's
+count and a synthetic count of 2³² entered the default-world seeding
+path. The `Tests/WarningResolution/test_world_collection_count.py`
+probe passes after the method and declaration adopt `NSUInteger`.
+The [archive validation follow-up](DiscoveredBugs.md#validate-world-archive-roots-before-startup-sorting)
+records the separate loader reproduction.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+the site on arm64 and x86_64 with no new source diagnostics.
+It captured 697 Atlantis warning lines (667 app, 30 test target),
+698 Lemuria lines, and 1,405 total. All 120 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-world-count.QGIJS9`.

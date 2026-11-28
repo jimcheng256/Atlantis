@@ -182,3 +182,42 @@ to enter it, how ASCII counts delimit command text, how zero counts
 behave, and how digits inside command text start a new segment. Add a
 worked example and document the execution limits and error behavior
 in effect when the guide is written.
+
+## Validate world archive roots before startup sorting
+
+At `79af4f0`, [`WorldCollection.loadAllWorlds`](../Worlds/WorldCollection.m)
+adds every non-nil object decoded from an `.awd` file to the world
+collection. The sort comparator then asks each object for its world
+name using `preferenceForKey:withCharacter:`. A valid keyed archive
+can contain a root object of another type.
+
+To reproduce, use a disposable profile directory and create two
+keyed archives containing strings:
+
+```sh
+profile="$(mktemp -d /tmp/atlantis-world-archive.XXXXXX)"
+mkdir "$profile/worlds"
+cat > "$profile/make-fixtures.swift" <<'SWIFT'
+import Foundation
+
+let worlds = URL(fileURLWithPath: CommandLine.arguments[1], isDirectory: true)
+for name in ["first", "second"] {
+    let data = try NSKeyedArchiver.archivedData(withRootObject: name, requiringSecureCoding: false)
+    try data.write(to: worlds.appendingPathComponent("\(name).awd"))
+}
+SWIFT
+swift "$profile/make-fixtures.swift" "$profile/worlds"
+```
+
+Launch the Atlantis executable with `--profile-directory "$profile"`,
+or initialize a `WorldCollection` with `"$profile/worlds"` and call
+`loadAllWorlds` in a hosted test. The two entries force a comparison.
+A focused probe using the production loader, sort method, and comparator
+raised `NSInvalidArgumentException` because the decoded string does
+not respond to `preferenceForKey:withCharacter:`. The probe source and
+output are in `/tmp/atlantis-world-load-review.NMsMnO`.
+
+Evaluate how to report invalid files, retain valid worlds when a
+directory contains mixed entries, and handle default seeding when
+every existing archive is rejected. Keep the failing files available
+for recovery and verify loading existing world archives.

@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 52**,
-highlight match offsets. See the
+Status as of 2026-11-28 is **increment 3 through batch 53**,
+world collection counts. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1107,6 +1107,24 @@ x86_64 with no new source diagnostics. It captured 699 Atlantis warning
 lines (669 app lines) and 1,407 total, with 34 distinct Atlantis
 narrowing sites. All 119 standalone tests, the numeric alias check,
 and all 76 Intel hosted smoke tests passed.
+
+Batch 53 widens `WorldCollection.count` to match its backing array.
+At `79af4f0`, a synthetic count of 2³² wrapped to zero and entered the
+default-world seeding path. The focused probe verifies the method's
+return width, ordinary counts, and the actual startup emptiness check
+with synthetic wide counts. Archive validation is a
+[separate follow-up](DiscoveredBugs.md#validate-world-archive-roots-before-startup-sorting).
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_world_collection_count.py -v
+```
+
+The fresh universal Debug build removed the site on arm64 and x86_64
+with no new source diagnostics. It captured 697 Atlantis warning lines
+(667 app lines) and 1,405 total, with 33 distinct Atlantis narrowing
+sites. All 120 standalone tests, the numeric alias check, and all 76
+Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

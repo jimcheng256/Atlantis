@@ -57,7 +57,7 @@ NSInteger compareWorlds(id obj1, id obj2, void *context)
     return _rdWorlds;
 }
 
-- (unsigned) count
+- (NSUInteger) count
 {
     return [_rdWorlds count];
 }
