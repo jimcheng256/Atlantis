@@ -21,7 +21,7 @@
         NSRange foundUrlRange;
         NSRange searchRange;
         NSString *searchString = [finalString string];
-        unsigned searchLength = [searchString length];
+        NSUInteger searchLength = [searchString length];
         searchRange = NSMakeRange(0,searchLength);
         do 
         {
@@ -51,7 +51,7 @@
                     }
                 }
                 
-                unsigned newPos = foundUrlRange.location + foundUrlRange.length;
+                NSUInteger newPos = NSMaxRange(foundUrlRange);
                 
                 searchRange = NSMakeRange(newPos,searchLength - newPos);
             }

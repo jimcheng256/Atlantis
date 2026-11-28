@@ -1373,3 +1373,17 @@ It captured 683 Atlantis warning lines (653 app, 30 test target),
 698 Lemuria lines, and 1,391 total. All 124 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-open-spawn-count.oslcdi`.
+
+## Third increment, email link search ranges
+
+At `8de3a76`, both the initial email-search length and the position
+after each match narrowed before forming the search range. The
+`Tests/WarningResolution/test_email_search_ranges.py` probe confirms
+the native-width range values and preserves ordinary advancement.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+both sites on arm64 and x86_64 with no new source diagnostics.
+It captured 679 Atlantis warning lines (649 app, 30 test target),
+698 Lemuria lines, and 1,387 total. All 125 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-email-ranges.xCyBQk`.
