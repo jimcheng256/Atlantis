@@ -172,6 +172,7 @@
         case RDPatternIs:
         {
             NSRange checkRange = NSMakeRange(_rdMatchPosition,[_rdMatchMe length] - _rdMatchPosition);
+            // Highlight each occurrence, even when it appears inside a larger word.
             result = [_rdMatchMe rangeOfString:_rdPattern options:0 range:checkRange];
             if (result.length) {
                 _rdMatchPosition = result.location + result.length;

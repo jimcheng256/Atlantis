@@ -27,8 +27,13 @@ enum {
 
 + (RDStringPattern *) patternWithString:(NSString *)pattern type:(int)type;
 
+// Tests the match condition. RDPatternIs requires equality with the entire input.
 - (BOOL) patternMatchesString:(NSString *)match;
 - (BOOL) stringContainsPattern:(NSString *)match;
+
+// Iterates highlight ranges. RDPatternIs highlights each literal occurrence,
+// and RDPatternContains highlights the whole input when it contains the pattern.
+// Pass the input to start and nil to advance. A zero-length range ends iteration.
 - (NSRange) stringMatch:(NSString *)match;
 
 - (int) type;

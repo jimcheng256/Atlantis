@@ -1271,3 +1271,8 @@ It captured 707 Atlantis warning lines (677 app, 30 test target),
 698 Lemuria lines, and 1,415 total. All 118 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-stacked-count.HXmjV5`.
+
+For batch 52, preserve the intentional distinction between whole-input
+equality for the match predicate and per-occurrence ranges for highlighting.
+The [highlight matching guide](AtlantisPreferences.md#highlight-matching)
+documents both contracts.

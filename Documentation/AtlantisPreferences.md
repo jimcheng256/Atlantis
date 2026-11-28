@@ -83,6 +83,19 @@ after the user chooses Remove.
 The User Variables tab uses the variable name and saves deletions through
 the editor's normal commit path.
 
+## Highlight matching
+
+The Address Book’s Highlights tab uses **is** to color each occurrence of
+the pattern in an incoming line. For example, **is** with the pattern
+`cat` colors the `cat` inside `bobcat` and the standalone `cat` in
+`bobcat cat`. **contains** with the same pattern colors the entire line.
+The **Text: Highlight** event action uses the same range rules when a
+match supplies a pattern.
+
+A **String Match** event condition uses **is** to test whether the entire
+input equals the pattern. With the same example, the condition matches
+`cat` and rejects `bobcat cat`. This distinction is intentional.
+
 ## Negotiated world encoding
 
 For a server-initiated Telnet CHARSET request, Atlantis prefers UTF-8,
