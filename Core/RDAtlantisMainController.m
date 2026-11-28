@@ -1419,9 +1419,9 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
         NSButton *noButton = [buttons objectAtIndex:1];
         [noButton setKeyEquivalent:@"\e"];        
             
-        int result = [alert runModal];
-        
-        if (result == NSAlertAlternateReturn)
+        NSModalResponse result = [alert runModal];
+
+        if (result != NSAlertDefaultReturn)
             return NSTerminateCancel;
         else {
             [[RDAtlantisMainController controller] disconnectAllWorlds];

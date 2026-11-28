@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 37**, the
-world editor's SSL checkbox. See the
+Status as of 2026-11-27 is **increment 3 through batch 38**, the
+quit confirmation for connected worlds. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -788,6 +788,32 @@ The fresh arm64 and x86_64 Debug build removed the warning on both
 architectures. Atlantis app warning lines fell from 727 to 725. The
 hosted build captured 755 Atlantis warning lines and 1,463 total,
 with no new source diagnostics. All 104 standalone tests, the
+numeric alias check, and all 76 Intel hosted smoke tests passed.
+
+Batch 38 covers quit confirmation with connected worlds.
+At `e3b5fa6`, `Core/RDAtlantisMainController.m:1422` narrowed
+AppKit's `NSModalResponse` to `int`. The legacy alert constructor
+uses the `NSAlertDefaultReturn` family, as documented by the SDK.
+The old delegate proceeded on an abort, an alert error, or an
+unexpected response, including a wide value that aliases Quit.
+The delegate now uses the full-width response and disconnects
+worlds only for the alert's exact Quit response. Escape still
+cancels, and quitting without connected worlds needs no alert.
+
+The focused probe compiles the production termination delegate
+and verifies its reply, save, disconnect, and alert calls.
+The original failed for three unexpected responses, and all
+twelve cases pass after the fix.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_quit_confirmation.py -v
+```
+
+The fresh universal Debug build removed the narrowing on arm64 and
+x86_64. The existing legacy response deprecation now names
+`NSAlertDefaultReturn`. The hosted build captured 753 Atlantis warning
+lines (723 app lines) and 1,461 total. All 105 standalone tests, the
 numeric alias check, and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep

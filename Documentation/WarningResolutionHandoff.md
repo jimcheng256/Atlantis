@@ -1041,3 +1041,19 @@ captured 755 Atlantis warning lines (725 in the app) and 1,463
 total, with no new source diagnostics. All 104 standalone tests,
 the numeric alias check, and all 76 Intel hosted smoke tests
 passed. Logs and artifacts are in `/tmp/atlantis-ssl.5XkAYL`.
+
+## Third increment, connected-world quit confirmation
+
+At `e3b5fa6`, the termination delegate narrowed AppKit's response and
+proceeded with quitting on unexpected responses. The focused
+`Tests/WarningResolution/test_quit_confirmation.py` probe failed for
+an abort, an alert error, and a wide response. All twelve cases pass
+with the full-width result and exact legacy Quit response check.
+
+Xcode 26.6 (17F113) and macOS SDK 26.5 built arm64 and x86_64. The
+narrowing warning disappeared on both architectures. The existing
+deprecation now names the legacy default response constant. The
+hosted build captured 753 Atlantis warning lines (723 app lines)
+and 1,461 total. All 105 standalone tests, the numeric alias check,
+and all 76 Intel hosted smoke tests passed. Artifacts are in
+`/tmp/atlantis-quit.YI9r3t`.
