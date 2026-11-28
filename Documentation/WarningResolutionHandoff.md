@@ -1324,3 +1324,21 @@ It captured 691 Atlantis warning lines (661 app, 30 test target),
 698 Lemuria lines, and 1,399 total. All 121 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-aml-cursor.yq2FVq`.
+
+## Third increment, scripted line routing ranges
+
+At `03e3407`, the routing bridge truncated the line length before
+applying its two attributes. The focused
+`Tests/WarningResolution/test_script_line_routing.py` probe exercises
+both orders of mixed copy and move calls and a synthetic wide range.
+Both attributes now span the entire line. The
+[scripting guide](JavaScriptScripting.md#routing-one-line-to-multiple-spawns)
+records how destinations accumulate and the last call controls the
+original spawn.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+the site on arm64 and x86_64 with no new source diagnostics.
+It captured 689 Atlantis warning lines (659 app, 30 test target),
+698 Lemuria lines, and 1,397 total. All 122 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-script-line-routing.VLo94g`.

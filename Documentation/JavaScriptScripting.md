@@ -109,6 +109,41 @@ Use an empty character string to address world-level preferences.
 Pass `AtlantisState["event.uuid"]` for the session argument while the
 event is running. Line replacement and routing are intended for line events.
 
+#### Routing one line to multiple spawns
+
+Each call to `setLineSpawnCopyInSession` adds a destination to the current
+line. Atlantis stores one copy-or-move flag for that line. The last call
+sets the flag for delivery to the original spawn. Pass `"1"` to retain
+delivery to the original spawn or `"0"` to suppress it. All accumulated
+destinations receive the line in either case.
+
+To reproduce, connect to a test world with two distinct spawns named
+`Combat` and `Alerts`. Use spawns with no automatic match rules for the
+test lines, and disable other rules that would route or hide those lines.
+Save this script in the scripts directory and replace `Example MUD` with
+the connected world's name. Process input to reload the script, then have
+the server send each of the two test lines to the world.
+
+```javascript
+function routeProbe(firstFlag, secondFlag) {
+    const session = AtlantisState["event.uuid"];
+    ScriptBridge.setLineSpawnCopyInSession("Combat", firstFlag, session);
+    ScriptBridge.setLineSpawnCopyInSession("Alerts", secondFlag, session);
+}
+
+ScriptBridge.registerFunctionForLinePatternWithLanguageInWorld(
+    'routeProbe("0", "1")', "^routing probe move then copy", "JavaScript", "Example MUD"
+);
+ScriptBridge.registerFunctionForLinePatternWithLanguageInWorld(
+    'routeProbe("1", "0")', "^routing probe copy then move", "JavaScript", "Example MUD"
+);
+```
+
+| Incoming line | Calls in order | Additional spawns | Original spawn |
+| --- | --- | --- | --- |
+| `routing probe move then copy` | Move to Combat, then copy to Alerts | Combat and Alerts | Receives the line |
+| `routing probe copy then move` | Copy to Combat, then move to Alerts | Combat and Alerts | Does not receive the line |
+
 ### Variables, preferences, and connections
 
 | Method | Effect |

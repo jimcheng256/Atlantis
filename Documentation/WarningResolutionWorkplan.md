@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 54**,
-AML parser offsets. See the
+Status as of 2026-11-28 is **increment 3 through batch 55**,
+scripted line routing ranges. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1144,6 +1144,24 @@ x86_64 with no new source diagnostics. It captured 691 Atlantis warning
 lines (661 app lines) and 1,399 total, with 30 distinct Atlantis
 narrowing sites. All 121 standalone tests, the numeric alias check,
 and all 76 Intel hosted smoke tests passed.
+
+Batch 55 preserves the full Foundation length when applying both
+scripted routing attributes to a line. At `03e3407`, a synthetic
+line of 2³² + 9 UTF-16 units received attributes on its first nine
+units. The focused probe also verifies the existing destination and
+last-call flag behavior in both orders. See the
+[JavaScript reproduction](JavaScriptScripting.md#routing-one-line-to-multiple-spawns).
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_script_line_routing.py -v
+```
+
+The fresh universal Debug build removed the site on arm64 and x86_64
+with no new source diagnostics. It captured 689 Atlantis warning lines
+(659 app lines) and 1,397 total, with 29 distinct Atlantis narrowing
+sites. All 122 standalone tests, the numeric alias check, and all 76
+Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

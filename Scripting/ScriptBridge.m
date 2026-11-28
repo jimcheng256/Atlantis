@@ -517,8 +517,7 @@
         
     [workArray addObject:realPath];
 
-    unsigned stringLen = [[state stringData] length];
-    effRange = NSMakeRange(0,stringLen);
+    effRange = NSMakeRange(0, [[state stringData] length]);
     
     [[state stringData] addAttribute:@"RDExtraSpawns" value:[NSArray arrayWithArray:workArray] range:effRange];
     [[state stringData] addAttribute:@"RDExtraSpawnMove" value:[NSNumber numberWithBool:![copyMe intValue]] range:effRange];
