@@ -128,22 +128,26 @@
     }
 }
 
+- (void) saveAutoconnectSelection
+{
+    BOOL enabled = [_rdAutoconnect state] == NSControlStateValueOn;
+    NSInteger selected = [_rdAutopicker indexOfSelectedItem];
+    if (enabled && selected != 0 && selected != 1)
+        return;
+
+    [[self preferences] setPreference:[NSNumber numberWithBool:(enabled && selected == 1)] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];
+    if (!enabled || selected == 0) {
+        [[self preferences] setPreference:@(enabled) forKey:@"atlantis.world.autoopen" withCharacter:[self character]];
+    }
+}
+
 - (void) autoconnectTypeChanged:(id) sender
 {
-    [[self preferences] beginBulk];
-    int numResult = [_rdAutoconnect state];
-    if (numResult == NSControlStateValueOn) {
-        int selected = [_rdAutopicker indexOfItem:[_rdAutopicker selectedItem]];
-        
-        if (selected == 0) {
-            [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];        
-            [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.autoopen" withCharacter:[self character]];        
-        }
-        else {
-            [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];        
-        }
+    if ([_rdAutoconnect state] == NSControlStateValueOn) {
+        [[self preferences] beginBulk];
+        [self saveAutoconnectSelection];
+        [[self preferences] endBulk];
     }
-    [[self preferences] endBulk];
 }
 
 - (void) hostSSLChanged:(id) sender
@@ -167,24 +171,8 @@
 - (void) autoconnectChanged:(id) sender
 {
     [[self preferences] beginBulk];
-    int numResult = [_rdAutoconnect state];
-    if (numResult == NSControlStateValueOn) {
-        [_rdAutopicker setEnabled:YES];
-        int selected = [_rdAutopicker indexOfItem:[_rdAutopicker selectedItem]];
-        
-        if (selected == 0) {
-            [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];        
-            [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.autoopen" withCharacter:[self character]];        
-        }
-        else {
-            [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];        
-        }
-    }
-    else {
-        [_rdAutopicker setEnabled:NO];
-        [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];    
-        [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.autoopen" withCharacter:[self character]];    
-    }
+    [_rdAutopicker setEnabled:([_rdAutoconnect state] == NSControlStateValueOn)];
+    [self saveAutoconnectSelection];
     [[self preferences] endBulk];
 }
 
@@ -252,23 +240,8 @@
         [[self preferences] setPreference:[NSString stringWithString:result] forKey:@"atlantis.world.password" withCharacter:[self character]];
     }            
 
-    numResult = [_rdAutoconnect state];
-    if (numResult == NSControlStateValueOn) {
-        int selected = [_rdAutopicker indexOfItem:[_rdAutopicker selectedItem]];
-        
-        if (selected == 0) {
-            [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];        
-            [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.autoopen" withCharacter:[self character]];        
-        }
-        else {
-            [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];        
-        }
-    }
-    else {
-        [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.autoconnect" withCharacter:[self character]];    
-        [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.autoopen" withCharacter:[self character]];   
-    }
-    
+    [self saveAutoconnectSelection];
+
     [self saveServerTypeSelection];
 
     [[self preferences] endBulk];    

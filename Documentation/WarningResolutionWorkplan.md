@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 35**, the
-world editor's Server Type popup. See the
+Status as of 2026-11-27 is **increment 3 through batch 36**, the
+world editor's startup controls. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -736,6 +736,35 @@ and x86_64, with no new source diagnostics. It has 739 Atlantis
 warning lines and 1,500 total. All 102 standalone tests and the
 numeric alias check passed. All 76 hosted smoke tests passed on Intel,
 including the pending spawn input diagnostic test in the working tree.
+
+Batch 36 covers the world editor's startup checkbox and popup.
+At `cdd43e7`, the six narrowing warnings in
+`Preferences/World/WorldMainEditor.m` are at lines 134, 136, 170,
+173, 255, and 257. A missing or out-of-range popup index previously
+enabled autoconnect, and a checkbox value of `4294967297` was
+treated as On. Both actions and final save now use native-width
+AppKit values and share preference writes. When the checkbox is
+On, the popup must select row 0 or 1. Invalid selections preserve
+the saved mode. Open sets only auto-open, and Open and Connect sets
+autoconnect while retaining the existing auto-open value. Turning
+the checkbox off clears both flags. The startup code gives
+autoconnect priority for both worlds and characters.
+
+The production-method probe exercises both actions and the startup
+part of final save across 72 cases. Twenty-nine failed on
+`cdd43e7`, and all pass after the fix.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_world_autoconnect_selection.py -v
+```
+
+The fresh universal Debug build removed all six sites on arm64 and
+x86_64 without adding app diagnostics. Atlantis app warnings fell
+from 739 to 727, with 63 distinct narrowing sites remaining. Lemuria
+stayed at 698. The hosted build log additionally includes 30
+test-target warning lines. All 103 standalone tests, the numeric
+alias check, and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

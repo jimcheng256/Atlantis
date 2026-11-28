@@ -1003,3 +1003,25 @@ warning lines and 1,500 total. All 102 standalone tests and the
 numeric alias check passed. All 76 hosted smoke tests passed on Intel
 in `smoke-current-user`, including the pending spawn input diagnostic
 test in the working tree.
+
+## Third increment, world editor startup selection
+
+The source baseline is `cdd43e7`. Both startup control actions and
+the final save use native-width AppKit values. Invalid menu selections
+preserve the mode, and a wide checkbox state can no longer alias On.
+The focused probe at
+`Tests/WarningResolution/test_world_autoconnect_selection.py` exercises
+72 cases. Twenty-nine failed on the baseline and all passed after
+the fix. See the [workplan](WarningResolutionWorkplan.md#third-increment-batches)
+for the command and preference mapping.
+
+Xcode 26.6 (17F113) and the macOS 26.5 SDK built arm64 and x86_64.
+The baseline app build has 1,446 raw warning lines, including 739
+Atlantis lines. The revised hosted build has 1,465 raw warning
+lines, including 727 Atlantis app lines and 30 test-target lines.
+All six narrowing sites disappeared on both architectures. No new
+Atlantis app source diagnostics appeared. Lemuria stayed at 698.
+The logs and comparison are in `/tmp/atlantis-autoconnect.Hf1alI`.
+All 103 standalone tests, the numeric alias check, and all 76
+hosted smoke tests passed. Hosted execution used Intel and included
+the pending spawn input diagnostics.
