@@ -1253,3 +1253,21 @@ It captured 709 Atlantis warning lines (679 app, 30 test target),
 698 Lemuria lines, and 1,417 total. All 117 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-description-count.P5I7dx`.
+
+## Third increment, stacked-command offsets and counts
+
+At `9f4d272`, the parser narrowed its string length and accumulated
+repeat counts with unchecked signed arithmetic. The focused
+`Tests/WarningResolution/test_stacked_command_counts.py` probe fails
+signed-overflow sanitization on that baseline. It passes with
+native-width offsets and saturation at `INT_MAX`. The probe verifies
+ordinary sends and exact count boundaries without issuing a large
+number of commands. Practical send limits, partial execution, and
+end-user documentation are [follow-up work](DiscoveredBugs.md#evaluate-stacked-command-send-limits-and-partial-execution).
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+the site on arm64 and x86_64 with no new source diagnostics.
+It captured 707 Atlantis warning lines (677 app, 30 test target),
+698 Lemuria lines, and 1,415 total. All 118 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-stacked-count.HXmjV5`.

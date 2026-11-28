@@ -157,3 +157,28 @@ The same review verified that `idForColor:` narrows `NSNotFound` to
 missing palette colors alongside export state transitions. Cover
 foreground, background, style changes, and exact output for both
 persistent color-code formats and the `ansi()` format.
+
+## Evaluate stacked-command send limits and partial execution
+
+The [stacked-command parser](../Command%20System/StackedCommand.m)
+sends each segment as soon as it encounters the next repeat count.
+A probe of `9f4d272` with a recording world and signed-overflow
+sanitization sent `look` before reporting overflow on
+`1look2147483648score`. Batch 51 clamps the parsed count to
+`INT_MAX` and preserves immediate per-segment sends.
+
+Evaluate a practical limit per segment or per invocation, whether
+to validate the whole input before sending, and how to report a
+rejected count. A count at `INT_MAX` can still request that many
+synchronous sends. Use a recording world and small test limits when
+checking ordering, partial execution, and rejection.
+
+Riverdark records `/sc` in its [0.8.5 version history](https://www.riverdark.net/atlantis/history.php).
+The [community guide](https://gdb.armageddon.org/index.php/topic,53346.0.html)
+illustrates the syntax with `/sc 1n3e`.
+
+Include `/sc` in future end-user documentation work. Explain where
+to enter it, how ASCII counts delimit command text, how zero counts
+behave, and how digits inside command text start a new segment. Add a
+worked example and document the execution limits and error behavior
+in effect when the guide is written.

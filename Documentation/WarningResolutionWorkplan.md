@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 50**,
-alias and hotkey action description counts. See the
+Status as of 2026-11-28 is **increment 3 through batch 51**,
+stacked-command offsets and counts. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1067,6 +1067,25 @@ The fresh universal Debug build removed both sites on arm64 and x86_64
 with no new source diagnostics. It captured 709 Atlantis warning lines
 (679 app lines) and 1,417 total, with 39 distinct Atlantis narrowing
 sites. All 117 standalone tests, the numeric alias check, and all 76
+Intel hosted smoke tests passed.
+
+Batch 51 covers the stacked-command parser. Its length, position and
+range start now use `NSUInteger`, and decimal repeat counts saturate
+at `INT_MAX` before either multiplication or addition can overflow.
+The focused probe verifies command order, zero counts, UTF-16 offsets,
+the start of a synthetic wide scan and exact repeat-count boundaries.
+The baseline fails signed-overflow sanitization. Practical send limits
+and partial execution are [deferred](DiscoveredBugs.md#evaluate-stacked-command-send-limits-and-partial-execution).
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_stacked_command_counts.py -v
+```
+
+The fresh universal Debug build removed the site on arm64 and x86_64
+with no new source diagnostics. It captured 707 Atlantis warning lines
+(677 app lines) and 1,415 total, with 38 distinct Atlantis narrowing
+sites. All 118 standalone tests, the numeric alias check, and all 76
 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
