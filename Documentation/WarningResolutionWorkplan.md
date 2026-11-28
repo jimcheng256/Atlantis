@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 51**,
-stacked-command offsets and counts. See the
+Status as of 2026-11-28 is **increment 3 through batch 52**,
+highlight match offsets. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1087,6 +1087,26 @@ with no new source diagnostics. It captured 707 Atlantis warning lines
 (677 app lines) and 1,415 total, with 38 distinct Atlantis narrowing
 sites. All 118 standalone tests, the numeric alias check, and all 76
 Intel hosted smoke tests passed.
+
+Batch 52 widens the transient `RDStringPattern` highlight cursor to
+`NSUInteger`, matching the Foundation ranges assigned at all four
+sites. The focused probe checks exact-match predicates, per-occurrence
+highlighting, and whole-line highlighting when a pattern is contained.
+It also checks synthetic wide ranges for the prefix, literal, and
+regular-expression iterator branches. The literal iterator lost the
+high bits of a synthetic match endpoint before the fix. The archived
+pattern and type use the existing coding contract.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_pattern_cursor.py -v
+```
+
+The fresh universal Debug build removed all four sites on arm64 and
+x86_64 with no new source diagnostics. It captured 699 Atlantis warning
+lines (669 app lines) and 1,407 total, with 34 distinct Atlantis
+narrowing sites. All 119 standalone tests, the numeric alias check,
+and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

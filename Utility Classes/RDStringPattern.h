@@ -21,7 +21,7 @@ enum {
     NSString *      _rdPattern;
     
     NSString *      _rdMatchMe;
-    int             _rdMatchPosition;
+    NSUInteger      _rdMatchPosition;
     
 }
 

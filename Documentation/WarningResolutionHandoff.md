@@ -1276,3 +1276,18 @@ For batch 52, preserve the intentional distinction between whole-input
 equality for the match predicate and per-occurrence ranges for highlighting.
 The [highlight matching guide](AtlantisPreferences.md#highlight-matching)
 documents both contracts.
+
+## Third increment, highlight match offsets
+
+At `61187a1`, four range assignments narrowed the transient highlight
+cursor. The focused `Tests/WarningResolution/test_pattern_cursor.py`
+probe reproduced the lost cursor bits and passes with `NSUInteger`.
+It also verifies the documented exact predicate and highlight ranges.
+The wide regular-expression test supplies synthetic search ranges.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+all four sites on arm64 and x86_64 with no new source diagnostics.
+It captured 699 Atlantis warning lines (669 app, 30 test target),
+698 Lemuria lines, and 1,407 total. All 119 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-pattern-cursor.FcWhHQ`.
