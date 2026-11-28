@@ -1091,3 +1091,19 @@ on arm64 and x86_64. It captured 1,455 warning lines, including 747
 Atlantis lines (717 in the app) after rejoining one split diagnostic.
 All 107 standalone tests, the numeric alias check, and 76 Intel hosted
 smoke tests passed. Artifacts are in `/tmp/atlantis-registry-counts.GYQR80`.
+
+## Third increment, view-weight path splitting
+
+At `b3ed18e`, the spawn substring start was narrowed to `int`.
+The focused `Tests/WarningResolution/test_view_weight_range.py` probe
+failed on a synthetic wide split. The revised method uses `NSUInteger`
+for the range and passes every case, including the existing weight zero
+when a live world or spawn configuration is missing. The saved
+preference fallback is recorded for separate investigation.
+
+The universal Xcode 26.6 (17F113) Debug build removed the warning on
+arm64 and x86_64. It captured 745 Atlantis warning lines (715 app
+lines) and 1,453 total, with no new source diagnostics after rejoining
+the split baseline diagnostic. All 108 standalone tests, the numeric
+alias check, and all 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-view-weight.dz9xC1`.

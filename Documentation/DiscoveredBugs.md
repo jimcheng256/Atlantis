@@ -63,3 +63,22 @@ migration paths are understood. Evaluate preserving or backing up the
 settings before any reset, the choices to offer when migration is
 unsupported, and how to avoid repeating the prompt at every launch.
 Test with copied fixtures and disposable profiles.
+
+## Investigate the unreachable saved view-weight fallback
+
+In Atlantis's [view-weight delegate](../Core/RDAtlantisMainController.m),
+paths without a colon use an empty string as the spawn path. Paths with a
+colon use a substring. For ordinary paths with a world name, both cases
+enter the live-instance lookup, so the saved world-preference fallback
+requiring a nil spawn path is unreachable. When the lookup finds no live
+world or matching spawn configuration, Atlantis returns weight zero.
+Batch 41 preserves that ordering behavior.
+
+Lemuria creates a placeholder when a child is added to a window without
+its parent view, such as when a spawn is moved to another window. The
+world may still have a live instance, in which case the existing
+configuration supplies the weight. Before changing the fallback, confirm
+when a root placeholder lacks a live instance, how character-specific
+and world-level preferences should apply, and whether the ordering should
+change when a real parent replaces the placeholder. Exercise those cases
+with actual nested views and windows.

@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 40**,
-event class registry counts. See the
+Status as of 2026-11-27 is **increment 3 through batch 41**,
+view-weight path splitting. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -860,6 +860,29 @@ and x86_64 with no new source diagnostics. It captured 1,455 warning
 lines, including 747 Atlantis lines after rejoining a split compiler
 diagnostic. All 107 standalone tests, the numeric alias check, and
 all 76 Intel hosted smoke tests passed.
+
+Batch 41 covers view-weight path splitting. At `b3ed18e`,
+`Core/RDAtlantisMainController.m:873` narrowed the start of the spawn
+substring from `NSUInteger` to `int`. Keep the start at Foundation
+range width. The focused probe verifies real root, nested, and unknown
+paths, plus a synthetic separator beyond the 32-bit boundary. Only the
+wide path fails on the original. The revised method passes all cases,
+including the existing zero result without a live instance and the lack
+of a saved preference lookup.
+
+The unreachable saved world-weight fallback is tracked
+[for later investigation](DiscoveredBugs.md#investigate-the-unreachable-saved-view-weight-fallback).
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_view_weight_range.py -v
+```
+
+The universal Debug build removed the warning on arm64 and x86_64,
+with no new source diagnostics after normalizing the split diagnostic
+in the baseline. It captured 745 Atlantis warning lines (715 app lines)
+and 1,453 total. All 108 standalone tests, the numeric alias check,
+and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

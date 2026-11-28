@@ -870,7 +870,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     testRange = [string rangeOfString:@":"];
     if (testRange.length) {
         worldPart = [string substringWithRange:NSMakeRange(0,testRange.location)];
-        int spawnStart = testRange.location + testRange.length;
+        NSUInteger spawnStart = testRange.location + testRange.length;
         spawnPart = [string substringWithRange:NSMakeRange(spawnStart,[string length] - spawnStart)];
     }
     else {
