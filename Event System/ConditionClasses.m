@@ -45,7 +45,7 @@ NSInteger conditionSort(id obj1, id obj2, void *context)
     }
 }
 
-- (unsigned) conditionClassCount
+- (NSUInteger) conditionClassCount
 {
     return [_rdClasses count];
 }

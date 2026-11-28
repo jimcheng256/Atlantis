@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 39**,
-startup version handling. See the
+Status as of 2026-11-27 is **increment 3 through batch 40**,
+event class registry counts. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -839,6 +839,27 @@ The universal Debug build removed the narrowing on both architectures
 with no new source diagnostics. It captured 751 Atlantis warning lines
 (721 app lines) and 1,459 total. All 106 standalone tests, the numeric
 alias check, and all 76 Intel hosted smoke tests passed.
+
+Batch 40 covers the Action and Condition registry count getters.
+At `1305f4e`, both methods narrowed the backing array's
+`NSUInteger` count to `unsigned` at line 50 of `ActionClasses.m`
+and `ConditionClasses.m`. The selectors have no in-tree callers.
+The declarations and implementations now return `NSUInteger`.
+The focused test compiles each getter against its actual header and
+checks the runtime return width and empty, ordinary, and wide counts.
+Both baseline getters returned 1 for a synthetic count of 4294967297.
+Both revised getters return the full count.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_registry_counts.py -v
+```
+
+The universal Debug build removed both narrowing warnings on arm64
+and x86_64 with no new source diagnostics. It captured 1,455 warning
+lines, including 747 Atlantis lines after rejoining a split compiler
+diagnostic. All 107 standalone tests, the numeric alias check, and
+all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

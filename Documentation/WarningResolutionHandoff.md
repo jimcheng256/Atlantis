@@ -1076,3 +1076,18 @@ diagnostics. It captured 751 Atlantis warning lines (721 app lines)
 and 1,459 total. All 106 standalone tests, the numeric alias check,
 and 76 Intel hosted smoke tests passed. Logs and test artifacts are
 in `/tmp/atlantis-startup-version.kw1mMl`.
+
+## Third increment, event class registry counts
+
+At `1305f4e`, both registry count selectors returned a 32-bit value
+from the backing array. The focused
+`Tests/WarningResolution/test_registry_counts.py` probe compiles the
+production methods against their headers. Both baseline methods
+truncated a wide count to 1. The revised methods preserve zero,
+ordinary counts, and the wide count at the declared native width.
+
+The universal Xcode 26.6 (17F113) Debug build removed both warnings
+on arm64 and x86_64. It captured 1,455 warning lines, including 747
+Atlantis lines (717 in the app) after rejoining one split diagnostic.
+All 107 standalone tests, the numeric alias check, and 76 Intel hosted
+smoke tests passed. Artifacts are in `/tmp/atlantis-registry-counts.GYQR80`.

@@ -45,7 +45,7 @@ NSInteger actionSort(id obj1, id obj2, void *context)
     }
 }
 
-- (unsigned) actionClassCount
+- (NSUInteger) actionClassCount
 {
     return [_rdClasses count];
 }

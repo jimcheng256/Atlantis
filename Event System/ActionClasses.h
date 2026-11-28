@@ -16,7 +16,7 @@
 }
 
 - (void) registerActionClass:(Class) actionClass;
-- (unsigned) actionClassCount;
+- (NSUInteger) actionClassCount;
 
 - (Class) classAtIndex:(unsigned) index;
 - (NSString *) stringForClassAtIndex:(unsigned) index;

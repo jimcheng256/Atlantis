@@ -16,7 +16,7 @@
 }
 
 - (void) registerConditionClass:(Class) conditionClass;
-- (unsigned) conditionClassCount;
+- (NSUInteger) conditionClassCount;
 
 - (Class) classAtIndex:(unsigned) index;
 - (NSString *) stringForClassAtIndex:(unsigned) index;
