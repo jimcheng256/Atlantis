@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 43**,
-text template expansion. See the
+Status as of 2026-11-27 is **increment 3 through batch 44**,
+string line counting. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -928,6 +928,25 @@ arm64 and x86_64. It captured 735 Atlantis warning lines (705 app
 lines) and 1,443 total, with no new source diagnostics. All 110
 standalone tests, the numeric alias check, and 76 Intel hosted smoke
 tests passed.
+
+Batch 44 covers `NSString` line counting. At `a65b35e`,
+`Extensions/NSStringExtensions.m:110` narrowed the string length
+before scanning for newline characters. A synthetic length of 2³²
+skipped the scan. The method has no in-tree callers. Its declaration,
+loop, and result now use `NSUInteger`. Empty strings still return 1,
+and a newline at the final position is excluded. The focused probe
+checks those rules, CRLF, Unicode text, the declared return width,
+and whether scanning starts for a synthetic wide string.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_string_line_count.py -v
+```
+
+The fresh universal Debug build removed the site on arm64 and x86_64
+with no new source diagnostics. It captured 733 Atlantis warning lines
+(703 app lines) and 1,441 total. All 111 standalone tests, the numeric
+alias check, and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

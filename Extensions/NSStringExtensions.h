@@ -13,7 +13,7 @@
 
 - (NSDictionary *) optionsFromString;
 
-- (unsigned) lineCount;
+- (NSUInteger) lineCount;
 - (NSString *) expandWithDataIn:(NSDictionary *) data;
 
 - (NSString *) string;

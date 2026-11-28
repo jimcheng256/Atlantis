@@ -104,14 +104,16 @@
     return [options autorelease]; 
 }
 
-- (unsigned) lineCount
+- (NSUInteger) lineCount
 {
-     int         retval = 1;
-     int         i, iLimit = [self length] - 1; // We don't want final newline counted.
-     for (i = 0; i < iLimit; i++)
-         if ([self characterAtIndex: i] == '\n')
-             retval++;
-     return retval;
+    NSUInteger count = 1;
+    NSUInteger length = [self length];
+    // Ignore a newline in the final position.
+    for (NSUInteger index = 1; index < length; index++) {
+        if ([self characterAtIndex:index - 1] == '\n')
+            count++;
+    }
+    return count;
 }
 
 - (NSString *) expandWithDataIn:(NSDictionary *) data

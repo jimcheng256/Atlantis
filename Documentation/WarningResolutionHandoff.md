@@ -1139,3 +1139,18 @@ The build removed eight architecture-specific warning lines, leaving
 diagnostics appeared after accounting for shifted lines. All 110
 standalone tests, the numeric alias check, and all 76 Intel hosted
 smoke tests passed. Artifacts are in `/tmp/atlantis-expansion-batch.TlnNOo`.
+
+## Third increment, string line counting
+
+At `a65b35e`, a wide NSString length narrowed in the line-count loop
+and could skip the scan altogether. The focused
+`Tests/WarningResolution/test_string_line_count.py` probe verifies
+the native-width result and synthetic iteration while preserving
+line counts for empty, ordinary, CRLF, and multibyte text.
+
+Xcode 26.6 (17F113) and the macOS 26.5 SDK built arm64 and x86_64.
+The universal Debug build removed one narrowing site on both
+architectures with no new source diagnostics. It captured 733 Atlantis
+warning lines (703 app lines) and 1,441 total. All 111 standalone
+tests, the numeric alias check, and all 76 Intel hosted smoke tests
+passed. Artifacts are in `/tmp/atlantis-line-count-batch.lyeOiP`.
