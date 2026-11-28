@@ -250,6 +250,13 @@
     }
 }
 
+- (void) saveSelectedCodepage
+{
+    // Keep the existing unsigned 32-bit preference representation.
+    unsigned int codepage = (unsigned int)[[_rdCodepage selectedItem] tag];
+    [[self preferences] setPreference:[NSNumber numberWithUnsignedInt:codepage] forKey:@"atlantis.encoding" withCharacter:[self character]];
+}
+
 - (void) finalCommit
 {
     [[self preferences] beginBulk];
@@ -338,8 +345,7 @@
         [[self preferences] removePreferenceForKey:@"atlantis.encoding" withCharacter:[self character]];
     }
     else {
-        unsigned int codepage = [[_rdCodepage selectedItem] tag];
-        [[self preferences] setPreference:[NSNumber numberWithUnsignedInt:codepage] forKey:@"atlantis.encoding" withCharacter:[self character]];
+        [self saveSelectedCodepage];
     }
     
     if ([_rdGrabpassDefault state] == NSControlStateValueOn) {
@@ -463,8 +469,7 @@
         [[self preferences] removePreferenceForKey:@"atlantis.encoding" withCharacter:[self character]];
     }
     else {
-        unsigned int codepage = [[_rdCodepage selectedItem] tag];
-        [[self preferences] setPreference:[NSNumber numberWithUnsignedInt:codepage] forKey:@"atlantis.encoding" withCharacter:[self character]];
+        [self saveSelectedCodepage];
     }
 }
 
@@ -629,8 +634,7 @@
         }
         else {
             [_rdCodepage setEnabled:YES];
-            int encoding = [[_rdCodepage selectedItem] tag];
-            [[self preferences] setPreference:[NSNumber numberWithUnsignedInt:encoding] forKey:@"atlantis.encoding" withCharacter:[self character]];
+            [self saveSelectedCodepage];
             [_rdLinefeedType setEnabled:YES];
             [[self preferences] setPreference:[NSNumber numberWithInt:[_rdLinefeedType indexOfSelectedItem]] forKey:@"atlantis.text.linefeed" withCharacter:[self character]];
         }

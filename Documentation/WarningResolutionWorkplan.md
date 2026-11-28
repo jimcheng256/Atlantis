@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 44**,
-string line counting. See the
+Status as of 2026-11-28 is **increment 3 through batch 45**,
+World Formatting codepage saves. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -947,6 +947,27 @@ The fresh universal Debug build removed the site on arm64 and x86_64
 with no new source diagnostics. It captured 733 Atlantis warning lines
 (703 app lines) and 1,441 total. All 111 standalone tests, the numeric
 alias check, and all 76 Intel hosted smoke tests passed.
+
+Batch 45 covers the three codepage save conversions in the World
+Formatting editor. At `324c476`, the selected menu tag narrowed at
+lines 341, 466, and 632 of `WorldFormattingEditor.m`. All three
+paths now share an explicit conversion to the existing unsigned
+32-bit preference. The same probe passed before and after for
+autodetect, UTF-8, UTF-16BE, a synthetic wide tag, a negative tag,
+no selection, and removal when using inherited defaults. The
+[codepage restore bug](DiscoveredBugs.md#restore-saved-codepages-with-high-bit-ids)
+and the linefeed settings are outside this save conversion.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_codepage_saves.py -v
+```
+
+The fresh universal Debug build removed all three narrowing sites on
+arm64 and x86_64, with no new source diagnostics. It captured 727
+Atlantis warning lines (697 app lines) and 1,435 total. All 112
+standalone tests, the numeric alias check, and all 76 Intel hosted
+smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

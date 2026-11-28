@@ -1154,3 +1154,18 @@ architectures with no new source diagnostics. It captured 733 Atlantis
 warning lines (703 app lines) and 1,441 total. All 111 standalone
 tests, the numeric alias check, and all 76 Intel hosted smoke tests
 passed. Artifacts are in `/tmp/atlantis-line-count-batch.lyeOiP`.
+
+## Third increment, World Formatting codepage saves
+
+At `324c476`, three save paths narrowed an AppKit item tag to 32 bits.
+The original and revised code passed the same focused preference probe,
+including UTF-16BE, explicit autodetect, missing selection, and
+inherited defaults. The save conversion remains unsigned 32-bit and
+the [restore defect and streaming decoder investigation](DiscoveredBugs.md#restore-saved-codepages-with-high-bit-ids)
+are deferred.
+
+The Xcode 26.6 (17F113) Debug build removed all three sites on arm64
+and x86_64 with no new source diagnostics. It captured 727 Atlantis
+warning lines (697 app lines) and 1,435 total. All 112 standalone
+tests, the numeric alias check, and 76 Intel hosted smoke tests
+passed. Artifacts are in `/tmp/atlantis-codepage-batch.0dhuTk`.

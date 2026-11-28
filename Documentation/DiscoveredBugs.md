@@ -82,3 +82,45 @@ when a root placeholder lacks a live instance, how character-specific
 and world-level preferences should apply, and whether the ordering should
 change when a real parent replaces the placeholder. Exercise those cases
 with actual nested views and windows.
+
+## Restore saved codepages with high-bit IDs
+
+The [World Formatting editor](../Preferences/World/WorldFormattingEditor.m)
+builds the codepage menu from Foundation's available string encodings.
+It saves the selected ID as an unsigned 32-bit number, but restores the
+menu through `intValue`. On 64-bit builds, IDs above `INT_MAX` become
+negative tags that cannot match their positive menu tags. The popup
+clears its selection. Committing without a new selection writes tag
+zero, which means autodetect, over the saved codepage. A Foundation
+probe found 88 affected encodings on the review machine, including
+UTF-16BE, UTF-32, Shift JIS, and Big 5. A separate AppKit probe verified
+the empty selection and subsequent zero value.
+
+The signed read and unsigned save are both present in `d889c18`, the
+October 2016 import from Subversion. That project targeted 32-bit i386
+and PowerPC, where the signed menu tag could still retain the ID's bit
+pattern. The popup mismatch likely dates to the February 2019 64-bit
+conversion in `b417e5e`. This is an inference from the source and build
+settings. The current probes are in `/tmp/atlantis-codepage-review.anFOBJ`.
+
+Connection setup also reads the preference through `intValue` before
+assigning it to `NSStringEncoding`. The probe confirmed sign extension
+but did not establish a difference in encoded bytes. Review the menu
+restore, absent and unknown selections, legacy saved numbers, and the
+connection path together. Verify editor persistence and exact bytes
+for representative encodings. The [inbound multibyte
+filter](../Filter%20System/RDMultibyteFilter.m) only applies its byte
+holdover to UTF-8. It scans trailing high-bit bytes without checking
+codepoint boundaries, so it can also delay complete UTF-8 characters.
+Single-byte encodings such as ASCII and ISO Latin-1 need no byte holdover
+for character boundaries. Multibyte encodings need a decoder that keeps
+incomplete sequences across reads. Stateful encodings such as ISO-2022-JP
+also need to retain shift state. Verify exact decoded text at split
+boundaries for representative encodings and check decoder state when the
+encoding changes or the connection closes.
+
+Batch 45 makes the save conversions explicit and preserves the existing
+preference and restore behavior.
+
+Discussion and investigation notes are in the
+[Atlantis codepage conversation](https://chatgpt.com/g/g-p-6b07f61eb230819190a2b3846fb327ff-atlantis/c/6b0a86b4-ca10-83e8-9280-26dac4366fe0).
