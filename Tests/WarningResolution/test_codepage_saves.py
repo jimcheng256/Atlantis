@@ -28,6 +28,7 @@ PROBE = r'''
 - (id)selectedItem { return self.hasSelection ? self : nil; }
 - (void)setEnabled:(BOOL)enabled {}
 - (NSInteger)indexOfSelectedItem { return 1; }
+- (void)saveSelectedLinefeed:(NSPopUpButton *)popup {}
 - (void)setPreference:(NSNumber *)value forKey:(NSString *)key withCharacter:(id)character {
     NSCAssert([character isEqual:@"Example"], @"preserve character scope");
     if ([key isEqual:@"atlantis.encoding"])

@@ -1169,3 +1169,21 @@ and x86_64 with no new source diagnostics. It captured 727 Atlantis
 warning lines (697 app lines) and 1,435 total. All 112 standalone
 tests, the numeric alias check, and 76 Intel hosted smoke tests
 passed. Artifacts are in `/tmp/atlantis-codepage-batch.0dhuTk`.
+
+## Third increment, World Formatting linefeed saves
+
+At `9d8209b`, the popup action and inherited-defaults toggle narrowed
+their AppKit row indexes before persisting them. The focused
+`Tests/WarningResolution/test_linefeed_saves.py` probe failed on the
+baseline and passes with the full-width row validation. Both paths
+preserve the prior preference for an invalid selection and remove the
+override when using inherited defaults. Valid rows still store 0 for
+LF and 1 for CRLF.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+both sites on arm64 and x86_64 with no new source diagnostics. It
+captured 723 Atlantis warning lines (693 app, 30 test target), 698
+Lemuria lines, and 1,431 total. All 113 standalone tests and the
+numeric alias check passed.
+All 76 hosted smoke tests passed on Intel, including the pending spawn
+input diagnostics. Artifacts are in `/tmp/atlantis-linefeed-batch.BzRPjJ`.

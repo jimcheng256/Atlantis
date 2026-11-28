@@ -473,13 +473,24 @@
     }
 }
 
+- (void) saveSelectedLinefeed:(NSPopUpButton *)popup
+{
+    NSInteger selection = [popup indexOfSelectedItem];
+    // The preference uses 0 for LF and 1 for CRLF.
+    if (selection == 0 || selection == 1) {
+        [[self preferences] setPreference:[NSNumber numberWithInteger:selection]
+                                   forKey:@"atlantis.text.linefeed"
+                            withCharacter:[self character]];
+    }
+}
+
 - (IBAction) chooseLinefeed: (id)sender
 {
     if ([_rdCodepageDefault state] == NSControlStateValueOn) {
         [[self preferences] removePreferenceForKey:@"atlantis.text.linefeed" withCharacter:[self character]];
     }
     else {
-        [[self preferences] setPreference:[NSNumber numberWithInt:[sender indexOfSelectedItem]] forKey:@"atlantis.text.linefeed" withCharacter:[self character]];
+        [self saveSelectedLinefeed:sender];
     }
 }
 
@@ -636,7 +647,7 @@
             [_rdCodepage setEnabled:YES];
             [self saveSelectedCodepage];
             [_rdLinefeedType setEnabled:YES];
-            [[self preferences] setPreference:[NSNumber numberWithInt:[_rdLinefeedType indexOfSelectedItem]] forKey:@"atlantis.text.linefeed" withCharacter:[self character]];
+            [self saveSelectedLinefeed:_rdLinefeedType];
         }
     }
     

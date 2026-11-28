@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 45**,
-World Formatting codepage saves. See the
+Status as of 2026-11-28 is **increment 3 through batch 46**,
+World Formatting linefeed saves. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -967,6 +967,29 @@ The fresh universal Debug build removed all three narrowing sites on
 arm64 and x86_64, with no new source diagnostics. It captured 727
 Atlantis warning lines (697 app lines) and 1,435 total. All 112
 standalone tests, the numeric alias check, and all 76 Intel hosted
+smoke tests passed.
+
+Batch 46 covers the linefeed popup action and the inherited-defaults
+toggle in World Formatting. At `9d8209b`, both paths narrowed the
+AppKit row before saving it. The popup and preference use row 0 for LF
+and row 1 for CRLF. The editor restores the saved row, falling back
+to inherited settings and then LF when there is no saved value. The
+world reads the value as a boolean when choosing the outbound terminator.
+Both save paths now validate the full-width index, preserve the prior
+preference for invalid selections, and remove the override when using
+inherited defaults. The focused probe confirms that both original paths
+saved missing and out-of-range indexes, and that 2³² and 2³² + 1
+aliased the valid rows. The same assertions pass after the fix.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_linefeed_saves.py -v
+```
+
+The fresh universal Debug build removed both sites on arm64 and x86_64
+with no new source diagnostics. It captured 723 Atlantis warning lines
+(693 app lines) and 1,431 total, with 46 distinct Atlantis narrowing sites.
+All 113 standalone tests, the numeric alias check, and all 76 Intel hosted
 smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
