@@ -52,4 +52,6 @@ xcodebuild -project Atlantis.xcodeproj -scheme Atlantis -configuration Debug \
 
 The controller extraction was checked with the XIB in place using the existing tests and a new timestamp and attribute preservation test. The SwiftUI tests cover the host layout and status message, Objective-C selectors, input submission and editor command routing, output filtering and selection, saved divider proportions, and draft, selection, and scrollback preservation across status updates and a window move.
 
+The Dock badge shows the exact number of active views through 99 and displays `99+` for higher counts.
+
 The hosted Dock badge test marks a background spawn as active, confirms repeated activity counts the spawn once, and verifies that clearing its activity removes it from the badge count.

@@ -46,7 +46,7 @@ METHOD
 int main(void) {
     @autoreleasepool {
         probe = [Probe new];
-        for (NSNumber *count in @[@0, @7, @2147483648ULL, @4294967296ULL, @4294967297ULL]) {
+        for (NSNumber *count in @[@0, @7, @99, @100, @2147483648ULL, @4294967296ULL, @4294967297ULL]) {
             probe.count = count.unsignedIntegerValue;
             [probe refreshBadge];
             puts(probe.label.UTF8String ?: "hidden");
@@ -80,8 +80,8 @@ class DockBadgeCountTests(unittest.TestCase):
             binary = path.with_suffix("")
             subprocess.run(["xcrun", "clang", "-framework", "AppKit", str(path), "-o", str(binary)], check=True)
             lines = subprocess.check_output([binary], text=True).splitlines()
-        self.assertEqual(lines, ["hidden", "7", "2147483648", "4294967296", "4294967297",
-                                 "hidden", "hidden", "4294967297"])
+        self.assertEqual(lines, ["hidden", "7", "99", "99+", "99+", "99+", "99+",
+                                 "hidden", "hidden", "99+"])
 
 
 if __name__ == "__main__":
