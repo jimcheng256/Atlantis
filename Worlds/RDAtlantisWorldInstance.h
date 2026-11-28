@@ -128,7 +128,7 @@ typedef enum {
 - (void) spawnWasClosed:(RDAtlantisSpawn *)spawn;
 - (RDSpawnConfigRecord *) configForSpawn:(NSString *) internalPath;
 - (NSEnumerator *) spawnEnumerator;
-- (unsigned int) countOpenSpawns;
+- (NSUInteger) countOpenSpawns;
 - (void) hideStatusBar:(BOOL)hidden forSpawnPath:(NSString *)internalPath;
 - (void) setPrefix:(NSString *)prefix forSpawnPath:(NSString *)internalPath;
 

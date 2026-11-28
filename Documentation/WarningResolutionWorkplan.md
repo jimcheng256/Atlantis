@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 56**,
-Grab and FugueEdit prefix lengths. See the
+Status as of 2026-11-28 is **increment 3 through batch 57**,
+open-spawn counts. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1179,6 +1179,23 @@ The fresh universal Debug build removed both sites on arm64 and x86_64
 with no new source diagnostics. It captured 685 Atlantis warning lines
 (655 app lines) and 1,393 total, with 27 distinct Atlantis narrowing
 sites. All 123 standalone tests, the numeric alias check, and all 76
+Intel hosted smoke tests passed.
+
+Batch 57 widens the open-spawn count returned by the world. It still
+includes the main spawn and every additional open spawn. The log
+opener compares the count with one when deciding whether to combine
+scrollback from multiple spawns. The focused probe checks ordinary counts and
+synthetic counts that used to wrap to zero or one.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_open_spawn_count.py -v
+```
+
+The fresh universal Debug build removed the site on arm64 and x86_64
+with no new source diagnostics. It captured 683 Atlantis warning lines
+(653 app lines) and 1,391 total, with 26 distinct Atlantis narrowing
+sites. All 124 standalone tests, the numeric alias check, and all 76
 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep

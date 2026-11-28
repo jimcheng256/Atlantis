@@ -992,7 +992,7 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
     return [_rdSpawns objectEnumerator];
 }
 
-- (unsigned int) countOpenSpawns
+- (NSUInteger) countOpenSpawns
 {
     return [_rdSpawns count] + 1;
 }

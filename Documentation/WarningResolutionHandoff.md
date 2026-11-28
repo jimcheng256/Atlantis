@@ -1358,3 +1358,18 @@ It captured 685 Atlantis warning lines (655 app, 30 test target),
 698 Lemuria lines, and 1,393 total. All 123 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-edit-grab-range.3Y5QW7`.
+
+## Third increment, open-spawn counts
+
+At `dbee7e8`, the world narrowed its open-spawn count before the log
+opener could use it to select the scrollback export path. The
+`Tests/WarningResolution/test_open_spawn_count.py` probe verifies that
+the main spawn is included and synthetic wide counts retain their
+value. The header and implementation now both return `NSUInteger`.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+the site on arm64 and x86_64 with no new source diagnostics.
+It captured 683 Atlantis warning lines (653 app, 30 test target),
+698 Lemuria lines, and 1,391 total. All 124 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-open-spawn-count.oslcdi`.
