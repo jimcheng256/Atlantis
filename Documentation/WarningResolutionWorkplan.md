@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 46**,
-World Formatting linefeed saves. See the
+Status as of 2026-11-28 is **increment 3 through batch 47**,
+MUSH Text Editor format tags. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -991,6 +991,28 @@ with no new source diagnostics. It captured 723 Atlantis warning lines
 (693 app lines) and 1,431 total, with 46 distinct Atlantis narrowing sites.
 All 113 standalone tests, the numeric alias check, and all 76 Intel hosted
 smoke tests passed.
+
+Batch 47 covers the MUSH Text Editor format tag at restoration, save,
+and export dispatch. At `baf24e6`, three conversions narrowed the
+native-width defaults value or AppKit cell tag. The focused probe
+verifies exact export bytes for the four configured formats and
+checks the restored and saved tags. A synthetic tag of 2³² + 2
+previously aliased the `ansi()` format at all three sites. The revised
+paths carry the full tag, so it follows the existing unknown-tag
+dispatch. The palette lookup and
+[export color behavior](DiscoveredBugs.md#preserve-color-across-mush-ansi-function-export-runs)
+are deferred together.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_mush_format_tags.py -v
+```
+
+The fresh universal Debug build removed all three sites on arm64 and
+x86_64 with no new source diagnostics. It captured 717 Atlantis warning
+lines (687 app lines) and 1,425 total, with 43 distinct Atlantis
+narrowing sites. All 114 standalone tests, the numeric alias check,
+and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

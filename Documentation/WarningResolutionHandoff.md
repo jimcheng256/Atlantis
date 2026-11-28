@@ -1187,3 +1187,20 @@ Lemuria lines, and 1,431 total. All 113 standalone tests and the
 numeric alias check passed.
 All 76 hosted smoke tests passed on Intel, including the pending spawn
 input diagnostics. Artifacts are in `/tmp/atlantis-linefeed-batch.BzRPjJ`.
+
+## Third increment, MUSH Text Editor format tags
+
+At `baf24e6`, format restoration, saves, and export narrowed the native
+AppKit or defaults tag to `int`. The focused probe in
+`Tests/WarningResolution/test_mush_format_tags.py` reproduced the wide
+tag alias and passed after all three paths adopted `NSInteger`.
+The four configured formats still produce the same export bytes.
+The [ANSI function export and palette lookup issues](DiscoveredBugs.md#preserve-color-across-mush-ansi-function-export-runs)
+have a separate reproduction and are deferred.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+all three sites on arm64 and x86_64 with no new source diagnostics.
+It captured 717 Atlantis warning lines (687 app, 30 test target),
+698 Lemuria lines, and 1,425 total. All 114 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-mush-tags.z4j1Fp`.

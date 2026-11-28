@@ -119,7 +119,7 @@
     [_rdEditorView setFont:_rdFont];
     [_rdSourceView setFont:_rdFont];
         
-    int ansiType = [RDAtlantisDefaults() integerForKey:@"atlantis.mushEdit.ansiType"];
+    NSInteger ansiType = [RDAtlantisDefaults() integerForKey:@"atlantis.mushEdit.ansiType"];
     [_rdAnsiTypePicker selectCellWithTag:ansiType];
         
     [_rdEditorView setSelectedRange:NSMakeRange(0,[[_rdEditorView textStorage] length])];
@@ -181,7 +181,7 @@
 
 - (void) ansiPicked:(id) sender
 {
-    int ansiType = [[_rdAnsiTypePicker selectedCell] tag];
+    NSInteger ansiType = [[_rdAnsiTypePicker selectedCell] tag];
     [RDAtlantisDefaults() setInteger:ansiType forKey:@"atlantis.mushEdit.ansiType"];
 }
 
@@ -468,7 +468,7 @@
     unsigned int pos = 0;
     NSMutableString *result = [[NSMutableString alloc] init];
     
-    int showType = [[_rdAnsiTypePicker selectedCell] tag];
+    NSInteger showType = [[_rdAnsiTypePicker selectedCell] tag];
     
     BOOL wasHighlighted = NO;
     BOOL wasUnderlined = NO;

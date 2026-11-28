@@ -124,3 +124,36 @@ preference and restore behavior.
 
 Discussion and investigation notes are in the
 [Atlantis codepage conversation](https://chatgpt.com/g/g-p-6b07f61eb230819190a2b3846fb327ff-atlantis/c/6b0a86b4-ca10-83e8-9280-26dac4366fe0).
+
+## Preserve color across MUSH ANSI function export runs
+
+At `baf24e6`, the [MUSH Text Editor exporter](../Misc/MUSHTextEditor.m)
+tracks foreground and background transitions across attributed runs.
+The **Use ansi() for color** format wraps each run independently.
+A second run with the same foreground can therefore lose its wrapper
+even though its color still applies.
+
+To reproduce in a host or a focused probe, configure an ANSI palette
+with red at index 1, select format tag 2, and give the editor an
+attributed string containing `AB`. Set `NSForegroundColorAttributeName`
+to that same red on both characters. Add a custom attribute such as
+`ProbeRunBoundary = YES` only to the second character to force a
+distinct effective range without changing its appearance. Call
+`editorAsMUSHText` and compare the exact UTF-8 output:
+
+| Input | Output at `baf24e6` |
+| --- | --- |
+| Both red characters in a single attribute run | `[ansi(r,AB)]` |
+| Both red characters in separate attribute runs | `[ansi(r,A)]B` |
+
+Both characters should export as red. Either a shared wrapper or a
+separate red wrapper for each run can represent that result. The
+focused probe used the production exporter and color methods with
+an in-memory attributed string. Its source and captured output are
+in `/tmp/atlantis-mush-review.fdB7oK`.
+
+The same review verified that `idForColor:` narrows `NSNotFound` to
+`-1` while callers compare against the full-width sentinel. Review
+missing palette colors alongside export state transitions. Cover
+foreground, background, style changes, and exact output for both
+persistent color-code formats and the `ansi()` format.
