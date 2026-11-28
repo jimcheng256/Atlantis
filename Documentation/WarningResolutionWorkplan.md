@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 42**,
-the Dock badge count. See the
+Status as of 2026-11-27 is **increment 3 through batch 43**,
+text template expansion. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -902,6 +902,32 @@ The universal Debug build removed the warning on arm64 and x86_64,
 with no new source diagnostics. It captured 743 Atlantis warning lines
 (713 app lines) and 1,451 total. All 109 standalone tests, the numeric
 alias check, and all 76 Intel hosted smoke tests passed.
+
+Batch 43 covers the four range conversions in `expandWithDataIn:`.
+At `c340f8a`, lengths and range endpoints narrowed to 32 bits. The
+synthetic wide template probe reproduced the resulting incorrect
+substring ranges and now verifies the exact expanded text.
+
+The batch also resolves the two behavior issues found in the parser.
+An unresolved bare name of one to four UTF-16 code units falls back
+to the temporary variable store after checking event data. A successful
+fallback logs a warning. Missing names use the normal unknown-variable
+message. Negative limits log a warning and disable truncation. Positive
+limits count extended grapheme clusters and append three dots only when
+they omit text. The limit is independent of font and display width.
+The focused probe checks both warnings, lookup precedence, and exact
+UTF-8 output for ASCII, combining marks, flags, and joined emoji.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_expansion_short_variables.py -v
+```
+
+The fresh universal Debug build removed all four narrowing sites on
+arm64 and x86_64. It captured 735 Atlantis warning lines (705 app
+lines) and 1,443 total, with no new source diagnostics. All 110
+standalone tests, the numeric alias check, and 76 Intel hosted smoke
+tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

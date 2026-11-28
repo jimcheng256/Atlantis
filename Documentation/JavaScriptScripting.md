@@ -146,6 +146,27 @@ numeric arguments, including `"1"` and `"0"` for the global hotkey flag.
 | `registerTimerWithLanguageInWorldWithIntervalRepeats(script, language, world, seconds, repeats)` | Timer interval and repeat count. Use `"-1"` to repeat indefinitely. |
 | `registerHotkeyFunctionWithKeyCodeModifiersGloballyWithLanguage(script, keyCode, modifiers, globally, language)` | Local or global shortcut using the native key code and modifier mask. |
 
+## Template expansion length limits
+
+In text templates that support variable expansion, `%{name:N}` keeps up
+to `N` extended grapheme clusters from the expanded value. A combining
+sequence such as `é` or a joined emoji such as `👩‍💻` counts as one.
+The limit counts characters independently of font and display width.
+Atlantis appends three dots when it omits text. The dots are additional
+to the limit. Zero leaves the value in full, and a negative limit logs a
+warning and behaves like zero.
+
+### Follow-up: Comprehensive text expansion reference
+
+- [ ] Trace `expandWithDataIn:` and its callers, then document every
+  supported expansion form, variable namespace, and template field.
+  Trace where each caller populates its lookup data so the reference can
+  explain which names are available in each context. Cover lookup
+  precedence, temporary-variable fallback, command arguments, regex
+  captures, date and time fields, missing or malformed expressions,
+  and grapheme-cluster limits. Verify examples against the current
+  implementation and reconcile them with the legacy Atlantis Guide.
+
 ## Hosted tests
 
 ```sh

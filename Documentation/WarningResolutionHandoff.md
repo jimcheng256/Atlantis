@@ -1121,3 +1121,21 @@ arm64 and x86_64. It captured 743 Atlantis warning lines (713 app
 lines) and 1,451 total. No new source diagnostics appeared. All 109
 standalone tests, the numeric alias check, and 76 Intel hosted smoke
 tests passed. Artifacts are in `/tmp/atlantis-dock-badge.oci0RQ`.
+
+## Third increment, text template expansion
+
+The four range sites at `c340f8a` narrowed UTF-16 offsets in
+`expandWithDataIn:`. The standalone probe exercises the production
+method with a synthetic wide template, temporary variable lookups,
+negative limits, and grapheme-aware truncation. The
+[workplan](WarningResolutionWorkplan.md#third-increment-batches) and
+[scripting guide](JavaScriptScripting.md#template-expansion-length-limits)
+record the resulting behavior. The Dock label cap was committed
+separately at `1fe2018`.
+
+Xcode 26.6 (17F113) and the macOS 26.5 SDK built both arm64 and x86_64.
+The build removed eight architecture-specific warning lines, leaving
+735 Atlantis lines (705 app lines) and 1,443 total. No new source
+diagnostics appeared after accounting for shifted lines. All 110
+standalone tests, the numeric alias check, and all 76 Intel hosted
+smoke tests passed. Artifacts are in `/tmp/atlantis-expansion-batch.TlnNOo`.

@@ -119,8 +119,8 @@
     NSMutableString *workString = [[NSMutableString alloc] init];
     
     NSRange testMe;
-    unsigned pos = 0;
-    unsigned selfLength = [self length];
+    NSUInteger pos = 0;
+    NSUInteger selfLength = [self length];
     
     NSCharacterSet *endSet = [NSCharacterSet characterSetWithCharactersInString:@"}:"];
     
@@ -129,15 +129,22 @@
         if (testMe.length) {
             NSRange endMark = [self rangeOfCharacterFromSet:endSet options:0 range:NSMakeRange(testMe.location,selfLength - testMe.location)];
             if (endMark.location != NSNotFound) {
-                unsigned startPos = testMe.location + testMe.length;
-                unsigned endPoint = endMark.location + endMark.length;
+                NSUInteger startPos = testMe.location + testMe.length;
+                NSUInteger endPoint = endMark.location + endMark.length;
                 unsigned limitLength = 0;
+                NSString *varName = [self substringWithRange:NSMakeRange(startPos,endMark.location - startPos)];
             
                 if ([self characterAtIndex:endMark.location] == ':') {
                     NSRange realEnd = [self rangeOfString:@"}" options:0 range:NSMakeRange(endMark.location,selfLength - endMark.location)];
                     if (realEnd.length) {
                         NSString *lengthChar = [self substringWithRange:NSMakeRange(endPoint,realEnd.location - endPoint)];
-                        limitLength = [lengthChar intValue];
+                        int parsedLimit = [lengthChar intValue];
+                        if (parsedLimit < 0) {
+                            NSLog(@"Atlantis warning: Negative length limit '%@' for variable '%@'. Truncation is disabled.", lengthChar, varName);
+                        }
+                        else {
+                            limitLength = (unsigned)parsedLimit;
+                        }
                         endPoint = realEnd.location + realEnd.length;
                     }
                     else {
@@ -145,8 +152,6 @@
                         return [NSString stringWithString:workString];
                     }
                 }
-                
-                NSString *varName = [self substringWithRange:NSMakeRange(startPos,endMark.location - startPos)];
                 
                 [workString appendString:[self substringWithRange:NSMakeRange(pos,testMe.location - pos)]];
                 
@@ -229,10 +234,16 @@
                         if (!keyResult)
                             keyResult = @"";
                     }
-                    else if ([[varName substringToIndex:5] isEqualToString:@"temp."]) {
+                    else if ([varName hasPrefix:@"temp."]) {
                         NSString *restOfString = [varName substringFromIndex:5];
                         
                         keyResult = [[RDAtlantisMainController controller] tempStateVarForKey:restOfString];
+                    }
+                    else if ([varName length] > 0 && [varName length] < 5) {
+                        keyResult = [[RDAtlantisMainController controller] tempStateVarForKey:varName];
+                        if (keyResult) {
+                            NSLog(@"Atlantis warning: Variable '%@' was not found in the supplied data. Using 'temp.%@'.", varName, varName);
+                        }
                     }
                 }
                 
@@ -240,8 +251,14 @@
                     NSString *endResult = [keyResult description];
                     
                     if (limitLength && ([endResult length] > limitLength)) {
-                        endResult = [endResult substringWithRange:NSMakeRange(0,limitLength)];
-                        endResult = [NSString stringWithFormat:@"%@...", endResult];
+                        // The template limit counts grapheme clusters, independent of display width.
+                        NSUInteger end = 0;
+                        for (NSUInteger count = 0; count < limitLength && end < [endResult length]; count++) {
+                            end = NSMaxRange([endResult rangeOfComposedCharacterSequenceAtIndex:end]);
+                        }
+                        if (end < [endResult length]) {
+                            endResult = [NSString stringWithFormat:@"%@...", [endResult substringToIndex:end]];
+                        }
                     }
                     [workString appendString:endResult];
                 }
