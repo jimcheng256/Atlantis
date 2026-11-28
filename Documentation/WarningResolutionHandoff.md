@@ -1238,3 +1238,18 @@ existing legacy panel deprecation moved with the call. It captured
 lines, and 1,421 total. All 116 standalone tests, the numeric alias
 check, and 76 Intel hosted smoke tests passed. Artifacts are in
 `/tmp/atlantis-toolbar-icon.t3lghq`.
+
+## Third increment, alias and hotkey description counts
+
+At `a97a772`, both event descriptions narrowed their action counts.
+The focused `Tests/WarningResolution/test_event_description_counts.py`
+probe failed for two synthetic wide counts and passed after widening
+both locals. It also confirms the ordinary description branches and
+exact punctuation.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+both sites on arm64 and x86_64 with no new source diagnostics.
+It captured 709 Atlantis warning lines (679 app, 30 test target),
+698 Lemuria lines, and 1,417 total. All 117 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-description-count.P5I7dx`.

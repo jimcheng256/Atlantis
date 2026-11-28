@@ -61,7 +61,7 @@
 
 - (NSString *) eventDescription
 {
-    int count = [_rdActions count];
+    NSUInteger count = [_rdActions count];
     
     if (count == 1) {
         id <EventActionProtocol> action = [_rdActions objectAtIndex:0];

@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 49**,
-toolbar icon picker responses. See the
+Status as of 2026-11-28 is **increment 3 through batch 50**,
+alias and hotkey action description counts. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1049,6 +1049,24 @@ The fresh universal Debug build removed the site on arm64 and x86_64
 with no new source diagnostics. It captured 713 Atlantis warning lines
 (683 app lines) and 1,421 total, with 41 distinct Atlantis narrowing
 sites. All 116 standalone tests, the numeric alias check, and all 76
+Intel hosted smoke tests passed.
+
+Batch 50 covers action counts in the alias and hotkey event descriptions.
+At `a97a772`, a synthetic count of 2³² selected the empty description
+and 2³² + 1 selected the single-action description. Both methods now
+use the array's native `NSUInteger` count. The focused probe verifies
+each branch and the exact text, including punctuation for multiple
+actions, without allocating a large array.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_event_description_counts.py -v
+```
+
+The fresh universal Debug build removed both sites on arm64 and x86_64
+with no new source diagnostics. It captured 709 Atlantis warning lines
+(679 app lines) and 1,417 total, with 39 distinct Atlantis narrowing
+sites. All 117 standalone tests, the numeric alias check, and all 76
 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
