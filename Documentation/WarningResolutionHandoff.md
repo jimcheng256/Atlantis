@@ -1025,3 +1025,19 @@ The logs and comparison are in `/tmp/atlantis-autoconnect.Hf1alI`.
 All 103 standalone tests, the numeric alias check, and all 76
 hosted smoke tests passed. Hosted execution used Intel and included
 the pending spawn input diagnostics.
+
+## Third increment, world editor SSL selection
+
+At `3ec19ea`, final save narrowed the checkbox state to `int`.
+The focused `Tests/WarningResolution/test_world_ssl_selection.py`
+probe confirmed that a synthetic wide checkbox state enabled SSL
+only through final save. Final save now shares the interactive
+action for an enabled control and clears the override if disabled.
+The same probe passed after the fix.
+
+Universal Debug `build-for-testing` with Xcode 26.6 (17F113) and the
+macOS 26.5 SDK removed the warning on both arm64 and x86_64. It
+captured 755 Atlantis warning lines (725 in the app) and 1,463
+total, with no new source diagnostics. All 104 standalone tests,
+the numeric alias check, and all 76 Intel hosted smoke tests
+passed. Logs and artifacts are in `/tmp/atlantis-ssl.5XkAYL`.

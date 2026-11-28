@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 36**, the
-world editor's startup controls. See the
+Status as of 2026-11-27 is **increment 3 through batch 37**, the
+world editor's SSL checkbox. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -765,6 +765,30 @@ from 739 to 727, with 63 distinct narrowing sites remaining. Lemuria
 stayed at 698. The hosted build log additionally includes 30
 test-target warning lines. All 103 standalone tests, the numeric
 alias check, and all 76 Intel hosted smoke tests passed.
+
+Batch 37 covers the SSL checkbox in the world editor's final save.
+At `3ec19ea`, `Preferences/World/WorldMainEditor.m:216` narrowed
+`NSControlStateValue` to `int`. The final save treated the synthetic
+state `4294967297` as On while the interactive action saved false.
+The final save now uses that same action when the checkbox is enabled.
+A disabled checkbox still clears the local SSL override so preference
+inheritance can apply. The focused probe exercises both paths,
+including Off, On, Mixed, a wide value, and disabled inheritance. It
+failed on the original save and passes after the change.
+
+Certificate trust for direct TLS is tracked as
+[separate work](DiscoveredBugs.md#review-certificate-trust-for-direct-tls-connections).
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_world_ssl_selection.py -v
+```
+
+The fresh arm64 and x86_64 Debug build removed the warning on both
+architectures. Atlantis app warning lines fell from 727 to 725. The
+hosted build captured 755 Atlantis warning lines and 1,463 total,
+with no new source diagnostics. All 104 standalone tests, the
+numeric alias check, and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

@@ -213,14 +213,8 @@
         [[self preferences] setPreference:[NSNumber numberWithInt:numResult] forKey:@"atlantis.world.port" withCharacter:[self character]];
     }            
 
-    numResult = [_rdHostSSL state];
     if ([_rdHostSSL isEnabled]) {
-        if (numResult == NSControlStateValueOn) {
-            [[self preferences] setPreference:[NSNumber numberWithBool:YES] forKey:@"atlantis.world.ssl" withCharacter:[self character]];
-        }
-        else {
-            [[self preferences] setPreference:[NSNumber numberWithBool:NO] forKey:@"atlantis.world.ssl" withCharacter:[self character]];    
-        }
+        [self hostSSLChanged:nil];
     }
     else {
         [[self preferences] removePreferenceForKey:@"atlantis.world.ssl" withCharacter:[self character]];

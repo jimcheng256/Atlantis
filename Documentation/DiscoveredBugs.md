@@ -30,3 +30,12 @@ This lifecycle bug was found while tracing selected-row handling in
 the warning-resolution effort. Integer narrowing affects which event
 receives a condition. Initialization determines that condition's
 starting state. The lifecycle fix is deferred to separate work.
+
+## Review certificate trust for direct TLS connections
+
+The [direct TLS setup](../Worlds/RDAtlantisWorldInstance.m) disables
+certificate-chain validation and allows expired certificates and arbitrary
+roots. Review server identity and certificate validation as separate work.
+Decide how existing worlds with self-signed certificates should establish
+trust, then verify trusted, untrusted, expired, and hostname-mismatched
+certificates with disposable test endpoints.
