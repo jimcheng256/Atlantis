@@ -260,3 +260,50 @@ Determine whether to document AML as the supported input, provide a
 separate AML API, or make this API literal. Check existing script
 compatibility and verify the actual status bar for both plain text
 and markup before changing the contract.
+
+## Review newline and read boundaries in Grab and FugueEdit
+
+At `e8a3724`, both editing paths in
+[`handleOutput:`](../Worlds/RDAtlantisWorldInstance.m) subtract one
+UTF-16 unit after removing the recognized prefix. This assumes the
+last unit is a newline. The normal line splitter supplies a newline
+for complete lines. In worlds configured as **MUD**, the receive
+handler also sends the trailing part of each read to `handleOutput:`
+without adding a newline so unterminated prompts can display. A
+server can omit the newline, or the receive boundary can occur
+before it or partway through the payload.
+
+The **Grab** workflow starts with `/grab object/attribute` or
+`/gname object`. It recognizes a reply starting with `1234` plus
+the configured Grab password and a space. **FugueEdit** requires
+**Support FugueEdit input-grabbing** in General preferences and
+recognizes `FugueEdit > ` at the start of server output. Both paths
+put text into the main input field for the user to edit.
+
+To reproduce the range behavior, use either prefix in the table
+and append each payload exactly as shown. A focused probe can
+evaluate the production range expression on each input and compare
+its result against the input length before taking the substring.
+To exercise the receive path, use a disposable MUD world and a
+local fixture server. Enable the corresponding editing feature.
+Send the prefix and payload in a single write without a newline,
+and wait until Atlantis processes it before sending any remaining
+text. Use a fresh connection for each case.
+
+| Prefix | Payload after the prefix |
+| --- | --- |
+| `1234example ` with Grab password `example` | `name target\n`, `name target`, or empty |
+| `FugueEdit > ` with FugueEdit enabled | `name target\n`, `name target`, or empty |
+
+The probe extracted `name target` when the payload ended in LF and
+`name targe` when it did not. A prefix-only input produced a range
+starting at the end of the input with length `NSUIntegerMax`.
+The probe and output are in `/tmp/atlantis-grab-range-review.e7X0IX`.
+The receive-path steps are based on code inspection.
+
+Before changing behavior, verify which games send these editing
+responses without LF and whether users expect complete payloads to
+be recognized across reads. Decide how to treat prefix-only and
+partial input, and preserve the normal prompt behavior for MUD
+worlds. Batch 56 preserves extraction behavior while widening the
+prefix lengths.

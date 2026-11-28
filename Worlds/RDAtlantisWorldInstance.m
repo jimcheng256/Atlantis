@@ -1258,7 +1258,7 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 
     if (_rdGrabPattern) {
         if ([_rdGrabPattern patternMatchesString:compareString]) {
-            int patternLength = [[_rdGrabPattern pattern] length];
+            NSUInteger patternLength = [[_rdGrabPattern pattern] length];
             NSRange tempRange = NSMakeRange(patternLength, [compareString length] - patternLength - 1); 
             NSMutableString *grabbedString = [[compareString substringWithRange:tempRange] mutableCopy];
             [grabbedString replaceOccurrencesOfString:@"\n" withString:@"" options:0 range:NSMakeRange(0,[grabbedString length])];
@@ -1279,7 +1279,7 @@ static NSString *alphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
         if ([_rdFuguePattern patternMatchesString:compareString]) {
             BOOL fugueMe = [RDAtlantisDefaults() boolForKey:@"atlantis.grab.fugueedit"];
             if (fugueMe) {
-                int patternLength = [[_rdFuguePattern pattern] length];
+                NSUInteger patternLength = [[_rdFuguePattern pattern] length];
                 NSRange tempRange = NSMakeRange(patternLength, [compareString length] - patternLength - 1); 
                 [_rdMainView stringIntoInput:[NSString stringWithFormat:@"%@", [compareString substringWithRange:tempRange]]];
                 return;

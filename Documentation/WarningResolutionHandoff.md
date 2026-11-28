@@ -1342,3 +1342,19 @@ It captured 689 Atlantis warning lines (659 app, 30 test target),
 698 Lemuria lines, and 1,397 total. All 122 standalone tests, the
 numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
 are in `/tmp/atlantis-script-line-routing.VLo94g`.
+
+## Third increment, Grab and FugueEdit prefix lengths
+
+At `e8a3724`, both edit paths narrowed their prefix lengths before
+constructing Foundation ranges. The
+`Tests/WarningResolution/test_edit_grab_ranges.py` probe verifies
+native-width prefixes and preserves the ordinary range calculations.
+The [newline and read-boundary follow-up](DiscoveredBugs.md#review-newline-and-read-boundaries-in-grab-and-fugueedit)
+covers extraction on unterminated input.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+both sites on arm64 and x86_64 with no new source diagnostics.
+It captured 685 Atlantis warning lines (655 app, 30 test target),
+698 Lemuria lines, and 1,393 total. All 123 standalone tests, the
+numeric alias check, and 76 Intel hosted smoke tests passed. Artifacts
+are in `/tmp/atlantis-edit-grab-range.3Y5QW7`.
