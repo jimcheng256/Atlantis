@@ -268,7 +268,7 @@ static void networkReachabilityChangedCallback(SCNetworkReachabilityRef target, 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecameInactive:) name:@"NSApplicationDidResignActiveNotification" object:nil];
 
     NSString *bundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    int lastVersion = [RDAtlantisDefaults() integerForKey:@"RDAtlantisVersion"];
+    NSInteger lastVersion = [RDAtlantisDefaults() integerForKey:@"RDAtlantisVersion"];
     if (lastVersion == 0 && !RDAtlantisHasProfile()) {
         NSString *atlantisPlistFile = @"~/Library/Preferences/net.riverdark.Atlantis.plist";
         [NSUserDefaults resetStandardUserDefaults];

@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-27 is **increment 3 through batch 38**, the
-quit confirmation for connected worlds. See the
+Status as of 2026-11-27 is **increment 3 through batch 39**,
+startup version handling. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -815,6 +815,30 @@ x86_64. The existing legacy response deprecation now names
 `NSAlertDefaultReturn`. The hosted build captured 753 Atlantis warning
 lines (723 app lines) and 1,461 total. All 105 standalone tests, the
 numeric alias check, and all 76 Intel hosted smoke tests passed.
+
+Batch 39 covers the stored startup version. At `8d2b650`,
+`Core/RDAtlantisMainController.m:271` narrowed the value returned by
+`integerForKey:` to `int`. A synthetic stored version of `4294967296`
+became zero and reached the standard preferences reset. Use
+`NSInteger` for the stored value and retain the zero-version
+reset and named-profile guard. The focused test uses a disposable
+defaults suite and intercepts the reset branch. The original failed
+for the synthetic version and the revised guard passes all ten
+cases, including explicit zero and a missing version with other
+settings present.
+
+Future investigation of old preference formats and a possible reset
+prompt is tracked in [Discovered Bugs](DiscoveredBugs.md#investigate-the-zero-version-startup-preferences-reset).
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_startup_version.py -v
+```
+
+The universal Debug build removed the narrowing on both architectures
+with no new source diagnostics. It captured 751 Atlantis warning lines
+(721 app lines) and 1,459 total. All 106 standalone tests, the numeric
+alias check, and all 76 Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate

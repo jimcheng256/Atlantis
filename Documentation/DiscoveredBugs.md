@@ -39,3 +39,27 @@ roots. Review server identity and certificate validation as separate work.
 Decide how existing worlds with self-signed certificates should establish
 trust, then verify trusted, untrusted, expired, and hostname-mismatched
 certificates with disposable test endpoints.
+
+## Investigate the zero-version startup preferences reset
+
+[Startup migration](../Core/RDAtlantisMainController.m) uses a zero
+`RDAtlantisVersion` in standard defaults as a trigger to reset defaults
+and attempt to remove the standard Atlantis preferences plist. A missing
+version reads as zero even with other preferences present. Named profiles
+skip this reset. Batch 39 retains this behavior and prevents nonzero wide
+versions from aliasing zero.
+
+A PowerPC-era installation is one possible source of unversioned
+preferences. The current code does not identify the source release.
+A fresh install and an existing preferences domain with a missing version
+can take the same path. Check historical releases and sample preference
+files to determine when the version key appeared, what prompted the
+original reset, and which formats can still be migrated. Distinguish an
+empty domain from one with recoverable user settings. Check world and
+character archives separately from application defaults.
+
+Consider a prompt before resetting a populated domain once supported
+migration paths are understood. Evaluate preserving or backing up the
+settings before any reset, the choices to offer when migration is
+unsupported, and how to avoid repeating the prompt at every launch.
+Test with copied fixtures and disposable profiles.

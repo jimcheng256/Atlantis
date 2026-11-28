@@ -1057,3 +1057,22 @@ hosted build captured 753 Atlantis warning lines (723 app lines)
 and 1,461 total. All 105 standalone tests, the numeric alias check,
 and all 76 Intel hosted smoke tests passed. Artifacts are in
 `/tmp/atlantis-quit.YI9r3t`.
+
+## Third increment, startup version handling
+
+At `8d2b650`, startup narrowed the stored version to `int`. The
+focused test in `Tests/WarningResolution/test_startup_version.py`
+uses disposable defaults and intercepts the reset. A synthetic
+nonzero version of `4294967296` triggered the reset before the fix.
+With the native-width value, all ten cases pass. Explicit zero and
+missing versions still request a reset in standard defaults, and
+named profiles still skip it. See the
+[follow-up](DiscoveredBugs.md#investigate-the-zero-version-startup-preferences-reset)
+for questions about old preference formats and prompting.
+
+The fresh Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK
+removed the warning on arm64 and x86_64, with no new source
+diagnostics. It captured 751 Atlantis warning lines (721 app lines)
+and 1,459 total. All 106 standalone tests, the numeric alias check,
+and 76 Intel hosted smoke tests passed. Logs and test artifacts are
+in `/tmp/atlantis-startup-version.kw1mMl`.
