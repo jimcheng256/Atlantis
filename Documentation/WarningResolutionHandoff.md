@@ -1221,3 +1221,20 @@ rejoining a split diagnostic. It captured 715 Atlantis warning lines
 All 115 standalone tests, the numeric alias check, and 76 Intel
 hosted smoke tests passed. Artifacts are in
 `/tmp/atlantis-app-modifiers.kpr6fw`.
+
+## Third increment, toolbar icon picker response
+
+At `4f38af9`, the toolbar icon picker narrowed the panel response to
+`int` before checking for OK. The focused
+`Tests/WarningResolution/test_toolbar_icon_response.py` probe showed
+that synthetic positive and negative wide values could both update the
+icon and remembered directory. Now only the exact AppKit OK response
+does so.
+
+The Xcode 26.6 (17F113) Debug build with the macOS 26.5 SDK removed
+the site on arm64 and x86_64 with no new source diagnostics. The
+existing legacy panel deprecation moved with the call. It captured
+713 Atlantis warning lines (683 app, 30 test target), 698 Lemuria
+lines, and 1,421 total. All 116 standalone tests, the numeric alias
+check, and 76 Intel hosted smoke tests passed. Artifacts are in
+`/tmp/atlantis-toolbar-icon.t3lghq`.

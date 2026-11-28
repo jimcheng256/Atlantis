@@ -124,7 +124,7 @@ NSString *generateToolbarUUID()
         }
         
         [panel setAllowsMultipleSelection:NO];
-        int result = [panel runModalForDirectory:imagePath file:nil];
+        NSModalResponse result = [panel runModalForDirectory:imagePath file:nil];
         if (result == NSModalResponseOK) {
             NSString *directory = [panel directory];
             NSString *filename = [panel filename];

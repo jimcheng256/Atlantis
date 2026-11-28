@@ -1,7 +1,7 @@
 # Atlantis warning resolution workplan
 
-Status as of 2026-11-28 is **increment 3 through batch 48**,
-hotkey modifier dispatch. See the
+Status as of 2026-11-28 is **increment 3 through batch 49**,
+toolbar icon picker responses. See the
 [handoff](WarningResolutionHandoff.md#resume-here) for the resume point.
 
 The starting point is `warning-resolution` at `ee9deed`. The fresh Debug build succeeded with
@@ -1031,6 +1031,25 @@ with no new source diagnostics after rejoining a split diagnostic.
 It captured 715 Atlantis warning lines (685 app lines) and 1,423 total,
 with 42 distinct Atlantis narrowing sites. All 115 standalone tests,
 the numeric alias check, and all 76 Intel hosted smoke tests passed.
+
+Batch 49 covers the legacy toolbar icon picker's modal response in
+`ToolbarUserEvent.m`. The panel returns `NSInteger`, and Atlantis now
+compares it at the full `NSModalResponse` width. The focused probe
+verified that ordinary OK changes the selected icon and directory,
+and Cancel and an abort preserve them. Two synthetic responses with
+low bits equal to OK changed both values at `4f38af9`. Both now follow
+the existing non-OK path.
+
+```sh
+DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
+  python3 Tests/WarningResolution/test_toolbar_icon_response.py -v
+```
+
+The fresh universal Debug build removed the site on arm64 and x86_64
+with no new source diagnostics. It captured 713 Atlantis warning lines
+(683 app lines) and 1,421 total, with 41 distinct Atlantis narrowing
+sites. All 116 standalone tests, the numeric alias check, and all 76
+Intel hosted smoke tests passed.
 
 Review each batch before taking on more AppKit indexes and counts. Keep
 networking, compression, and other byte-level conversions in separate
